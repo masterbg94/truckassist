@@ -1,0 +1,29 @@
+<div class="switcher-panel">
+  <div
+    class="switch-item list-item"
+    [ngClass]="{ activated: viewMode === 'ListView' }"
+    (click)="changeViewMode('ListView')"
+  >
+    <span>List</span>
+  </div>
+  <div
+    class="switch-item card-item"
+    [ngClass]="{ activated: viewMode === 'CardView' }"
+    (click)="changeViewMode('CardView')"
+  >
+    <span>Card</span>
+  </div>
+  <div
+    *ngIf="
+      stateName === 'repair_shops' ||
+      stateName === 'violations' ||
+      stateName === 'accidents' ||
+      stateName === 'accidents_non-reportable'
+    "
+    class="switch-item map-item"
+    [ngClass]="{ activated: viewMode === 'MapView' }"
+    (click)="changeViewMode('MapView')"
+  >
+    <span>Map</span>
+  </div>
+</div>

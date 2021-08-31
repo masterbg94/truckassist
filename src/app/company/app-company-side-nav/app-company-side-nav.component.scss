@@ -1,0 +1,226 @@
+.company-side-nav {
+  padding: 0 0 0 12px;
+  margin-right: 12px;
+
+  h5 {
+    color: #919191;
+    padding: 6px 12px 6px 12px;
+    width: 183px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 0;
+    background: #F7F7F7;
+    border-radius: 3px;
+  }
+
+  .options-container {
+    background: white;
+    border-radius: 3px;
+    margin: 6px 0 12px 0;
+    width: 183px;
+    .first {
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+      border-bottom-left-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+    .last {
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-left-radius: 3px !important;
+      border-bottom-right-radius: 3px !important;
+    }
+    .rest{
+      border-radius: 0px;
+    }
+  }
+
+  .nav {
+    .nav-link,
+    .fuel {
+      cursor: pointer !important;
+      opacity: 1 !important;
+      padding: 6px 6px;
+      opacity: 0.7;
+      color: #606060;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 400;
+      margin-bottom: 0px !important;
+      .doc-icon,
+      .billing-icon,
+      .users-icon {
+        position: relative;
+        right: -1px;
+      }
+      &.active-nav {
+        background-color: #E5E5E5 !important;
+        color: #6C6C6C !important;
+        opacity: 1;
+        cursor: default !important;
+        transition: 0.25s;
+        svg-icon {
+          circle {
+            fill: #28529f !important;
+          }
+          path {
+            fill: #28529f !important;
+          }
+        }
+
+        .doc-icon {
+          #Path_860 {
+            fill: transparent;
+          }
+          #Path_861 {
+            fill: #28529f !important;
+          }
+
+          rect {
+            fill: #28529f !important;
+          }
+        }
+
+        .billing-icon {
+          #path-4 {
+            fill: transparent;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-radius: 0;
+        color: #606060;
+        opacity: 1;
+        transition: 0.25s;
+        svg-icon {
+          circle {
+            fill: #919191;
+            transition: 0.25s;
+          }
+          path {
+            fill: #919191;
+            transition: 0.25s;
+          }
+        }
+
+        .doc-icon {
+          #Path_860 {
+            fill: transparent;
+            transition: 0.25s;
+          }
+          #Path_861 {
+            fill: #919191;
+            transition: 0.25s;
+          }
+
+          rect {
+            fill: #919191;
+            transition: 0.25s;
+          }
+        }
+
+        .billing-icon {
+          #path-4 {
+            fill: transparent;
+            transition: 0.25s;
+          }
+        }
+      }
+      svg-icon {
+        margin-right: 12px;
+        width: 16px;
+      }
+    }
+  }
+
+  .fuel {
+    opacity: 1 !important;
+    user-select: none;
+    cursor: pointer !important;
+    position: relative;
+    background: white;
+    border-radius: 3px;
+    width: 183px;
+    margin-top: 6px;
+    padding: 6px 14px;
+    opacity: 0.7;
+    color: #606060;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400 !important;
+    margin-bottom: 0px !important;
+    .fuel-icon {
+      margin-right: 12px;
+      margin-left: 6px;
+      width: 16px;
+    }
+    .arrow-icon {
+      position: absolute;
+      right: 12px;
+      svg {
+        transform: rotate(0deg);
+        transition: 0.3s;
+      }
+    }
+    &:hover {
+      background-color: #f9f9f9 !important;
+      color: #606060 !important;
+      opacity: 1;
+      transition: 0.3s;
+      svg-icon {
+        circle {
+          fill: #919191;
+          transition: 0.3s;
+        }
+        path {
+          fill: #919191;
+          transition: 0.3s;
+        }
+      }
+    }
+  }
+  .fuel-dropdown {
+    width: 183px;
+    height: 66px;
+    opacity: 0;
+    background: white;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 3px 0 0 0;
+    overflow: hidden;
+  }
+}
+
+/* Add class after event */
+.addDropDown {
+  opacity: 1 !important;
+  transition: 0.3s;
+}
+.addActiveDrop {
+  background-color: #f9f9f9 !important;
+  color: #606060 !important;
+  opacity: 1 !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  transition: 0.3s;
+  svg-icon {
+    circle {
+      fill: #28529f !important;
+    }
+    path {
+      fill: #28529f !important;
+    }
+  }
+}
+.addRotation {
+  svg {
+    transform: rotate(180deg) !important;
+    transition: 0.3s;
+  }
+}

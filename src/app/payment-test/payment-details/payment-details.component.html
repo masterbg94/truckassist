@@ -1,0 +1,223 @@
+<div class="modal-container" cdkDrag style="max-width: 450px">
+  <div class="modal-header" style="padding: 0 12px" cdkDragHandle>
+    <h5>Payment details</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <div class="next-payment d-flex align-items-center justify-content-center">
+      <p>Next payment due date - 12.04.20</p>
+    </div>
+    <div class="payment-method d-flex flex-column align-items-center">
+      <svg-icon
+        class="logo d-flex justify-content-center"
+        src="assets/img/svgs/bank_house.svg"
+        [svgStyle]="{ 'width.px': 32, 'height.px': 32 }"
+      ></svg-icon>
+      <button>Add your payment method</button>
+      <button>Pay via bank transfer</button>
+    </div>
+    <div class="billing-info">
+      <p>Billing info</p>
+    </div>
+    <form class="payment-detail-form" [formGroup]="paymentDetailForm">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group">
+              <input
+                id="companyName"
+                class="form-control input-control required"
+                placeholder="Company name"
+                formControlName="companyName"
+                appInputFocus
+                appAutoFocus
+                appInputrestriction="[0-9A-Za-z\.\,\s]"
+              />
+              <label for="companyName">Company name</label>
+              <app-required-label [control]="paymentDetailForm.controls.companyName"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+            <div class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(paymentDetailForm.controls.phone) }}">
+              <input
+                id="phone"
+                class="form-control input-control"
+                placeholder="Phone"
+                formControlName="phone"
+                appInputFocus
+                mask="(000) 000-0000"
+              />
+              <label for="phone">Phone</label>
+            </div>
+          </div>
+          <div class="col-7">
+            <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(paymentDetailForm.controls.email) }}">
+              <input
+                id="email"
+                class="form-control input-control required"
+                placeholder="Email"
+                formControlName="email"
+              />
+              <label for="email">Email</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(paymentDetailForm.controls.address) }}">
+              <input id="address" #addressInput appInputFocus
+                     class="form-control input-control required"
+                     placeholder="Company Address, City, State Zip" formControlName="address"
+                     ngx-google-places-autocomplete [options]="options"
+                     #placesRef="ngx-places"
+                     (onAddressChange)="handleAddressChange($event)"
+              >
+              <label class="required-label" for="address">Company Address, City, State Zip</label>
+              <app-required-label [control]="paymentDetailForm.controls.address"></app-required-label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <input id="addressUnit" class="form-control input-control" placeholder="Unit #"
+                     formControlName="addressUnit"
+                     appInputrestriction="[A-Za-z0-9-]"
+                     appInputFocus
+                     maxlength="6"
+              >
+              <label for="addressUnit">Unit #</label>
+            </div>
+          </div>
+        </div>
+        <!-- banka -->
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group" *ngIf="!newBankVisible">
+              <ng-select
+                placeholder="Bank name"
+                [items]="bankData"
+                formControlName="bank"
+                bindLabel="bankName"
+                class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+                (search)="onSearch($event)"
+                (close)="onClose($event)"
+                (clear)="onClose($event)"
+                (change)="onBankChange($event)"
+                [searchFn]="customSearch"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                  <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+                </ng-template>
+
+                <ng-template ng-label-tmp let-item="item">
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                    {{ item.bankName }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+
+            <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+              <div class="form-label-group">
+                <input
+                  id="newBank"
+                  class="form-control input-control"
+                  placeholder="New bank"
+                  [(ngModel)]="newBank"
+                  [ngModelOptions]="{standalone: true}"
+                  (keypress)="onBankKeyPress($event)"
+                  appInputFocus
+                >
+                <label for="newBank">New bank</label>
+                <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+                </span>
+                <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-label-group email-field-wrapper">
+              <input
+                id="acountNumber"
+                class="form-control input-control required"
+                placeholder="Account number"
+                formControlName="accountNumber"
+              />
+              <label for="acountNumber">Account number</label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-label-group email-field-wrapper">
+              <input
+                id="routing"
+                class="form-control input-control required"
+                placeholder="Routing number"
+                formControlName="routingNumber"
+              />
+              <label for="routing">Routing number</label>
+            </div>
+          </div>
+        </div>
+        <!-- save billing-->
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex save-billing align-items-center">
+              <app-truckassist-checkbox
+                id="saveBilling"
+                formControlName="saveBilling"
+                [checked]="saveBilling"
+                (change)="saveBillingToggle()"
+                [(ngModel)]="saveBilling"
+              >
+              </app-truckassist-checkbox>
+              <p>Save billing info</p>
+            </div>
+          </div>
+        </div>
+        <!-- ach -->
+        <div class="row">
+          <div class="col-12">
+            <div class="ach-confirm">
+              <p>ACH Confirmation</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex align-items-start ach-authorize">
+              <app-truckassist-checkbox
+                id="authorize"
+                formControlName="authorize"
+                [checked]="authorize"
+                (change)="authorizeToggle()"
+                [(ngModel)]="authorize"
+              >
+              </app-truckassist-checkbox>
+              <p>
+                I authorize <span>TruckAssist</span> to electronically debit my account and,
+                if necessary, electronically credit my account to correct erroneous debits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer footer-payment">
+    <button [disabled]="paymentDetailForm.invalid" (click)="submitPayment()">Authorize payment</button>
+  </div>
+</div>

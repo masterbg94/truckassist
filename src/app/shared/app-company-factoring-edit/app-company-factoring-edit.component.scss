@@ -1,0 +1,348 @@
+@import '../../../assets/scss/components/variables';
+
+::ng-deep {
+  kendo-popup {
+    max-height: 150px !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+
+    .k-popup.k-list-container.k-reset {
+     /*  width: 85px !important; */
+      .k-list-optionlabel.k-state-disabled.k-state-focused.k-state-selected {
+        display: none;
+      }
+      kendo-list{
+        .k-list-scroller{
+          overflow: unset !important;
+          ul{
+            li{
+              opacity: 0.7 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .k-icon {
+    font-size: 22px;
+  }
+
+  .font-size-list-active{
+    .notice-wrapper{
+      border: 1px solid red;
+    }
+  }
+  kendo-editor.notice-wrapper {
+    .k-editor-content {
+      padding: 12px;
+    }
+
+    .k-i-arrow-60-down::before,
+    .k-i-arrow-s::before,
+    .k-i-sarrow-s::before,
+    .k-i-collapse::before,
+    .k-i-expand-s::before {
+      content: '\e006';
+      color: #000;
+      font-size: 1.1rem;
+      position: relative;
+      bottom: 1px;
+    }
+
+    kendo-toolbar {
+      border-color: rgba(0, 0, 0, 0.08);
+      color: #F3F3F3;
+      background-color: #eeeeee;
+      box-shadow: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      height: 34px;
+
+      &.k-toolbar.k-widget.k-toolbar-resizable {
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15) !important;
+      }
+
+      kendo-toolbar-renderer {
+        kendo-buttongroup {
+          .k-state-active {
+            background: #dadada !important;
+          }
+        }
+      }
+
+      kendo-toolbar-renderer:nth-of-type(3),
+      kendo-toolbar-renderer:nth-of-type(4) {
+        flex: 1;
+        display: flex !important;
+        align-items: center;
+        height: 100%;
+
+        &:hover {
+          background: #eeeeee;
+        }
+
+        kendo-dropdownlist {
+          width: auto;
+        }
+      }
+
+      kendo-toolbar-renderer:last-of-type {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        .k-select {
+          position: absolute;
+          width: 38px;
+        }
+      }
+
+      kendo-toolbar-renderer {
+        display: flex;
+        align-items: center;
+        margin-left: -4px;
+
+        & * {
+          border: none !important;
+        }
+
+        kendo-buttongroup {
+          span.k-button {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 0 !important;
+          }
+
+          span.k-button-icon {
+            height: 34px;
+            width: 30px;
+            padding: 0 !important;
+          }
+        }
+
+        kendo-editor-fontsize-dropdownlist,
+        kendo-editor-fontfamily-dropdownlist {
+          kendo-dropdownlist {
+            border-color: rgba(0, 0, 0, 0.08);
+            margin-top: 0;
+            background-color: #eeeeee;
+          }
+        }
+
+        kendo-editor-fontsize-dropdownlist {
+          kendo-dropdownlist.k-widget.k-dropdown.k-header {
+            span.k-dropdown-wrap.k-state-default {
+              height: 34px;
+              border: 1px solid rgba(0, 0, 0, 0.08);
+              //padding no
+              padding-left: 4px;
+
+              &:hover {
+                border: 1px solid rgba(0, 0, 0, 0.24);
+              }
+
+              span.k-input {
+                height: 34px;
+                padding: 0;
+                text-transform: capitalize !important;
+                font-family: 'Montserrat', sans-serif !important;
+                font-weight: 500;
+                color: #606060 !important;
+              }
+
+              span.k-select {
+                height: 34px;
+                padding-right: 0;
+                padding-left: 0;
+                text-transform: capitalize !important;
+                font-family: 'Montserrat', sans-serif !important;
+                font-weight: 500;
+                color: #606060 !important;
+              }
+            }
+          }
+        }
+
+        kendo-editor-fontfamily-dropdownlist {
+          kendo-dropdownlist {
+            width: 130px;
+
+            span.k-dropdown-wrap.k-state-default {
+              height: 34px;
+              border: 1px solid rgba(0, 0, 0, 0.08);
+              //padding no
+              padding-left: 4px;
+
+              &:hover {
+                border: 1px solid rgba(0, 0, 0, 0.36);
+              }
+
+              span.k-input {
+                height: 34px;
+                padding: 0;
+                text-transform: capitalize;
+                font-family: 'Montserrat', sans-serif !important;
+                font-weight: 500;
+                color: #606060 !important;
+              }
+
+              span.k-select {
+                height: 34px;
+                padding-right: 0;
+                padding-left: 0;
+                text-transform: capitalize;
+                font-family: 'Montserrat', sans-serif !important;
+                font-weight: 500;
+                color: #606060 !important;
+              }
+            }
+          }
+        }
+
+        kendo-colorpicker {
+          height: 100%;
+          background-color: #eeeeee;
+
+          .k-selected-color {
+            margin: 4px 0 0 0;
+            border-radius: 3px;
+            top: 4px;
+            // height: 18px !important;
+            border: 1px solid #ddd !important;
+          }
+
+          .k-icon.k-i-foreground-color {
+            &:before {
+              content: none;
+            }
+          }
+
+          span.k-picker-wrap.k-state-default {
+            span.k-tool-icon.k-icon.k-i-foreground-color {
+              height: 34px;
+              width: 25px;
+              padding: 4px 0 4px 4px;
+            }
+
+            span.k-select {
+              height: 34px;
+              padding-right: 0;
+              padding-left: 0;
+            }
+          }
+
+          span.k-picker-wrap {
+            height: 100%;
+            width: 32px;
+
+            // color
+            span.k-tool-icon.k-icon.k-i-foreground-color {
+              height: 100%;
+              width: 16px;
+              padding: 0 !important;
+            }
+
+            // arrow
+            span.k-select {
+              position: relative;
+              height: 100%;
+              width: 16px;
+              padding: 0 !important;
+              opacity: 1 !important;
+              // obrisati opacity iz #k-colorpicker-0 .k-select
+
+              .k-icon.k-i-arrow-s {
+                opacity: 1 !important;
+
+                &:before {
+                  color: #bcbcbc;
+                }
+
+                &:hover:before {
+                  color: #919191;
+                }
+              }
+            }
+          }
+        }
+
+        kendo-editor-fontsize-dropdownlist,
+        kendo-editor-fontfamily-dropdownlist {
+          height: 100%;
+
+          kendo-dropdownlist {
+            height: 100%;
+
+            span.k-dropdown-wrap {
+              display: flex;
+              align-items: center;
+
+              span {
+                color: #919191;
+
+                &.k-select {
+                  .k-icon.k-i-arrow-s:before {
+                    color: #919191;
+                  }
+                }
+              }
+
+              // Hover dropdown-a za font
+              &:hover {
+                span {
+                  color: #6c6c6c;
+
+                  &.k-select {
+                    .k-icon.k-i-arrow-s:before {
+                      color: #6c6c6c;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.notice-wrapper {
+  margin: 0px -12px;
+}
+.notice-txt {
+  margin-bottom: 22px;
+  margin-top: 12px;
+}
+label.notice-label {
+  margin-left: 8px;
+}
+
+.note-sidebar-item-field{
+  padding: 20px 2px;
+  height: 200px;
+
+  overflow: auto;
+  outline: none;
+}
+
+::ng-deep{
+  app-custom-wysiwyg-editor{
+    .wysiwyg_color_picker .wysiwyg_color_dropdown .color_holder div{
+      margin: 5px !important;
+    }
+
+    .ng-select.ng-select-single .ng-select-container .ng-arrow-wrapper{
+      bottom: 4px;
+    }
+  }
+}
+
+
+.wisywygholder{
+  padding: 0;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+}

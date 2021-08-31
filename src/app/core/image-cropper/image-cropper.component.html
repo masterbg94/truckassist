@@ -1,0 +1,60 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">Edit photo</h5>
+  <button type="button" class="close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body static-element">
+  <!-- <ngx-loading [show]="loading"></ngx-loading> -->
+  <!-- TODO INSERT ANIMATION -->
+  <image-cropper
+    [imageFile]="uploadedImageFile"
+    *ngIf="!showDropzone"
+    [maintainAspectRatio]="true"
+    [roundCropper]="false"
+    [aspectRatio]="5 / 6"
+    [resizeToWidth]="85"
+    [resizeToHeight]="102"
+    [cropperMinWidth]="85"
+    [cropperMinHeight]="102"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+  <div
+    class="custom-dropzone single-file-upload col-md-12 float-left form-group"
+    ngx-dropzone
+    *ngIf="showDropzone"
+    [accept]="'image/gif, image/jpeg, image/png'"
+    [multiple]="false"
+    (change)="onSelect($event)"
+  >
+    <ngx-dropzone-label></ngx-dropzone-label>
+    <ngx-dropzone-image-preview
+      class="image-size"
+      ngProjectAs="ngx-dropzone-preview"
+      *ngFor="let f of files"
+      [file]="f"
+      [removable]="true"
+      (removed)="onRemove()"
+    >
+    </ngx-dropzone-image-preview>
+  </div>
+  <div class="edit-panel" *ngIf="!showDropzone">
+    <button mat-icon-button class="remove-btn" aria-label="Remove image" (click)="onRemove()">
+      <i class="fad fa-trash"></i>
+    </button>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-btn" (click)="closeModal()">
+    Cancel
+  </button>
+  <button type="button" class="save-btn" (click)="saveImage()" ngbAutofocus>
+    Save
+  </button>
+</div>
+</div>

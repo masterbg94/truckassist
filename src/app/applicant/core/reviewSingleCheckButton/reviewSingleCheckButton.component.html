@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="yesno">
+    <input
+      (change)="reviewerSingleAnswer($event.target.value, property)"
+      type="radio"
+      id="{{ property}}"
+      value="true"
+      name="{{ property }}"
+      ng-required="true"
+      [checked]="value && value !== null"
+    />
+    <label for="{{ property }}" class="yesno_label1">
+      <span class="yesno_options"
+        ><svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon
+      ></span>
+    </label>
+    <input
+      (change)="reviewerSingleAnswer($event.target.value, property)"
+      type="radio"
+      id="{{ property + '2' }}"
+      value="false"
+      name="{{ property}}"
+      ng-required="true"
+      [checked]="!value && value !== null"
+    />
+    <label for="{{ property + '2' }}" class="yesno_label2">
+      <span class="yesno_options"
+        ><svg-icon src="../../../../assets/img/applicants/review_check_false.svg"></svg-icon
+      ></span>
+    </label>
+  </div>
+</div>

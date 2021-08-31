@@ -1,0 +1,55 @@
+<div class="direct-item" *ngIf="direct" [ngClass]="{ 'selected-chat': isSelected }">
+  <div class="user-image-container" *ngIf="isActive()">
+    <img
+      *ngIf="!typing || isSelected"
+      class="unselectable user-image"
+      [ngClass]="{ 'circle-image': imageCircle, 'user-image-selected': isSelected }"
+      src="{{ getUserImage() || '../../../assets/img/svgs/communicator/ic_user_placeholder.svg' }}"
+    />
+    <div
+      class="user-status"
+      *ngIf="getUserStatus() && isActive() && (!typing || isSelected)"
+      [ngClass]="{
+        'status-active': getUserStatus() === 'active',
+        'status-online': getUserStatus() === 'online',
+        'status-away': getUserStatus() === 'away',
+        'status-offline': getUserStatus() === 'offline',
+        'status-busy': getUserStatus() === 'busy'
+      }"
+    ></div>
+    <svg-icon
+      *ngIf="typing && !isSelected"
+      [ngClass]="{ 'selected-tappingMessage': isSelected }"
+      class="tappingMessage"
+      src="../../../assets/img/svgs/communicator/ic_tappingMessage.svg"
+    ></svg-icon>
+  </div>
+  <div class="user-image-container" *ngIf="!isActive()">
+    <svg-icon
+      [ngClass]="isSelected ? 'selected-inactive-user-image' : 'inactive-user-image'"
+      src="../../../assets/img/svgs/communicator/ic_inactive_user.svg"
+    >
+    </svg-icon>
+  </div>
+  <p
+    class="unselectable direct-name"
+    [ngClass]="{
+      'bolded-font': getUnreadMessages() > 0,
+      'inactive-name': !isActive()
+    }"
+  >
+    {{ getChatName() }}
+  </p>
+  <div
+    [ngClass]="{ 'unread-box-9plus': getUnreadMessages() === 9, 
+                 'unread-box-firstMessage': getUnreadMessages() < 1, 
+                 'close-unread-box': isSelected }"
+    class="unread-box"
+    *ngIf="getUnreadMessages()"
+    [appTaTooltip]="getUnreadMessages() | numberOfMessages: true"
+    position="bottom-right"
+    tooltipBackground="#CF4A4A"
+  >
+    <p class="unselectable unread-text">{{ getUnreadMessages() | numberOfMessages }}</p>
+  </div>
+</div>

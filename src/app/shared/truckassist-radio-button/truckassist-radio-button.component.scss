@@ -1,0 +1,53 @@
+.radio-button-container {
+  margin-bottom: 12px;
+  .radio-button-circle {
+    height: 11px;
+    width: 11px;
+    border: 0;
+    background-color: #b7b7b7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 50%;
+    user-select: none;
+    
+    .element {
+      height: 7px;
+      width: 7px;
+      border-radius: 50%;
+      border: 2px;
+      background-color: #b7b7b7;
+      padding: 0;
+    }
+
+    &.checked {
+      background-color: #5673aa;
+      .element {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  .radio-button-label {
+    margin-bottom: 0 !important;
+    margin-left: 6px !important;
+    line-height: 0 !important;
+    height: auto;
+    font-weight: 700;
+    color: #919191;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    &.checked {
+      color: #5673aa;
+      .items-counter {
+        color: #5673aa;
+      }
+    }
+    .items-counter {
+      font-weight: 400;
+      color: #919191;
+    }
+  }
+}

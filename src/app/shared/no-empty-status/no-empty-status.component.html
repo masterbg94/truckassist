@@ -1,0 +1,187 @@
+<div class="container_empty_status" *ngIf="!isPayroll && !isIfta && !isTodo && !isNote && !isAssignLoads">
+  <div class="table_empty_status_column_top">
+    <svg-icon src="../../../assets/img/no-empty-status/top_empty_status.svg"></svg-icon>
+  </div>
+
+  <div class="empty_status_svg">
+    <svg-icon src="{{ getPathData().path ? getPathData().path : '' }}"></svg-icon>
+  </div>
+  <div class="empty_status_text">
+    <p class="text">{{ getPathData().text }}</p>
+  </div>
+  <div class="empty_status_paragraph">
+    <div class="text_paragraph">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+      invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    </div>
+  </div>
+
+  <div class="empty_status_button" (click)="openModal()">
+    <div class="btn_empty_status_text">{{ getPathData().btn_text }}</div>
+    <svg-icon
+      class="svg_button_plus"
+      src="../../../assets/img/no-empty-status/button_plus.svg"
+    ></svg-icon>
+  </div>
+
+  <div class="table_empty_status_column_bottom">
+    <svg-icon
+      class="svg_bottom"
+      src="../../../assets/img/no-empty-status/bottom_empty_status.svg"
+    ></svg-icon>
+  </div>
+</div>
+
+<!-- FOR PAYROL -->
+<div class="container_payrol" *ngIf="isPayroll && !isNote && !isAssignLoads">
+  <div class="top">
+    <svg-icon src="../../../assets/img/no-empty-status/top_payrol.svg"></svg-icon>
+  </div>
+  <div class="text_payrol">
+    <div class="heding">
+      <div class="heding_payrol">{{ getPathData().text }}</div>
+    </div>
+   
+    <div class="lorem">
+      <div class="paragraph_payrol">
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+        invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+      </div>
+    </div>
+
+    <div class="btn_payrol">
+        <div class="text_add">{{ getPathData().btn_text }}</div>
+      <div class="btn_plus_payrol">
+        <svg-icon src="../../../assets/img/no-empty-status/button_plus.svg"></svg-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="svg_payrol"><svg-icon src="{{ getPathData().path }}"></svg-icon></div>
+
+  <div class="bottom_payrol">
+    <svg-icon src="../../../assets/img/no-empty-status/bottom_empty_status.svg"></svg-icon>
+  </div>
+</div>
+
+<!-- IFTA -->
+
+<div class="container_empty_status_ifta" *ngIf="isIfta && !isNote && !isAssignLoads && !isPayroll">
+  <div class="table_empty_status_column_top">
+    <svg-icon src="../../../assets/img/no-empty-status/top_ifta.svg"></svg-icon>
+  </div>
+
+  <div class="empty_status_svg_ifta">
+    <svg-icon src="{{ getPathData().path }}"></svg-icon>
+  </div>
+  <div class="empty_status_text_ifta">
+    <p class="text_ifta">{{ getPathData().text }}</p>
+  </div>
+  <div class="empty_status_paragraph_ifta">
+    <div class="text_paragraph_ifta">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+      invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    </div>
+  </div>
+
+  <div class="empty_status_button_ifta" (click)="openModal()">
+    <div class="btn_empty_status_text_ifta">{{ getPathData().btn_text }}</div>
+    <!-- <svg-icon
+      class="svg_button_plus"
+      src="../../../assets/img/no-empty-status/button_plus.svg"
+    ></svg-icon> -->
+  </div>
+
+  <div class="table_empty_status_column_bottom_ifta">
+    <svg-icon
+      class="svg_bottom_ifta"
+      src="../../../assets/img/no-empty-status/bottom_empty_status.svg"
+    ></svg-icon>
+  </div>
+</div>
+
+
+<!-- TO DO -->
+
+<div class="container_empty_status" *ngIf="isTodo && !isNote && !isAssignLoads">
+  <div class="table_empty_status_column_top">
+    <svg-icon src="../../../assets/img/no-empty-status/top_todo.svg"></svg-icon>
+  </div>
+
+  <div class="empty_status_svg">
+    <svg-icon src="{{ getPathData().path }}"></svg-icon>
+  </div>
+  <div class="empty_status_text">
+    <p class="text">{{ getPathData().text }}</p>
+  </div>
+  <div class="empty_status_paragraph">
+    <div class="text_paragraph">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+      invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    </div>
+  </div>
+
+  <div class="empty_status_button" (click)="openModal()">
+    <div class="btn_empty_status_text">{{ getPathData().btn_text }}</div>
+    <svg-icon
+      class="svg_button_plus"
+      src="../../../assets/img/no-empty-status/button_plus.svg"
+    ></svg-icon>
+  </div>
+
+  <div class="table_empty_status_column_bottom">
+    <svg-icon
+      class="svg_bottom"
+      src="../../../assets/img/no-empty-status/bottom_empty_status.svg"
+    ></svg-icon>
+  </div>
+</div>
+
+<!-- Note -->
+
+<div class="container_empty_status_note" *ngIf="isNote">
+  <div class="empty_status_svg_note">
+    <svg-icon src="../../../assets/img/no-empty-status/note.svg"></svg-icon>
+  </div>
+  <div class="empty_status_text_note">
+    <p class="text_note">Add your first note</p>
+  </div>
+  <div class="empty_status_paragraph_note">
+    <div class="text_paragraph_note">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+      invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    </div>
+  </div>
+
+  <div class="empty_status_button_note" (click)="createNote.emit(true)">
+     <div class="btn_empty_status_text_note">Add Note</div>
+   <svg-icon
+      class="svg_button_plus_note"
+      src="../../../assets/img/no-empty-status/button_plus.svg"
+    ></svg-icon>
+  </div>
+</div>
+
+<!-- Assign Loads -->
+
+<div class="container_empty_status_assign" *ngIf="isAssignLoads">
+   <div class="empty_status_svg_assign">
+    <svg-icon src="../../../assets/img/no-empty-status/asign_loads.svg"></svg-icon>
+  </div>
+  <div class="empty_status_text_assign">
+    <p class="text_assign">Add your load first</p>
+  </div>
+  <div class="empty_status_paragraph_assign">
+    <div class="text_paragraph_assign">
+      Lorem ipsum dolor sit amet, consetetur sadipscing elitr.
+    </div>
+  </div>
+
+ <div class="empty_status_button_assign" (click)="openModal()">
+     <div class="btn_empty_status_text_assign">Add Load</div>
+   <svg-icon
+      class="svg_button_plus_assign"
+      src="../../../assets/img/no-empty-status/button_plus.svg"
+    ></svg-icon>
+  </div>
+</div>

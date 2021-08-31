@@ -1,0 +1,734 @@
+<div id="mapcontainer" class="map-container" [ngClass]="{ 'full-screen-mode-map': fullScreenMode }">
+  <div class="toolbar-container">
+    <div
+      class="tool-container"
+      [ngClass]="{ 'full-screen-tool': fullScreenMode, 'max-route-number': routesLengthMax }"
+    >
+      <div class="count-route-container">
+        <div class="counter">{{ routs.length }}</div>
+        <div class="counter-title">Routing</div>
+      </div>
+
+      <div class="routs-toolbar-container" [ngClass]="{ addPadding: routs.length > 0 }">
+        <!-- Routes -->
+        <div class="routs" *ngFor="let rout of routs; let i = index">
+          <div
+            class="routes-container"
+            [ngClass]="{
+              fokusRoutOne: rout.active && i === 0,
+              fokusRoutTwo: rout.active && i === 1,
+              fokusRoutThree: rout.active && i === 2,
+              fokusRoutFour: rout.active && i === 3,
+              fokusRoutFive: rout.active && i === 4,
+              fokusRoutSix: rout.active && i === 5,
+              fokusRoutSeven: rout.active && i === 6,
+              fokusRoutEight: rout.active && i === 7
+            }"
+          >
+            <p class="place-count" (click)="onRout(i)" *ngIf="showRenameRout !== i">
+              {{ rout.places.length }}
+            </p>
+
+            <p class="total-distance" (click)="onRout(i)" *ngIf="showRenameRout !== i">
+              {{
+                rout.places[rout.places.length - 1]?.totalDistance
+                  ? rout.places[rout.places.length - 1]?.totalDistance
+                  : 0
+              }}
+            </p>
+
+            <p
+              *ngIf="showRenameRout !== i"
+              [ngClass]="{ 'route-name-fullscreen-style': fullScreenMode }"
+              class="rout-p"
+              (click)="onRout(i)"
+            >
+              {{ rout.routName }}
+            </p>
+            <div
+              class="rename-container"
+              (click)="doFocusInRename = false"
+              [ngStyle]="{
+                width: routName.length > 10 ? (routName.length - 10) * 8 + 100 + 'px' : '100px'
+              }"
+              *ngIf="showRenameRout === i"
+            >
+              <textarea
+                #renameRoute
+                maxlength="16"
+                class="rename-rout"
+                id="rename{{ i }}"
+                (keydown)="onEnterSaveNewRoutName($event, i)"
+                [(ngModel)]="routName"
+              ></textarea>
+              <svg-icon
+                (click)="onSaveNewRoutName(i)"
+                class="rename-svg"
+                src="/assets/img/svgs/Routing/ok-v2.svg"
+              ></svg-icon>
+            </div>
+            <div class="rout-options-container">
+              <div class="rout-options" *ngIf="showRenameRout !== i" (click)="foucsOutOnRout()">
+                <!-- [deleteAction]="rout.places.length ? deleteActions : null" -->
+                <app-truckassist-dropdown
+                  (actionEvent)="onRoutOptions($event)"
+                  (click)="doFocusOutRename = false"
+                  (click)="doFocusInRename = false"
+                  [identificator]="i"
+                  [mainActions]="mainActions"
+                  [printAction]="printAction"
+                  [deleteAction]="!this.removeDeleteOption ? deleteActions : null"
+                  [specialStyle]="true"
+                  [dontShowDeleteDialog]="true"
+                  [category]="'routing'"
+                ></app-truckassist-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="toolbar-options" [ngClass]="{ addToolBarOW: routs.length === 0 }">
+        <div class="settings-container">
+          <button
+            appTaTooltip="Settings"
+            position="bottom-right"
+            [ngClass]="{ addMarginSettings: routs.length === 0 }"
+            (click)="onOpenSettings()"
+          >
+            <svg-icon
+              [ngClass]="{ fokusSettings: showSettings }"
+              class="settings-svg"
+              src="../../assets/img/svgs/Routing/setting-v2.svg"
+            ></svg-icon>
+          </button>
+          <div
+            class="settings-drop-down"
+            [ngClass]="{ 'settings-show-drop': showSettings }"
+            (click)="clikeOnSettings = true"
+          >
+            <div class="swich" [ngClass]="{ 'show-swich': showSettings }">
+              <ng-container *ngFor="let switchData of appTaSwitchData; let i = index">
+                <p>{{ switchData.data[0].title }}</p>
+                <div class="switch-container">
+                  <app-ta-switch
+                    [data]="switchData.data"
+                    [changeToRoutingStyle]="true"
+                    (switchClicked)="switchChange($event)"
+                  ></app-ta-switch>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toll road, Time zones, Doppler, Traffic And Legend -->
+      <div class="map-actions-container" [ngClass]="{ 'full-screen-map-actions': fullScreenMode }">
+        <div class="map-actions-btn-container">
+          <button
+            (click)="onTollRoads()"
+            appTaTooltip="{{ isTollRoadsActive ? '' : 'Toll road' }}"
+            position="bottom-right"
+            class="toll-road"
+          >
+            <svg-icon
+              [ngClass]="{ 'active-tool': isTollRoadsActive }"
+              src="../../assets/img/svgs/Routing/Toll-road-svg.svg"
+            ></svg-icon>
+          </button>
+
+          <button
+            (click)="onTimeZone()"
+            appTaTooltip="{{ isTimeZoneActive ? '' : 'Time zones' }}"
+            position="bottom-right"
+            class="time-zones"
+          >
+            <svg-icon
+              [ngClass]="{ 'active-tool': isTimeZoneActive }"
+              src="../../assets/img/svgs/Routing/Time-zones-svg.svg"
+            ></svg-icon>
+          </button>
+
+          <button
+            (click)="onDoppler()"
+            appTaTooltip="{{ isDopplerOn ? '' : 'Doppler radar' }}"
+            position="bottom-right"
+            class="doppler-radar"
+          >
+            <svg-icon
+              [ngClass]="{ 'active-tool': isDopplerOn }"
+              src="../../assets/img/svgs/Routing/Doppler-radar-svg.svg"
+            ></svg-icon>
+          </button>
+
+          <button
+            appTaTooltip="{{ trafficLayerShow ? '' : 'Traffic' }}"
+            position="bottom-right"
+            class="traffic"
+            (click)="onRenderTrafficLayer()"
+          >
+            <svg-icon
+              [ngClass]="{ 'active-tool': trafficLayerShow }"
+              src="../../assets/img/svgs/Routing/Truffic-svg-v2.svg"
+            ></svg-icon>
+          </button>
+
+          <!-- Legend -->
+          <button
+            *ngIf="this.router.url !== '/tools/routing/fullscreen'"
+            (click)="onShowLegend()"
+            class="legend"
+          >
+            <svg-icon
+              class="legend-svg"
+              [ngClass]="{ 'legend-btn-style': showLegend }"
+              src="../../assets/img/svgs/Routing/legend-svg.svg"
+              appTaTooltip="{{ showLegend ? '' : 'Keyboard Shortcuts' }}"
+              position="bottom-right"
+            ></svg-icon>
+
+            <div class="legend-container" [ngClass]="{ 'show-lagend': showLegend }">
+              <div class="legend-item">
+                <p class="shortcut">Esc</p>
+                <p class="shortcut-explination">Cancel/Compress map</p>
+              </div>
+              <div class="legend-item">
+                <p class="shortcut">Del.</p>
+                <p class="shortcut-explination">Remove route</p>
+              </div>
+              <div class="legend-item">
+                <p class="shortcut">Tab</p>
+                <p class="shortcut-explination">Next route</p>
+              </div>
+              <div class="legend-item">
+                <p class="shortcut">Shift</p>
+                <svg-icon
+                  class="legend-plus"
+                  src="../../assets/img/svgs/Routing/svg_for_legend.svg"
+                ></svg-icon>
+                <p class="shortcut">Tab</p>
+                <p class="shortcut-explination">Previous route</p>
+              </div>
+              <div class="legend-item">
+                <p class="shortcut">F7</p>
+                <p class="shortcut-explination">Insert before</p>
+              </div>
+              <div class="legend-item">
+                <p class="shortcut">F8</p>
+                <p class="shortcut-explination">Remove waypoint</p>
+              </div>
+              <div class="legend-item">
+                <div class="legend-up-down-arrow legend-margin">
+                  <svg-icon src="../../assets/img/svgs/Routing/arrow_up.svg"></svg-icon>
+                </div>
+                <div class="legend-up-down-arrow">
+                  <svg-icon src="../../assets/img/svgs/Routing/arrow_down.svg"></svg-icon>
+                </div>
+                <p class="shortcut-explination">Move Up or Down</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Add new routes -->
+      <!-- [ngClass]="{ 'add-btn-max-lenght': routesLengthMax }" -->
+      <button
+        *ngIf="!routesLengthMax"
+        (click)="onAddRouts()"
+        class="add-btn"
+        appTaTooltip="{{ routesLengthMax ? '' : 'Add Route' }}"
+        position="bottom-right"
+      >
+        <svg-icon
+          class="add-svg"
+          [ngClass]="{ 'add-svg-active': !routesLengthMax }"
+          src="../../assets/img/svgs/Routing/add-btn.svg"
+        ></svg-icon>
+      </button>
+    </div>
+    <!-- Map -->
+    <div id="captureScreenshots" (window:resize)="onResizeRoutesContainer()">
+      <agm-map
+        id="map"
+        style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+        [restriction]="mapRestrictions"
+        [zoomControl]="false"
+        [controlSize]="1"
+        [clickableIcons]="false"
+        [zoom]="zoom"
+        [streetViewControl]="false"
+        [latitude]="mapOptions.latitude"
+        [longitude]="mapOptions.longitude"
+        [keyboardShortcuts]="false"
+        [styles]="styles"
+        (mapReady)="mapReady($event)"
+      >
+        <!-- Markers -->
+        <div *ngFor="let marker of markers; let i = index">
+          <div *ngFor="let mark of marker.routMaker; let j = index">
+            <agm-marker
+              *ngIf="
+                mark.lat !== undefined &&
+                mark.long !== undefined &&
+                marker.routMaker.length > 1 &&
+                marker.active
+              "
+              [latitude]="mark.lat"
+              [longitude]="mark.long"
+              [agmFitBounds]="true"
+              [visible]="false"
+            >
+              <agm-snazzy-info-window
+                [latitude]="mark.lat"
+                [longitude]="mark.long"
+                [openOnMarkerClick]="false"
+                [closeOnMapClick]="false"
+                [maxWidth]="26"
+                [maxHeight]="32"
+                [isOpen]="true"
+                [closeWhenOthersOpen]="false"
+                placement="bottom"
+              >
+                <ng-template class="marker-tool-tip">
+                  <!-- Marker ToolTip -->
+                  <div
+                    *ngIf="currentlyFocusedRoute === i"
+                    class="place-name"
+                    [ngClass]="{
+                      'show-tool-tip-on-marker':
+                        (currentlyFocusedRoute === i && currentlyFocusedPlace === j) ||
+                        (routeOfHoveredMarker === i && hoverOnMarker === j)
+                    }"
+                  >
+                    <p [ngStyle]="{ color: marker.color }">{{ mark.placeName }}</p>
+                  </div>
+
+                  <!-- Marker -->
+                  <svg
+                    (click)="onMarkerClick(i, j)"
+                    (mouseover)="onMarkerHover(i, j)"
+                    (wheel)="onMouseWheel($event)"
+                    class="routing_marker"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="39.385"
+                    viewBox="0 0 25 39.385"
+                  >
+                    <g
+                      id="Group_32835"
+                      data-name="Group 32835"
+                      transform="translate(-738 -744.615)"
+                    >
+                      <g
+                        id="Group_32830"
+                        data-name="Group 32830"
+                        transform="translate(-382.5 440.615)"
+                      >
+                        <circle
+                          id="Ellipse_3124"
+                          data-name="Ellipse 3124"
+                          cx="8"
+                          cy="8"
+                          r="8"
+                          transform="translate(1125 327.385)"
+                          [ngStyle]="{ fill: marker.color }"
+                          opacity="0.2"
+                        />
+                        <circle
+                          id="Ellipse_3125"
+                          data-name="Ellipse 3125"
+                          cx="7"
+                          cy="7"
+                          r="7"
+                          transform="translate(1126 328.385)"
+                          [ngStyle]="{ fill: marker.color }"
+                          opacity="0.2"
+                        />
+                        <g
+                          id="Ellipse_3126"
+                          data-name="Ellipse 3126"
+                          transform="translate(1130 332.385)"
+                          fill="#426b2c"
+                          stroke="#f9f9f9"
+                          stroke-width="2"
+                        >
+                          <circle
+                            cx="3"
+                            cy="3"
+                            r="3"
+                            [ngStyle]="{ fill: marker.color }"
+                            stroke="none"
+                          />
+                          <circle
+                            cx="3"
+                            cy="3"
+                            r="4"
+                            fill="none"
+                            [ngStyle]="{
+                              stroke:
+                                j !== 0 && j !== marker.routMaker.length - 1
+                                  ? marker.colorMarkerCircle
+                                  : '#F9F9F9'
+                            }"
+                          />
+                        </g>
+                      </g>
+                      <g
+                        [ngClass]="{ 'marker-hide': currentlyFocusedRoute !== i }"
+                        id="map_indicator"
+                        data-name="map indicator"
+                        transform="translate(-459.627 215.998)"
+                      >
+                        <g id="Locator" transform="translate(1197.627 528.617)">
+                          <path
+                            id="Path_2805"
+                            data-name="Path 2805"
+                            d="M542.368,162.338a12.64,12.64,0,0,0-12.5,12.776,12.909,12.909,0,0,0,2.446,7.593c2.277,3.145,10.08,11.63,10.08,11.63s7.751-8.486,10.028-11.63a12.908,12.908,0,0,0,2.446-7.593A12.64,12.64,0,0,0,542.368,162.338Z"
+                            transform="translate(-529.868 -162.338)"
+                            [ngStyle]="{ fill: marker.color }"
+                          />
+                          <path
+                            id="Path_2808"
+                            data-name="Path 2808"
+                            d="M8.811,0A8.811,8.811,0,1,1,0,8.811,8.811,8.811,0,0,1,8.811,0Z"
+                            transform="translate(3.689 3.798)"
+                            fill="#fff"
+                          />
+                          <text
+                            id="_1"
+                            data-name="1"
+                            transform="translate(15 17.668)"
+                            [ngStyle]="{ fill: marker.color }"
+                            font-size="14"
+                            font-family="Montserrat"
+                            font-weight="Bold"
+                            startOffset="50%"
+                            text-anchor="middle"
+                            alignement-baseline="middle"
+                          >
+                            <tspan x="-2.744" y="0">{{ j + 1 }}</tspan>
+                          </text>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                </ng-template>
+              </agm-snazzy-info-window>
+            </agm-marker>
+          </div>
+        </div>
+      </agm-map>
+    </div>
+
+    <!-- Legends -->
+    <div class="legend-container">
+      <div class="doppler-conatiner">
+        <app-doppler-legend *ngIf="isDopplerOn"></app-doppler-legend>
+      </div>
+      <div class="traffic-conatiner" [ngStyle]="{ 'margin-top': isDopplerOn ? '6px' : '0px' }">
+        <app-traffic-legend *ngIf="trafficLayerShow"></app-traffic-legend>
+      </div>
+      <div
+        class="timezone-conatiner"
+        [ngStyle]="{ 'margin-top': isDopplerOn || trafficLayerShow ? '6px' : '0px' }"
+      >
+        <app-timezone-legend *ngIf="isTimeZoneActive"></app-timezone-legend>
+      </div>
+    </div>
+
+    <!-- Routes Map -->
+    <div
+      #routesContainer
+      (mouseenter)="setHeightAuto = true"
+      class="routs-detail-container"
+      [ngClass]="{
+        'full-screen-routs-detail': fullScreenMode,
+        setContainerRoutesHeight: setHeightAuto
+      }"
+    >
+      <div
+        cdkDrag
+        cdkDragBoundary=".map-container"
+        [cdkDragFreeDragPosition]="dragPosition[i]"
+        (cdkDragEnded)="dragRouteEnd($event, i)"
+        class="rout-detail"
+        id="routdetail{{ i }}"
+        (mouseover)="addBorderWidth = i"
+        (mouseleave)="addBorderWidth = -1"
+        *ngFor="let rout of routs; let i = index"
+        [ngClass]="{
+          'route-container-on-fullscreen': fullScreenMode && currentlyFocusedRoute !== i,
+          'add-opacity': currentlyFocusedRoute === i,
+          'add-route-margin': rout.active,
+          'opacaty-for-hover': addBorderWidth === i,
+          'rout-detail-positions': !fullScreenMode,
+          'add-detail-positions-animation': addAnimationRoutes,
+          'route-container-add-scroll': rout.addScroll && rout.active
+        }"
+        [ngStyle]="{ height: rout.addScroll && rout.active ? rout.routHight + 'px' : 'auto' }"
+      >
+        <div *ngIf="rout.active">
+          <div class="detaile-container" [ngClass]="{ class: true }">
+            <div
+              class="right-border"
+              [ngStyle]="{ height: rout.rightColorHight, background: rout.rightColor }"
+              [ngClass]="{
+                hoverAddNew: addBorderWidth === i,
+                'focused-route': currentlyFocusedRoute === i
+              }"
+            ></div>
+            <div cdkDropList (cdkDropListDropped)="drop($event, i)">
+              <div
+                class="detaile"
+                (click)="onPlaceFokus(j, i)"
+                [ngClass]="{
+                  'add-fokused-places-style':
+                    j === 0 && currentlyFocusedPlace === j && currentlyFocusedRoute === i
+                }"
+                *ngFor="let place of rout.places; let j = index"
+                cdkDrag
+                cdkDragHandle
+                [cdkDragPreviewClass]="'cdk-drag-preview'"
+                cdkDragBoundary=".detaile-container"
+                cdkDragLockAxis="y"
+                [ngClass]="{
+                  addEmptyStyle:
+                    place.address === '' || place.address === undefined || place.address === null,
+                  'internal-add-place-first': j === 0,
+                  'internal-add-place-last': j === rout.places.length - 1
+                }"
+              >
+                <div *ngIf="!place?.emptyPlace">
+                  <div
+                    class="hover-for-number"
+                    [ngClass]="{
+                      'add-hover-style': j === 0,
+                      'add-focus-for-number':
+                        currentlyFocusedPlace === j && currentlyFocusedRoute === i,
+                      'add-focus-for-number-radius-first': j === 0,
+                      'add-focus-for-number-radius-last':
+                        j === rout.places.length - 1 && internalAddPlace
+                    }"
+                  ></div>
+                  <div
+                    class="hover-others"
+                    [ngClass]="{
+                      'add-focus-others':
+                        currentlyFocusedPlace === j && currentlyFocusedRoute === i,
+                      'add-focus-others-radius-first': j === 0,
+                      'add-focus-others-radius-last':
+                        j === rout.places.length - 1 && internalAddPlace
+                    }"
+                  ></div>
+                  <p
+                    class="rout-number"
+                    [ngClass]="{
+                      hoverNumOfRout: addBorderWidth === i || currentlyFocusedRoute === i,
+                      'rout-number-at-focus': currentlyFocusedRoute === i,
+                      'rout-number-at-normal': currentlyFocusedRoute !== i
+                    }"
+                  >
+                    {{ j + 1 }}
+                  </p>
+                  <p class="rout-destination">{{ place.address }}</p>
+                  <p
+                    class="rout-to-go"
+                    [ngClass]="{
+                      'last-place-total-distance': rout.places.length - 1 === j,
+                      'total-leg-style': j === 0
+                    }"
+                  >
+                    {{ j === 0 ? 'Total' : (place.totalDistance | number) }}
+                  </p>
+                  <p [ngClass]="{ 'total-leg-style': j === 0 }" class="rout-paste">
+                    {{ j === 0 ? 'Leg' : (place.distance | number) }}
+                  </p>
+                  <svg-icon
+                    class="remove-rout"
+                    (click)="onDeletePlace(i, j)"
+                    src="/assets/img/svgs/Routing/x.svg"
+                  ></svg-icon>
+                </div>
+                <!-- Input In List -->
+                <div
+                  class="internal-add-place"
+                  [ngClass]="{
+                    'internal-add-place-last': j === rout.places.length - 1,
+                    'internal-add-place-first': j === 0
+                  }"
+                  *ngIf="place?.emptyPlace"
+                >
+                  <textarea
+                    #placesRef="ngx-places"
+                    ngx-google-places-autocomplete
+                    [options]="options"
+                    (onAddressChange)="handleAddressChange($event, 1, i, j)"
+                    (keydown)="onAddresEnter($event, i)"
+                    placeholder=""
+                    [(ngModel)]="routAddress"
+                    id="insertPlaceInternal{{ currentlyFocusedPlace }}"
+                    cols="30"
+                    rows="10"
+                  ></textarea>
+
+                  <svg-icon
+                    (click)="removeEmptyLocations()"
+                    class="no-save-rout"
+                    src="/assets/img/svgs/Routing/x.svg"
+                  ></svg-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="rout-textarea"
+            [ngClass]="{ 'rout-textarea-radius': !rout.places.length }"
+            *ngIf="showAddNewPlace === i && !hideRegularInput"
+            (click)="onDetailRoutFokus(i)"
+          >
+            <textarea
+              #placesRef="ngx-places"
+              ngx-google-places-autocomplete
+              [options]="options"
+              (onAddressChange)="handleAddressChange($event, 1, i)"
+              (keydown)="onAddresEnter($event, i)"
+              placeholder=""
+              [(ngModel)]="routAddress"
+              id="insertPlace{{ i }}"
+              cols="30"
+              rows="10"
+            ></textarea>
+            <svg-icon
+              class="save-rout"
+              (click)="handleAddressChange(routAddress, 1, i)"
+              src="/assets/img/svgs/Routing/ok-v2.svg"
+            ></svg-icon>
+            <svg-icon
+              (click)="onCloseAddNew(i)"
+              class="no-save-rout"
+              src="/assets/img/svgs/Routing/x.svg"
+            ></svg-icon>
+          </div>
+          <div
+            (mousedown)="onDetailRoutFokus(i)"
+            [ngClass]="{ 'hide-add-new-stop': showAddNewPlace === i }"
+            class="add-new-stop"
+          >
+            <!-- For Drag On Full Screen -->
+            <div *ngIf="fullScreenMode" cdkDragHandle class="graple-drag-and-drop">
+              <svg-icon src="../../assets/img/svgs/Routing/grip-vertical.svg"></svg-icon>
+            </div>
+            <p (click)="onAddNewPlace(i)">Add new stop</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-control">
+      <app-map-control
+        (mapMode)="onFullScreen($event)"
+        (zoom)="onZoom($event)"
+        [isFullScreen]="fullScreenMode"
+      ></app-map-control>
+    </div>
+
+    <div class="logo-truckassist" *ngIf="fullScreenMode">
+      <svg-icon src="../../assets/img/svgs/Routing/Logo.svg"></svg-icon>
+    </div>
+  </div>
+</div>
+
+<!-- Print PDF Route -->
+<div id="printableArea">
+  <div
+    class="print-pdf-container"
+    [ngClass]="{ 'show-print-pdf-route': selectedRouteForPrint !== -1 }"
+  >
+    <p class="route-name">{{ this.routs[selectedRouteForPrint]?.routName }}</p>
+    <div class="route-item-title">
+      <p class="number">#</p>
+      <p class="city">City</p>
+      <p class="miles">Leg miles</p>
+      <p class="total-miles">Total miles</p>
+    </div>
+    <div
+      class="route-item-data"
+      [ngClass]="{ 'route-item-not-even-number': i % 2 === 1 }"
+      *ngFor="let place of routs[selectedRouteForPrint]?.places; let i = index"
+    >
+      <p class="number-data">{{ i + 1 }}</p>
+      <p class="city-data">{{ place?.address }}</p>
+      <p class="miles-data">{{ place?.distance === 0 ? '' : place?.distance }}</p>
+      <p class="total-miles-data">{{ place?.totalDistance === 0 ? '' : place?.totalDistance }}</p>
+    </div>
+    <div class="map-for-print">
+      <agm-map
+        id="map"
+        style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+        [restriction]="mapRestrictions"
+        [zoomControl]="false"
+        [controlSize]="1"
+        [clickableIcons]="false"
+        [zoom]="zoom"
+        [streetViewControl]="false"
+        [latitude]="mapOptions.latitude"
+        [longitude]="mapOptions.longitude"
+        [keyboardShortcuts]="false"
+        [styles]="styles"
+        (mapReady)="this.mapPrint = $event"
+      >
+        <div *ngIf="selectedRouteForPrint !== -1">
+          <div *ngFor="let marker of markers[selectedRouteForPrint].routMaker; let i = index">
+            <agm-marker
+              *ngIf="
+                marker &&
+                marker.lat !== undefined &&
+                marker.long !== undefined &&
+                markers[selectedRouteForPrint].active &&
+                markers[selectedRouteForPrint].routMaker.length > 1
+              "
+              [latitude]="marker.lat"
+              [longitude]="marker.long"
+              [agmFitBounds]="true"
+              [visible]="false"
+            >
+              <agm-snazzy-info-window
+                [latitude]="marker.lat"
+                [longitude]="marker.long"
+                [openOnMarkerClick]="false"
+                [closeOnMapClick]="false"
+                [maxWidth]="26"
+                [maxHeight]="32"
+                [isOpen]="true"
+                [closeWhenOthersOpen]="false"
+                placement="bottom"
+              >
+                <ng-template class="marker-tool-tip">
+                  <app-markers
+                    [markers]="markers[selectedRouteForPrint]"
+                    [number]="i"
+                  ></app-markers>
+                </ng-template>
+              </agm-snazzy-info-window>
+            </agm-marker>
+            <div *ngFor="let place of placesToPrint">
+              <agm-direction
+                *ngIf="place.origin !== undefined && place.destination !== undefined"
+                [origin]="place.origin"
+                [destination]="place.destination"
+                [optimizeWaypoints]="false"
+                [renderOptions]="renderOptions"
+              ></agm-direction>
+            </div>
+          </div>
+        </div>
+      </agm-map>
+    </div>
+    <div class="logo-container">
+      <svg-icon src="../../assets/img/svgs/Routing/Routing-print-Logo.svg"></svg-icon>
+    </div>
+  </div>
+</div>

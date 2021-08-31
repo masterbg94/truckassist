@@ -1,0 +1,116 @@
+<div
+  class="unit-switch-container details-card-header p-0 no-bg-color d-flex flex-row"
+>
+  <a
+    class="d-flex justify-content-around align-items-center switch-btn"
+    [ngClass]="{ disabled: !enableAutoComplete, leftBtnStyle: addTabelStyle }"
+    (click)="selectPreviousItem()"
+  >
+    <svg-icon
+      class="d-flex"
+      [src]="'assets/img/svgs/left.svg'"
+      [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      [ngClass]="{ svgTabelStyle: addTabelStyle }"
+    ></svg-icon>
+  </a>
+
+  <div
+    class="item-select-wrapper"
+    [ngClass]="{
+      disabled: !enableAutoComplete,
+      hovered: isHovered,
+      tabelColorsAutocomplite: addTabelStyle,
+      'item-select-max-width':  this.type === 'repairs'
+    }"
+    #arrow
+    (mouseover)="isHovered = true"
+    (mouseleave)="isHovered = false"
+  >
+    <ng-autocomplete
+      #autoComplete
+      [data]="options"
+      [searchKeyword]="keyword"
+      [itemTemplate]="itemTemplate"
+      [notFoundTemplate]="notFoundTemplate"
+      [formControl]="autocompleteControl"
+      (closed)="closeAutocomplete(arrow)"
+      (selected)="selectItem($event)"
+    >
+    </ng-autocomplete>
+    <ng-template #itemTemplate let-item>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'trucks'"
+        [innerHTML]="'Unit # ' + item.truckNumber"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'trailers'"
+        [innerHTML]="'Unit # ' + item.trailerNumber"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'drivers'"
+        [innerHTML]="item.fullName"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'loads'"
+        [innerHTML]="item.id"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'repairs'"
+        [innerHTML]="item.name"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'safety/violation'"
+        [innerHTML]="item.report"
+      ></span>
+      <span
+        class="option-item"
+        [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+        *ngIf="type === 'tools/mvr'"
+        [innerHTML]="'Order # ' + item.id"
+      ></span>
+      <span
+      class="option-item"
+      [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+      *ngIf="type === 'tools/2290'"
+      [innerHTML]="'Order # ' + item.id"
+    ></span>
+    </ng-template>
+
+    <ng-template #notFoundTemplate let-notFound>
+      <div class="option-item" [innerHTML]="notFound"></div>
+    </ng-template>
+
+    <svg-icon
+      class="driver-input-icon cursor-pointer"
+      [src]="'assets/img/svgs/down.svg'"
+      [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      (click)="focus($event, arrow)"
+      [ngClass]="{ svgTabelStyle: addTabelStyle }"
+    ></svg-icon>
+  </div>
+
+  <a
+    class="d-flex justify-content-around align-items-center cursor-pointer switch-btn"
+    [ngClass]="{ disabled: !enableAutoComplete, rightBtnStyle: addTabelStyle }"
+    (click)="selectNextItem()"
+  >
+    <svg-icon
+      class="d-flex"
+      [src]="'assets/img/svgs/right.svg'"
+      [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      [ngClass]="{ svgTabelStyle: addTabelStyle }"
+    ></svg-icon>
+  </a>
+</div>

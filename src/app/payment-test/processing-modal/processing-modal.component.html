@@ -1,0 +1,39 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">Payment Details</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body"> <!-- body -->
+    <div class="process" *ngIf="paymentState===1">
+      <p>Payment processing.</p>
+      <p>Please wait...</p>
+      <app-loading-modal class="loading"></app-loading-modal>
+    </div>
+    <div *ngIf="paymentState===2">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <svg-icon
+          src="assets/img/svgs/successSubscribe.svg"
+          [svgStyle]="{ 'width.px': 95.26, 'height.px': 96.9 }"
+        ></svg-icon>
+        <p class="info">Thank you for subscribing</p>
+        <p class="info-desc">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+          invidunt ut labore et dolore</p>
+      </div>
+    </div>
+    <div *ngIf="paymentState===3">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <svg-icon
+          src="assets/img/svgs/warning.svg"
+          [svgStyle]="{ 'width.px': 95.32, 'height.px': 96.96 }"
+        ></svg-icon>
+        <p class="info">Returned payment (NFS)</p>
+        <p class="info-desc">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+          invidunt ut labore et
+          dolore</p>
+      </div>
+    </div>
+  </div> <!-- body -->
+  <div class="modal-footer footer-payment" [hidden]="paymentState===1">
+    <button (click)="buttonClick()">{{paymentState === 3 ? 'Authorize another payment' : 'Back to home'}}</button>
+  </div>
+</div>

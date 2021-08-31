@@ -1,0 +1,264 @@
+<div class="communicator-container">
+  <div class="first-column">
+    <div class="header-container">
+      <p class="direct-text">Direct</p>
+    </div>
+    <div class="company-direct-container">
+      <div
+        class="direct-header-container"
+        [ngClass]="{ 'direct-header-container-collected': expandendSearchDirectCompany }"
+      >
+        <app-chat-search
+          (onExpandedEmit)="onExpandedChatSearch($event, 'directCompany')"
+          [unreadMessage]="hasUnreadMessages(companyDirects, 'direct', 'company')"
+          (onChangeSearch)="filterCompanyDirect($event)"
+        ></app-chat-search>
+        <div
+          class="direct-container"
+          [ngClass]="{
+            'unread-channel-container': hasUnreadMessages(companyDirects, 'direct', 'company'),
+            'direct-container-collected': expandendSearchDirectCompany
+          }"
+          (click)="isCompanyDirectOpened = !isCompanyDirectOpened"
+          role="button"
+          data-toggle="collapse"
+          data-target="#companyDirects"
+          aria-expanded="true"
+          aria-controls="direct-items"
+        >
+          <p class="unselectable direct-text">
+            <span
+              [ngClass]="
+                hasUnreadMessages(companyDirects, 'direct', 'company')
+                  ? 'direct-number-unread'
+                  : 'direct-number'
+              "
+              >{{ companyDirects.length }}</span
+            >
+            Company
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+            [ngClass]="{ 'active-icon-arrow': isCompanyDirectOpened }"
+          >
+          </svg-icon>
+        </div>
+      </div>
+      <div
+        [class.is-scrollable]="isScrollable"
+        class="scroll-wrapper"
+        (mouseenter)="enable()"
+        (mouseleave)="disable()"
+      >
+        <div id="companyDirects" class="direct-items wrapper collapse show">
+          <app-direct-item
+            *ngFor="let direct of companyDirectsFilter; let i = index"
+            [direct]="direct"
+            [imageCircle]="true"
+            [isSelected]="
+              chatUserURLID ? chatUserURLID === direct.id : selectedChat?.id === direct.id
+            "
+            [typing]="getIsTyping(direct)"
+            (click)="onSelectChat(direct)"
+          >
+          </app-direct-item>
+        </div>
+      </div>
+    </div>
+    <div class="driver-direct-container">
+      <div
+        class="direct-header-container"
+        [ngClass]="{ 'direct-header-container-collected': expandendSearchDirectDriver }"
+      >
+        <app-chat-search
+          [unreadMessage]="hasUnreadMessages(driverDirects, 'direct', 'driver')"
+          (onChangeSearch)="filterDriverDirect($event)"
+          (onExpandedEmit)="onExpandedChatSearch($event, 'directDriver')"
+        ></app-chat-search>
+        <div
+          class="direct-container"
+          [ngClass]="{
+            'unread-channel-container': hasUnreadMessages(driverDirects, 'direct', 'driver'),
+            'direct-container-collected': expandendSearchDirectDriver
+          }"
+          (click)="isDriverDirectOpened = !isDriverDirectOpened"
+          role="button"
+          data-toggle="collapse"
+          data-target="#driverDirects"
+          aria-expanded="true"
+          aria-controls="direct-items"
+        >
+          <p class="unselectable direct-text">
+            <span
+              [ngClass]="
+                hasUnreadMessages(driverDirects, 'direct', 'driver')
+                  ? 'direct-number-unread'
+                  : 'direct-number'
+              "
+              >{{ driverDirects.length }}</span
+            >
+            Driver
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+            [ngClass]="{ 'active-icon-arrow': isDriverDirectOpened }"
+          >
+          </svg-icon>
+        </div>
+      </div>
+      <div
+        [class.is-scrollable]="isScrollable"
+        class="scroll-wrapper"
+        (mouseenter)="enable()"
+        (mouseleave)="disable()"
+      >
+        <div id="driverDirects" class="direct-items wrapper collapse show">
+          <app-direct-item
+            *ngFor="let direct of driverDirectsFilter; let i = index"
+            [direct]="direct"
+            [isSelected]="selectedChat?.id === direct.id"
+            [typing]="getIsTyping(direct)"
+            (click)="onSelectChat(direct)"
+          >
+          </app-direct-item>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="second-column">
+    <div [ngClass]="infoUserBox ? 'short-chat-container' : 'normal-chat-container'">
+      <app-chat-container
+        (openInfoUserBox)="onOpenInfoUserBox($event)"
+        [selectedChat]="selectedChat"
+        [trackRoute]="true"
+      ></app-chat-container>
+      <div class="not-selected-user" *ngIf="!selectedChat">
+        <div class="header-container"></div>
+        <div class="chat-container-template"></div>
+      </div>
+    </div>
+    <div *ngIf="infoUserBox && selectedChat">
+      <app-chat-user-info
+        [selectedChat]="selectedChat"
+        [mediaData]="attachedMedia"
+        [documentData]="attachedFiles"
+        [othersData]="attachedLinks"
+        (closeInfoUserBox)="onClosedInfoUserBox($event)"
+        (onDeleteAttachment)="deleteAttachment($event)"
+        [stateAnimationUserInfo]="'in'"
+      ></app-chat-user-info>
+    </div>
+  </div>
+  <div class="third-column">
+    <div class="header-container">
+      <p class="group-chat-text">Group Chat</p>
+    </div>
+    <div class="company-channel-container">
+      <div class="group-chat-header-container">
+        <div
+          class="channel-container"
+          [ngClass]="{
+            'unread-channel-container': hasUnreadMessages(companyChannels, 'channel', 'company')
+          }"
+          (click)="isCompanyChannelOpened = !isCompanyChannelOpened"
+          role="button"
+          data-toggle="collapse"
+          data-target="#companyChannels"
+          aria-expanded="true"
+          aria-controls="channel-items"
+        >
+          <p class="unselectable channel-text">
+            <span
+              [ngClass]="
+                hasUnreadMessages(companyChannels, 'channel', 'company')
+                  ? 'channel-number-unread'
+                  : 'channel-number'
+              "
+              >{{ companyChannels.length }}</span
+            >
+            Company
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+            [ngClass]="{ 'active-icon-arrow': isCompanyChannelOpened }"
+          >
+          </svg-icon>
+        </div>
+      </div>
+      <div id="companyChannels" class="channel-items collapse show">
+        <app-channel-item
+          *ngFor="let channel of companyChannels; let i = index"
+          [channel]="channel"
+          [visibleNumberOfMessages]="false"
+          [isSelected]="selectedChat?.id === channel.id"
+          (click)="onSelectChat(channel)"
+        >
+        </app-channel-item>
+      </div>
+    </div>
+    <div class="driver-channel-container">
+      <div
+        class="group-chat-header-container"
+        [ngClass]="{ 'group-chat-header-container-collected': expandendSearchChannelTruck }"
+      >
+        <app-chat-search
+          [unreadMessage]="hasUnreadMessages(driverChannels, 'channel', 'driver')"
+          (onChangeSearch)="filterDriverChannel($event)"
+          (onExpandedEmit)="onExpandedChatSearch($event, 'channelTruck')"
+        ></app-chat-search>
+        <div
+          class="channel-container"
+          [ngClass]="{
+            'unread-channel-container': hasUnreadMessages(driverChannels, 'channel', 'driver'),
+            'channel-container-collected': expandendSearchChannelTruck
+          }"
+          (click)="isDriverChannelOpened = !isDriverChannelOpened"
+          role="button"
+          data-toggle="collapse"
+          data-target="#driverChannels"
+          aria-expanded="true"
+          aria-controls="channel-items"
+        >
+          <p class="unselectable channel-text" [ngClass]="{'channel-text-collapse': expandendSearchChannelTruck}">
+            <span
+              [ngClass]="
+                hasUnreadMessages(driverChannels, 'channel', 'driver')
+                  ? 'channel-number-unread'
+                  : 'channel-number'
+              "
+              >{{ driverChannels.length }}</span
+            >
+            Truck
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+            [ngClass]="{ 'active-icon-arrow': isDriverChannelOpened }"
+          >
+          </svg-icon>
+        </div>
+      </div>
+      <div
+        [class.is-scrollable]="isScrollable"
+        class="scroll-wrapper"
+        (mouseenter)="enable()"
+        (mouseleave)="disable()"
+      >
+        <div id="driverChannels" class="channel-items wrapper collapse show">
+          <app-channel-item
+            *ngFor="let channel of driverChannelsFilter; let i = index"
+            [channel]="channel"
+            [visibleNumberOfMessages]="false"
+            [isSelected]="selectedChat?.id === channel.id"
+            [addPrefix]="true"
+            (click)="onSelectChat(channel)"
+          >
+          </app-channel-item>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

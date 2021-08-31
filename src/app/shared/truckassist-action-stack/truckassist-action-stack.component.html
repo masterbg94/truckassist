@@ -1,0 +1,219 @@
+<!-- <div id="top">
+  <div id="right"></div>
+</div> -->
+
+<div class="super-dropdown-container d-flex">
+  <a class="super-dropdown-toggler" (click)="openMenu()" (clickOutside)="showMenu = false">
+    <svg-icon
+      src="assets/img/svgs/table/more.svg"
+      [svgStyle]="{
+        'width.px': '18',
+        'height.px': '18'
+      }"
+    ></svg-icon>
+  </a>
+  <div class="super-dropdown-menu" [ngClass]="{ 'd-none': !tablePrinting }">
+    <div class="export-container text-center">
+      <div class="export-label-container">
+        <span class="d-block text-center large-label">Download starting soon</span>
+        <span class="d-block text-center small-label">Please wait...</span>
+      </div>
+      <div class="icon-container text-center">
+        <i class="input-loader loading"></i>
+      </div>
+    </div>
+  </div>
+  <div
+    class="super-dropdown-menu extra-menu"
+    [ngClass]="{ 'd-none': !showMenu || tablePrinting, 'opened-menu': subMenu }"
+    (click)="$event.stopPropagation()"
+  >
+    <div
+      class="super-dropdown-menu-item"
+      (click)="callAction('emit-locking')"
+      *ngIf="!options.toolbarActions.hideLockUnlock && viewMode === 'ListView'"
+    >
+      <svg-icon
+        class="dropdown-item-icon"
+        *ngIf="locked"
+        [src]="'../../../assets/img/svgs/table/lock.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <svg-icon
+        class="dropdown-item-icon"
+        *ngIf="!locked"
+        [src]="'assets/img/svgs/table/unlock.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        {{ locked ? 'Unlock table' : 'Lock table' }}
+      </span>
+    </div>
+    <div
+      class="super-dropdown-menu-item"
+      (click)="callAction('emit-import-modal')"
+      *ngIf="!options.toolbarActions.hideImport && viewMode === 'ListView'"
+    >
+      <svg-icon
+        class="dropdown-item-icon"
+        [src]="'../../../assets/img/svgs/table/import.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        Import
+      </span>
+    </div>
+    <div
+      class="super-dropdown-menu-item" [ngClass]="{ 'opened-submenu-item': this.subMenu === 'export-menu'}"
+      (click)="showSubMenu('export-menu', $event)"
+      (clickOutside)="hideSubMenu($event)"
+      *ngIf="!options.toolbarActions.hideExport && viewMode === 'ListView'"
+    >
+      <svg-icon
+        class="dropdown-item-icon"
+        [src]="'../../../assets/img/svgs/table/export.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        Export
+      </span>
+      <svg-icon
+        class="left-arrow"
+        src="assets/img/svgs/table/left-arrow.svg"
+        [svgStyle]="{ 'width.px': '6', 'height.px': '8' }"
+        [ngClass]="{ 'd-none': subMenu !== 'export-menu' }"
+      ></svg-icon>
+      <div
+        class="super-dropdown-submenu export-menu"
+        [ngClass]="{ 'd-none': subMenu !== 'export-menu' }"
+        (click)="$event.stopPropagation()"
+      >
+        <form class="export-container" [formGroup]="exportFormGroup">
+          <div class="row m-0">
+            <div class="col-12 p-0">
+              <app-truckassist-radio-button
+                [value]="'All'"
+                [length]="itemsLength"
+                formControlName="exportMode"
+                [disabled]="exportMode.value === 'All'"
+              ></app-truckassist-radio-button>
+              <app-truckassist-radio-button
+                [value]="'Visible'"
+                [length]="viewData.length"
+                formControlName="exportMode"
+                [disabled]="exportMode.value === 'Visible'"
+              ></app-truckassist-radio-button>
+              <app-truckassist-radio-button
+                [value]="'Selected'"
+                [length]="mySelection.length"
+                formControlName="exportMode"
+                *ngIf="mySelection.length > 0"
+                [disabled]="exportMode.value === 'Selected'"
+              ></app-truckassist-radio-button>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="col-12 p-0 export-item text-left">
+              <span class="export-badge xls-badge" (click)="onSubmitExportForm('EXCEL')">
+                <svg-icon
+                  src="assets/img/svgs/table/export-xls.svg"
+                  [svgStyle]="{ 'width.px': '34', 'height.px': '18' }"
+                ></svg-icon>
+              </span>
+              <span
+                class="export-badge"
+                (click)="onSubmitExportForm('PDF')"
+                *ngIf="exportMode.value !== 'All'"
+              >
+                <svg-icon
+                  src="assets/img/svgs/table/export-pdf.svg"
+                  [svgStyle]="{ 'width.px': '34', 'height.px': '18' }"
+                ></svg-icon>
+              </span>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div
+              class="col-12 p-0 export-item text-left checkbox-item mb-0"
+              *ngIf="exportMode.value !== 'All'"
+            >
+              <app-truckassist-checkbox
+                id="exportPrintFriendly"
+                [checked]="printerFriendly"
+                (change)="printerFriendly = !printerFriendly"
+                [text]="'Printer Friendly'"
+              >
+              </app-truckassist-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="super-dropdown-menu-item"
+      [ngClass]="{ 'opened-submenu-item': this.subMenu === 'columns-menu'}"
+      *ngIf="viewMode === 'ListView'"
+      (click)="showSubMenu('columns-menu', $event)"
+      (clickOutside)="hideSubMenu($event)"
+    >
+      <svg-icon
+        class="dropdown-item-icon"
+        [src]="'../../../assets/img/svgs/table/columns.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        Columns
+      </span>
+      <svg-icon
+        class="left-arrow"
+        src="assets/img/svgs/table/left-arrow.svg"
+        [svgStyle]="{ 'width.px': '6', 'height.px': '8' }"
+        [ngClass]="{ 'd-none': subMenu !== 'columns-menu' }"
+      ></svg-icon>
+      <div
+        class="super-dropdown-submenu columns-menu"
+        [ngClass]="{ 'd-none': subMenu !== 'columns-menu' }"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="control-group">
+          <div class="controls" style="line-height: 26px;">
+            <app-truckassist-checkbox
+              *ngFor="let column of columns; let i = index"
+              id="{{ column.name }}{{ column.addClassToTitle }}"
+              [disabled]="column.disabled"
+              [checked]="!column.hidden"
+              (change)="hideColumn(column.field)"
+              [text]="column.name"
+              [addClass]="column.addClassToTitle"
+            >
+            </app-truckassist-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="super-dropdown-menu-item"
+      (click)="resetColumnState($event)"
+      *ngIf="(touched || extendedTableTouched) && viewMode === 'ListView'"
+    >
+      <svg-icon
+        class="dropdown-item-icon"
+        [src]="'../../../assets/img/svgs/table/reset.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        Reset Columns
+      </span>
+    </div>
+  </div>
+</div>
+
+<!--Export to Excel-->
+<div class="export-excel-container d-none">
+  <app-export-excel
+    *ngIf="export"
+    [columns]="exportColumns"
+    [exportData]="exportData"
+    [options]="options"
+  ></app-export-excel>
+</div>

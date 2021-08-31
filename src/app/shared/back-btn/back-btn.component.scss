@@ -1,0 +1,13 @@
+@import '../../../assets/scss/components/variables.scss';
+
+.go-back-container {
+  .go-back-btn {
+    opacity: 1;
+    svg {
+      path {
+        transition: $transition;
+        fill: $white;
+      }
+    }
+  }
+}

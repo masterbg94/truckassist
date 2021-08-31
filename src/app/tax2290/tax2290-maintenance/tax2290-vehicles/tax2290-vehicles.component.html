@@ -1,0 +1,205 @@
+<div *ngIf="vehicles.length > 0" class="vehicles-box">
+  <div class="vehicle-card" *ngFor="let vehicle of vehicles; let ind = index">
+    <div class="vehicle-item">{{ vehicle.vin }}</div>
+    <div class="vehicle-item">{{ vehicle.grossWeight }}</div>
+    <div class="vehicle-item">{{ vehicle.firstUsedDate }}</div>
+    <div class="vehicle-item">
+      <span class="mini-thumbs" [ngClass]="{'active': vehicle.forestry}">FOR</span>
+      <span class="mini-thumbs" [ngClass]="{'active': vehicle.farming}">FAR</span>
+      <span class="mini-thumbs" [ngClass]="{'active': vehicle.suspended}">SUS</span>
+    </div>
+    <div class="vehicle-item vehicle-item-description">{{ vehicle.description }}</div>
+    <div class="vehicle-item vehicle-item-tax">{{ vehicle.tax }}</div>
+    <div class="vehicle-item vehicle-item-buttons">
+      <svg-icon
+      (click)="onEditVehicleItem(ind)"
+      class="pen"
+      src="assets/img/svgs/table/table-2290-pen.svg"
+      [appTaTooltip]="'Edit'"
+      position="bottom-right"
+      zIndex="99999999999"
+      tooltipBackground="#919191"
+      tooltipColor="#FFFFFF"
+      ></svg-icon>
+      <svg-icon
+      (click)="onDeleteVehicleItem(ind)"
+      class="trash"
+      src="assets/img/svgs/table/table-2290-trash.svg"
+      [appTaTooltip]="'Delete'"
+      position="bottom-right"
+      zIndex="99999999999"
+      tooltipBackground="#ff5c5c"
+      tooltipColor="#FFFFFF"
+      ></svg-icon>
+    </div>
+  </div>
+</div>
+<form class="form" [formGroup]="form">
+  <div class="row">
+    <div class="col-4">
+      <div class="form-label-group">
+        <ng-select
+          placeholder="VIN"
+          [items]="trucks"
+          formControlName="vinNumber"
+          bindLabel="vin"
+          appendTo="body"
+          class="input-control required-field selected-driver"
+          (clear)="onClear($event, 'vin-number')"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span [ngOptionHighlight]="search">{{ item.vin }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label [control]="form.controls.vinNumber"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <ng-select
+          placeholder="Gross Weight"
+          [items]="grossWeight"
+          formControlName="grossWeight"
+          bindLabel="name"
+          appendTo="body"
+          class="input-control required-field selected-driver"
+          (clear)="onClear($event, 'gross-weight')"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span [ngOptionHighlight]="search">{{ item.name }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label [control]="form.controls.grossWeight"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <ng-select
+          placeholder="First Used Date"
+          [items]="firstUsedDate"
+          formControlName="firstUsedDate"
+          bindLabel="name"
+          appendTo="body"
+          class="input-control required-field selected-driver"
+          (clear)="onClear($event, 'first-used-date')"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span [ngOptionHighlight]="search">{{ item.name }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label [control]="form.controls.firstUsedDate"></app-required-label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <div class="form-label-group">
+        <input
+          id="description"
+          placeholder="Description"
+          class="form-control input-control"
+          formControlName="description"
+          (keypress)="onDescriptionTyping($event)"
+          (paste)="onPaste($event, 'description')"
+          appInputFocus
+          appAutoFocus
+          taTitleCase
+        />
+        <label for="description">Description</label>
+        <app-required-label [control]="form.controls.description"></app-required-label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col-4" style="display: flex;">
+          <app-truckassist-checkbox
+            id="forestry"
+            formControlName="forestry"
+            [checked]="forestry"
+            (change)="(forestry != forestry)"
+            [(ngModel)]="forestry"
+          >
+          </app-truckassist-checkbox>
+          <span class="checkbox-text"> Forestry</span>
+        </div>
+        <div class="col-4" style="display: flex;">
+          <app-truckassist-checkbox
+            id="farming"
+            formControlName="farming"
+            [checked]="farming"
+            (change)="(farming != farming)"
+            [(ngModel)]="farming"
+          >
+          </app-truckassist-checkbox>
+          <span class="checkbox-text"> Farming</span>
+        </div>
+        <div class="col-4" style="display: flex;">
+          <app-truckassist-checkbox
+            id="suspended"
+            formControlName="suspended"
+            [checked]="suspended"
+            (click)="onPressSuspended()"
+            [(ngModel)]="suspended"
+          >
+          </app-truckassist-checkbox>
+          <span class="checkbox-text"> Suspended</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row" style="margin-left: 3px; margin-right: -12px;">
+        <div class="col-7">
+          <div class="form-label-group" style="text-align: right;">
+            <input
+              id="tax"
+              placeholder="Tax"
+              class="form-control input-control"
+              style="width: 85px;"
+              formControlName="tax"
+              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+              (paste)="onPaste($event, 'tax')"
+              maxlength="6"
+              appInputFocus
+              appAutoFocus
+            />
+            <label for="tax">Tax</label>
+            <app-required-label [control]="form.controls.tax"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5">
+          <svg-icon
+            class="button-true"
+            src="assets/img/svgs/table/table-modal-button-true.svg"
+            [appTaTooltip]="'Save'"
+            position="bottom-right"
+            zIndex="99999999999"
+            tooltipBackground="#5673AA"
+            tooltipColor="#FFFFFF"
+            (click)="callAction('add-new-vehicle')"
+          ></svg-icon>
+          <svg-icon
+            class="button-false"
+            src="assets/img/svgs/table/table-modal-button-false.svg"
+            [appTaTooltip]="'Cancel'"
+            position="bottom-right"
+            zIndex="99999999999"
+            tooltipBackground="#ff5c5c"
+            tooltipColor="#FFFFFF"
+            (click)="clearFormInputs()"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="row actions-buttons">
+  <div class="col-4">
+    <p class="action action-upload" (click)="callAction('upload-schedule')">Upload Schedule</p>
+  </div>
+  <div class="col-4">
+    <p class="action action-new" (click)="callAction('add-new-vehicle')">Add New</p>
+  </div>
+  <div class="col-4">
+    <p class="action action-clear" (click)="callAction('clear-schedule')">Clear Schedule</p>
+  </div>
+</div>

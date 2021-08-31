@@ -1,0 +1,273 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body add-company-user static-element">
+    <form [formGroup]="usersForm" (keydown)="keyDownFunction($event)" class="form-container">
+      <ng-container *ngIf="inputData.data.type == 'new'">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group">
+              <ng-select
+                placeholder="User type"
+                [items]="userTypes"
+                bindLabel="name"
+                formControlName="userType"
+                class="required-field"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="usersForm.controls.userType"></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <!-- appInputrestriction="[A-Za-z]" -->
+              <input
+                id="firstName"
+                class="form-control input-control required"
+                placeholder="First name"
+                formControlName="firstName"
+                (paste)="onPaste($event, 'firstName')"
+                (keypress)="onNameTyping($event)"
+                appInputFocus
+              />
+              <label class="required-label" for="firstName">First name</label>
+              <app-required-label [control]="usersForm.controls.firstName"></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <!-- appInputrestriction="[A-Za-z]" -->
+              <input
+                id="lastName"
+                class="form-control input-control required"
+                placeholder="Last name"
+                formControlName="lastName"
+                (keypress)="onNameTyping($event)"
+                (paste)="onPaste($event, 'lastName')"
+                appInputFocus
+              />
+              <label class="required-label" for="lastName">Last name</label>
+              <app-required-label [control]="usersForm.controls.lastName"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div
+              class="form-label-group input-icon phone-field-wrapper {{
+                manageInputValidation(usersForm.controls.phone)
+              }}"
+            >
+              <input
+                id="phone"
+                class="form-control input-control required"
+                placeholder="Phone"
+                appInputFocus
+                formControlName="phone"
+                mask="(000) 000-0000"
+              />
+              <label for="phone">Phone</label>
+              <app-required-label [control]="usersForm.controls.phone"></app-required-label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div
+              class="form-label-group input-icon email-field-wrapper {{
+                manageInputValidation(usersForm.controls.email)
+              }}"
+            >
+              <input
+                id="email"
+                appInputFocus
+                class="form-control input-control required"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'email')"
+                placeholder="Email"
+                formControlName="email"
+              />
+              <label class="required-label" for="email">Email</label>
+              <app-required-label [control]="usersForm.controls.email"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <div
+              class="form-label-group input-icon address-field-wrapper {{
+                manageInputValidation(usersForm.controls.address)
+              }}"
+            >
+              <input
+                id="address"
+                class="form-control input-control required"
+                placeholder="Address, City, State Zip"
+                formControlName="address"
+                ngx-google-places-autocomplete
+                [options]="options"
+                #placesRef="ngx-places"
+                appInputFocus
+                (onAddressChange)="handleAddressChange($event)"
+              />
+              <label for="address">Address, City, State Zip</label>
+              <app-required-label [control]="usersForm.controls.address"></app-required-label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <input
+                id="addressUnit"
+                class="form-control input-control"
+                placeholder="Unit #"
+                formControlName="addressUnit"
+                maxlength="6"
+                appInputrestriction="[A-Za-z0-9-]"
+                appInputFocus
+              />
+              <label for="addressUnit">Unit #</label>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="inputData.data.type == 'edit'">
+        <div class="form-group d-flex align-items-center mt-0 mt-lg-3 absolute-status">
+          <kendo-switch
+            [checked]="usersForm.controls.enabled.value"
+            formControlName="enabled"
+          ></kendo-switch>
+        </div>
+
+        <div class="row">
+          <div [ngClass]="{ 'col-4': !disableUserType }">
+            <div class="form-label-group">
+              <ng-select
+                *ngIf="!disableUserType"
+                placeholder="User type"
+                [items]="userTypes"
+                bindLabel="name"
+                formControlName="userType"
+                class="required-field"
+                appAutoFocus
+                [modalType]="inputData.data.type"
+                [disabled]="disableUserType"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="usersForm.controls.userType"></app-required-label>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="disableUserType">
+            <div class="user-type-label">
+              Owner
+            </div>
+          </div>
+          <!-- <div [ngClass]="{'col-4': !disableUserType, 'col-6': disableUserType}"> -->
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="firstName"
+                class="form-control input-control required"
+                placeholder="First name"
+                formControlName="firstName"
+                appInputrestriction="[A-Za-z]"
+                appInputFocus
+              />
+              <label class="required-label" for="firstName">First name</label>
+              <app-required-label [control]="usersForm.controls.firstName"></app-required-label>
+            </div>
+          </div>
+          <!--  <div [ngClass]="{ 'col-4': !disableUserType, 'col-6': disableUserType }"> -->
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="lastName"
+                class="form-control input-control required"
+                placeholder="Last name"
+                formControlName="lastName"
+                appInputrestriction="[A-Za-z]"
+                appInputFocus
+              />
+              <label class="required-label" for="lastName">Last name</label>
+              <app-required-label [control]="usersForm.controls.lastName"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div
+              class="form-label-group input-icon phone-field-wrapper {{
+                manageInputValidation(usersForm.controls.phone)
+              }}"
+            >
+              <input
+                id="phone"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Phone"
+                formControlName="phone"
+                mask="(000) 000-0000"
+              />
+              <label for="phone">Phone</label>
+              <app-required-label [control]="usersForm.controls.phone"></app-required-label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="email-value-label">
+              {{ this.usersForm.controls.email.value }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <div
+              class="form-label-group input-icon address-field-wrapper {{
+                manageInputValidation(usersForm.controls.address)
+              }}"
+            >
+              <input
+                id="address"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Address, City, State Zip"
+                formControlName="address"
+                ngx-google-places-autocomplete
+                [options]="options"
+                #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)"
+              />
+              <label for="address">Address, City, State Zip</label>
+              <app-required-label [control]="usersForm.controls.address"></app-required-label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <input
+                id="addressUnit"
+                class="form-control input-control"
+                placeholder="Unit #"
+                formControlName="addressUnit"
+                maxlength="6"
+                appInputrestriction="[A-Za-z0-9-]"
+                appInputFocus
+              />
+              <label for="addressUnit">Unit #</label>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveUser()" ngbAutofocus>Save</button>
+  </div>
+</div>

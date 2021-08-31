@@ -1,0 +1,17 @@
+<div class="map-control-container">
+  <svg-icon
+    class="fullscreen"
+    (click)="onFullScreen()"
+    src="{{
+      fullscreenActive
+        ? '../../../assets/img/svgs/map-control/Normal Screen.svg'
+        : '../../../assets/img/svgs/map-control/Full Screen.svg'
+    }}"
+  ></svg-icon>
+  <div class="zoom-control" *ngIf="!fullscreenOnly">
+    <div class="zoom-control-container">
+      <svg-icon class="plus-svg" (click)="onZoom(true)" src="../../../assets/img/svgs/map-control/Plus.svg"></svg-icon>
+      <svg-icon class="minus-svg"(click)="onZoom(false)" src="../../../assets/img/svgs/map-control/Minus.svg"></svg-icon>
+    </div>
+  </div>
+</div>

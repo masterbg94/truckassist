@@ -1,0 +1,8 @@
+<app-truckassist-table
+  (deleteEvent)="callDelete($event)"
+  (actionEvent)="callAction($event)"
+  [options]="tableOptions"
+  [loadingItems]="loadingItems"
+  [useSwitchTabEvent]="{use: true, where: null}"
+  [toolsTableTitle]="'MVR'"
+></app-truckassist-table>

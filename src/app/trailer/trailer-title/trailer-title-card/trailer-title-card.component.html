@@ -1,0 +1,50 @@
+<div class="item-card mt-3" *ngFor="let title of trailer.doc.titleData; let i = index">
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor>Issued</span>
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          title.startDate | date: 'shortDate'
+        }}</span>
+      </div>
+    </div>
+    <div class="action-container d-flex justify-content-around align-items-center">
+      <app-truckassist-dropdown
+        *ngIf="trailer.status"
+        (actionEvent)="openAction($event)"
+        [identificator]="title.id"
+        [mainActions]="dropdownOptions.mainActions"
+        [otherActions]="dropdownOptions.otherActions"
+        [deleteAction]="dropdownOptions.deleteAction"
+        [category]="'truck title'"
+      ></app-truckassist-dropdown>
+    </div>
+  </div>
+
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div
+      class="action-container second-icon-wrapper d-flex justify-content-around align-items-center p-0"
+    >
+      <button
+        class="custom-rounded-btn"
+        [ngClass]="{
+          'active-btn': attachmentsVisible[i],
+          'empty-icon': !attachmentsVisible[i]
+        }"
+        *ngIf="trailer.status && title.attachments?.length"
+        (click)="attachmentsVisible[i] = !attachmentsVisible[i]"
+      >
+        <svg-icon
+          class="empty-icon"
+          src="assets/img/svgs/table/attach.svg"
+          [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+        ></svg-icon>
+      </button>
+    </div>
+  </div>
+
+  <app-card-preview
+    [attachments]="title.attachments"
+    [visible]="attachmentsVisible[i]"
+  ></app-card-preview>
+</div>

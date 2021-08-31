@@ -1,0 +1,50 @@
+<div class="main-container" *ngIf="attachment">
+  <img
+    *ngIf="isImage()"
+    class="image"
+    [ngClass]="{ 'image-uploading': !attachment.guid }"
+    [src]="attachment.base64Content || attachment.url"
+  />
+  <div>
+    <div class="file-container" *ngIf="isVideo()" >
+      <svg-icon src="../../../assets//img/svgs/communicator/ic_thumb-video-upload.svg" alt=""></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+    <div class="file-container" *ngIf="isDoc()">
+      <svg-icon src="assets/img/svgs/communicator/ic_doc.svg"></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+    <div class="file-container" *ngIf="isXls()">
+      <svg-icon src="assets/img/svgs/communicator/ic_xls.svg"></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+    <div class="file-container" *ngIf="isPdf()">
+      <svg-icon src="assets/img/svgs/communicator/ic_pdf.svg"></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+    <div
+      class="file-container"
+      *ngIf="!isImage() && !isDoc() && !isXls() && !isPdf() && !isZip() && !isVideo()"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_file.svg"></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+    <div class="file-container" *ngIf="isZip()">
+      <svg-icon src="assets/img/svgs/communicator/ic_zip.svg"></svg-icon>
+      <p class="attachment-name">{{ attachment.fileName }}</p>
+    </div>
+  </div>
+  <div class="loading-container" *ngIf="!attachment.guid">
+    <svg-icon
+      class="loading-icon"
+      src="../../../assets/img/svgs/communicator/ic_loading-upload.svg"
+    ></svg-icon>
+  </div>
+  <div class="close-attachment" *ngIf="attachment.guid">
+    <svg-icon
+      class="close-icon"
+      src="../../../assets/img/svgs/communicator/ic_close-message.svg"
+      (click)="deleteAttachment()"
+    ></svg-icon>
+  </div>
+</div>

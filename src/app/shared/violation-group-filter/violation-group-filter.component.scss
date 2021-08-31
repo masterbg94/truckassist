@@ -1,0 +1,35 @@
+div {
+  height: 100%;
+  padding: 2px;
+  border-radius: 2px;
+  color: white;
+  font-weight: bold;
+  justify-content: end;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  margin-right: 4px;
+  position: absolute;
+  span {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    background: #ffffff4d;
+    border-radius: 1px;
+  }
+}
+div:nth-of-type(1) {
+  width: 79px;
+}
+div:nth-of-type(2) {
+  width: 58px;
+  left: 83px;
+}
+div:nth-of-type(3) {
+  width: 60px;
+  left: 145px;
+}

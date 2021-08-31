@@ -1,0 +1,500 @@
+<div class="load_details_holder">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6 pr-0">
+                    <div class="load_detail_header d-flex">
+                        <div
+                            [routerLink]="['/loads']"
+                            class="d-flex justify-content-around align-items-center switch-btn-load"
+                        >
+                            <svg-icon
+                            class="d-flex"
+                            [src]="'assets/img/svgs/left.svg'"
+                            [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+                            ></svg-icon>
+                        </div>
+                        <app-unit-switch
+                        [keywordPasted]="keyword"
+                        [options]="options"
+                        [type]="'loads'"
+                        ></app-unit-switch>
+                    </div>
+                    <div class="load_details_rates" *ngIf="loadData && loadData.ratesInfo">
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.baseRate">
+                            <div class="load_rate_title">BASE RATE</div>
+                            <div class="load_rate_value" [innerHTML]="loadData.ratesInfo.baseRate ? (loadData.ratesInfo.baseRate | currency:'USD':'symbol':'1.0-0') : '/'">{{ 2890 | currency:'USD':'symbol':'1.0-0' }}</div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.revised"> 
+                            <div class="load_rate_title">Revised</div>
+                            <div class="load_rate_value revised" [innerHTML]="loadData.ratesInfo.revised ? (loadData.ratesInfo.revised | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.adjusted">
+                            <div class="load_rate_title">Adjusted</div>
+                            <div class="load_rate_value adjusted" [innerHTML]="loadData.ratesInfo.adjusted ? (loadData.ratesInfo.adjusted | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.advanced">
+                            <div class="load_rate_title">Advance</div>
+                            <div class="load_rate_value advance" [innerHTML]="loadData.ratesInfo.advanced ? (loadData.ratesInfo.advanced | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+        
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.layover">
+                            <div class="load_rate_title">Layover</div>
+                            <div class="load_rate_value bottom_list" [innerHTML]="loadData.ratesInfo.layover ? (loadData.ratesInfo.layover | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.lumper">
+                            <div class="load_rate_title">Lumper</div>
+                            <div class="load_rate_value bottom_list" [innerHTML]="loadData.ratesInfo.lumper ? (loadData.ratesInfo.lumper | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.fuelSurch">
+                            <div class="load_rate_title">Fuel Sur.</div>
+                            <div class="load_rate_value bottom_list" [innerHTML]="loadData.ratesInfo.fuelSurch ? (loadData.ratesInfo.fuelSurch | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.detention">
+                            <div class="load_rate_title">Detention</div>
+                            <div class="load_rate_value bottom_list" [innerHTML]="loadData.ratesInfo.detention ? (loadData.ratesInfo.detention | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="load_rates_items" [class.innactive]="!loadData.ratesInfo.escort">
+                            <div class="load_rate_title">Escort</div>
+                            <div class="load_rate_value bottom_list" [innerHTML]="loadData.ratesInfo.escort ? (loadData.ratesInfo.escort | currency:'USD':'symbol':'1.0-0') : '/'"></div>
+                        </div>
+                        <div class="rates_total">
+                            <div class="rates_total_item">TOTAL ADJ. <span>{{ loadData.ratesInfo.totalAdj | currency:'USD':'symbol':'1.0-0' }}</span></div>
+                            <div class="rates_total_item full_total">TOTAL <span>{{ loadData.ratesInfo.total | currency:'USD':'symbol':'1.0-0' }}</span></div>
+                        </div>
+                    </div>
+                    <div class="load_d_buttons">
+                        <button 
+                            class="email-btn" 
+                            position="bottom-right"
+                            [appTaTooltip]="'Email'">
+                            <svg-icon
+                              [src]="'assets/img/svgs/table/print.svg'"
+                              [svgStyle]="{ 'width.px': '18', 'height.px': '17' }"
+                            ></svg-icon>
+                        </button>
+                        <button 
+                            class="email-btn" 
+                            position="bottom-right"
+                            [appTaTooltip]="'Email'">
+                            <svg-icon
+                              [src]="'assets/img/svgs/table/email.svg'"
+                              [svgStyle]="{ 'width.px': '18', 'height.px': '14' }"
+                            ></svg-icon>
+                        </button>
+                    </div>
+        
+        
+                    <div class="panel-group" id="accordion">
+                        <!--Owner-->
+                        <div class="panel panel-default">
+                          <div
+                            class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                            data-toggle="collapse"
+                            data-parent="#accordion"
+                            data-target="#collapseTwo"
+                            aria-expanded="true"
+                          >
+                            <span class="panel-title">
+                                Dispatcher Info
+                            </span>
+                            <span class="panel-arrow">
+                              <svg-icon
+                                class="arrow-down-up"
+                                [src]="'assets/img/svgs/down.svg'"
+                                [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                              ></svg-icon>
+                            </span>
+                          </div>
+                          <div id="collapseTwo" class="panel-collapse collapse show">
+                            <div class="panel-body">
+                              <div class="disp_info">
+                                  <div class="d-flex disp_main_info">
+                                      <div class="disp_name d-flex">
+                                        <div class="disp_profile">
+                                            <svg-icon
+                                            [src]="'assets/img/svgs/table/profile.svg'"
+                                            [svgStyle]="{ 'width.px': '22', 'height.px': '22' }"
+                                            ></svg-icon>
+                                        </div>
+                                        <div *ngIf="loadData">{{loadData.dispatcherName}}</div>
+                                      </div>
+                                      <div class="disp_ref">
+                                          <span>Ref. #</span> 821514
+                                      </div>
+                                  </div>
+                                  <div class="disp_company">IVS Freight Inc</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <!--Owner History-->
+                        <div class="panel panel-default">
+                          <div
+                            class="panel-heading accordion-toggle collapsed d-flex align-items-center justify-content-between"
+                            data-toggle="collapse"
+                            data-parent="#accordion"
+                            data-target="#collapseThree"
+                            aria-expanded="false"
+                          >
+                            <span class="panel-title">
+                                Broker Info
+                            </span>
+                            <span class="panel-arrow">
+                              <svg-icon
+                                class="arrow-down-up"
+                                [src]="'assets/img/svgs/down.svg'"
+                                [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                              ></svg-icon>
+                            </span>
+                          </div>
+                          <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                              <div class="broker_info" *ngIf="brokerInfo">
+                                  <div class="broker_name">{{brokerInfo.name}}</div>
+                                  <div class="broker_info d-flex">
+                                    <svg-icon
+                                        [src]="'assets/img/svgs/form-icons/phone/phone-default.svg'"
+                                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                                    ></svg-icon>
+                                    <div class="broker_info_item">{{brokerInfo.doc.phone}}</div>
+                                  </div>
+                                  <div class="broker_info d-flex">
+                                    <svg-icon
+                                        [src]="'assets/img/svgs//form-icons/mail/mail-default.svg'"
+                                        [svgStyle]="{ 'width.px': '18', 'height.px': '14' }"
+                                    ></svg-icon>
+                                    <div class="broker_info_item">{{brokerInfo.doc.email}}</div>
+                                  </div>
+                                  <div class="broker_info d-flex">
+                                    <svg-icon
+                                        [src]="'assets/img/svgs/form-icons/address/address-default.svg'"
+                                        [svgStyle]="{ 'width.px': '15', 'height.px': '18' }"
+                                    ></svg-icon>
+                                    <div class="broker_info_item">
+                                        <!-- <div>5462 N East River Rd apt 611</div> -->
+                                        <div>{{brokerInfo.doc.address.city + ', ' + brokerInfo.doc.address.stateShortName + ' ' + brokerInfo.doc.address.zipCode}}</div>
+                                        <div>{{brokerInfo.doc.address.country}}</div>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <!--Note-->
+                        <div
+                          class="panel panel-default"
+                        >
+                          <div
+                            class="panel-heading accordion-toggle collapsed d-flex align-items-center justify-content-between"
+                            data-toggle="collapse"
+                            data-parent="#accordion"
+                            data-target="#collapseFour"
+                            aria-expanded="false"
+                          >
+                            <span class="panel-title">
+                                Driver Info
+                            </span>
+                            <span class="panel-arrow">
+                              <svg-icon
+                                class="arrow-down-up"
+                                [src]="'assets/img/svgs/down.svg'"
+                                [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                              ></svg-icon>
+                            </span>
+                          </div>
+                          <div id="collapseFour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="disp_info" *ngIf="driverInfo">
+                                    <div class="d-flex disp_main_info">
+                                        <div class="disp_name d-flex">
+                                          <div class="disp_profile">
+                                              <svg-icon
+                                              [src]="'assets/img/svgs/table/profile.svg'"
+                                              [svgStyle]="{ 'width.px': '20', 'height.px': '24' }"
+                                              ></svg-icon>
+                                          </div>
+                                          <div>{{driverInfo.firstName + ' ' + driverInfo.lastName}}</div>
+                                        </div>
+                                        <div class="disp_ref">
+                                            <span>{{driverInfo.loadedMiles}} miles</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex driver_vecihle_info">
+                                        <div class="vecihle_info">
+                                            <span>Truck #</span> 2432
+                                        </div>
+                                        <div class="vecihle_info">
+                                            <span>Trailer #</span> R22432
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="load_details_header">Status History</div>
+                    <div class="load_status_details">
+                        <div class="load_status_item d-flex start_status">
+                            <div class="status_text">PAID</div>
+                            <div class="time_with_edit d-flex starting-item">
+                                <span class="span-resizable">
+                                    <span>01/17/21</span>
+                                    <span class="time_status">09:23 AM</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="load_status_item d-flex">
+                            <div class="status_text">INVOICED</div>
+                            <div class="time_with_edit d-flex">
+                                <span class="span-resizable">
+                                     <span>01/17/21</span> 
+                                    <span class="time_status">09:23 AM</span>
+                                    <span class="edit-status">
+                                        <svg-icon
+                                        position="bottom-right"
+                                        [appTaTooltip]="'Edit'"
+                                        tooltipBackground="#919191"
+                                        [src]="'assets/img/svgs/edit-comment.svg'"
+                                        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                                        ></svg-icon>
+                                    </span>
+                                </span>
+                               
+                            </div>
+                        </div>
+                        <div class="load_status_item d-flex">
+                            <div class="status_text status_load">LOADED</div>
+                            <div class="time_with_edit d-flex">
+                                <span class="span-resizable">
+                                     <span>01/17/21</span> 
+                                    <span class="time_status">09:23 AM</span>
+                                    <span class="edit-status">
+                                        <svg-icon
+                                        position="bottom-right"
+                                        [appTaTooltip]="'Edit'"
+                                        tooltipBackground="#919191"
+                                        [src]="'assets/img/svgs/edit-comment.svg'"
+                                        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                                        ></svg-icon>
+                                    </span>
+                                </span>
+                               
+                            </div>
+                        </div>
+                        <div class="load_status_item d-flex">
+                            <div class="status_text status_checkedin">CHECKED-IN</div>
+                            <div class="time_with_edit d-flex">
+                                <span class="span-resizable">
+                                     <span>01/17/21</span> 
+                                    <span class="time_status">09:23 AM</span>
+                                    <span class="edit-status">
+                                        <svg-icon
+                                        position="bottom-right"
+                                        [appTaTooltip]="'Edit'"
+                                        tooltipBackground="#919191"
+                                        [src]="'assets/img/svgs/edit-comment.svg'"
+                                        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                                        ></svg-icon>
+                                    </span>
+                                </span>
+                               
+                            </div>
+                        </div>
+                        <div class="load_status_item d-flex">
+                            <div class="status_text status_dispatch">DISPATCHED</div>
+                            <div class="time_with_edit d-flex">
+                                <span class="span-resizable">
+                                     <span>01/17/21</span> 
+                                    <span class="time_status">09:23 AM</span>
+                                    <span class="edit-status">
+                                        <svg-icon
+                                        position="bottom-right"
+                                        [appTaTooltip]="'Edit'"
+                                        tooltipBackground="#919191"
+                                        [src]="'assets/img/svgs/edit-comment.svg'"
+                                        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                                        ></svg-icon>
+                                    </span>
+                                </span>
+                               
+                            </div>
+                        </div>
+                        <div class="load_status_item d-flex">
+                            <div class="status_text status_assigned">ASSIGNED</div>
+                            <div class="time_with_edit d-flex">
+                                <span class="span-resizable">
+                                     <span>01/17/21</span> 
+                                    <span class="time_status">09:23 AM</span>
+                                    <span class="edit-status">
+                                        <svg-icon
+                                        position="bottom-right"
+                                        [appTaTooltip]="'Edit'"
+                                        tooltipBackground="#919191"
+                                        [src]="'assets/img/svgs/edit-comment.svg'"
+                                        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                                        ></svg-icon>
+                                    </span>
+                                </span>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 p-0">
+            <div class="row">
+                <div class="col-7">
+                    <div class="load_details_header">Stops (<span [innerHTML]="loadData ? loadData.route.length : '0'"></span>)</div>
+                    <div class="stops_holder">
+                        <div class="stops_main_holder" *ngIf="loadData">
+                            <div class="stop_item" *ngFor="let data of loadData.route; let indx = index">
+                                <div class="stop_item_header d-flex">
+                                    <div class="stop_head_name">
+                                        <span class="load_item" [class.delivery_item]="data.PointType == 'delivery'"></span>
+                                        Morton, MS 39117
+                                    </div>
+                                    <div class="stop_head_total">
+                                        <span class="leg_total" [innerHTML]="legMilage[indx] && legMilage[indx]['distance'] ? (legMilage[indx]['distance'] + 'mi') : 'Leg'"></span>
+                                        <span class="total_total" [innerHTML]="legMilage[indx] && legMilage[indx]['mileageSumString'] ? (legMilage[indx]['mileageSumString'] + 'mi') : 'Total'"></span>
+                                    </div>
+                                </div>
+                                <div class="stop_item_body">
+                                    <div class="stop_body_name">{{data.ShipperName}}</div>
+                                    <div class="stop_body_locatin">{{data.PointAddress}}</div>
+                                    <!-- <div class="stop_body_phone">(601) 732-8670</div> -->
+                                </div>
+                                <div class="border-item" *ngIf="indx != (loadData.route.length -1)"></div>
+                            </div>
+                        </div>
+                        <agm-map
+                        [streetViewControl]="false"
+                        [clickableIcons]="false"
+                        [controlSize]="20"
+                        [styles]="styles"
+                        [restriction]="mapRestrictions"
+                        (mapReady)="getMapInstance($event)"
+                        [zoom]="1"
+                        >
+                        <agm-direction
+                        *ngFor="let dir of directionRoutes"
+                        [origin]="dir.origin"
+                        [destination]="dir.destination"
+                        [waypoints]="dir.waypoints"
+                        [optimizeWaypoints]="false"
+                        [renderOptions]="dir.renderOptions"
+                        ></agm-direction>
+                        <div *ngFor="let mark of waypointMarkers; let i = index">
+                            <agm-marker
+                              [latitude]="mark.lat"
+                              [longitude]="mark.lng"
+                              [agmFitBounds]="true"
+                              [visible]="false"
+                              >
+                              <agm-snazzy-info-window
+                                  [latitude]="mark.lat"
+                                  [longitude]="mark.lng"
+                                  [openOnMarkerClick]="false"
+                                  [closeOnMapClick]="false"
+                                  [maxWidth]="33"
+                                  [maxHeight]="48"
+                                  [isOpen]="true"
+                                  [closeWhenOthersOpen]="false"
+                                  placement="bottom"
+                              >
+                                  <ng-template class="marker-tool-tip">
+                                      <svg
+                                      class="routing_marker"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="33"
+                                      height="48"
+                                      viewBox="0 0 32.999 48.234"
+                                    >
+                                      <g
+                                        id="Group_11810"
+                                        data-name="Group 11810"
+                                        transform="translate(-509.694 -364.016)"
+                                      >
+                                        <g id="Group_11809" data-name="Group 11809">
+                                          <path
+                                            id="Path_10542"
+                                            [ngStyle]="{ fill: mapCollors[mark.type].bottom }"
+                                            data-name="Path 10542"
+                                            d="M526.194,399.25a6.5,6.5,0,1,0,6.5,6.5A6.5,6.5,0,0,0,526.194,399.25Zm0,10a3.5,3.5,0,1,1,3.5-3.5A3.5,3.5,0,0,1,526.194,409.25Z"
+                                          />
+                                          <circle
+                                            id="Ellipse_1439"
+                                            data-name="Ellipse 1439"
+                                            cx="3.5"
+                                            cy="3.5"
+                                            r="3.5"
+                                            transform="translate(522.694 402.25)"
+                                            fill="#fff"
+                                          />
+                                        </g>
+                                        <g id="Locator">
+                                          <path
+                                            id="Path_10543"
+                                            [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                                            data-name="Path 10543"
+                                            d="M526.2,364.016a16.637,16.637,0,0,0-16.5,16.769,16.879,16.879,0,0,0,3.229,9.966c3,4.127,13.3,15.265,13.3,15.265s10.231-11.138,13.237-15.265a16.865,16.865,0,0,0,3.229-9.966A16.636,16.636,0,0,0,526.2,364.016Zm0,28.246a11.631,11.631,0,0,1,0-23.262h0a11.631,11.631,0,1,1,0,23.262Z"
+                                          />
+                                          <path
+                                            id="Path_2808"
+                                            data-name="Path 2808"
+                                            d="M526.2,369a11.631,11.631,0,1,1-11.631,11.631h0A11.631,11.631,0,0,1,526.194,369Z"
+                                            fill="#fff"
+                                          />
+                                        </g>
+                                        <text
+                                          id="_1"
+                                          data-name="1"
+                                          transform="translate(520.195 366.25)"
+                                          [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                                          font-size="14"
+                                          font-family="Montserrat"
+                                          font-weight="Bold"
+                                          startOffset="50%"
+                                          text-anchor="middle"
+                                          alignement-baseline="middle"
+                                        >
+                                          <tspan x="5.8" y="19">{{ mark.index }}</tspan>
+                                        </text>
+                                      </g>
+                                    </svg>
+                                  </ng-template>
+                              </agm-snazzy-info-window>
+                            </agm-marker> 
+                          </div>
+                        </agm-map>
+                    </div>
+                </div>
+                <div class="col-5 pl-0">
+                    <div class="comment_header d-flex">
+                        <div class="load_details_header flex-grow-1">Comments <span class="comment_count" *ngIf="commentSection && commentSection.todoTaskComments">({{commentSection.todoTaskCommentsLength}})</span></div>
+                        <button
+                            class="plus-svg-container"
+                            appTaTooltip="Add Comment"
+                            position="bottom-right"
+                            tooltipBackground="#5673AA"
+                            (click)="addNewComment()"
+                        >
+                            <svg-icon src="../../../../assets/img/svgs/table/add.svg"> </svg-icon>
+                        </button>
+                    </div>
+                    <div class="comment_holder">
+                        <app-app-comments
+                        [truckLoadId]="loadId"
+                        [isExpanded]="true"
+                    ></app-app-comments>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<app-truckassist-table
+  (deleteEvent)="callDeleteAction($event)"
+  [options]="tableOptions"
+  (actionEvent)="callAction($event)"
+  [loadingItems]="'false'"
+  [useSwitchTabEvent]="{use: true, where: null}"
+></app-truckassist-table>

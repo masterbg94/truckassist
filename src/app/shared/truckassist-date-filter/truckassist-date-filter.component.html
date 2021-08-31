@@ -1,0 +1,89 @@
+<div class="d-flex justify-content-start align-items-center" [style.user-select]="'none'">
+  <div
+    class="d-inline-block"
+    ngbDropdown
+    #actionDrop="ngbDropdown"
+    (clickOutside)="actionDrop.close()"
+  >
+    <button
+      appTaTooltip="Filter"
+      container="body"
+      position="bottom-right"
+      class="toolbar-btn filter-btn ml-0"
+      aria-hidden="true"
+      [disabled]="loading"
+      id="filterDropdownManual"
+      ngbDropdownToggle
+      (click)="showDateRange = false"
+      [ngClass]="{ 'selected-filter': dateFilter.length }"
+    >
+      <svg-icon
+        [src]="'assets/img/svgs/table/date-filter.svg'"
+        [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+      ></svg-icon>
+    </button>
+    <div
+      ngbDropdownMenu
+      class="animate slideIn filter-dropdown-menu"
+      aria-labelledby="filterDropdownManual"
+      appDropdownManager
+      [ngClass]="{ 'extended-dropdown': showDateRange }"
+    >
+      <div *ngFor="let dg of dateFilterGroups; let i = index" class="date-filter-group">
+        <a
+          *ngFor="let df of dg.value; let j = index"
+          ngbDropdownItem
+          class="dropdown-item main-field"
+          [ngClass]="{ 'd-none': df.hidden || showDateRange }"
+          (click)="setDateFilter(i, j); actionDrop.close()"
+        >
+          <span>
+            {{ df.title }}
+          </span>
+        </a>
+      </div>
+      <!--Custom Filter-->
+      <div class="date-filter-group">
+        <a
+          class="dropdown-item main-field"
+          [ngClass]="{ 'd-none': showDateRange }"
+          (click)="switchToDateRange($event)"
+        >
+          <span>
+            Custom
+          </span>
+        </a>
+
+        <kendo-multiviewcalendar
+          *ngIf="showDateRange"
+          kendoDateRangeSelection
+          [selectionRange]="range"
+          (selectionRangeChange)="handleSelectionRange($event); actionDrop.close()"
+        ></kendo-multiviewcalendar>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto d-flex align-items-center p-0">
+    <span
+      *ngFor="let df of dateFilter; let i = index"
+      [class]="df ? 'd-flex' : 'd-none'"
+      class="date-chip justify-content-center align-items-center"
+      [@enterLeave]="'flyIn'"
+      (mouseover)="hovered = true"
+      (mouseout)="hovered = false"
+    >
+      <span class="chip-content">{{ df?.title }}</span>
+      <a
+        class="badge-close-btn"
+        [ngClass]="{ 'visible-btn': hovered }"
+        (click)="onRemove(df)"
+      >
+        <svg-icon
+          class="chip-icon d-flex flex-column justify-content-center align-items-center"
+          src="assets/img/svgs/table/badge-close.svg"
+          [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+        ></svg-icon>
+      </a>
+    </span>
+  </div>
+</div>

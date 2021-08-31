@@ -1,0 +1,16 @@
+<!-- <div class="dropdown-arrow"></div> -->
+<div class="dropdown">
+  <p class="dropdown__leave">Leave Group</p>
+  <p
+    class="dropdown__exit"
+    *ngFor="let chat of chats"
+    [ngClass]="{'not-joined': !isJoined(chat)}"
+    (click)="channelAction(chat)"
+  >
+    <svg-icon
+      class="dropdown__exit-icon"
+      src="../../../assets/img/svgs/communicator/ic_channel-closed.svg"
+    ></svg-icon>
+    {{ chat.name }}
+  </p>
+</div>

@@ -1,0 +1,10 @@
+<span
+  *ngIf="
+    control?.status !== 'DISABLED' &&
+    !control?.valid &&
+    control?.touched &&
+    (control?.value == '' || control?.value == null)
+  "
+  class="required-yes-no"
+  >Required Field</span
+>

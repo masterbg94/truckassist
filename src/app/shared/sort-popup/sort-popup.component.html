@@ -1,0 +1,10 @@
+<div class="sort-type" [ngStyle]="{ left: left }">
+    <svg-icon
+      src="../../assets/img/svgs/GPS/up.svg"
+      *ngIf="this.sortType"
+      [ngClass]="{
+        'sort-type-a': this.sortType === 1,
+        'sort-type-b': this.sortType === 2
+      }"
+    ></svg-icon>
+</div>

@@ -1,0 +1,19 @@
+<div class="city_day_info">
+    <div 
+        style="color: #FCC751;"
+        appSelectionColor   
+        class="max_temp"
+    >{{forecast.tempmax | number: '1.0-0'}}&#176;</div>
+    <div class="temp_range">
+        <!-- @barAnimation  -->
+        <div 
+            class="tmp_insde_range" 
+            [ngStyle]="{ bottom: forecast.bottom + 'px', height: forecast.height + 'px' }"
+        ></div>
+    </div>
+    <div 
+        style="color: #5673AA;"
+        appSelectionColor 
+        class="min_temp"
+    >{{forecast.tempmin | number: '1.0-0'}}&#176;</div>
+</div>

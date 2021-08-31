@@ -1,0 +1,55 @@
+<div class="ta-buttongroup-container">
+  <button
+    *ngFor="let item of items; let i = index"
+    class="btn switch-btn"
+    id="switchBtn{{ i }}"
+    [disabled]="loading || item.disabled"
+    [ngClass]="{
+      'active-btn-tab': selectedTab === item.field && item.selectTab,
+      'active-btn': selectedTab === item.field && !item.selectTab,
+      'extra-btn': item.extended,
+      'super-btn':
+        item.stateName === 'repair_trucks' ||
+        item.stateName === 'repair_trailers' ||
+        item.stateName === 'repair_trucks_pm' ||
+        item.stateName === 'repair_trailers_pm'
+    }"
+    (click)="selectItem(item)"
+  >
+    <span
+      *ngIf="!item.hideLength && (selectedTab !== item.field || !item.selectTab)"
+      class="counter-badge"
+      ><span class="badge-value ta-font-bold">{{
+        item.numberOfShops ? item.numberOfShops : item.data.length
+      }}</span>
+    </span>
+    <span
+      class="button-title ta-font-semi-bold"
+      *ngIf="selectedTab !== item.field || !item.selectTab"
+      >{{ item.title }}</span
+    >
+    <span class="panel-arrow-basic" *ngIf="selectedTab !== item.field && item.selectTab">
+      <svg-icon
+        [src]="'assets/img/svgs/down.svg'"
+        [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+      ></svg-icon>
+    </span>
+    <app-custom-tab
+      [id]="'tab-' + i"
+      [items]="item.tabFilters"
+      [total]="item.data.length"
+      [class]="{
+        active: selectedTab === item.field,
+        extra: item.extended,
+        super:
+          item.stateName === 'repair_trucks' ||
+          item.stateName === 'repair_trailers' ||
+          item.stateName === 'repair_trucks_pm' ||
+          item.stateName === 'repair_trailers_pm'
+      }"
+      [title]="item.title"
+      [stateName]="item.stateName"
+      *ngIf="selectedTab === item.field && item.selectTab"
+    ></app-custom-tab>
+  </button>
+</div>

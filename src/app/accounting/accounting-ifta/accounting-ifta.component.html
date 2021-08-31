@@ -1,0 +1,549 @@
+<div class="accounting_header">
+    <div class="table_head d-flex">
+        <span>12</span>
+        <div>IFTA</div>
+    </div>
+    <div class="custom_search_hold">
+        <app-custom-search 
+                [stateName]="''"
+                [gridNameTitle]="''"   
+            >
+        </app-custom-search> 
+    </div>
+    <div class="button_holder">
+        <button>
+            <svg-icon src="assets/img/svgs/table/export.svg"></svg-icon>
+        </button>
+        <button>
+            <svg-icon src="assets/img/svgs/Info1.svg"></svg-icon>
+        </button>
+        <button>
+            <svg-icon src="assets/img/svgs/table/usd-value.svg"></svg-icon>
+        </button>
+        <button>
+            <svg-icon src="assets/img/svgs/table/columns.svg"></svg-icon>
+        </button>
+    </div>
+    <!-- Rounded switch -->
+    <label class="accounting_switch">
+        <input disabled type="checkbox" [(ngModel)]="accountingChecbox" />
+        <!-- [ngbPopover]="checkboxPopover"
+            #t2="ngbPopover"
+            triggers="manual"
+            [autoClose]="false"
+            [placement]="'bottom'"
+            (click)="toggleCheckbox(t2)" -->
+        <span
+            class="slider round"
+        >
+            <span *ngIf="!accountingChecbox">Ready</span>
+            <span *ngIf="accountingChecbox">Closed</span>
+        </span>
+    </label>
+</div>
+<div class="ifta_main_holder">
+    <div class="quartal_holder">
+        <div class="quartal_item active">
+            <div class="quartal_item_date_group">2021</div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+        </div>
+        <div class="quartal_item">
+            <div class="quartal_item_date_group">2020</div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+        </div>
+        <div class="quartal_item">
+            <div class="quartal_item_date_group">2019</div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+            <div class="quartal_main_item d-flex" [class.shrinked]="isMapActive">
+                <div class="quarter_numb">
+                    <div class="quarter_head">Q1</div>
+                    <div class="quaerter_quant">12.79</div>
+                </div>
+                <div class="quarter_values">
+                    <div class="item_data">25,791 gal.</div>
+                    <div class="item_data">345,547 mi.</div>
+                    <div class="item_data total_item">$3,925.48</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ifta_tables no_flex_num">
+        <div class="ifta_track">
+            <div class="track_item">
+                <div class="track_count">157</div>
+                <div class="track_name">Trucks</div>
+            </div>
+        </div>
+        <div class="ifta_table">
+            <div class="middle_table d-flex">
+                <div class="table_head d-flex">
+                    <div class="unit_col">Unit #</div>
+                    <span [class.hidden]="isMapActive">
+                        <div class="unit_st">St</div>
+                        <div class="unit_mpg">MPG</div>
+                        <div class="unit_miles">Miles</div>
+                        <div class="unit_tg">TG</div>
+                        <div class="unit_pg">PG</div>
+                        <div class="unit_ng">NG</div>
+                        <div class="unit_tax">Tax</div>
+                    </span>
+                </div>
+                <div class="table_body">
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 0" (click)="setSelectedIndx(0)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 1" (click)="setSelectedIndx(1)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 2" (click)="setSelectedIndx(2)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 3" (click)="setSelectedIndx(3)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 4" (click)="setSelectedIndx(4)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 5" (click)="setSelectedIndx(5)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 6" (click)="setSelectedIndx(6)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 7" (click)="setSelectedIndx(7)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 8" (click)="setSelectedIndx(8)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 9" (click)="setSelectedIndx(9)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 11" (click)="setSelectedIndx(11)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 12" (click)="setSelectedIndx(12)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 13" (click)="setSelectedIndx(13)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 14" (click)="setSelectedIndx(14)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 15" (click)="setSelectedIndx(15)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                    <div class="table_row" [class.half_hidden]="isMapActive" [class.active]="selectedIndex == 16" (click)="setSelectedIndx(16)">
+                        <div class="table_column unit_col show_others_on_hover">10587</div>
+                        <span [class.show_on_hover]="isMapActive">
+                            <div class="list_expand_item" class="table_column unit_st">17</div>
+                            <div class="list_expand_item" class="table_column unit_mpg">5.54</div>
+                            <div class="list_expand_item" class="table_column unit_miles">9,782</div>
+                            <div class="list_expand_item" class="table_column unit_tg">487</div>
+                            <div class="list_expand_item" class="table_column unit_pg">520</div>
+                            <div class="list_expand_item" class="table_column unit_ng">37</div>
+                            <div class="list_expand_item" class="table_column unit_tax">$58.47</div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ifta_tables">
+        <div class="ifta_track">
+            <div class="track_item" [class.active]="isMapActive" (click)="activeTab == 'stops' && isMapActive = !isMapActive">
+                <div class="track_name">Map View</div>
+            </div>
+            <div class="track_item" [class.active]="activeTab == 'stops'" (click)="activateTabs('stops')">
+                <div class="track_count">157</div>
+                <div class="track_name">Stops</div> 
+            </div>
+            <div class="track_item" [class.active]="activeTab == 'summary'" (click)="activateTabs('summary')">
+                <div class="track_name">Summary</div>
+            </div>
+        </div>
+        <div class="ifta_table flex-one">
+            <div class="middle_table d-flex last_table" *ngIf="activeTab == 'summary'">
+                <table width="100%">
+                    <thead>
+                        <tr class="table_head d-flex">
+                            <th class="unit_pg">St</th>
+                            <th class="unit_miles">Miles</th>
+                            <th class="unit_tg">TG</th>
+                            <th class="unit_pg">PG</th>
+                            <th class="unit_ng">NG</th>
+                            <th class="unit_rate">Rate</th>
+                            <th class="unit_tax">Tax</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table_body">
+                        <tr class="table_row" *ngFor="let state of mainData.usaStates">
+                            <td class="table_column unit_pg">{{state.state}}</td>
+                            <td class="table_column unit_miles">1,309</td>
+                            <td class="table_column unit_tg">199</td>
+                            <td class="table_column unit_pg">150</td>
+                            <td class="table_column unit_ng">49</td>
+                            <td class="table_column unit_rate">0.1900</td>
+                            <td class="table_column unit_tax">$58.47</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="middle_table d-flex last_table flex-row" *ngIf="activeTab == 'stops'">
+                <table width="100%">
+                    <thead>
+                        <tr class="table_head d-flex">
+                            <th class="unit_col">#</th>
+                            <th class="unit_miles text-left">Stop</th>
+                            <th class="unit_tg" *ngIf="!isMapActive">Date</th>
+                            <th class="unit_pg" *ngIf="!isMapActive">Time</th>
+                            <th class="unit_ng">Leg</th>
+                            <th class="unit_rate">Miles</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table_body">
+                        <tr class="table_row" *ngFor="let stop of mainData.stopsList; let indx = index;">
+                            <td class="table_column unit_st index_st type_{{stop.type}}">{{indx +1}}</td>
+                            <td class="table_column unit_miles stop_miles">{{stop.location}}</td>
+                            <td class="table_column unit_tg" *ngIf="!isMapActive">{{stop.date | date : 'MM/dd/yy'}}</td>
+                            <td class="table_column unit_pg" *ngIf="!isMapActive">{{stop.date | date : 'hh:mm aaa'}}</td>
+                            <td class="table_column unit_ng">{{stop.leg}}</td>
+                            <td class="table_column unit_rate">{{stop.miles}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="agm_mp_hold" *ngIf="isMapActive">
+                    <agm-map
+                    [streetViewControl]="false"
+                    [clickableIcons]="false"
+                    [controlSize]="20"
+                    [styles]="styles"
+                    [restriction]="mapRestrictions"
+                    (mapReady)="getMapInstance($event)"
+                    [zoom]="1"
+                >
+                    <!-- *ngIf="origin !== undefined && destination !== undefined" -->
+                    <!-- <agm-direction
+                    *ngFor="let dir of directionRoutes"
+                    [origin]="dir.origin"
+                    [destination]="dir.destination"
+                    [optimizeWaypoints]="false"
+                    [renderOptions]="dir.renderOptions"
+                    ></agm-direction> -->
+                    <!-- <div *ngFor="let mark of waypointMarkers; let j = index">
+                    <agm-marker
+                        [latitude]="mark.lat"
+                        [longitude]="mark.lng"
+                        [agmFitBounds]="true"
+                        [visible]="false"
+                    >
+                        <agm-snazzy-info-window
+                        [latitude]="mark.lat"
+                        [longitude]="mark.lng"
+                        [openOnMarkerClick]="false"
+                        [closeOnMapClick]="false"
+                        [maxWidth]="26"
+                        [maxHeight]="32"
+                        [isOpen]="true"
+                        [closeWhenOthersOpen]="false"
+                        placement="bottom"
+                        >
+                        <ng-template class="marker-tool-tip">
+                            <svg
+                            class="routing_marker"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="26"
+                            height="32"
+                            viewBox="0 0 32.999 48.234"
+                            >
+                            <g
+                                id="Group_11810"
+                                data-name="Group 11810"
+                                transform="translate(-509.694 -364.016)"
+                            >
+                                <g id="Group_11809" data-name="Group 11809">
+                                <path
+                                    id="Path_10542"
+                                    [ngStyle]="{ fill: mapCollors[mark.type].bottom }"
+                                    data-name="Path 10542"
+                                    d="M526.194,399.25a6.5,6.5,0,1,0,6.5,6.5A6.5,6.5,0,0,0,526.194,399.25Zm0,10a3.5,3.5,0,1,1,3.5-3.5A3.5,3.5,0,0,1,526.194,409.25Z"
+                                />
+                                <circle
+                                    id="Ellipse_1439"
+                                    data-name="Ellipse 1439"
+                                    cx="3.5"
+                                    cy="3.5"
+                                    r="3.5"
+                                    transform="translate(522.694 402.25)"
+                                    fill="#fff"
+                                />
+                                </g>
+                                <g id="Locator">
+                                <path
+                                    id="Path_10543"
+                                    [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                                    data-name="Path 10543"
+                                    d="M526.2,364.016a16.637,16.637,0,0,0-16.5,16.769,16.879,16.879,0,0,0,3.229,9.966c3,4.127,13.3,15.265,13.3,15.265s10.231-11.138,13.237-15.265a16.865,16.865,0,0,0,3.229-9.966A16.636,16.636,0,0,0,526.2,364.016Zm0,28.246a11.631,11.631,0,0,1,0-23.262h0a11.631,11.631,0,1,1,0,23.262Z"
+                                />
+                                <path
+                                    id="Path_2808"
+                                    data-name="Path 2808"
+                                    d="M526.2,369a11.631,11.631,0,1,1-11.631,11.631h0A11.631,11.631,0,0,1,526.194,369Z"
+                                    fill="#fff"
+                                />
+                                </g>
+                                <text
+                                *ngIf="j > 0"
+                                id="_1"
+                                data-name="1"
+                                transform="translate(520.195 366.25)"
+                                [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                                font-size="14"
+                                font-family="Montserrat"
+                                font-weight="Bold"
+                                startOffset="50%"
+                                text-anchor="middle"
+                                alignement-baseline="middle"
+                                >
+                                <tspan x="5.8" y="19">{{ j + 1 }}</tspan>
+                                </text>
+                            </g>
+                            </svg>
+                        </ng-template>
+                        </agm-snazzy-info-window>
+                    </agm-marker>
+                    </div> -->
+                </agm-map>
+                <!-- <div class="map-control">
+                    <app-map-control (mapMode)="onFullScreen($event)" [fullscreenOnly]="true"></app-map-control>
+                </div> -->
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <app-no-results></app-no-results>
+<app-no-empty-status *ngIf="mainData === null"></app-no-empty-status> -->

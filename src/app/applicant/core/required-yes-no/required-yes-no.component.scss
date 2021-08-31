@@ -1,0 +1,14 @@
+.required-yes-no {
+  position: absolute;
+  font-size: 10px;
+  font-weight: bold;
+  left: 0;
+  bottom: 2px;
+  color: rgba(255, 93, 93, 0.7);
+  line-height: 1;
+
+  @media only screen and(max-width:414px) {
+    left: 107px;
+    bottom: -27px;
+  }
+}

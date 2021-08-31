@@ -1,0 +1,10 @@
+{
+    "/api": {
+      "target": "https://weather-ydn-yql.media.yahoo.com",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+}

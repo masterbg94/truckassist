@@ -1,0 +1,145 @@
+@import 'src/assets/scss/components/variables';
+
+* {
+  font-family: $main-font;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  height: calc(100vh - 46px);
+  min-height: 750px;
+  background: white;
+
+  .login-logo {
+    margin-top: 50px;
+
+    svg-icon {
+      width: 134px;
+    }
+  }
+
+  .login-text {
+    margin-top: 80px;
+
+    p:first-child {
+      font-size: 32px;
+      line-height: 39px;
+      font-weight: 700;
+      color: $light-blue;
+    }
+
+    p:nth-child(2) {
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 300;
+      color: $bw5;
+    }
+  }
+
+  form {
+    margin-top: 40px;
+    outline: none;
+    max-width: 425px;
+    width: 100%;
+
+    .register-form {
+      .col-12 .row .col-12:last-of-type {
+        .form-label-group {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    p#forgot-password {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 10px;
+      color: rgba(96, 96, 96, 0.7);
+      cursor: pointer;
+      user-select: none;
+      transition: $transition;
+
+      &:hover {
+        font-size: 14px;
+        line-height: 18px;
+        color: $light-blue;
+        transition: $transition;
+      }
+    }
+
+    button {
+      margin-top: 40px;
+      max-width: 160px;
+      width: 100%;
+      height: 34px;
+      border-radius: 3px;
+
+      background: rgba(145, 145, 145, 0.4);
+      border: none;
+      outline: none;
+      transition: $transition;
+
+      p {
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 14px;
+        color: white;
+        transition: $transition;
+      }
+
+      &:hover {
+        transition: 0.3s;
+        background: $light-blue;
+      }
+    }
+
+    p#login-sign-up {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      margin-top: 20px;
+      color: $bw5;
+      cursor: default;
+      user-select: none;
+      margin-bottom: 50px;
+      transition: $transition;
+
+
+      a {
+        padding-left: 10px;
+        font-weight: bold;
+        color: $bw5;
+        text-decoration: none;
+        transition: $transition;
+        opacity: 0.7;
+
+        &:hover {
+          color: $light-blue;
+          opacity: 1;
+          transition: $transition;
+        }
+      }
+    }
+  }
+}
+
+.copyright {
+  background: $light-blue;
+  height: 46px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

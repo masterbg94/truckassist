@@ -1,0 +1,78 @@
+<div class="container pt-2 dashboard_main">
+  <div class="row">
+    <div class="col-12 p-0 time_reports">
+      <app-dashboard-stats [data]="dashboardStats"></app-dashboard-stats>
+    </div>
+  </div>
+  <div class="row row_padding">
+    <div class="col-12 p-0">
+      <app-dashboard-performance-chart></app-dashboard-performance-chart>
+    </div>
+  </div>
+  <div class="row row_padding">
+    <div class="col-12">
+      <app-dashboard-weather></app-dashboard-weather>
+    </div>
+  </div>
+  <div class="row row_padding">
+    <div class="col-4 p-0">
+      <app-dashboard-history></app-dashboard-history>
+    </div>
+    <div class="col-8 pr-0">
+      <app-dashboard-state-tracking></app-dashboard-state-tracking>
+    </div>
+  </div>
+
+  <div class="row row_padding">
+    <div class="col-3 p-0">
+      <app-dashboard-fuel></app-dashboard-fuel>
+    </div>
+    <div class="col-9">
+      <div class="row">
+        <div class="col-7">
+          <app-dashboard-road-inspection></app-dashboard-road-inspection>
+        </div>
+        <div class="col-5 p-0">
+          <app-dashboard-calendar-custom></app-dashboard-calendar-custom>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row row_padding">
+    <div class="col-8 special_8_size">
+      <div class="row">
+        <div class="col-6 pl-0">
+          <app-dashboard-statuses></app-dashboard-statuses>
+        </div>
+        <div class="col-6 pl-0">
+          <app-dashboard-status-others></app-dashboard-status-others>
+        </div>
+      </div>
+    </div>
+    <div class="col-4 p-0 special_4_size">
+      <app-dashboard-loading-chart></app-dashboard-loading-chart>
+    </div>
+  </div>
+  <div class="row row_padding">
+    <div class="col-8 special_8_size">
+      <div class="row">
+        <div class="col-6 pl-0">
+          <app-dashboard-vehicle-chart></app-dashboard-vehicle-chart>
+        </div>
+        <div class="col-6 pl-0">
+          <app-dashboard-inv-chart></app-dashboard-inv-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-4 special_4_size">
+      <div class="row">
+        <div class="col-8 pl-0">
+          <app-dashboard-todo></app-dashboard-todo>
+        </div>
+        <div class="col-4 p-0">
+          <app-dashboard-weather-cities></app-dashboard-weather-cities>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

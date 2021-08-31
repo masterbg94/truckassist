@@ -1,0 +1,142 @@
+<form [formGroup]="disclosureRelease" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow">
+    <h1>Disclosure & release</h1>
+    <!-- first -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="fairCreditReporting"
+        formControlName="fairCreditReporting"
+        [checked]="fairCreditReporting"
+        (change)="(fairCreditReporting != fairCreditReporting)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader checkHeader_1">
+      <span class="checkBold">1.</span> Because I must drive as an essential function of my
+      employment or potential employment,</span
+    >
+    <p class="step10paragraf" style="margin-top: -3px !important;">
+      I hereby give permission to JD FREIGHTInc. to obtain my state driving record (also known as my
+      motor vehicle record or MVR) in accordance with the Fair Credit Reporting Act (FCRA) and the
+      Federal Driver’s Privacy Protection Act (DPPA).
+    </p>
+    <!--  second -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="drivingRecord"
+        formControlName="drivingRecord"
+        [checked]="drivingRecord"
+        (change)="(drivingRecord != drivingRecord)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader">
+      <span class="checkBold">2.</span> I acknowledge and understand that my driving record is a
+      consumer report that</span
+    >
+    <p class="step10paragraf">contains public record information.</p>
+    <!-- third -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="reservationParty"
+        formControlName="reservationParty"
+        [checked]="reservationParty"
+        (change)="(reservationParty != reservationParty)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader">
+      <span class="checkBold">3.</span> I authorize, without reservation any party or agency
+      contacted by JD FREIGHT Inc.
+    </span>
+    <p class="step10paragraf">
+      To furnish JD FREIGHT Inc. a copy of my state driving record.
+    </p>
+    <!-- Fourth -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="copyDrivingRecord"
+        formControlName="copyDrivingRecord"
+        [checked]="copyDrivingRecord"
+        (change)="(copyDrivingRecord != copyDrivingRecord)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader">
+      <span class="checkBold">4.</span> I understand that I have the right to request a copy of my
+      driving record and to know the
+    </span>
+    <p class="step10paragraf">
+      source or sources of my driving record, for a two-year period preceding my request.
+    </p>
+    <!-- Fifth -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="authorisedShell"
+        formControlName="authorisedShell"
+        [checked]="authorisedShell"
+        (change)="(authorisedShell != authorisedShell)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader">
+      <span class="checkBold">5.</span> This authorization shall remain on file by JD FREIGHT Inc.
+      for the duration of my
+    </span>
+    <p class="step10paragraf">
+      and will serve as ongoing authorization for JD FREIGHT Inc. to procure my state driving record
+      at any time during my employment period.
+    </p>
+    <!-- Sixth -->
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="adverseAction"
+        formControlName="adverseAction"
+        [checked]="adverseAction"
+        (change)="(adverseAction != adverseAction)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkHeader">
+      <span class="checkBold">6.</span> I understand that JD FREIGHT Inc. may take adverse action
+      affecting my employment,
+    </span>
+    <p class="step10paragraf">
+      based on information in my driving record.If such adverse action is taken, I acknowledge that
+      my rights are as follows:
+    </p>
+    <p class="secondParagraf">
+      - Employer must notify me in writing of any such adverse action
+    </p>
+    <p class="secondParagraf">
+      - I have the right to receive a copy of the driving record upon which the adverse action was
+      based.
+    </p>
+    <p class="secondParagraf">
+      - I have the right to receive a summary of my rights under the Fair Credit Reporting Act. I
+      have the right to know the name, address and phone number of the consumer reporting agency
+      that provided my driving record to JD FREIGHT Inc.
+    </p>
+    <p class="secondParagraf">
+      - I have the right to obtain a free copy of my driving record from the agency that provided
+      it, if such request is made within 60 days from the date that Employer took adverse action.
+    </p>
+    <p class="secondParagraf">
+      - I have the right to dispute the accuracy or completeness of my driving record with the
+      consumer reporting agency that provided it, and request that errors be corrected.
+    </p>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button *ngIf="!isCompanyReview" type="submit" class="btns btns_next mx-2">Next</button>
+    <button *ngIf="isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

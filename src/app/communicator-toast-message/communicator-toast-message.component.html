@@ -1,0 +1,17 @@
+<div id="toast" [ngClass]="{'toast-expired': expiredToastTime}"  class="toast" *ngIf="toastContent" (mouseenter) ="mouseEnter()" (mouseleave) ="mouseLeave()">
+  <div class="toast__header">
+    <p class="toast__header_title">{{toastContent.headerTitle}}</p>
+    <svg-icon (click)="closeToastMessage()" src="../../assets/img/svgs/communicator/ic_toast-delete.svg" class="toast__header_close"></svg-icon>
+  </div>
+  <div class="toast__body" (click)="navigateToChat()">
+    <div class="toast__user-image">
+      <img [ngClass]="toastContent.userType === 'driver' ? 'toast__user-image-direct' : 'toast__user-image-company'"
+      src="{{toastContent.image ? toastContent.image : '../../assets/img/svgs/communicator/ic_user_placeholder.svg'}}" alt="{{toastMessage.data.user.type === 'driver' ? 'Driver' : 'Company' }}">
+
+    </div>
+    <div class="toast__user-information">
+      <p class="toast__user-fullname">{{toastContent.name}}</p>
+      <p class="toast__user-message"> {{toastContent.text}}</p>
+    </div>
+  </div>
+</div>

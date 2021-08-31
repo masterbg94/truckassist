@@ -1,0 +1,7 @@
+.trial-wrapper {
+  z-index: 1;
+
+  &.expired-trial {
+    background: red;
+  }
+}

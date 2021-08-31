@@ -1,0 +1,56 @@
+@import '../applicant.component.scss';
+
+.reviewer-slideShow {
+  &__firstrow {
+    position: absolute;
+    top: 21px;
+    left: 460px;
+  }
+}
+
+.ssn {
+  &_paragraf {
+    width: 401px;
+    margin: 0 auto;
+    margin-top: 16px !important;
+    margin-bottom: 16px;
+    @media only screen and (max-width: 376px) {
+      width: 346px !important;
+    }
+  }
+  &_uploadFile {
+    padding-left: 40px;
+    width: 487px;
+    height: 177px;
+    margin: 0 auto;
+  }
+}
+
+
+@media only screen and (max-width: 414px) {
+  .rowMobile {
+    margin-top: -27px !important;
+    margin-bottom: -27px !important;
+    .col-12 {
+      max-width: 72% !important;
+      margin-left: 8px;
+    }
+  }
+  .slideShow {
+    margin-left: 12px !important;
+  }
+  .btns {
+    margin-left: 9px !important;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .btns {
+    margin-left: -5px !important;
+  }
+}
+
+@media only screen and (max-width: 361px) {
+  .slideShow {
+    margin-left: 5px !important;
+  }
+}

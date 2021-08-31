@@ -1,0 +1,66 @@
+<div class="calendar-container col-12">
+  <div class="row calendarHeader">
+    <app-custom-search
+      [dontShowChips]="true"
+      [stateName]="'event'"
+      [gridNameTitle]="'Event'"
+      [recordsLength]="events.length"
+    ></app-custom-search>
+    <div class="leftSideHeader">
+      <button
+        class="fc-prev-button fc-button fc-button-primary"
+        type="button"
+        class="prevButtonCalendar"
+        (click)="prev()"
+        aria-label="prev"
+      >
+        <svg-icon src="../../assets/img/svgs/left.svg"></svg-icon>
+      </button>
+      <div class="calendarDatePicker">
+        <p class="datePickerButtonText">{{ calendarTitle }}</p>
+        <kendo-floatinglabel text="" class="calendarDatePicker">
+          <kendo-datepicker
+            [popupSettings]="{ popupClass: 'custom-datepick' }"
+            placeholder="{{ calendarTitle }}"
+            [format]="format"
+            [formatPlaceholder]="{
+              year: 'yy',
+              month: 'mm',
+              day: 'dd'
+            }"
+            [(ngModel)]="selectedDate"
+            (valueChange)="goToDate()"
+          >
+          </kendo-datepicker>
+        </kendo-floatinglabel>
+      </div>
+      <button
+        class="fc-next-button fc-button fc-button-primary"
+        type="button"
+        class="nextButtonCalendar"
+        (click)="next()"
+        aria-label="next"
+      >
+        <svg-icon src="../../assets/img/svgs/right.svg"></svg-icon>
+      </button>
+    </div>
+    <div class="back_to_today" (click)="goToTodayDate()">Today</div>
+    <div class="middleSide"></div>
+    <div class="righSideHeader">
+      <app-ta-switch
+        [data]="viewList"
+        (switchClicked)="changeCalendarView(viewList)"
+        class="calendarSwitch"
+      ></app-ta-switch>
+      <button
+        class="plus-svg-container"
+        (click)="openModal()"
+        [appTaTooltip]="'Add event'"
+        position="bottom-right"
+      >
+        <svg-icon src="assets/img/svgs/table/add.svg"> </svg-icon>
+      </button>
+    </div>
+  </div>
+  <full-calendar #fullcalendar [options]="calendarOptions" id="fullcalendar"> </full-calendar>
+</div>

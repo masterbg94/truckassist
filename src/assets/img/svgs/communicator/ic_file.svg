@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.5" height="28" viewBox="0 0 24.5 28">
+  <g id="Group_33111" data-name="Group 33111" transform="translate(0 4)" style="isolation: isolate">
+    <g id="doc" transform="translate(-32 -4)">
+      <path id="Path_12365" data-name="Path 12365" d="M97.75,0A1.755,1.755,0,0,0,96,1.75v24.5A1.755,1.755,0,0,0,97.75,28h17.5A1.755,1.755,0,0,0,117,26.25V7l-7-7Z" transform="translate(-60.5)" fill="#919191" opacity="0.2"/>
+      <path id="Path_12366" data-name="Path 12366" d="M353.75,7H359l-7-7V5.25A1.755,1.755,0,0,0,353.75,7Z" transform="translate(-302.5)" fill="#4a4a4a"/>
+      <path id="Path_12368" data-name="Path 12368" d="M54,249.625a.9.9,0,0,1-.917.875H32.917a.9.9,0,0,1-.917-.875v-8.75a.9.9,0,0,1,.917-.875H53.083a.9.9,0,0,1,.917.875Z" transform="translate(0 -227)" fill="#4a4a4a"/>
+      <text id="FILE" transform="translate(43 21)" fill="#fff" font-size="7" font-family="Montserrat-Black, Montserrat" font-weight="800"><tspan x="-7.994" y="0">FILE</tspan></text>
+    </g>
+  </g>
+</svg>

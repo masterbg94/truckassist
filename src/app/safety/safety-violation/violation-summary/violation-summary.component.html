@@ -1,0 +1,55 @@
+<div *ngIf="loaded" class="violation_summary_inner_table">
+  <table>
+    <thead>
+      <tr>
+        <th [ngClass]="'column-' + column.field" *ngFor="let column of columns; let i = index">
+          <span>{{ column.title }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of tableData; let i = index; trackBy: trackByFn">
+        <tr>
+          <td class="mat_column_report">
+            <a [routerLink]="['/safety/violation/edit/' + row.id + '/details']">{{ row.report }}</a>
+          </td>
+          <td class="mat_column_driver">
+            <span>{{ row.driverName }}</span>
+          </td>
+          <td class="mat_column_date">
+            <span>{{ row.date }}</span>
+          </td>
+          <td class="mat_column_time">
+            <span>{{ row.time }}</span>
+          </td>
+          <td class="mat_column_truck">
+            <span>{{ row.truckNumber }}</span>
+          </td>
+          <td class="mat_column_trailer">
+            <span>{{ row.trailerNumber }}</span>
+          </td>
+          <td class="mat_column_oos">
+            <div class="out_of_service">
+              <span
+                *ngFor="let item of row.oos"
+                [ngStyle]="{
+                  background: item.active ? '#5673AA' : '#ffffff00',
+                  color: item.active ? '#fff' : '#b5b5b5'
+                }"
+              >
+                {{ item.value }}
+              </span>
+            </div>
+          </td>
+          <td class="mat_column_county">
+            <span>{{ row.countyState }}</span>
+          </td>
+          <td class="mat_column_lvl">
+            <span>{{ row.lvl }}</span>
+          </td>
+        </tr>
+        <tr class="spacer"></tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

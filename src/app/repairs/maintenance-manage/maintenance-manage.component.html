@@ -1,0 +1,369 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ maintenanceTitle }}</h5>
+    <app-modal-close></app-modal-close>
+    <div class="multiple-choises-wrapper">
+      <span *ngIf="types.length > 0" style="margin-right: 12px;">Type</span>
+      <div class="btn-group btn-group-toggle" *ngFor="let type of types; let i = index">
+        <label class="btn-primary" ngbButtonLabel>
+          <input type="checkbox" ngbButton [(ngModel)]="type.checked" />
+          {{ type.name }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <form
+      [formGroup]="maintenanceForm"
+      class="form-container"
+      [ngClass]="{ 'form-submitted': formSubmitted }"
+    >
+      <div class="row">
+        <div
+          [ngClass]="{
+            'col-2': switchData[1].checked && isReefer,
+            'col-3': !switchData[1].checked || !isReefer
+          }"
+        >
+          <app-ta-switch [data]="switchData" (switchClicked)="switchType($event)"></app-ta-switch>
+        </div>
+        <div class="col-2" *ngIf="vehicleType == 'truck'">
+          <div class="form-label-group">
+            <ng-select
+              [items]="unitNumbers"
+              placeholder="Unit#"
+              formControlName="id"
+              bindLabel="truckNumber"
+              bindValue="id"
+              class="required-field"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.truckNumber }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-2" *ngIf="vehicleType == 'trailer'">
+          <div class="form-label-group">
+            <ng-select
+              [items]="unitNumbers"
+              placeholder="Unit#"
+              formControlName="id"
+              bindLabel="trailerNumber"
+              bindValue="id"
+              class="required-field"
+              (change)="onTrailerSelected($event, i)"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.trailerNumber }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+
+        <!-- New Switch For PM -->
+        <div class="col-2" *ngIf="switchData[1].checked && isReefer">
+          <app-ta-switch [data]="pmSwitch" (switchClicked)="switchPM($event)"></app-ta-switch>
+        </div>
+
+        <div class="col-2">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="Date" class="datepicker-label required">
+              <kendo-datepicker
+                placeholder=""
+                formControlName="date"
+                required
+                [format]="format"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+        <div
+          [ngClass]="{
+            'col-2': switchData[1].checked && isReefer,
+            'col-3': !switchData[1].checked || !isReefer
+          }"
+        >
+          <div class="form-label-group">
+            <input
+              min="0"
+              id="invoice"
+              type="text"
+              value=""
+              class="form-control input-control"
+              placeholder="Invoice"
+              formControlName="invoice"
+              maxlength="14"
+              (paste)="onPaste($event, 'invoice', 14)"
+              (keypress)="onSpecialChar($event)"
+            />
+            <label for="invoice">Invoice</label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <input
+              min="0"
+              maxlength="9"
+              id="millage"
+              type="text"
+              class="form-control input-control"
+              placeholder="Mileage"
+              mask="separator.2"
+              thousandSeparator=","
+              formControlName="millage"
+            />
+            <label for="millage">Mileage</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="selectedRepairShop == null">
+        <div class="col-12">
+          <div class="form-label-group">
+            <ng-select
+              [items]="repairShops"
+              formControlName="repairShop"
+              bindValue="id"
+              bindLabel="name"
+              placeholder="Select repair shop"
+              (change)="selectRepairShop($event)"
+              class="required-field has-add-new {{
+                repairSearchItems == 1 ? ' has-one-result' : ''
+              }}"
+              [searchFn]="customSearch"
+              (search)="onSearch($event)"
+              (clear)="onClose($event)"
+              (close)="onClose($event)"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.name }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row maintanence-card-spacing" *ngIf="selectedRepairShop !== null">
+        <div class="col-12 position-relative">
+          <div class="modal-header-card maintanence-card">
+            <div>
+              <svg-icon
+                src="assets/img/svgs/close-value-card.svg"
+                class="close-value-card cursor-pointer mr-1"
+                (click)="closeCard()"
+              ></svg-icon>
+              <div>
+                <div class="display-block">
+                  <div class="display-inline repair-shop">{{ selectedRepairShop.name }}</div>
+                  <div class="display-block">
+                    <div
+                      class="display-inline-block card-phone-wrapper"
+                      *ngIf="
+                        selectedRepairShop.contact !== undefined &&
+                        selectedRepairShop.contact.phone !== null &&
+                        selectedRepairShop.contact.phone !== ''
+                      "
+                    >
+                      <label class="col-form-label">
+                        <svg-icon src="assets/img/svgs/form-icons/phone/phone-focus.svg"></svg-icon>
+                        <i class="mr-2"></i
+                        >{{
+                          selectedRepairShop.contact.phone
+                            | mask: '(000)
+                        000-0000'
+                        }}
+                      </label>
+                    </div>
+                    <div
+                      class="display-inline-block card-email-wrapper"
+                      *ngIf="
+                        selectedRepairShop.contact !== undefined &&
+                        selectedRepairShop.contact.email !== null &&
+                        selectedRepairShop.contact.email !== ''
+                      "
+                    >
+                      <label class="col-form-label">
+                        <svg-icon src="assets/img/svgs/form-icons/mail/mail-focus.svg"></svg-icon>
+                        <i class="mr-2"></i>{{ selectedRepairShop.contact.email }}
+                      </label>
+                    </div>
+                    <div
+                      class="display-inline-block card-address-wrapper"
+                      *ngIf="
+                        selectedRepairShop.contact !== undefined &&
+                        selectedRepairShop.contact.address !== null &&
+                        selectedRepairShop.contact.address !== ''
+                      "
+                    >
+                      <label class="col-form-label">
+                        <svg-icon
+                          src="assets/img/svgs/form-icons/address/address-focus.svg"
+                        ></svg-icon>
+                        <i class="mr-2"></i>{{ selectedRepairShop.contact.address }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row table-header-row">
+        <div class="col-7 items-label-container">
+          <label>Items</label>
+        </div>
+        <div class="col-2 price-label-container">
+          <label>Price</label>
+        </div>
+        <div class="col-1 qty-label-container">
+          <label>Qty.</label>
+        </div>
+        <div class="col-1 subtotal-label-container">
+          <label>Subtotal</label>
+        </div>
+      </div>
+
+      <div class="repair-items-wrapper">
+        <span class="col-12" *ngIf="itemFormGroup.controls.length == 0">No items</span>
+        <div formArrayName="items" class="form-array-wrapper">
+          <div
+            *ngFor="let item of itemFormGroup.controls; let i = index"
+            class="loop-row{{ i % 2 !== 0 ? ' odd-row' : '' }}"
+          >
+            <div [formGroupName]="i">
+              <div class="row no-margin item-data-row">
+                <div class="counter-wrapper">{{ i + 1 }}</div>
+                <div class="col-7 repair-item-container">
+                  <div class="form-label-group">
+                    <input
+                      type="text"
+                      id="{{ i }}"
+                      maxlength="55"
+                      class="form-control input-control{{
+                        isRequiredField('item', item) ? ' required' : ''
+                      }}"
+                      placeholder="Item"
+                      formControlName="item"
+                      maxlength="72"
+                    />
+                    <label class="{{ i == 0 ? 'required-label' : '' }}" for="{{ i }}">Item</label>
+                    <app-required-label
+                      [control]="maintenanceForm.controls.item"
+                    ></app-required-label>
+                  </div>
+
+                  <!-- New Pm Filter -->
+                  <div class="pm-filter-container" [ngStyle]="{'display': switchData[1].checked && !showPMOption ? 'none' : ''}">
+                    <app-pm-add-or-filter></app-pm-add-or-filter>
+                  </div>
+                </div>
+
+                <div class="col-2">
+                  <div class="form-label-group">
+                    <input
+                      placeholder="Price"
+                      type="text"
+                      maxlength="9"
+                      class="example-right-align form-control input-control{{
+                        isRequiredField('price', item) ? ' required' : ''
+                      }}"
+                      formControlName="price"
+                      (ngModelChange)="priceModel($event, i)"
+                      currencyMask
+                    />
+                    <label class="{{ i == 0 ? 'required-label' : '' }}" for="price">Price</label>
+                  </div>
+                </div>
+                <div class="col-1">
+                  <div class="form-label-group">
+                    <input
+                      type="number"
+                      maxlength="55"
+                      min="0"
+                      class="example-right-align form-control input-control{{
+                        isRequiredField('quantity', item) ? ' required' : ''
+                      }}"
+                      placeholder="Qty."
+                      formControlName="quantity"
+                      (ngModelChange)="quantityModel($event, i)"
+                    />
+                    <label class="{{ i == 0 ? 'required-label' : '' }}" for="quantity">Qty.</label>
+                    <app-required-label
+                      [control]="maintenanceForm.controls.quantity"
+                    ></app-required-label>
+                  </div>
+                </div>
+                <div class="col-2 subtotal-container">
+                  <label class="subtotal-label">{{
+                    subTotal[i] !== null && subTotal[i] !== undefined && subTotal[i] !== ''
+                      ? (subTotal[i] | currency)
+                      : '$0.00'
+                  }}</label>
+                </div>
+                <div class="remove-item-wrapper">
+                  <svg-icon
+                    src="assets/img/svgs/times.svg"
+                    class="dispatcher-close cursor-pointer mr-1"
+                    (click)="
+                      removeItem(
+                        this.inputData.id !== undefined ? maintenance.id : null,
+                        itemFormGroup.controls[i].value.id,
+                        i
+                      )
+                    "
+                  >
+                  </svg-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <a class="text-primary cursor-pointer add-new-item" (click)="addNewItem()"
+            >Add New item</a
+          >
+        </div>
+        <div class="col-6 text-right">
+          <span>
+            <strong>Total:&nbsp;</strong>
+          </span>
+          <label class="total-price-label"
+            ><strong>{{ totalPrice | currency }}</strong></label
+          >
+        </div>
+      </div>
+
+      <app-attachments
+        (filesChanged)="setFiles($event)"
+        page="repair"
+        [attachments]="attachments"
+      ></app-attachments>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="addMaintenance(false)" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

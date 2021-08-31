@@ -1,0 +1,40 @@
+<div class="header_activity_main_hold">
+    <div class="head_activity_hold">
+        <div class="activity_items">
+            <div 
+                class="actItem" 
+                (click)="changeTab(indx)" 
+                *ngFor="let item of headItems; let indx = index" 
+                [class.active]="selectedIndex == indx"
+                [class.unread]="item.unread"
+            >{{item.name}}</div>
+        </div>
+    </div>
+    <div class="activity_hold_items">
+        <div class="activity_item" 
+            *ngFor="let item of headItems[selectedIndex]['data']"
+            >
+            <div class="d-flex top_hold">
+                <div 
+                    class="svg_holder" 
+                    [class.credited]="item.accType == 'credited'"
+                    [class.updated]="item.accType == 'update'"
+                >   
+                    <svg-icon src="assets/img/svgs/activity/{{item.type}}.svg" class="menu-svg"></svg-icon>
+                </div>
+                <div>
+                    <div class="activity_info d-flex">
+                        <span>{{item.fullName}}</span>
+                        <span *ngIf="item.reminderExtra"> - <span class="reminder_extra">{{item.reminderExtra}}</span></span>
+                        <div class="middle_value">{{item.middleText}}</div>
+                        <span>{{item.value}}</span>
+                    </div>
+                    <div class="activity_date">{{ item.time | date: 'MM/dd/yy' }} at {{ item.time | date: 'hh:mm' }}</div>
+                </div>
+            </div>
+            <div class="additional_info" *ngIf="item.additionalInfo">
+                <span>{{item.additionalInfo.value}}</span> {{item.additionalInfo.delimiter}} <span>{{item.additionalInfo.for}}</span>
+            </div>
+        </div>
+    </div>
+</div>

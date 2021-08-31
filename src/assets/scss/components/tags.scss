@@ -1,0 +1,50 @@
+.tag {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  color: $white;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 3px;
+}
+.tag-pill {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+.tag-default {
+  background-color: #efefef;
+  color: #343a40;
+}
+.tag-secondary {
+  background-color: #6c757d;
+}
+.tag-info {
+  background-color: $info;
+}
+.tag-warning {
+  background-color: $warning;
+}
+.tag-danger {
+  background-color: $danger;
+}
+.tag-success {
+  background-color: $success;
+}
+.tag-pink {
+  background-color: $secondary;
+}
+.tags {
+  li {
+    a {
+      &:hover {
+        background: $primary;
+        border-color: $primary;
+      }
+    }
+  }
+}
+.tag-primary {
+  background-color: $primary;
+}

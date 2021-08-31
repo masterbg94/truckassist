@@ -1,0 +1,158 @@
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-4">
+      <div class="submenu d-flex justify-content-between align-items-center">
+        <div class="d-flex search-field-wrapper">
+          <div class="search-field">
+            <app-custom-search (keydown)="onSearch('todo')"></app-custom-search>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center submenu-heading-button">
+          <div class="task-status-name">
+            <p>
+              To-Do
+            </p>
+          </div>
+          <button
+            class="plus-svg-container"
+            appTaTooltip="Add task"
+            position="bottom-right"
+            (click)="newTask($event)"
+          >
+            <svg-icon src="../../../../assets/img/svgs/table/add.svg"></svg-icon>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="box-list"
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="toDoTasks"
+        [cdkDropListConnectedTo]="[inProgressList, doneList]"
+        (cdkDropListDropped)="reorderList($event, this.toDoTasks)"
+        (cdkDropListEntered)="cdkDropListEntered($event)"
+        (cdkDropListExited)="cdkDropListExited($event)"
+        (cdkDropListSorted)="cdkDropListSorted($event)"
+        [id]="'todo'"
+      >
+        <div
+          class="todo-item mb-2"
+          (cdkDragStarted)="cdkDragStarted($event, index, toDoTask)"
+          *ngFor="let toDoTask of toDoTasks; let index = index"
+          cdkDrag
+          #todoCard
+        >
+          <div class="field-placeholder" *cdkDragPlaceholder
+               [style.height.px]="todoListCard?.todVisina">
+          </div>
+          <app-app-todo-list-card
+            #todoListCard
+            [todo]="toDoTask"
+            [highlightingWords]="searchToDoTasks ? highlightingWords : []"
+            [index]="index"
+            [toDoTasks]="toDoTasks"
+          ></app-app-todo-list-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="submenu d-flex justify-content-between align-items-center">
+        <div class="d-flex search-field-wrapper">
+          <div class="search-field">
+            <app-custom-search (keydown)="onSearch('in progress')"></app-custom-search>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center submenu-heading-button">
+          <div class="task-status-name">
+            <p>
+              In Progress
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="box-list"
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgressTasks"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
+        (cdkDropListDropped)="reorderList($event, this.inProgressTasks)"
+        (cdkDropListEntered)="cdkDropListEntered($event)"
+        (cdkDropListExited)="cdkDropListExited($event)"
+        (cdkDropListSorted)="cdkDropListSorted($event)"
+        [id]="'progress'"
+      >
+        <div
+          class="todo-item mb-2"
+          (cdkDragStarted)="cdkDragStarted($event, index, taskInProgress)"
+          *ngFor="let taskInProgress of inProgressTasks; let index = index"
+          cdkDrag
+          #todoCard
+        >
+          <div class="field-placeholder" *cdkDragPlaceholder
+               [style.height.px]="todoCard.clientHeight">
+            <div class="field-placeholder-border"></div>
+          </div>
+          <app-app-todo-list-card
+            [todo]="taskInProgress"
+            [highlightingWords]="searchInProgressTasks ? highlightingWords : []"
+            [index]="index"
+            [toDoTasks]="toDoTasks"
+          ></app-app-todo-list-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="submenu d-flex justify-content-between align-items-center">
+        <div class="d-flex search-field-wrapper">
+          <div class="search-field">
+            <app-custom-search (keydown)="onSearch('done')"></app-custom-search>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center submenu-heading-button">
+          <div class="task-status-name">
+            <p>
+              Done
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="box-list"
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="doneTasks"
+        [cdkDropListConnectedTo]="[todoList, inProgressList]"
+        (cdkDropListDropped)="reorderList($event, this.doneTasks)"
+        (cdkDropListEntered)="cdkDropListEntered($event)"
+        (cdkDropListExited)="cdkDropListExited($event)"
+        (cdkDropListSorted)="cdkDropListSorted($event)"
+        [id]="'done'"
+      >
+        <div
+          class="todo-item mb-2"
+          (cdkDragStarted)="cdkDragStarted($event, index, taskDone)"
+          *ngFor="let taskDone of doneTasks; let index = index"
+          cdkDrag
+          #todoCard
+        >
+          <div class="field-placeholder" *cdkDragPlaceholder
+               [style.height.px]="todoCard.clientHeight">
+            <div class="field-placeholder-border"></div>
+          </div>
+          <app-app-todo-list-card
+            [todo]="taskDone"
+            [isDone]="true"
+            [highlightingWords]="searchDoneTasks ? highlightingWords : []"
+            [index]="index"
+            [toDoTasks]="toDoTasks"
+          ></app-app-todo-list-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-no-results></app-no-results>
+<app-no-empty-status *ngIf="!taskData.length"></app-no-empty-status> -->

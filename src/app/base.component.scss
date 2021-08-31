@@ -1,0 +1,55 @@
+.toastMessages {
+  position: fixed;
+  bottom: 32px;
+  right: 12px;
+  z-index: 999;
+}
+
+.communicator-mini {
+  width: 1440px;
+  margin: 0 auto;
+}
+
+.drag-drop-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+}
+
+.expanded-container {
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  padding-left: 132px !important;
+
+  .table-header {
+    position: absolute;
+    width: 132px;
+    background-color: #F5F5F5;
+    bottom: 0;
+    top: 0;
+    left: 0;
+  }
+
+  .expanded-table-container {
+    padding: 22px !important;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    ::ng-deep.switch-container {
+      max-width: 1470px !important;
+      &.switch-container-detail {
+        max-width: 100% !important;
+      }
+    }
+  }
+}
+
+
+

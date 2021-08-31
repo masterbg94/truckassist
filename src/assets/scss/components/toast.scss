@@ -1,0 +1,134 @@
+#toast-container {
+
+  & > div {
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, .15) !important;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .15) !important;
+    opacity: 1;
+    width: auto !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 53px;
+    margin-bottom: 0;
+    padding-left: 36px;
+    padding-right: 36px;
+  }
+  & > .toast {
+    background-image: none !important;
+    &:before {
+      position: absolute;
+      left: 17px;
+      top: 25px;
+      font-family: 'Ionicons';
+      font-size: 24px;
+      line-height: 18px;
+      color: $white;
+    }
+  }
+  
+  & > .toast-success {
+    background-image: url('../../img/svgs/check-mark.svg') !important;
+    color: #24C1A1;
+    background: #fff;
+    background-repeat: no-repeat;
+    opacity: 1 !important;
+    background-position: 18px;
+    
+    &:before {
+      content: "\f121";
+    }
+
+    &:after {
+      content: "\f121";
+    }
+
+    .toast-progress {
+      top: 0 !important;
+      background-color: #24C1A1 !important;
+      opacity: 1 !important;
+    }
+  }
+
+  & > .toast-error {
+    background-image: url('../../img/svgs/cancel-mark.svg') !important;
+    color: #FF5D5D;
+    background: #fff;
+    background-repeat: no-repeat;
+    opacity: 1 !important;
+    background-position: 18px;
+
+    &:before {
+      content: "\f121";
+    }
+    &:after {
+      content: "\f121";
+    }
+
+    .toast-progress {
+      top: 0 !important;
+      background-color: #FF5D5D !important;
+      opacity: 1 !important;
+    }
+  }
+
+  & > .toast-warning {
+    background-image: url('../../img/svgs/warning-mark.svg') !important;
+    color: #FFC156;
+    background: #fff;
+    background-repeat: no-repeat;
+    opacity: 1 !important;
+    background-position: 18px;
+
+    &:before {
+      content: "\f121";
+    }
+    &:after {
+      content: "\f121";
+    }
+
+    .toast-progress {
+      top: 0 !important;
+      background-color: #FFC156 !important;
+      opacity: 1 !important;
+    }
+  }
+
+  & > .toast-info {
+    background-image: url('../../img/svgs/info-mark.svg') !important;
+    color: #919191;
+    background: #fff;
+    background-repeat: no-repeat;
+    opacity: 1 !important;
+    background-position: 18px;
+    border-top: 5px solid #919191;
+
+    &:before {
+      content: "\f121";
+      display: none;
+    }
+    &:after {
+      content: "\f121";
+      display: none;
+    }
+  }
+
+  .toast-title {
+    font-weight: initial;
+    margin-left: 22.5px;
+    margin-right: 5px;
+  }
+}
+
+.toast.toast-info .toast-title, .toast.toast-info .toast-message {
+  color: $white;
+}
+
+.ui-toast-icon {
+  color: $white !important;
+  margin-top: 3px;
+}
+
+.ui-toast-detail {
+  color: $white !important;
+  font-weight: 500;
+}

@@ -1,0 +1,1075 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title d-flex">
+      {{ loadTitle }}
+      <span *ngIf="loadLastNumber">{{ loadLastNumber }}</span>
+    </h5>
+    <div class="d-flex">
+      <i
+        class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+        (click)="cancelEditModal()"
+      ></i>
+    </div>
+  </div>
+  <div>
+    <div class="modal-body add-load-modal">
+      <form class="form-container load-form-wrapper" [formGroup]="loadForm">
+        <div class="row" *ngIf="loadCompany.length > 1">
+          <div class="col-12 ta-switch-container">
+            <app-ta-switch
+              [data]="loadCompany"
+              (switchClicked)="switchCompany($event)"
+            ></app-ta-switch>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 pt-2">
+            <div class="manage_load_select_wrap">
+              <ng-select
+                #multiSelect
+                [items]="loadDispatchers"
+                bindLabel="{{ 'dispatcherFirstName' + 'dispatcherLastName' }}"
+                bindValue="id"
+                class="required-field has-add-new{{
+                  searchItems.dispatcher == 1 ? ' has-one-result' : ''
+                }}"
+                placeholder="Dispatcher"
+                [clearable]="false"
+                formControlName="dispatcherId"
+                [hideSelected]="true"
+                (change)="changeDispatcherSelect(multiSelect)"
+                [searchFn]="customSearchDispatchersFn"
+                (search)="onSearch($event, 'dispatcher')"
+                (clear)="onClose($event, 'dispatcher')"
+                (close)="onClose($event, 'dispatcher')"
+                appendTo="body"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  <div class="dropdown-item-wrapper">
+                    <span class="ta-dropdown-item">{{
+                      item['dispatcherFirstName'] + ' ' + item['dispatcherLastName']
+                    }}</span>
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div class="dropdown-item-wrapper ta-list-items">
+                    <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{
+                      item['dispatcherFirstName'] + ' ' + item['dispatcherLastName']
+                    }}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-8 pt-3" *ngIf="!truckSelected">
+            <div class="form-label-group">
+              <ng-select
+                [items]="loadTrucks"
+                formControlName="dispatchBoardId"
+                bindLabel="truckNumber"
+                bindValue="id"
+                placeholder="Truck"
+                (change)="selectTruck($event)"
+                class="d-flex load_dropdown_truck"
+                [searchFn]="customTruckSearch"
+                [searchable]="true"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span class="d-flex">
+                    <span class="load-truck-span with_after" [ngOptionHighlight]="search">{{
+                      item.truckNumber
+                    }}</span>
+                    <span
+                      class="load-trailer-span with_after"
+                      *ngIf="item.trailerNumber || item.driverName"
+                      [ngOptionHighlight]="search"
+                      >{{ item.trailerNumber }}</span
+                    >
+                    <span
+                      class="load-driver-span"
+                      *ngIf="item.driverName"
+                      [ngOptionHighlight]="search"
+                      >{{ item.driverName }}</span
+                    >
+                  </span>
+                </ng-template>
+              </ng-select>
+              <app-required-label
+                [control]="loadForm.controls.dispatchBoardId"
+              ></app-required-label>
+            </div>
+          </div>
+
+          <div class="col-8 pt-3 load-truck-card" *ngIf="truckSelected">
+            <div class="select-value-card">
+              <span class="d-flex">
+                <span class="load-truck-span selected_item with_after">{{
+                  selectedTruck.truckNumber
+                }}</span>
+                <span
+                  class="load-trailer-span selected_item with_after"
+                  *ngIf="selectedTruck.trailerNumber || selectedTruck.driverName"
+                  >{{ selectedTruck.trailerNumber }}</span
+                >
+                <span class="load-driver-span" *ngIf="selectedTruck.driverName">{{
+                  selectedTruck.driverName
+                }}</span>
+              </span>
+              <svg-icon
+                *ngIf="loadForm.get('statusId').value < 6"
+                src="assets/img/svgs/close-value-card.svg"
+                class="close-value-card cursor-pointer mr-1"
+                (click)="closeValueCard()"
+              ></svg-icon>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <!-- [class.flex_row]="inputData.data.type != 'new'" -->
+            <!-- <app-ta-status-select
+                *ngIf="inputData.data.type != 'new' && loadForm.get('statusId').value > 3"
+                [dataItems]="{statusId: loadForm.get('statusId').value}"
+                [value]="loadForm.get('statusId').value ? loadForm.get('statusId').value : 0"
+                [searchable]="false"
+                [clearable]="false"
+                [load_status]="true"
+                [additionalClass]="'load'"
+                (changeVal)="addStatus($event)"
+              >
+              </app-ta-status-select> -->
+
+            <div
+              class="positionRel status_holder main_status_switch_holder load_switch_statuses"
+              *ngIf="inputData.data.type != 'new' && loadForm.get('statusId').value > 3"
+            >
+              <app-ta-status-switch
+                [statusId]="loadForm.get('statusId').value"
+                [dataItems]="{ statusId: loadForm.get('statusId').value }"
+                [statusMainIndex]="0"
+                [statusTypes]="'loads'"
+                [statusHeight]="27"
+                [openedStatus]="statusOpenedIndex"
+                (changeVal)="addStatus($event)"
+                (openIndex)="openIndex($event)"
+              >
+              </app-ta-status-switch>
+            </div>
+
+            <div
+              *ngIf="inputData.data.type == 'new' || loadForm.get('statusId').value < 4"
+              class="load-status-container"
+              [style.color]="
+                (
+                  '#ffffff'
+                  | loadStatus
+                    : (inputData.data.type == 'new'
+                        ? newLoadStatus
+                        : loadForm.get('statusId').value)
+                )?.color
+              "
+            >
+              {{
+                (
+                  '#ffffff'
+                  | loadStatus
+                    : (inputData.data.type == 'new'
+                        ? newLoadStatus
+                        : loadForm.get('statusId').value)
+                )?.name
+              }}
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <input
+                id="customerLoadNumber"
+                type="text"
+                class="form-control currency-input input-control required"
+                placeholder="Reference #"
+                maxlength="18"
+                oninput="this.value = this.value.toUpperCase()"
+                formControlName="brokerLoadNumber"
+                (paste)="onPaste($event, 'brokerLoadNumber')"
+                (keypress)="onLoadNumberTyping($event)"
+              />
+              <label class="required-label" for="brokerLoadNumber">Reference #</label>
+              <app-required-label
+                [control]="loadForm.controls.brokerLoadNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-label-group">
+              <ng-select
+                [items]="loadCustomers"
+                formControlName="brokerId"
+                bindLabel="brokerName"
+                placeholder="Broker"
+                class="required-field has-add-new{{
+                  searchItems.broker == 1 ? ' has-one-result' : ''
+                }}"
+                bindValue="id"
+                [searchFn]="customBrokerSearch"
+                (change)="changeBroker($event)"
+                (search)="onSearch($event, 'broker')"
+                (clear)="onClose($event, 'broker')"
+                (close)="onClose($event, 'broker')"
+                [clearable]="false"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span
+                    [ngOptionHighlight]="search"
+                    [ngClass]="{ dont_use: item.dnu || item.ban, banned: item.ban }"
+                    >{{ item.brokerName }}</span
+                  >
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="loadForm.controls.brokerId"></app-required-label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="load-deliveries-table">
+            <div class="deliveries-table-header">
+              <div class="row">
+                <div class="col-8">
+                  <div class="row">
+                    <div class="delivery-column column-company col-7">Company</div>
+                    <div class="delivery-column column-location">Location</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="delivery-column column-date">Date & time</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="deliveries-table-body">
+              <div class="shipper_scroll">
+                <div
+                  class="initial-data-wrapper"
+                  (mouseenter)="
+                    mouseOverShowShipper(
+                      loadForm.get('pickupId').value != null ? loadForm.get('pickupId').value : -1
+                    )
+                  "
+                  (mouseleave)="selectedShipperId = -1"
+                >
+                  <div class="col-12 d-flex inital-pickup-wrapper p-0">
+                    <ng-select
+                      [items]="
+                        pickupListItems | shippers: loadForm:loadShippers:waypointFormGroup:'pickup'
+                      "
+                      (open)="pickupListItems = []"
+                      formControlName="pickupId"
+                      placeholder="Starting Point"
+                      bindValue="id"
+                      class="required-field no-placeholder has-add-new{{
+                        searchItems.startingPoint == 1 ? ' has-one-result' : ''
+                      }}"
+                      (change)="startingPointChange($event)"
+                      [clearable]="false"
+                      [hideSelected]="true"
+                      [searchFn]="customSearchFn"
+                      (search)="onSearch($event, 'starting-point')"
+                      (clear)="onClose($event, 'starting-point')"
+                      (close)="onClose($event, 'starting-point')"
+                      [virtualScroll]="true"
+                      appendTo="body"
+                    >
+                      <ng-template ng-label-tmp let-item="item">
+                        <div class="col-12">
+                          <div class="row pl-4px">
+                            <span class="col-7 no-left-padding">
+                              {{ item.shipperName }}
+                            </span>
+                            <span *ngIf="item.shipperAddress !== null" class="col-5 location-value">
+                              {{ item.shipperAddress?.city }},
+                              {{ item.shipperAddress?.stateShortName }}
+                            </span>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                        <div class="col-12" *ngIf="searchItems.startingPoint !== 1">
+                          <div class="row pl-4px">
+                            <span class="col-7 no-left-padding" [ngOptionHighlight]="search">
+                              {{ item.shipperName }}
+                            </span>
+                            <div
+                              *ngIf="item.shipperAddress !== null"
+                              class="col-5 location-value"
+                              [ngOptionHighlight]="search"
+                            >
+                              {{ item.shipperAddress?.city }},
+                              {{ item.shipperAddress?.stateShortName }}
+                            </div>
+                          </div>
+                        </div>
+                        <span *ngIf="searchItems.startingPoint == 1">{{ item.shipperName }}</span>
+                      </ng-template>
+                    </ng-select>
+                    <div class="new_load_picker">
+                      <kendo-floatinglabel 
+                        class="datePicker1 required" 
+                        [class.active]="loadForm.get('pickupDateTime').value"
+                      >
+                        <kendo-datepicker
+                          [formatPlaceholder]="{
+                            year: 'yy',
+                            month: 'mm',
+                            day: 'dd'
+                          }"
+                          [format]="'MM/dd/yy'"
+                          [popupSettings]="{ popupClass: 'custom-datepick' }"
+                          placeholder="mm/dd/yy"
+                          formControlName="pickupDateTime"
+                          class="dateTimePicker"
+                          [max]="loadForm.get('deliveryDateTime').value"
+                          (valueChange)="pickupDateTimeChange($event)"
+                        ></kendo-datepicker>
+                      </kendo-floatinglabel>
+                      <div class="new_load_buttons" [class.active]="activeData.pickupDateTime">
+                        <div *ngIf="!activeData.pickupDateTime" class="new_load_button" (click)="setActive('pickupDateTime', 'open')">Open</div>
+                        <div *ngIf="!activeData.pickupDateTime" class="new_load_button" (click)="setActive('pickupDateTime', 'app')">App.</div>
+                        <div class="time_buttons" *ngIf="activeData.pickupDateTime">
+                          <div class="time_holders" *ngIf="activeData.pickupDateTime == 'open'">
+                            <div class="time_holders_head">From:</div>
+                            <div class="time_holders_time">
+                              <kendo-timepicker [formatPlaceholder]="{
+                                hour: 'hh',
+                                minute: 'mm'
+                                }" 
+                                [format]="'hh:mm a'" 
+                                [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                placeholder="hh:mm AM"
+                                (valueChange)="pickupDateTimeChange($event)" 
+                                [class]="'datePick'"
+                              ></kendo-timepicker>
+                            </div>
+                          </div>
+                          <div class="time_holders" [class.full_width]="activeData.pickupDateTime == 'app'">
+                            <div class="time_holders_head head_hold_item">
+                              <span [innerHTML]="activeData.pickupDateTime == 'open' ? 'To:' : 'Appointment'">To:</span>
+                              <span 
+                                  class="time_next" 
+                                  (click)="changeActive('pickupDateTime')" 
+                                  [innerHTML]="activeData.pickupDateTime == 'open' ? 'App.' : 'Open'"
+                              >App.</span>
+                            </div>
+                            <div class="time_holders_time">
+                              <kendo-timepicker [formatPlaceholder]="{
+                                hour: 'hh',
+                                minute: 'mm'
+                                }" 
+                                [format]="'hh:mm a'" 
+                                [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                placeholder="hh:mm AM"
+                                (valueChange)="pickupDateTimeChange($event)" 
+                                [class]="'datePick'"
+                              ></kendo-timepicker>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- [cdkDragDisabled]="item.get('pointDatetime').value !== null"  -->
+                <div
+                  class="example-list"
+                  cdkDropList
+                  (cdkDropListDropped)="drop($event)"
+                  [cdkDropListSortPredicate]="containerPredictPosition"
+                  formGroupName="doc"
+                >
+                  <div
+                    cdkDrag
+                    cdkDragBoundary=".example-list"
+                    (cdkDragStarted)="cdkDragStartedShipper($event, i)"
+                    cdkDragLockAxis="y"
+                    formArrayName="waypoints"
+                    [cdkDragPreviewClass]="'dragged-row-load'"
+                    (mouseenter)="
+                      mouseOverShowShipper(
+                        item.get('shipperId').value != null ? item.get('shipperId').value : -1
+                      )
+                    "
+                    (mouseleave)="selectedShipperId = -1"
+                    *ngFor="let item of waypointFormGroup.controls; let i = index"
+                    class="pickup-wrapper example-box p-0 d-flex"
+                  >
+                    <div
+                      [formGroupName]="i"
+                      class="col-12 d-flex pr-0 {{
+                        item.get('pointType').value
+                      }} custom-padding-load{{
+                        item.get('pointDatetime').value !== null ? ' date-selected' : ''
+                      }}"
+                    >
+                      <div
+                        class="drag-drop-grip{{
+                          item.get('pointType').value === 'pickup' ? ' green-drag' : ' red-drag'
+                        }}"
+                        cdkDragHandle
+                      >
+                        <!-- <i class="fas fa-grip-lines-vertical"></i> -->
+                        <div class="drag_grip_horizontal_lines"></div>
+                      </div>
+                      <ng-select
+                        [items]="
+                          shippersListItems[i] | shippers: loadForm:loadShippers:waypointFormGroup:i
+                        "
+                        formControlName="shipperId"
+                        placeholder="Extra stop"
+                        bindValue="id"
+                        class="required-field no-placeholder has-add-new{{
+                          searchItems.shipper == 1 ? ' has-one-result' : ''
+                        }}"
+                        (change)="waypointsChange(i, $event, item.get('pointType').value)"
+                        (open)="openShipperSelect(i)"
+                        [clearable]="false"
+                        [searchFn]="customSearchFn"
+                        [virtualScroll]="true"
+                        [hideSelected]="true"
+                        [ngClass]="
+                          item.get('pointDatetime').value === null ? 'custom-drag-drop-select' : ''
+                        "
+                        (search)="onSearch($event, 'shipper')"
+                        (clear)="onClose($event, 'shipper')"
+                        (close)="onClose($event, 'shipper')"
+                        appendTo="body"
+                      >
+                        <ng-template ng-label-tmp let-item="item">
+                          <div class="">
+                            <div class="row pl-4px">
+                              <span class="col-7 no-left-padding">
+                                {{ item.shipperName }}
+                              </span>
+                              <span class="col-5 address-data">
+                                {{ item.shipperAddress?.city }},
+                                {{ item.shipperAddress?.stateShortName }}
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                          <div class="col-12" *ngIf="searchItems.startingPoint !== 1">
+                            <div class="row pl-4px">
+                              <span class="col-7 no-left-padding" [ngOptionHighlight]="search">
+                                {{ item.shipperName }}
+                              </span>
+                              <span
+                                *ngIf="item.shipperAddress !== null"
+                                class="col-5 location-value"
+                                [ngOptionHighlight]="search"
+                              >
+                                {{ item.shipperAddress?.city }},
+                                {{ item.shipperAddress?.stateShortName }}
+                              </span>
+                            </div>
+                          </div>
+                          <span *ngIf="searchItems.startingPoint == 1">{{ item.shipperName }}</span>
+                        </ng-template>
+                      </ng-select>
+                      <svg-icon
+                        src="assets/img/svgs/times.svg"
+                        class="dispatcher-close cursor-pointer mr-1 load_close"
+                        (click)="removeWaypoint(i)"
+                      >
+                      </svg-icon>
+
+                      <!-- <div class="new_load_picker">
+                        <kendo-floatinglabel 
+                          text=""
+                          [class.datepickerError]="item.status == 'INVALID'"
+                        >
+                          <kendo-datepicker
+                            [popupSettings]="{ popupClass: 'datetime1' }"
+                            placeholder="mm/dd/yy"
+                            formControlName="pointDatetime"
+                            [min]="getMinWaypointTime(i)"
+                            [max]="getMaxWaypointTime(i)"
+                            (valueChange)="dateValueChange($event, item)"
+                            [formatPlaceholder]="{
+                              year: 'yy',
+                              month: 'mm',
+                              day: 'dd'
+                            }"
+                            [format]="'MM/dd/yy'"
+                          ></kendo-datepicker>
+                        </kendo-floatinglabel>
+                        <div class="new_load_buttons">
+                          <div class="new_load_button">Open</div>
+                          <div class="new_load_button">App.</div>
+                        </div>
+                      </div> -->
+
+
+
+
+                      <div class="new_load_picker">
+                        <kendo-floatinglabel 
+                          class="datePicker1 required" 
+                          [class.active]="item.get('pointDatetime').value"
+                        >
+                          <kendo-datepicker
+                            [popupSettings]="{ popupClass: 'datetime1' }"
+                            placeholder="mm/dd/yy"
+                            formControlName="pointDatetime"
+                            [min]="getMinWaypointTime(i)"
+                            [max]="getMaxWaypointTime(i)"
+                            (valueChange)="dateValueChange($event, item)"
+                            [formatPlaceholder]="{
+                              year: 'yy',
+                              month: 'mm',
+                              day: 'dd'
+                            }"
+                            [format]="'MM/dd/yy'"
+                          ></kendo-datepicker>
+                        </kendo-floatinglabel>
+                        <div class="new_load_buttons" [class.active]="activeData.pickupDateTime">
+                          <div *ngIf="!activeData.pickupDateTime" class="new_load_button" (click)="setActive('pickupDateTime', 'open')">Open</div>
+                          <div *ngIf="!activeData.pickupDateTime" class="new_load_button" (click)="setActive('pickupDateTime', 'app')">App.</div>
+                          <div class="time_buttons" *ngIf="activeData.pickupDateTime">
+                            <div class="time_holders" *ngIf="activeData.pickupDateTime == 'open'">
+                              <div class="time_holders_head">From:</div>
+                              <div class="time_holders_time">
+                                <kendo-timepicker [formatPlaceholder]="{
+                                  hour: 'hh',
+                                  minute: 'mm'
+                                  }" 
+                                  [format]="'hh:mm a'" 
+                                  [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                  placeholder="hh:mm AM"
+                                  (valueChange)="pickupDateTimeChange($event)" 
+                                  [class]="'datePick'"
+                                ></kendo-timepicker>
+                              </div>
+                            </div>
+                            <div class="time_holders" [class.full_width]="activeData.pickupDateTime == 'app'">
+                              <div class="time_holders_head head_hold_item">
+                                <span [innerHTML]="activeData.pickupDateTime == 'open' ? 'To:' : 'Appointment'">To:</span>
+                                <span 
+                                    class="time_next" 
+                                    (click)="changeActive('pickupDateTime')" 
+                                    [innerHTML]="activeData.pickupDateTime == 'open' ? 'App.' : 'Open'"
+                                >App.</span>
+                              </div>
+                              <div class="time_holders_time">
+                                <kendo-timepicker [formatPlaceholder]="{
+                                  hour: 'hh',
+                                  minute: 'mm'
+                                  }" 
+                                  [format]="'hh:mm a'" 
+                                  [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                  placeholder="hh:mm AM"
+                                  (valueChange)="pickupDateTimeChange($event)" 
+                                  [class]="'datePick'"
+                                ></kendo-timepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="initial-data-wrapper"
+                  (mouseenter)="
+                    mouseOverShowShipper(
+                      loadForm.get('deliveryId').value != null
+                        ? loadForm.get('deliveryId').value
+                        : -1
+                    )
+                  "
+                  (mouseleave)="selectedShipperId = -1"
+                >
+                  <div class="col-12 d-flex inital-destination-wrapper p-0">
+                    <ng-select
+                      [items]="
+                        deliveryListItems
+                          | shippers: loadForm:loadShippers:waypointFormGroup:'delivery'
+                      "
+                      (open)="deliveryListItems = []"
+                      formControlName="deliveryId"
+                      placeholder="Ending Point"
+                      bindValue="id"
+                      class="required-field no-placeholder has-add-new{{
+                        searchItems.endingPoint == 1 ? ' has-one-result' : ''
+                      }}"
+                      (change)="endingPointChange($event)"
+                      [clearable]="false"
+                      [searchFn]="customSearchFn"
+                      [virtualScroll]="true"
+                      [hideSelected]="true"
+                      (search)="onSearch($event, 'ending-point')"
+                      (clear)="onClose($event, 'ending-point')"
+                      (close)="onClose($event, 'ending-point')"
+                      appendTo="body"
+                    >
+                      <ng-template ng-label-tmp let-item="item">
+                        <div class="col-12">
+                          <div class="row pl-4px">
+                            <span class="col-7 no-left-padding">
+                              {{ item.shipperName }}
+                            </span>
+                            <span *ngIf="item.shipperAddress !== null" class="col-5 location-value">
+                              {{ item.shipperAddress?.city }},
+                              {{ item.shipperAddress?.stateShortName }}
+                            </span>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                        <div class="col-12" *ngIf="searchItems.startingPoint !== 1">
+                          <div class="row pl-4px">
+                            <span class="col-7 no-left-padding" [ngOptionHighlight]="search">
+                              {{ item.shipperName }}
+                            </span>
+                            <span
+                              *ngIf="item.shipperAddress !== null"
+                              class="col-5 location-value"
+                              [ngOptionHighlight]="search"
+                            >
+                              {{ item.shipperAddress?.city }},
+                              {{ item.shipperAddress?.stateShortName }}
+                            </span>
+                          </div>
+                        </div>
+                        <span *ngIf="searchItems.startingPoint == 1">{{ item.shipperName }}</span>
+                      </ng-template>
+                    </ng-select>
+                    <div class="new_load_picker">
+                      <kendo-floatinglabel 
+                        class="datePicker1 required" 
+                        [class.active]="loadForm.get('deliveryDateTime').value"
+                      >
+                        <kendo-datepicker
+                          [formatPlaceholder]="{
+                            year: 'yy',
+                            month: 'mm',
+                            day: 'dd'
+                          }"
+                          [format]="'MM/dd/yy'"
+                          [popupSettings]="{ popupClass: 'custom-datepick' }"
+                          placeholder="mm/dd/yy"
+                          class="dateTimePicker"
+                          formControlName="deliveryDateTime"
+                          [min]="loadForm.get('pickupDateTime').value"
+                          (valueChange)="destinationDateTimeChange($event)"
+                        ></kendo-datepicker>
+                      </kendo-floatinglabel>
+                      <div class="new_load_buttons" [class.active]="activeData.deliveryDateTime">
+                        <div *ngIf="!activeData.deliveryDateTime" class="new_load_button" (click)="setActive('deliveryDateTime', 'open')">Open</div>
+                        <div *ngIf="!activeData.deliveryDateTime" class="new_load_button" (click)="setActive('deliveryDateTime', 'app')">App.</div>
+                        <div class="time_buttons" *ngIf="activeData.deliveryDateTime">
+                          <div class="time_holders" *ngIf="activeData.deliveryDateTime == 'open'">
+                            <div class="time_holders_head">From:</div>
+                            <div class="time_holders_time">
+                              <kendo-timepicker [formatPlaceholder]="{
+                                hour: 'hh',
+                                minute: 'mm'
+                                }" 
+                                [format]="'hh:mm a'" 
+                                [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                placeholder="hh:mm AM"
+                                (valueChange)="pickupDateTimeChange($event)" 
+                                [class]="'datePick'"
+                              ></kendo-timepicker>
+                            </div>
+                          </div>
+                          <div class="time_holders" [class.full_width]="activeData.deliveryDateTime == 'app'">
+                            <div class="time_holders_head head_hold_item">
+                              <span [innerHTML]="activeData.deliveryDateTime == 'open' ? 'To:' : 'Appointment'">To:</span>
+                              <span 
+                                  class="time_next" 
+                                  (click)="changeActive('deliveryDateTime')" 
+                                  [innerHTML]="activeData.deliveryDateTime == 'open' ? 'App.' : 'Open'"
+                              >App.</span>
+                            </div>
+                            <div class="time_holders_time">
+                              <kendo-timepicker [formatPlaceholder]="{
+                                hour: 'hh',
+                                minute: 'mm'
+                                }" 
+                                [format]="'hh:mm a'" 
+                                [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                                placeholder="hh:mm AM"
+                                (valueChange)="pickupDateTimeChange($event)" 
+                                [class]="'datePick'"
+                              ></kendo-timepicker>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="add-waypoint-wrapper">
+                <div
+                  [ngClass]="
+                    loadForm.get('pickupId').value === null ||
+                    loadForm.get('deliveryId').value === null ||
+                    loadForm.get('pickupDateTime').value === null ||
+                    loadForm.get('deliveryDateTime').value === null
+                      ? 'add-new-pickup disabled forbidden-click'
+                      : 'add-new-pickup'
+                  "
+                  (click)="addNewWaypoint('pickup')"
+                >
+                  Add Extra Pickup
+                </div>
+
+                <div
+                  [ngClass]="
+                    loadForm.get('pickupId').value === null ||
+                    loadForm.get('deliveryId').value === null ||
+                    loadForm.get('pickupDateTime').value === null ||
+                    loadForm.get('deliveryDateTime').value === null
+                      ? 'add-new-delivery disabled forbidden-click'
+                      : 'add-new-delivery'
+                  "
+                  (click)="addNewWaypoint('delivery')"
+                >
+                  Add Extra Delivery
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="base-rate-wrapper pt-2">
+          <div class="base_rate">
+            <div
+              formArrayName="rates"
+              *ngFor="let items of ratesFormGroup.controls; let ind = index"
+              class="main_rate"
+              [class.innactive]="
+                !ratesFormGroup.at(0).get('rate').value &&
+                (items.get('title').value == 'adjusted' || items.get('title').value == 'advanced')
+              "
+              [class.adj_finished]="
+                items.get('title').value == 'adjusted' && items.get('edited').value == 'on'
+              "
+              [class.adit_finished]="
+                items.get('title').value == 'advanced' && items.get('edited').value == 'on'
+              "
+              [class.revised_finished]="
+                items.get('title').value == 'revised' && items.get('edited').value == 'on'
+              "
+            >
+              <div
+                class="form-label-group no-bottom-margin"
+                [formGroupName]="ind"
+                *ngIf="
+                  (items.get('title').value != 'adjusted' &&
+                    items.get('title').value != 'advanced') ||
+                  items.get('edited').value == 'off' ||
+                  items.get('edited').value == 'on'
+                "
+              >
+                <input
+                  [class.hidden]="items.get('edited').value && items.get('edited').value !== 'off'"
+                  type="number"
+                  class="form-control currency-input input-control required"
+                  placeholder="Base rate"
+                  formControlName="rate"
+                  appAutoFocus
+                  [modalType]="inputData.data.type"
+                  dontDoFocus="{{ items.get('title').value !== 'baseRate' ? '' : 'true' }}"
+                  autoFocusDelay="200"
+                  min="0"
+                  (keydown.enter)="saveRate(ind, 'on')"
+                  (blur)="saveRate(ind, 'on', null, true)"
+                />
+                <label
+                  class="required-label"
+                  [class.no_after]="items.get('title').value !== 'baseRate'"
+                  for="baseRate"
+                  >{{ items.get('label').value }}</label
+                >
+                <app-required-label
+                  *ngIf="items.get('title').value == 'baseRate'"
+                  [control]="loadForm.controls.baseRate"
+                ></app-required-label>
+                <span class="no_min_width" *ngIf="items.get('edited').value == 'on'">
+                  <span
+                    [ngClass]="{
+                      no_min_width: items.get('title').value != 'baseRate',
+                      fuel_width: items.get('title').value == 'fuelSurch'
+                    }"
+                    >{{ items.get('rate').value | currency }}</span
+                  >
+                  <svg-icon
+                    position="bottom-right"
+                    class="chip-icon"
+                    *ngIf="items.get('title').value !== 'baseRate'"
+                    appTaTooltip="Remove"
+                    tooltipBackground="#000"
+                    (click)="removeRates(ind, items.get('title').value)"
+                    [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    src="assets/img/svgs/table/badge-close.svg"
+                  ></svg-icon>
+
+                  <svg-icon
+                    position="bottom-right"
+                    appTaTooltip="Revise"
+                    *ngIf="items.get('title').value == 'baseRate'"
+                    tooltipBackground="#000"
+                    (click)="checkForRevised(ind)"
+                    src="assets/img/svgs/load_revise.svg"
+                  ></svg-icon>
+                </span>
+              </div>
+              <!-- This is part for boxes -->
+              <div
+                *ngIf="items.get('title').value == 'adjusted' && !items.get('edited').value"
+                class="add_new_item new_rate advance"
+                [class.innactive]="!ratesFormGroup.at(0).get('rate').value"
+                (click)="saveRate(ind, 'off', true)"
+                position="bottom-right"
+                appTaTooltip="Adjusted Rate"
+                tooltipBackground="#FFAC41"
+              >
+                <svg-icon class="hover_icons" src="assets/img/svgs/rounded_minus.svg"></svg-icon>
+              </div>
+              <div
+                *ngIf="items.get('title').value == 'advanced' && !items.get('edited').value"
+                class="add_new_item new_rate new_advanced"
+                [class.innactive]="!ratesFormGroup.at(0).get('rate').value"
+                (click)="saveRate(ind, 'off', true)"
+                position="bottom-right"
+                appTaTooltip="Advance"
+                tooltipBackground="#FF5D5D"
+              >
+                <svg-icon class="hover_icons" src="assets/img/svgs/rounded_minus.svg"></svg-icon>
+              </div>
+            </div>
+            <div class="main_rate" *ngIf="ratesEdit.additionals">
+              <ng-select
+                [items]="loadAdditionTypes"
+                formControlName="additionals"
+                bindLabel="name"
+                placeholder="Additional"
+                (change)="addNewAdditional($event)"
+                class="addition-dropdown"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div
+              *ngIf="ratesFormGroup.controls.length < 8 + show_revised"
+              class="add_new_item new_additional"
+              [class.innactive]="additinalRateAdded"
+              position="bottom-right"
+              appTaTooltip="Additional"
+              tooltipBackground="#5673AA"
+              (click)="saveRateValue('additionals', true)"
+            >
+              <svg-icon class="hover_icons" src="assets/img/svgs/just_plus.svg"></svg-icon>
+            </div>
+          </div>
+          <div class="base_rate">
+            <div class="total_item">
+              <span [class.resize_top]="!loadForm.get('adjustedTotal').value">Total</span>
+              <div class="total_value" [class.no_adjusted]="!loadForm.get('adjustedTotal').value">
+                {{ loadForm.get('total').value | currency }}
+              </div>
+              <div class="total_value adjusted_item" *ngIf="loadForm.get('adjustedTotal').value">
+                {{ loadForm.get('adjustedTotal').value | currency }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row mt-3 attachments-comments{{ comments_expanded ? ' comments-expanded' : '' }}"
+        >
+          <app-attachments
+            page="load"
+            [commentsVisible]="comments_expanded"
+            (filesChanged)="setFiles($event)"
+            [attachments]="attachments"
+          ></app-attachments>
+
+          <div class="col-12 upload_comment_row">
+            <div
+              class="comment_section"
+              [ngClass]="{ active: comments_expanded, show_active: inputData.data.type === 'edit' }"
+            >
+              <!-- [@commentAnimation]="comments_expanded ? 'expanded' : 'notexpanded'" -->
+              <div class="new_comment_hold text-right" [class.active]="comments_expanded">
+                <div
+                  class="comments_title"
+                  (click)="closeCommentSection()"
+                  *ngIf="comments_expanded"
+                >
+                  Comment ({{ commentSection.todoTaskCommentsLength }})
+                </div>
+                <div class="new_commment" (click)="addNewComment()">
+                  <svg-icon src="assets/img/svgs/just_plus.svg"></svg-icon>
+                </div>
+                <div class="comment_text" *ngIf="!comments_expanded">
+                  <div *ngFor="let com of ['C', 'O', 'M', 'M', 'E', 'N', 'T']">
+                    {{ com }}
+                  </div>
+                  <span
+                    *ngIf="
+                      inputData.data.type === 'edit' &&
+                      commentSection &&
+                      commentSection.todoTaskComments
+                    "
+                    >{{ commentSection.todoTaskCommentsLength }}</span
+                  >
+                  <span *ngIf="inputData.data.type != 'edit'">0</span>
+                </div>
+              </div>
+              <div [class.hidden]="!comments_expanded">
+                <app-app-comments
+                  [truckLoadId]="inputData.data.id"
+                  [isExpanded]="comments_expanded"
+                ></app-app-comments>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="load-map-wrapper">
+      <agm-map
+        [streetViewControl]="false"
+        [controlSize]="20"
+        [styles]="styles"
+        [clickableIcons]="false"
+        (mapClick)="mapClicked($event)"
+        [restriction]="mapRestrictions"
+        (mapReady)="getMapInstance($event)"
+        [zoom]="1"
+      >
+        <agm-direction
+          *ngIf="
+            origin &&
+            origin.address.address !== undefined &&
+            destination &&
+            destination.address.address !== undefined
+          "
+          [origin]="origin.address.address"
+          [destination]="destination.address.address"
+          [waypoints]="waypoints"
+          [optimizeWaypoints]="false"
+          [renderOptions]="renderOptions"
+        >
+        </agm-direction>
+        <div *ngFor="let marker of waypointMarkers; let i = index">
+          <!-- [opacity]="calcMarkerOpacity(i + 1)" -->
+          <agm-marker
+            *ngIf="marker.lat !== null && marker.lng !== null"
+            [latitude]="marker.lat"
+            [longitude]="marker.lng"
+            [agmFitBounds]="true"
+            [zIndex]="activatedLoadMap == i || selectedShipperId == marker.shipper_id ? 100 : 1"
+            [opacity]="activatedLoadMap == i || selectedShipperId == marker.shipper_id ? 1 : 0.7"
+            (markerClick)="markerClicked(marker, i)"
+            [label]="{
+              text: marker.index.toString(),
+              fontWeight: 'bold',
+              fontSize: '18px',
+              textAlign: 'center',
+              color: '#656565'
+            }"
+            [iconUrl]="{
+              url: marker.type === 'delivery' ? destinationIcon : originIcon,
+              labelOrigin: { x: 20, y: 16 },
+              scaledSize: { width: 40, height: 40 }
+            }"
+          >
+            <agm-snazzy-info-window
+              [isOpen]="activatedLoadMapSnazzy && activatedLoadMap == i"
+              [closeWhenOthersOpen]="true"
+              placement="bottom"
+            >
+              <ng-template>
+                <div
+                  *ngIf="marker.markerInfo"
+                  [ngClass]="{
+                    'snazzy-info-window': true,
+                    pickup_window: marker.type === 'pickup',
+                    delivery_window: marker.type === 'delivery'
+                  }"
+                >
+                  <div class="snazzy_header">{{ marker.markerInfo.name }}</div>
+                  <div class="snazyy_body" [innerHTML]="marker.markerInfo.address"></div>
+                  <div class="snazzy_footer" *ngIf="marker.markerInfo.phone">
+                    {{ marker.markerInfo.phone }}
+                  </div>
+                </div>
+              </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker>
+        </div>
+      </agm-map>
+    </div>
+    <div class="mileage-container">
+      <div class="mileage_table">
+        <div class="mileage_table_head pr-2">
+          <div class="milage_table_col">Stops</div>
+          <div class="milage_table_col">Leg</div>
+          <div class="milage_table_col">Total</div>
+        </div>
+        <div class="mileage_table_body" *ngIf="legMilage.length > 0">
+          <div
+            [ngClass]="{
+              'milage_table_row pr-2': true,
+              active: activatedLoadMap == rowIndex,
+              pickupRow: dataItem.type == 'pickup',
+              deliveryRow: dataItem.type == 'delivery'
+            }"
+            (click)="handleMapSelection(dataItem, rowIndex, 'active')"
+            *ngFor="let dataItem of legMilage; let rowIndex = index"
+          >
+            <!-- Stops -->
+            <div class="milage_table_col">
+              <span class="pl-2 address_titles" *ngIf="dataItem.startAddress !== null">
+                <span>{{ rowIndex + 1 }}</span
+                >{{ dataItem.startAddress }}
+              </span>
+              <span class="pl-2 address_titles" *ngIf="dataItem.endAddress !== null">
+                <span>{{ rowIndex + 1 }}</span
+                >{{ dataItem.endAddress }}
+              </span>
+            </div>
+            <!-- Leg Miles -->
+            <div class="milage_table_col">
+              <span *ngIf="dataItem.distance !== null">{{ dataItem.distance }}</span>
+            </div>
+            <!-- Total Miles -->
+            <div class="milage_table_col mileage_total_col">
+              <span *ngIf="dataItem.mileageSumString !== null">{{
+                dataItem.mileageSumString
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="cancelEditModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="manageLoad(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

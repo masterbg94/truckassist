@@ -1,0 +1,136 @@
+@import '../../../assets/scss/components/variables.scss';
+
+::ng-deep .progress {
+  background: #dadada !important;
+  border-radius: 3px;
+  user-select: none !important;
+  height: 26px;
+
+  &:hover {
+    background: #dadada !important;
+  }
+
+  .progress-bar {
+    text-align: left;
+    border-radius: 3px;
+    opacity: 0.7 !important;
+
+    &.bg-progress-muted {
+      background-color: #b7b7b7 !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-sliver {
+      background-color: #919191 !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-orange {
+      background-color: #FFBD4A !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-danger {
+      background-color: #F87566 !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-1 {
+      background-color: #919191 !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-2 {
+      background-color: #FFBD4A !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-3 {
+      background-color: #F87566 !important;
+      color: #ffffff !important;
+    }
+
+    &.bg-progress-4 {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    &:hover {
+      opacity: 1 !important;
+    }
+
+    .progress-text {
+      position: absolute;
+      font-size: 14px !important;
+
+      span {
+        margin: 0 13px;
+      }
+    }
+
+    .progress-date {
+      position: absolute;
+      font-size: 14px !important;
+      right: 13px;
+
+      span {
+        margin: 0 13px;
+      }
+    }
+  }
+}
+
+::ng-deep .insurance-policy-progress {
+  .progress {
+    border-radius: 0px 0px 3px 3px;
+    height: 20px;
+  }
+}
+
+::ng-deep .todo-progress {
+  direction: rtl;
+
+  .progress-date {
+    left: 0;
+    margin-left: 12px;
+  }
+
+  .progress-text {
+    right: 0;
+  }
+
+  .progress-date, .progress-text {
+    padding: 0 12px;
+  }
+
+  .progress .progress-bar {
+    opacity: 1;
+  }
+
+  ::ng-deep {
+    .progress {
+      border-radius: 0;
+
+      .progress-bar {
+        border-radius: 3px 0 0 3px;
+        opacity: 1 !important;
+      }
+    }
+    .progress-text {
+      padding: 0!important;
+      span {
+        margin: 0 18px !important;
+      }
+    }
+
+    .progress-date {
+      right: 0 !important;
+      padding: 0 8px;
+      direction: ltr !important;
+
+      span {
+        margin: 0 !important;
+      }
+    }
+  }
+}

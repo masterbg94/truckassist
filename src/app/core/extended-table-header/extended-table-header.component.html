@@ -1,0 +1,25 @@
+<div class="menu-container">
+  <div class="logo-container d-flex justify-content-center align-items-center">
+    <svg-icon
+      src="assets/img/svgs/table/logo.svg"
+      [svgStyle]="{ 'width.px': '64.21', 'height.px': '65.68' }"
+    ></svg-icon>
+  </div>
+  <div class="menu-items-container">
+    <ul class="menu-items">
+      <li class="menu-item" *ngFor="let item of items; index as i; trackBy: trackByFn">
+        <a [routerLink]="item.route" [routerLinkActive]="['is-active']">{{ item.title }}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="menu-footer">
+    <a class="compress-btn d-flex justify-content-center align-items-center" (click)="tableCompress()">
+      <svg-icon
+        class="d-flex justify-content-center align-items-center"
+        [src]="'assets/img/svgs/table/collapse.svg'"
+        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+      ></svg-icon>
+      <span class="fw-semi-bold">Compress</span>
+    </a>
+  </div>
+</div>

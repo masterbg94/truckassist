@@ -1,0 +1,127 @@
+<div class="dashboard_history_holder ml-0">
+  <div class="dashboar_hist_header weather_holder load_holder_dash">
+    <div class="custom_search">
+      <!-- (sendChangeStyle)="setExpanded($event)" -->
+      <app-custom-search [stateName]="''" [gridNameTitle]="''"></app-custom-search>
+    </div>
+    <div class="dashboard_load_buttons d-flex">
+      <div
+        class="dashb_load_button"
+        [class.active]="selectedLoadData == 'pendingLoadsData'"
+        (click)="openDashLoads('pendingLoadsData')"
+      >
+        Pending ({{ totalDashData['pendingLoadsData'].length }})
+      </div>
+
+      <div
+        class="dashb_load_button"
+        [class.active]="selectedLoadData == 'activeLoadsData'"
+        (click)="openDashLoads('activeLoadsData')"
+      >
+        Active ({{ totalDashData['activeLoadsData'].length }})
+      </div>
+      <div
+        class="dashb_load_button"
+        [class.active]="selectedLoadData == 'closedLoadsData'"
+        (click)="openDashLoads('closedLoadsData')"
+      >
+        Closed ({{ totalDashData['closedLoadsData'].length }})
+      </div>
+    </div>
+    <div class="dashb_white_part">
+      <span style="color: #919191;" appSelectionColor>Load ({{ allLoads.length }})</span>
+    </div>
+    <button
+      class="plus-svg-container"
+      appTaTooltip="Add Load"
+      position="bottom-right"
+      tooltipBackground="#707070"
+    >
+      <svg-icon src="../../../../assets/img/svgs/table/add.svg"> </svg-icon>
+    </button>
+  </div>
+  <div class="dashboard_load_table">
+    <!-- <thead>
+      <tr>
+        <th>Inv. #</th>
+        <th>Broker</th>
+        <th>Pick-Up</th>
+        <th>Delivery</th>
+        <th class="text-center">Status</th>
+      </tr>
+    </thead> -->
+    <div class="dash_sim_head">
+      <div class="dash_sim_row">
+        <div style="color: #919191;" appSelectionColor>Inv. #</div>
+        <div style="color: #919191;" appSelectionColor>Broker</div>
+        <div style="color: #919191;" appSelectionColor>Pick-Up</div>
+        <div style="color: #919191;" appSelectionColor>Delivery</div>
+        <div style="color: #919191;" appSelectionColor class="text-center">Status</div>
+      </div>
+    </div>
+    <div class="table_load_dash_scroll">
+      <table>
+        <tbody>
+          <tr class="dashb_load_row" *ngFor="let data of totalDashData[selectedLoadData]">
+            <td style="color: #919191;" appSelectionColor width="10%">{{ data.loadNumber }}</td>
+            <td width="25%" class="broker_row">
+              <span style="color: #919191;" appSelectionColor class="text_oveflow">{{
+                data.customerName
+              }}</span>
+            </td>
+            <td width="25%" class="del_pick_row">
+              <div class="pickupItem d-flex">
+                <div class="load-count" *ngIf="data.pickupCount">
+                  <svg-icon
+                    *ngIf="data.pickupCount < 10"
+                    src="assets/img/svg_numbers/svg_num_box_{{ data.pickupCount }}.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    *ngIf="data.pickupCount > 9"
+                    src="assets/img/svg_numbers/svg_num_over.svg"
+                  ></svg-icon>
+                </div>
+                <span style="color: #919191;" appSelectionColor class="text_oveflow">{{
+                  data.pickupLocation.city + ', ' + data.pickupLocation.stateShortName
+                }}</span>
+              </div>
+            </td>
+            <td width="25%" class="del_pick_row">
+              <div class="deliveryItem d-flex">
+                <div class="load-count" *ngIf="data.deliveryCount">
+                  <svg-icon
+                    *ngIf="data.deliveryCount < 10"
+                    src="assets/img/svg_numbers/svg_num_box_{{ data.deliveryCount }}.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    *ngIf="data.deliveryCount > 9"
+                    src="assets/img/svg_numbers/svg_num_over.svg"
+                  ></svg-icon>
+                </div>
+                <span style="color: #919191;" appSelectionColor class="text_oveflow">{{
+                  data.deliveryLocation.city + ', ' + data.deliveryLocation.stateShortName
+                }}</span>
+              </div>
+            </td>
+            <td width="15%" class="text-center">
+              <div class="status-container status-col">
+                <div>
+                  <app-ta-status-select
+                    [value]="data.statusId"
+                    [searchable]="false"
+                    [dataItems]="{ statusId: data.statusId }"
+                    [dataType]="'load'"
+                    [clearable]="false"
+                    [hadDriver]="true"
+                    [additionalClass]="'load_table'"
+                  >
+                  </app-ta-status-select>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

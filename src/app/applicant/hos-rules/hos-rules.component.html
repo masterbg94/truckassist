@@ -1,0 +1,89 @@
+<form [formGroup]="hosRules" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow hos my-5">
+    <h1>HOS Rules and Regulations</h1>
+    <p class="firstParagraf">
+      <span style="font-weight: bold;">Hours of Service (HOS) </span>are regulations governed by the
+      FMCSA which is the abbreviation for the "Federal Motor Carrier Safety Administration". The FM
+      CSA is a division of the United States Department of Transportation (USDOT) which is
+      responsible for code enforcement. "Hours of Service" refers to the hours that a commercial
+      driver operating a commercial motor vehicle on the road can operate during a 70 hours within 8
+      days period without resting for 34 hours before continuing. Drivers are responsible for
+      maintaining a record of their hours in a logbook while operating detailing hours driving and
+      resting.
+    </p>
+    <p class="firstParagraf">
+      The basic definitions and interpretations of the new HOS Rules and Regulations are as follows:
+      Note: Drivers have two sets of time in one period. Drive time and on duty time during the
+      period. Drive time+ on duty time = total time towards the 14 hour daily on duty limit. A
+      period maxed out is 70 hours or 8 consecutive days, whichever comes first.
+    </p>
+    <p class="secondParagraf secondParagraf_hos-1">
+      Truck drivers may not drive more than 11 hours resting for 30 minutes before continuing after
+      8 hours driving
+    </p>
+    <p class="secondParagraf secondParagraf_hos-2">
+      Truck drivers may not drive after 14 hours of on duty time.
+    </p>
+    <p class="secondParagraf secondParagraf_hos-3">
+      After 70 hours of on duty time within 8 days the driver must take 34 hours off that include 2
+      - separate 8 hour sleeping shifts that have to include sleep during the hours of 1 am to 5 am.
+      Yes HOS determines what time of the day you will sleep.
+    </p>
+    <p class="firstParagraf">
+      What this means is after 8 hours of off duty time drivers need to take a 30 minute break that
+      counts against your on duty time (14 hours) then may drive no more than 3 more hours within 14
+      hours' time. The 14 hours' time can't be extended by 8 hours in the sleeper and 2 hours off
+      duty time - 10 hours total. Time in the sleeper (8 hours continuous) + 2 hours off duty is the
+      only way to recharge for another 14 hours of time on duty time. Each period while the driver
+      is on duty can't exceed whichever is soonest 70 hours in 8 days. To start another period the
+      driver must take 34 hours of off duty time.
+    </p>
+    <h3 class="hos_headingThree">The sleeper berth provision.</h3>
+    <p class="firstParagraf">
+      You can use the sleeper berth provision to get you on the road again if you have time left in
+      your 70 hour within 8 day period but you have to sleep for a minimum of 8 consecutive hours
+      and then be off duty for 2 hours.
+    </p>
+    <h3 class="hos_headingThree">70 hours in 8 days rule.</h3>
+    <p class="firstParagraf">
+      After a combined total of drive time and on duty time it can't exceed 70 hours within 8 days'
+      time. As soon as you hit 70 hours or 8 days the driver can't drive for 34 hours of time off.
+    </p>
+    <h3 class="hos_headingThree">34 hour recharge rule.</h3>
+    <p class="firstParagraf">
+      After a driver has been on duty for his combined total of either 70 hours within/or 8 days the
+      period is over. You can start another period with 34 hours off but once again you have to get
+      2 different sleep shifts that MUST CONTAIN sleep within the hours of 1 am to 5 am in each
+      sleep. Yes you ready that correctly HOS controls when you can sleep within 4 hours. Off means
+      off. No paperwork, tarping, shining chrome. Go spend time with your family, friends or just go
+      clear your head. You are important to the nation and we need you healthy so we can all
+      function with whatever it is you are delivering. We love, care about and thank the commercial
+      drivers of America!
+    </p>
+    <app-truckassist-checkbox
+      id="confrimHOSRules"
+      formControlName="confrimHOSRules"
+      [checked]="confrimHOSRules"
+      (change)="(confrimHOSRules != confrimHOSRules)"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkBox" style="font-size: 12px !important;">
+      I read and understand the above-mentioned rights</span
+    >
+  </div>
+  <button
+    *ngIf="!isCompanyReview"
+    type="submit"
+    class="btns btns_next mx-2"
+    style="margin-top: -6px !important;"
+  >
+    Next
+  </button>
+  <button *ngIf="isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+    <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+    <span class="btns_reviewConfirm-text">Confirm All</span>
+  </button>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

@@ -1,0 +1,85 @@
+<div class="container my-5">
+  <!-- Heading1, cloud-right, Heading2 -->
+  <div class="row">
+    <div class="col-md-6" [@documentItem]="stateAnimations ? 'in' : ''">
+      <svg-icon src="../../../assets/img/svg-page no found/heading1.svg"> </svg-icon>
+    </div>
+    <div class="col-md-6">
+      <svg-icon class="cloud cloud--right" src="../../../assets/img/svg-page no found/right-cloud.svg"> </svg-icon>
+    </div>
+    <div class="col-md-6" [@documentItem2]="stateAnimations ? 'in' : ''">
+      <svg-icon src="../../../assets/img/svg-page no found/heading2.svg"> </svg-icon>
+    </div>
+  </div>
+
+  <!-- Big cloud on middle -->
+  <div class="bigCloud">
+    <svg-icon class="cloud--big" src="../../../assets/img/svg-page no found/big-cloud.svg"></svg-icon>
+  </div>
+
+  <!-- Middle content with gear and white danger -->
+  <svg-icon class="mdcontent_inner my-5" src="../../../assets/img/svg-page no found/middle-group.svg"></svg-icon>
+  <div class="gears_container">
+    <svg-icon class="gears_container--big" [ngClass]="stateMouseMove ? 'gears_spin' : ''"
+      src="../../../assets/img/svg-page no found/big_gear.svg"></svg-icon>
+    <svg-icon class="gears_container--small" [ngClass]="stateMouseMove ? 'gears_spin-back' : '' "
+      src="../../../assets/img/svg-page no found/small_gear.svg"></svg-icon>
+  </div>
+
+  <!-- Road closed -->
+  <div class="road">
+    <!-- Random section -->
+           <!-- Different positioning clouds -->
+    <div *ngIf="randomNumber == 0" class="road_cloud--left">
+      <svg-icon class="road_cloud--1" src="../../../assets/img/svg-page no found/left-cloud.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_cloud--left1">
+      <svg-icon class="road_cloud--1" src="../../../assets/img/svg-page no found/left-cloud.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 2" class="road_cloud--left2">
+      <svg-icon class="road_cloud--1" src="../../../assets/img/svg-page no found/left-cloud.svg"></svg-icon>
+    </div>
+          <!-- Different positioning road_closed -->
+    <div *ngIf="randomNumber == 0" class="road_closed2">
+      <svg-icon src="../../../assets/img/svg-page no found/road_closed2.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_closed22">
+      <svg-icon src="../../../assets/img/svg-page no found/road_closed21.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_flashing_light1">
+      <svg-icon src="../../../assets/img/svg-page no found/flashing-light1.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_flashing_light2">
+      <svg-icon src="../../../assets/img/svg-page no found/light2.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 2" class="road_lane-closed">
+      <svg-icon src="../../../assets/img/svg-page no found/lane-closed.svg"></svg-icon>
+    </div>
+           <!-- Different positioning gears -->
+    <div *ngIf="randomNumber == 0" class="road_gear">
+      <svg-icon [ngClass]="stateMouseMove ? 'gears_spin-back' : 'gears_spin-stop-back' "
+        src="../../../assets/img/svg-page no found/smallest_gear.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_gear1">
+      <svg-icon [ngClass]="stateMouseMove ? 'gears_spin-back' : 'gears_spin-stop-back' "
+        src="../../../assets/img/svg-page no found/smallest_gear.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 2" class="road_gear2">
+      <svg-icon [ngClass]="stateMouseMove ? 'gears_spin-back' : 'gears_spin-stop-back' "
+        src="../../../assets/img/svg-page no found/gear_middle.svg"></svg-icon>
+    </div>
+
+    <div *ngIf="randomNumber == 0" class="road_cloud--big">
+      <svg-icon class="cloud road_cload--2" src="../../../assets/img/svg-page no found/big-cloud.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 1" class="road_cloud--big1">
+      <svg-icon class="cloud road_cload--2" src="../../../assets/img/svg-page no found/big-cloud.svg"></svg-icon>
+    </div>
+    <div *ngIf="randomNumber == 2" class="road_cloud--big2">
+      <svg-icon class="cloud road_cload--2" src="../../../assets/img/svg-page no found/big-cloud.svg"></svg-icon>
+    </div>
+    <!--/end -->
+  </div>
+</div>
+
+<app-under-construction></app-under-construction>

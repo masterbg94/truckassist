@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.5" height="28" viewBox="0 0 24.5 28">
+  <g id="Group_33110" data-name="Group 33110" transform="translate(-748 -157.712)" style="isolation: isolate">
+    <g id="doc" transform="translate(716 157.712)">
+      <path id="Path_12365" data-name="Path 12365" d="M97.75,0A1.755,1.755,0,0,0,96,1.75v24.5A1.755,1.755,0,0,0,97.75,28h17.5A1.755,1.755,0,0,0,117,26.25V7l-7-7Z" transform="translate(-60.5)" fill="#919191" opacity="0.2"/>
+      <path id="Path_12366" data-name="Path 12366" d="M353.75,7H359l-7-7V5.25A1.755,1.755,0,0,0,353.75,7Z" transform="translate(-302.5)" fill="#81b064"/>
+      <path id="Path_12368" data-name="Path 12368" d="M53,249.625a.878.878,0,0,1-.875.875H32.875a.878.878,0,0,1-.875-.875v-8.75a.878.878,0,0,1,.875-.875h19.25a.878.878,0,0,1,.875.875Z" transform="translate(0 -227)" fill="#81b064"/>
+      <text id="XLS" transform="translate(42 21)" fill="#fff" font-size="7" font-family="Montserrat-Black, Montserrat" font-weight="800"><tspan x="-7.056" y="0">XLS</tspan></text>
+    </g>
+  </g>
+</svg>

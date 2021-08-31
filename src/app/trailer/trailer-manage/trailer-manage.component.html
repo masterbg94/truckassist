@@ -1,0 +1,322 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <div class="multiple-choises-wrapper"  style="left: 115px;">
+    <div class="btn-group btn-group-toggle">
+      <label class="btn-primary" ngbButtonLabel>
+        <input
+          type="checkbox"
+          ngbButton
+          [(ngModel)]="companyOwnedStateControl"
+          (change)="companyOwned()"
+        >
+        Company owned
+      </label>
+    </div>
+  </div>
+  <app-modal-close></app-modal-close>
+</div>
+<div class="modal-body">
+  <app-ta-tab-switch
+    (switchClicked)="tabChange($event)"
+    [tabs]="tabs"
+  ></app-ta-tab-switch>
+  <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+  <form
+    [formGroup]="trailerForm"
+    class="form-container has-tabs tabs-2{{ ' tab-' + selectedTab }}"
+    (keydown)="keyDownFunction($event)"
+    *ngIf="loaded"
+  >
+    <div class="form-group d-flex align-items-center absolute-status mt-lg-3" *ngIf="inputData.data.type == 'edit'">
+      <kendo-switch [checked]="trailer?.status" formControlName="status"></kendo-switch>
+    </div>
+
+    <div class="single-tab-container">
+      <div class="row">
+        <div class="col-3">
+          <div class="form-label-group">
+            <input
+              id="trailerNumber"
+              class="form-control input-control required"
+              placeholder="Unit#"
+              formControlName="trailerNumber"
+              maxLength="8"
+              (paste)="onPaste($event, 'trailerNumber', 8)"
+              (keypress)="onUnitTyping($event)"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+            />
+            <label class="required-label" for="trailerNumber">Unit#</label>
+            <app-required-label
+              [control]="trailerForm.controls.trailerNumber"
+            ></app-required-label>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="form-label-group">
+            <ng-select
+              [items]="trailerTypes"
+              formControlName="type"
+              bindLabel="name"
+              placeholder="Type"
+              class="no-padding-dropdown required-field"
+              id="trailer-type-dropdown"
+              (change)="onTrailerTypeChange($event)"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                <div class="trailer-type-dropdown-item {{ item.class }}">
+                  <span class="type-image">
+                    <svg-icon src="assets/img/svgs/trailer/gray-icons/{{ item.file }}"></svg-icon>
+                  </span>
+                  <span>{{ item.name }}</span>
+                </div>
+              </ng-template>
+
+              <ng-template ng-label-tmp let-item="item" let-search="searchTerm">
+                <div class="value-label-container trailer-type-dropdown-item {{ item.class }}">
+                  <span class="type-image">
+                    <svg-icon src="assets/img/svgs/trailer/gray-icons/{{ item.file }}"></svg-icon>
+                  </span>
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </div>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="trailerForm.controls.type"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-label-group">
+            <input
+              id="vin"
+              class="form-control uppercase input-control required"
+              placeholder="VIN"
+              [ngClass]="{ 'vin-loading': isVinLoading }"
+              formControlName="vin"
+              minlength="17"
+              maxlength="17"
+              (keypress)="onVinTyping($event)"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+              (paste)="onPaste($event, 'vin', 17)"
+              (keyup)="vinAutoComplete($event)"
+            />
+            <div class="icon-container">
+              <i class="input-loader"></i>
+            </div>
+            <label class="required-label" for="vin">VIN</label>
+            <app-required-label [control]="trailerForm.controls.vin"></app-required-label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-label-group">
+            <ng-select
+              [items]="trailerMakers"
+              formControlName="make"
+              bindLabel="name"
+              placeholder="Make"
+              class="required-field"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item">
+                  <span class="make-image">
+                    <svg-icon src="assets/img/svgs/trailer/makers/{{ item.file }}" ></svg-icon>
+                  </span>
+              </ng-template>
+
+              <ng-template ng-label-tmp let-item="item">
+                <span class="value-label-container make-image">
+                  <svg-icon src="assets/img/svgs/trailer/makers/{{ item.file }}" ></svg-icon>
+                </span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="trailerForm.controls.make"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <div class="form-label-group">
+            <input
+              id="model"
+              class="form-control input-control"
+              placeholder="Model"
+              formControlName="model"
+              [ngClass]="{ 'vin-loaded': isVinLoading }"
+              maxlength="22"
+              (paste)="onPaste($event, 'model', 22)"
+              (keypress)="onModelTyping($event)"
+            />
+            <label for="model">Model</label>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="form-label-group">
+            <ng-select
+              id="colors-dropdown"
+              [items]="colors"
+              formControlName="color"
+              bindLabel="key"
+              placeholder="Color"
+              (change)="onColorChange($event)"
+              class="no-padding-dropdown"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div class="color-dropdown-item {{ item.key.replace(' ', '-').toLowerCase() }}">
+                  <span [ngOptionHighlight]="search">{{ item.key }}</span>
+                </div>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="trailerForm.controls.color"></app-required-label>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="form-label-group">
+            <input
+              id="year"
+              class="form-control input-control required"
+              placeholder="Year"
+              formControlName="year"
+              maxlength="4"
+              (ngModelChange)="checkYear($event)"
+              [ngClass]="{ 'vin-loaded': isVinLoading }"
+            />
+            <label class="required-label" for="year">Year</label>
+            <app-required-label [control]="trailerForm.controls.year"></app-required-label>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div class="form-label-group">
+            <ng-select
+              [items]="trailerLength"
+              formControlName="length"
+              bindLabel="value"
+              placeholder="Length"
+              class="required-field"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.value }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="trailerForm.controls.length"></app-required-label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-0" *ngIf="!companyOwnedStateControl">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group">
+              <ng-select
+                [items]="owners"
+                formControlName="owner"
+                (change)="changeOwner($event)"
+                bindLabel="ownerName"
+                placeholder="Owner"
+                class="required-field has-add-new{{ (ownerSearchItems == 1) ? ' has-one-result' : '' }}"
+                (search)="onSearch($event)"
+                (clear)="onClose($event)"
+                (close)="onClose($event)"
+                [searchFn]="customSearch"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [class]="{ 'd-none': !item.divisionFlag }">DC - </span>
+                  <span [ngOptionHighlight]="search">{{ item.ownerName }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="trailerForm.controls.owner"></app-required-label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon
+              src="assets/img/svgs/down-arrow.svg"
+              class="down-icon"
+            ></svg-icon>
+          </div>
+          <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+              <textarea
+                cdkTextareaAutosize
+                #note
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
+                formControlName="note"
+                class="input-custom-textarea form-textarea"
+              ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="single-tab-container">
+      <div class="row">
+        <div [ngClass]="f.type.value?.name === 'Reefer' ? 'col-2' : 'col-6'">
+          <div class="form-label-group">
+            <input
+              id="axises"
+              class="form-control input-control required"
+              placeholder="Axles"
+              formControlName="axises"
+              appInputFocus
+              mask="0"
+            />
+            <label class="required-label" for="axises">Axles</label>
+            <app-required-label [control]="trailerForm.controls.axises"></app-required-label>
+          </div>
+        </div>
+        <div [ngClass]="f.type.value?.name === 'Reefer' ? 'col-5' : 'col-6'">
+          <div class="form-label-group">
+            <ng-select
+              placeholder="Tire size"
+              [items]="tireSizes"
+              formControlName="tireSize"
+              bindLabel="value"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.value }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-5" *ngIf="f.type.value?.name === 'Reefer'">
+          <div class="form-label-group">
+            <ng-select
+              placeholder="Reefer unit"
+              [items]="reeferUnits"
+              formControlName="reeferUnit"
+              appInputFocus
+              bindLabel="name"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.name }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label
+              [control]="trailerForm.controls.reeferUnit"
+            ></app-required-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+  <button type="button" class="save-btn" (click)="saveTrailer()" ngbAutofocus>Save</button>
+</div>
+</div>

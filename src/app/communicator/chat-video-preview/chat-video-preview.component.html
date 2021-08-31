@@ -1,0 +1,36 @@
+<div class="video-player" *ngIf="displayVideo">
+  <vg-player>
+    <vg-overlay-play *ngIf="overlayPlay" vgFor="{{video_id}}"></vg-overlay-play>
+    <vg-buffering *ngIf="bufferPlay" vgFor="{{video_id}}"></vg-buffering>
+
+    <vg-controls>
+      <!-- Play -->
+      <vg-play-pause *ngIf="play"></vg-play-pause>
+
+      <!-- Time of play -->
+      <vg-time-display *ngIf="timeDisplay" vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+      <span *ngIf="timeDisplay" class="line-separation-time">/</span>
+      <vg-time-display *ngIf="timeDisplay"  vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+      <!-- Scrub bar -->
+
+      <vg-scrub-bar *ngIf="scrubBar">
+        <vg-scrub-bar-current-time> </vg-scrub-bar-current-time>
+        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+      </vg-scrub-bar>
+      
+      <!-- Volume -->
+      <vg-mute *ngIf="mute"></vg-mute>
+      <vg-volume *ngIf="volume"></vg-volume>
+      <vg-fullscreen *ngIf="fullScreen"></vg-fullscreen>
+    </vg-controls>
+
+    <video [vgMedia]="media" *ngIf="videoTime !== 0.02" autoplay (timeupdate)="getCurrentTime($event)" #media  id="{{video_id}}" preload="auto" >
+      <source *ngIf="attachUrl" [src]="setCurrentVideo(videoTime)" type="video/mp4" />
+    </video>
+    <video [vgMedia]="media" *ngIf="videoTime === 0.02" (timeupdate)="getCurrentTime($event)" #media  id="{{video_id}}" preload="auto" >
+      <source *ngIf="attachUrl" [src]="setCurrentVideo(videoTime)" type="video/mp4" />
+    </video>
+  </vg-player>
+</div>
+

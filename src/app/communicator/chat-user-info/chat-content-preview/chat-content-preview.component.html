@@ -1,0 +1,182 @@
+<div class="preview">
+  <div class="preview__filter">
+    <div class="preview__filter--left" [ngClass]="{ 'preview__filter--leftLink': isLink }">
+      <div
+        *ngIf="!isLink"
+        class="filter-header"
+        (click)="openFileType = !openFileType"
+        role="button"
+        data-toggle="collapse"
+        data-target="#fileTypeId"
+        aria-expanded="true"
+        aria-controls="filter-items"
+      >
+        <p>
+          {{ fileTypeName }}
+        </p>
+        <svg-icon class="icon-arrow" src="../../assets/img/svgs/communicator/ic_down.svg">
+        </svg-icon>
+      </div>
+      <svg-icon
+        (click)="closeFIleTypeFilter(fileTypeName)"
+        class="close-filter-type"
+        *ngIf="fileTypeName !== 'File Type'"
+        src="assets/img/svgs/communicator/ic_user-info-close.svg"
+      ></svg-icon>
+
+      <div *ngIf="openFileType" id="fileTypeId" class="filter-items collapse">
+        <p
+          class="filter-item"
+          *ngFor="let filterType of mediaFilterType"
+          (click)="onFilterType(filterType); (collapse)"
+        >
+          {{ clearFileType(filterType) }}
+        </p>
+      </div>
+    </div>
+    <div class="preview__filter--right">
+      <div
+        class="filter-header"
+        (click)="openSortType = !openSortType"
+        role="button"
+        data-toggle="collapse"
+        data-target="#sortTypeId"
+        aria-expanded="true"
+        aria-controls="filter-items"
+      >
+        <p>
+          Sort:
+        </p>
+        <span class="filter-property">{{ sortTypeName }}</span>
+      </div>
+
+      <span class="filter-svgs" [ngClass]="{ 'fitler-svgs-links': isLink }">
+        <svg-icon (click)="sortUp()" class="up-svg" src="/assets/img/svgs/safety/Up.svg"></svg-icon>
+        <svg-icon
+          (click)="sortDown()"
+          class="down-svg down-svg_FD"
+          src="/assets/img/svgs/safety/Down.svg"
+        ></svg-icon>
+      </span>
+
+      <div id="sortTypeId" class="filter-items collapse" *ngIf="openSortType">
+        <p class="filter-item" *ngFor="let sort of sortFilterType" (click)="onSortType(sort)">
+          {{ renderCorrectlyNameSort(sort) }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Image or Video -->
+  <div class="preview__content" *ngIf="onlyImageVideo()">
+    <div class="preview__content-image" *ngFor="let media of filterMediaData">
+      <p class="content-name">{{ media.name }}</p>
+      <div class="content-date">
+        <p>{{ media.newFormatDate.date }}</p>
+        <p>{{ media.newFormatDate.time }}</p>
+      </div>
+      <img
+        *ngIf="isImage(media)"
+        (click)="openGallery(media)"
+        class="content-img"
+        [src]="media.url"
+        [alt]="media.name"
+      />
+      <div *ngIf="isVideo(media)" class="content-img">
+        <app-chat-video-preview
+          (click)="openGallery(media)"
+          [displayVideo]="true"
+          [attachUrl]="media.url"
+          [overlayPlay]="false"
+          [bufferPlay]="false"
+          [scrubBar]="false"
+          [play]="false"
+          [mute]="false"
+          [volume]="false"
+          [timeDisplay]="false"
+          [insideScrubBar]="false"
+          [fullScreen]="false"
+        ></app-chat-video-preview>
+      </div>
+      <svg-icon
+        *ngIf="isVideo(media)"
+        class="content-play-button"
+        src="../../../../assets/img/svgs/communicator/ic_chat-content-playButton.svg"
+      ></svg-icon>
+      <p class="content-username">{{ media.message.user.name }}</p>
+      <p *ngIf="!isVideo(media)" class="content-size">
+        {{ media.size / 1024 | number: '1.2-2' }} kB
+      </p>
+      <p *ngIf="isVideo(media)" class="content-size">
+        {{ media.size / (1024 * 1024) | number: '1.2-2' }} MB
+      </p>
+    </div>
+  </div>
+  <!-- Document -->
+  <div *ngIf="isDocuments()">
+    <div class="media-content" *ngFor="let document of filterMediaData">
+      <div (click)="openLink(document)" class="media-content-left">
+        <svg-icon
+          class="content-img content-img-doc"
+          *ngIf="isDoc(document)"
+          src="assets/img/svgs/communicator/ic_doc.svg"
+        ></svg-icon>
+        <svg-icon
+          class="content-img content-img-doc"
+          *ngIf="isXls(document)"
+          src="assets/img/svgs/communicator/ic_xls.svg"
+        ></svg-icon>
+        <svg-icon
+          class="content-img content-img-doc"
+          *ngIf="isPdf(document)"
+          src="assets/img/svgs/communicator/ic_pdf.svg"
+        ></svg-icon>
+        <svg-icon
+          class="content-img content-img-doc"
+          *ngIf="isZip(document)"
+          src="assets/img/svgs/communicator/ic_zip.svg"
+        ></svg-icon>
+        <div class="media-details">
+          <a href="document.url" class="media-name media-doc" target="_blank">
+            <span>{{ document.name ? document.name : document.title }}</span>
+          </a>
+          <span>
+            <span class="media-username">{{ document.message.user.name }}</span>
+          </span>
+        </div>
+      </div>
+      <div class="media-content-right media-content-right-link">
+        <div class="media-date">
+          {{ document.newFormatDate.date }}
+        </div>
+        <div class="media-time">
+          {{ document.newFormatDate.time }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Links  -->
+  <div *ngIf="isLink">
+    <div class="media-content" *ngFor="let link of filterMediaData">
+      <div class="media-content-left">
+        <a href="link.url" target="_blank"> <img class="link-image" [src]="link.favicon" /></a>
+        <div class="media-details">
+          <a href="link.url" class="media-name media-link" target="_blank">
+            <span>{{ link.name ? link.name : link.title }}</span>
+          </a>
+          <span *ngIf="!isDocument">
+            <span class="media-username">{{ link.message.user.name }}</span>
+          </span>
+        </div>
+      </div>
+      <div class="media-content-right media-content-right-link">
+        <div class="media-date">
+          {{ link.newFormatDate.date }}
+        </div>
+        <div class="media-time">
+          {{ link.newFormatDate.time }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+@import '../../applicant.component.scss';
+
+
+// Mobile screen
+
+@media only screen and (max-width: 414px) {
+  .btn_mobile {
+    margin-left: -291px;
+  }
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .firstParagraf,
+  .secondParagraf {
+    color: #6c6c6c !important;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .btn_mobile {
+    margin-left: -329px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .btn_mobile {
+    margin-left: -337px;
+  }
+  .slideShow {
+    margin-left: -6px !important;
+  }
+}

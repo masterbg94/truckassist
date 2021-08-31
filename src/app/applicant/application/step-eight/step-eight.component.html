@@ -1,0 +1,369 @@
+<form [formGroup]="drugAlchocol" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>
+      Drug & alcohol statement
+    </h1>
+    <p class="firstParagraf">
+      Section 40.25(j) of the Federal Motor Carrier Safety Regulations, requires each motor carrier
+      to inquire to prospective drivers and prospective drivers are required to respond to the
+      information in the question below.
+    </p>
+    <p class="firstParagraf">
+      Have you, the applicant, tested positive, or refused to test, on any pre-employment drug or
+      alcohol test administered by an employer to which you applied for, but did not obtain,
+      safety-sensitive transportation work covered by DOT agency drug and alcohol testing rules
+      during the past two years? <span class="requiredStar">*</span>
+    </p>
+    <div class="row mb-5 justify-content-center">
+      <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+        <div class="yesno">
+          <input
+            formControlName="isTestTwoYears"
+            type="radio"
+            id="optstep8"
+            [checked]="true"
+            (change)="onItemChange($event.target.value)"
+            value="yes"
+          />
+          <label for="optstep8" class="yesno_label1 yesno_step81">
+            <span class="yesno_options">YES</span>
+          </label>
+          <input
+            formControlName="isTestTwoYears"
+            type="radio"
+            id="optstep82"
+            [checked]="true"
+            (change)="onItemChange($event.target.value)"
+            value="no"
+          />
+          <label for="optstep82" class="yesno_label2 yesno_step82">
+            <span class="yesno_options">No</span>
+          </label>
+        </div>
+      </div>
+      <div class="requiredField">
+        <app-required-yes-no [control]="drugAlchocol.controls.isTestTwoYears"></app-required-yes-no>
+      </div>
+    </div>
+
+    <div *ngIf="step8YesNo" class="centerContent">
+      <div class="row pt-2" style="text-align: left; position: relative;">
+        <div class="col-8">
+          <div class="form-label-group">
+            <input
+              id="motorCarrier"
+              class="form-control input-control required"
+              placeholder="Motor Carrier"
+              formControlName="motorCarrier"
+              (paste)="onPaste($event, 'motorCarrier')"
+              (keypress)="onNameTyping($event)"
+              (keydown)="onCheckBackSpace($event)"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="motorCarrier">Motor Carrier</label>
+            <app-required-label [control]="drugAlchocol.controls.motorCarrier"></app-required-label>
+          </div>
+          <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__motorCarrier"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].motorCarrier"
+                ></app-reviewSingleCheckButton>
+              </div>
+        </div>
+        <div class="col-4">
+          <div
+            class="form-label-group input-icon phone-field-wrapper {{
+              manageInputValidation(drugAlchocol.controls.motorPhone)
+            }}"
+          >
+            <input
+              id="motorPhone"
+              class="form-control input-control required"
+              placeholder="Phone"
+              formControlName="motorPhone"
+              mask="(000) 000-0000"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="motorPhone">Phone</label>
+            <app-required-label [control]="drugAlchocol.controls.motorPhone"></app-required-label>
+          </div>
+          <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__motorPone"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].motorPone"
+                ></app-reviewSingleCheckButton>
+              </div>
+        </div>
+         <!-- Review Company -->
+       <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[0]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+      </div>
+      <div class="row" style="position: relative;">
+        <div class="col-10">
+          <div
+            class="form-label-group input-icon address-field-wrapper {{
+              manageInputValidation(drugAlchocol.controls.addressMotor)
+            }}"
+          >
+            <input
+              id="addressMotor"
+              class="form-control input-control required"
+              placeholder="Address, City, State Zip"
+              formControlName="addressMotor"
+              ngx-google-places-autocomplete
+              #placesRef="ngx-places"
+              appInputFocus
+              [options]="options"
+              (onAddressChange)="handleAddressChange($event)"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="addressMotor">Address, City, State Zip</label>
+            <app-required-label [control]="drugAlchocol.controls.addressMotor"></app-required-label>
+          </div>
+          <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__motorAddress"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].motorAddress"
+                ></app-reviewSingleCheckButton>
+              </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <input
+              id="address_unit4"
+              class="form-control input-control"
+              placeholder="Unit #"
+              formControlName="addressMotorUnit"
+              maxlength="6"
+              appInputrestriction="[A-Za-z0-9-]"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label for="address_unit4">Unit #</label>
+          </div>
+          <div
+          *ngIf="
+            isCompanyReview
+              ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+              : false
+          "
+          class="reviewer-slideShow__motorUnit"
+        >
+          <app-reviewSingleCheckButton
+            [reviewItem]="companyReview[1].motorUnit"
+          ></app-reviewSingleCheckButton>
+        </div>
+        </div>
+         <!-- Review Company -->
+       <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[1]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+      </div>
+      <p class="firstParagraf firstParagraf--step8">
+        In addition, if the answer to the above question is YES, please list the name and contact
+        information for the Substance Abuse Professional (SAP) who completes you evaluation:
+      </p>
+      <div class="row" style="position: relative;">
+        <div class="col-8">
+          <div class="form-label-group">
+            <input
+              id="nameSAP"
+              placeholder="Name of SAP"
+              class="form-control input-control required"
+              formControlName="nameSAP"
+              (paste)="onPaste($event, 'nameSAP')"
+              (keypress)="onNameTyping($event)"
+              (keydown)="onCheckBackSpace($event)"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="nameSAP">Name of SAP</label>
+            <app-required-label [control]="drugAlchocol.controls.nameSAP"></app-required-label>
+          </div>
+          <div
+          *ngIf="
+            isCompanyReview
+              ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+              : false
+          "
+          class="reviewer-slideShow__sapName"
+        >
+          <app-reviewSingleCheckButton
+            [reviewItem]="companyReview[2].sapName"
+          ></app-reviewSingleCheckButton>
+        </div>
+        </div>
+        <div class="col-4">
+          <div
+            class="form-label-group input-icon phone-field-wrapper {{
+              manageInputValidation(drugAlchocol.controls.SAPhone2)
+            }}"
+          >
+            <input
+              id="SAPhone2"
+              class="form-control input-control required"
+              placeholder="Phone"
+              formControlName="SAPhone2"
+              mask="(000) 000-0000"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="SAPhone2">Phone</label>
+            <app-required-label [control]="drugAlchocol.controls.SAPhone2"></app-required-label>
+          </div>
+          <div
+          *ngIf="
+            isCompanyReview
+              ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+              : false
+          "
+          class="reviewer-slideShow__sapPhone"
+        >
+          <app-reviewSingleCheckButton
+            [reviewItem]="companyReview[2].sapPhone"
+          ></app-reviewSingleCheckButton>
+        </div>
+        </div>
+          <!-- Review Company -->
+       <div class="reviewer-slideShow__thirdrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[2]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+      </div>
+      <div class="row" style="position: relative;">
+        <div class="col-10">
+          <div
+            class="form-label-group input-icon address-field-wrapper {{
+              manageInputValidation(drugAlchocol.controls.addressSAP2)
+            }}"
+          >
+            <input
+              id="Address7"
+              class="form-control input-control required"
+              placeholder="Address, City, State Zip"
+              formControlName="addressSAP2"
+              ngx-google-places-autocomplete
+              #placesRef="ngx-places"
+              appInputFocus
+              [options]="options"
+              (onAddressChange)="handleAddressChange2($event)"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="Address7">Address, City, State Zip</label>
+            <app-required-label [control]="drugAlchocol.controls.addressSAP2"></app-required-label>
+          </div>
+          <div
+          *ngIf="
+            isCompanyReview
+              ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+              : false
+          "
+          class="reviewer-slideShow__sapAddress"
+        >
+          <app-reviewSingleCheckButton
+            [reviewItem]="companyReview[3].sapAddress"
+          ></app-reviewSingleCheckButton>
+        </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <input
+              id="address_unit5"
+              class="form-control input-control"
+              placeholder="Unit #"
+              formControlName="addressSAP2Unit"
+              maxlength="6"
+              appInputrestriction="[A-Za-z0-9-]"
+              appInputFocus
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label for="address_unit5">Unit #</label>
+          </div>
+          <div
+          *ngIf="
+            isCompanyReview
+              ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+              : false
+          "
+          class="reviewer-slideShow__sapUnit"
+        >
+          <app-reviewSingleCheckButton
+            [reviewItem]="companyReview[3].sapUnit"
+          ></app-reviewSingleCheckButton>
+        </div>
+        </div>
+            <!-- Review Company -->
+       <div class="reviewer-slideShow__fourthrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[3]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+      </div>
+      <div class="checkStep8" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+        <app-truckassist-checkbox
+          id="isCertify"
+          formControlName="isCertify"
+          [checked]="isCertify"
+          (change)="(isCertify != isCertify)"
+        >
+        </app-truckassist-checkbox>
+        <span class="checkBox certify">
+          I certify that the information provided on this document is true and correct.
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2 btns_reviewConfirm"
+    >
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

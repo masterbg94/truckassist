@@ -1,0 +1,989 @@
+<form [formGroup]="sphReviewForm" (ngSubmit)="onSubmit()" class="my-2">
+  <div [ngClass]="modalActive ? 'show' : ''" class="modal">
+    <div class="modal_content">
+      <div class="slideShow slideShowMobile">
+        <a class="modal_close" (click)="closeModal()">
+          <svg-icon src="../../assets/img/applicants/close-modal.svg"></svg-icon>
+        </a>
+        <h1 class="modal_header">Safety Performance History</h1>
+        <p class="firstParagraf">
+          Employment & D/A Verification Part 391.23(2)(3) of the Federal Motor Carrier Safety
+          Regulations states that past employer’s must respond to present inquiries into a drivers
+          past performance history in a timely manner.
+          <br />
+          <br />
+          Failure to do so will result in reporting to the Department of Transportation Please use
+          the JD Freight, Inc verification forms for this request.
+        </p>
+        <p class="firstParagraf" style="font-weight: bold;">
+          TO BE COMPLETED BY PROSPECTIVE EMPLOYEE
+        </p>
+        <!-- Safety Performance History -->
+        <div class="centerContent centerContentMobile">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-label-group">
+                <input
+                  id="previousEmployer"
+                  class="form-control input-control required"
+                  placeholder="To Previous employer"
+                  formControlName="previousEmployer"
+                  (paste)="onPaste($event, 'previousEmployer')"
+                  (keypress)="onNameTyping($event)"
+                  (keydown)="onCheckBackSpace($event)"
+                  appAppTitleCase
+                  appInputFocus
+                  [attr.appAutoFocus]="
+                    sphReviewForm.get('previousEmployer').value === null ? 'false' : 'true'
+                  "
+                />
+                <label class="required-label" for="previousEmployer">
+                  To Previous employer
+                </label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.previousEmployer"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div
+                class="form-label-group input-icon phone-field-wrapper
+                        {{ manageInputValidation(sphReviewForm.controls.previousEmpPhone) }}"
+              >
+                <input
+                  id="phone"
+                  class="form-control input-control required"
+                  placeholder="Phone"
+                  formControlName="previousEmpPhone"
+                  mask="(000) 000-0000"
+                  appInputFocus
+                />
+                <label class="required-label" for="phone">Phone</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.previousEmpPhone"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <div
+                class="form-label-group input-icon email-field-wrapper {{
+                  manageInputValidation(sphReviewForm.controls.previousEmpEmail)
+                }}"
+              >
+                <input
+                  id="previousEmpEmail"
+                  class="form-control input-control"
+                  placeholder="Email"
+                  formControlName="previousEmpEmail"
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                  (keypress)="onEmailTyping($event)"
+                  (paste)="onPaste($event, 'empEmail')"
+                  appInputFocus
+                />
+                <label class="required-label">Email</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.previousEmpEmail"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8 col-md-10">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                        {{ manageInputValidation(sphReviewForm.controls.previousEmpAddress) }}"
+              >
+                <input
+                  id="previousEmpAddress"
+                  class="form-control input-control required"
+                  placeholder="Address, City, State Zip"
+                  formControlName="previousEmpAddress"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  appAppTitleCase
+                  [options]="optionsAddress"
+                  (onAddressChange)="handleAddressChange($event)"
+                />
+                <label class="required-label" for="previousEmpAddress"
+                  >Address, City, State Zip</label
+                >
+                <app-required-label
+                  [control]="sphReviewForm.controls.previousEmpAddress"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="previousEmpUnit"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="previousEmpUnit"
+                  maxlength="6"
+                  appInputrestriction="[A-Za-z0-9-]"
+                />
+                <label for="previousEmpUnit">Unit #</label>
+              </div>
+            </div>
+          </div>
+          <div class="centerContent user_block" style="margin-left: 0px !important;">
+            <div *ngIf="user != null" class="row user user-2">
+              <div class="col-md-6 col-6-mobile">
+                <input
+                  id="applicantName"
+                  placeholder="{{ user.firstName + ' ' + user.lastName }}"
+                  disabled
+                  appAppTitleCase
+                  class="form-control input-control user_input user_input_applicantName"
+                />
+                <label
+                  class="user_label user_label_applicantName user_label_applicantName-2"
+                  for="applicantName"
+                  >APPLICANT NAME</label
+                >
+              </div>
+              <div class="col-6 col-md-3">
+                <input
+                  id="applicantSSN"
+                  placeholder="{{ user.ssn }}"
+                  disabled
+                  class="form-control input-control user_input user_input_applicantSSN"
+                />
+                <label
+                  class="user_label user_label_applicantSSN user_label_applicantSSN-2"
+                  for="applicantSSN"
+                  >SSN</label
+                >
+              </div>
+              <div class="col-6 col-md-3">
+                <input
+                  id="applicantBirthday"
+                  placeholder="{{ user.birthday }}"
+                  disabled
+                  class="form-control input-control user_input user_input_applicantBirthday"
+                />
+                <label
+                  class="user_label user_label_applicantBirthday user_label_applicantBirthday-2"
+                  for="applicantBirthday"
+                  >DOB</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--==========  Accident history ==========-->
+        <h1 class="headingTwo">Accident history</h1>
+        <p class="firstParagraf" style="font-weight: bold;">
+          TO BE COMPLETED BY PREVIOUS EMPLOYER
+        </p>
+        <p class="firstParagraf">
+          Please take a moment and complete the information requested below. We would appreciate
+          your prompt response. As you are aware, after October 29, 2004, failures to respond within
+          30 days to investigative request for safety performance history will result in a complaint
+          notification being filed with the Federal Motor Carrier Safety Administration using the
+          complaint process specified 386.12.
+        </p>
+
+        <div class="centerContent2 centerContent2Mobile">
+          <div class="row mt-4">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Did the above applicant work for your company?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.workForYourCompany"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input
+                  (change)="questionsWithExplanation($event.target.value)"
+                  formControlName="workForYourCompany"
+                  type="radio"
+                  id="o4500"
+                  value="yes"
+                />
+                <label for="o4500" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  (change)="questionsWithExplanation($event.target.value)"
+                  formControlName="workForYourCompany"
+                  type="radio"
+                  id="o4600"
+                  value="no"
+                />
+                <label for="o4600" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="workForYourCompany"
+            class="row"
+            style="position: relative; padding: 20px; padding-top: 10px;"
+          >
+            <div class="col-4 col-md-3 workForCompany-fromDate" >
+              <div
+                class="form-label-group form-label-group-mobile form-label-group-mobile-1"
+                style="margin-bottom: 0px !important; margin-top: 10px !important;"
+              >
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    sphReviewForm.controls.workFromDate.value !== null &&
+                    sphReviewForm.controls.workFromDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="workFromDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="sphReviewForm.controls.workFromDate"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-4 col-md-3 workForCompany-toDate">
+              <div
+                class="form-label-group form-label-group-mobile form-label-group-mobile-2"
+                style="margin-bottom: 0px !important; margin-top: 10px !important;"
+              >
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    sphReviewForm.controls.workToDate.value !== null &&
+                    sphReviewForm.controls.workToDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="workToDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="sphReviewForm.controls.workToDate"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px; ">
+            <div class="col-8">
+              <p class="yesno_paragraf" style="margin-top: 24px !important;">
+                Did he/she drive a motor vehi. for your company?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.driveForYourCompany"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input
+                  formControlName="driveForYourCompany"
+                  type="radio"
+                  id="o4700"
+                  value="yes"
+                  (change)="questionsWithExplanation2($event.target.value)"
+                />
+                <label for="o4700" style="margin-top: 21px !important;" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="driveForYourCompany"
+                  type="radio"
+                  id="o4800"
+                  value="no"
+                  (change)="questionsWithExplanation2($event.target.value)"
+                />
+                <label for="o4800" style="margin-top: 21px !important;" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="driveForYourCompany" class="row driverForYourCompany">
+            <div class="col-12 col-md-5">
+              <div class="form-label-group truckMobile">
+                <ng-select
+                  [items]="truckList"
+                  formControlName="vehicleType"
+                  placeholder="Vehicle type"
+                  bindLabel="name"
+                  class="no-padding-dropdown required-field"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item">
+                    <div [ngClass]="item.class" class="svgTruck">
+                      <svg-icon
+                        class="svgIconTruck"
+                        [src]="'../../assets/img/svgs/truck/gray-icons/' + item.file"
+                      >
+                      </svg-icon>
+                      <span> {{ item.name }} </span>
+                    </div>
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="sphReviewForm.controls.vehicleType"></app-required-label>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-5">
+              <div class="form-label-group">
+                <ng-select
+                  [items]="trailerList"
+                  formControlName="trailerType"
+                  placeholder="Trailer type"
+                  bindLabel="name"
+                  class="no-padding-dropdown required-field"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item">
+                    <div [ngClass]="item.class" class="svgTriler">
+                      <svg-icon
+                        class="svgIconTriler"
+                        [src]="'../../assets/img/svgs/trailer/gray-icons/' + item.file"
+                      >
+                      </svg-icon>
+                      <span> {{ item.name }} </span>
+                    </div>
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="sphReviewForm.controls.trailerType"></app-required-label>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row stateReasonMobile" style="height: 21px !important;">
+            <div class="col-10 explainRowContent" style="padding-right: 3px !important;">
+              <div class="form-label-group">
+                <ng-select
+                  [items]="stateReason"
+                  formControlName="reason"
+                  placeholder="Reason for leaving"
+                  bindLabel="name"
+                  class="input-control required-field"
+                  (change)="reasonSelect($event)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item">
+                    {{ item.name }}
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="sphReviewForm.controls.reason"></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf" style="margin-top: 17px !important;">
+                Would this applicant be considered for employment with your company again?<span
+                  style="color: #ff5d5d;"
+                >
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.consideredForEmployment"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input
+                  formControlName="consideredForEmployment"
+                  type="radio"
+                  id="o4900"
+                  value="yes"
+                />
+                <label for="o4900" style="margin-top: 21px !important;" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="consideredForEmployment"
+                  type="radio"
+                  id="opt1000"
+                  value="no"
+                />
+                <label for="opt1000" style="margin-top: 21px !important;" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="performanceHistory">
+            <app-truckassist-checkbox
+              id="noSafetyPerformance"
+              formControlName="noSafetyPerformance"
+              [checked]="noSafetyPerformance"
+              (change)="(noSafetyPerformance != noSafetyPerformance)"
+              [(ngModel)]="noSafetyPerformance"
+            >
+            </app-truckassist-checkbox>
+            <span class="checkBox"> Check, if here is no safety performance history to report</span>
+          </div>
+        </div>
+        <div class="centerContent centerContent-Mobile">
+          <div class="row explainRowContent-date" style="margin-top: 22px !important;">
+            <div class="col-3">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    sphReviewForm.controls.date.value !== null &&
+                    sphReviewForm.controls.date.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="date"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label [control]="sphReviewForm.controls.date"></app-required-label>
+              </div>
+            </div>
+            <div class="col-9">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                      {{ manageInputValidation(sphReviewForm.controls.location) }}"
+              >
+                <input
+                  id="location2"
+                  class="form-control input-control required"
+                  placeholder="Location"
+                  formControlName="location"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  [options]="optionsAddress"
+                  appAppTitleCase
+                  (onAddressChange)="handleAddressChange($event)"
+                />
+                <label class="required-label" for="location2">Location</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.location"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row rowAccidentMobile">
+            <div class="col-3">
+              <div class="input-type-number">
+                <div class="fatality-injuries-conatiner">
+                  <p>Fatalities</p>
+                  <input
+                    id="fatalitiesAccident"
+                    type="number"
+                    [(ngModel)]="accidents.fatalityCount"
+                    class="form-control input-control"
+                    formControlName="fatalitiesAccident"
+                  />
+                  <svg-icon
+                    (click)="onCountFatality(true)"
+                    class="up-svg"
+                    src="/assets/img/svgs/safety/Up.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    (click)="onCountFatality(false)"
+                    class="down-svg down-svg_FD"
+                    src="/assets/img/svgs/safety/Down.svg"
+                  ></svg-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="input-type-number">
+                <div class="fatality-injuries-conatiner">
+                  <p class="injuries-mobile">Injuries</p>
+                  <input
+                    id="injuriesAccident"
+                    type="number"
+                    [(ngModel)]="accidents.injuriesCount"
+                    class="form-control input-control"
+                    formControlName="injuriesAccident"
+                  />
+                  <svg-icon
+                    (click)="onCountInjuries(true)"
+                    class="up-svg"
+                    src="/assets/img/svgs/safety/Up.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    (click)="onCountInjuries(false)"
+                    class="down-svg down-svg_FD"
+                    src="/assets/img/svgs/safety/Down.svg"
+                  ></svg-icon>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-6-hazmat">
+              <p class="yesno_paragraf hazmat_paragraf">
+                Hazmat spill<span class="requiredStar">*</span>
+              </p>
+              <div class="col-1">
+                <div class="yesno">
+                  <input formControlName="hazmatSpill" type="radio" id="o5000" value="yes" />
+                  <label for="o5000" class="yesno_label1 hazmat_Yes">
+                    <span class="yesno_options">Yes</span>
+                  </label>
+                  <input formControlName="hazmatSpill" type="radio" id="o5001" value="no" />
+                  <label for="o5001" class="yesno_label2 hazmat_No">
+                    <span class="yesno_options">No</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 explainRowContent explainRowContent-desc"
+              style="padding-right: 15px !important;"
+            >
+              <div class="form-label-group descript">
+                <input
+                  id="description"
+                  placeholder="Description"
+                  class="form-control input-control required"
+                  formControlName="description"
+                  (paste)="onPaste($event, 'description')"
+                  onkeypress="return (event.charCode >= 64 && event.charCode <= 91)
+                                          || (event.charCode >= 96 && event.charCode <= 123)"
+                  appInputrestriction="[A-Za-z]"
+                  appInputFocus
+                  appAppTitleCase
+                />
+                <label class="required-label" for="description">Description</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.description"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <a
+            [ngClass]="disableAddNextAccident ? 'add_disabled' : ''"
+            class="addAccident"
+            (click)="addAccident()"
+            >Add another accident</a
+          >
+        </div>
+        <!--==========  Drug & alcohol testing history ==========-->
+        <h1 class="headingTwo headingTwo-drug">
+          Drug & alcohol testing history
+        </h1>
+        <p class="firstParagraf" style="font-weight: bold;">
+          TO BE COMPLETED BY PREVIOUS EMPLOYER
+        </p>
+        <p class="firstParagraf">
+          Please take a moment and complete the information requested below. We would appreciate
+          your prompt response. As you are aware, after October 29, 2004, failures to respond within
+          30 days to investigative request for safety performance history will result in a complaint
+          notification being filed with the Federal Motor Carrier Safety Administration using the
+          complaint process specified 386.12.
+        </p>
+        <div class="dotTesting">
+          <app-truckassist-checkbox
+            id="isDOTtesting"
+            formControlName="isDOTtesting"
+            [checked]="isDOTtesting"
+            (change)="(isDOTtesting != isDOTtesting)"
+            [(ngModel)]="isDOTtesting"
+          >
+          </app-truckassist-checkbox>
+          <span class="checkBox">
+            Please check here if applicant was not subject to Department of Transportation (DOT)
+            testing requirements while employed by you.</span
+          >
+        </div>
+        <div class="centerContent2 centerContent3Mobile">
+          <div class="row mt-4" style="width: 491px;">
+            <div class="col-12 col-md-6">
+              <p class="yesno_paragraf">Dates of employment</p>
+            </div>
+            <div class="col-4 col-md-3">
+              <div
+                class="form-label-group form-label-group-mobile form-label-group-mobile-1"
+                style="margin-bottom: 0px !important; margin-top: 10px !important;"
+              >
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    sphReviewForm.controls.drugFromDate.value !== null &&
+                    sphReviewForm.controls.drugFromDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="drugFromDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="sphReviewForm.controls.drugFromDate"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-4 col-md-3">
+              <div
+                class="form-label-group form-label-group-mobile form-label-group-mobile-2"
+                style="margin-bottom: 0px !important; margin-top: 10px !important;"
+              >
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    sphReviewForm.controls.drugToDate.value !== null &&
+                    sphReviewForm.controls.drugToDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="drugToDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="sphReviewForm.controls.drugToDate"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Has this person had an alcohol test with a result of 0.04 or higher alcohol
+                concentration?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.hasAlchocolTest"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input formControlName="hasAlchocolTest" type="radio" id="opt5005" value="yes" />
+                <label for="opt5005" class="yesno_label1" style="margin-top: 16px !important;">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input formControlName="hasAlchocolTest" type="radio" id="opt5006" value="no" />
+                <label for="opt5006" class="yesno_label2" style="margin-top: 16px !important;">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Has this person tested positive for controlled substances?<span
+                  style="color: #ff5d5d;"
+                >
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.testedForSubstances"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input formControlName="testedForSubstances" type="radio" id="op4554" value="yes" />
+                <label for="op4554" class="yesno_label1" style="margin-top: 12px !important;">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input formControlName="testedForSubstances" type="radio" id="o46414" value="no" />
+                <label for="o46414" class="yesno_label2" style="margin-top: 12px !important;">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Has this person refused to submit to a post-accident, random, reasonable suspicion,
+                or follow up alcohol or controlled substances test or adulterated or substituted a
+                drug test specimen?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.isRefusedToTesting"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno yesno-common">
+                <input
+                  formControlName="isRefusedToTesting"
+                  type="radio"
+                  id="opt459696"
+                  value="yes"
+                />
+                <label for="opt459696" class="yesno_label1 yesno_common_sph">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="isRefusedToTesting"
+                  type="radio"
+                  id="opt4600000"
+                  value="no"
+                />
+                <label for="opt4600000" class="yesno_label2 yesno_common_sph">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Has this person committed other violations of Subpart B of Part 382, or 49 CFR Part
+                40?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.isCommittedOtherViolations"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno">
+                <input
+                  formControlName="isCommittedOtherViolations"
+                  type="radio"
+                  id="opt34145"
+                  value="yes"
+                />
+                <label for="opt34145" class="yesno_label1" style="margin-top: 15px !important;">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="isCommittedOtherViolations"
+                  type="radio"
+                  id="opt400136"
+                  value="no"
+                />
+                <label for="opt400136" class="yesno_label2" style="margin-top: 15px !important;">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                If this person has violated a DOT drug and alcohol regulation, did this person
+                complete an SAP-prescribed rehabilitation program while in your employ, including
+                return-to-duty and follow up tests?<span style="color: #ff5d5d;">
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.hasViolatedDOTdrugAlchocol"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno yesno-common">
+                <input
+                  formControlName="hasViolatedDOTdrugAlchocol"
+                  type="radio"
+                  id="opt23135"
+                  value="yes"
+                />
+                <label for="opt23135" class="yesno_label1 yesno_common_sph">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="hasViolatedDOTdrugAlchocol"
+                  type="radio"
+                  id="opt180044"
+                  value="no"
+                />
+                <label for="opt180044" class="yesno_label2 yesno_common_sph">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="centerContent">
+          <div class="row drugAddress">
+            <div class="col-12 col-md-8">
+              <div class="form-label-group">
+                <input
+                  id="nameOfSAP"
+                  placeholder="Name of SAP"
+                  class="form-control input-control required"
+                  formControlName="nameOfSAP"
+                  (paste)="onPaste($event, 'nameOfSAP')"
+                  (keypress)="onNameTyping($event)"
+                  (keydown)="onCheckBackSpace($event)"
+                  appInputFocus
+                  appAppTitleCase
+                />
+                <label class="required-label" for="nameOfSAP">Name of SAP</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.nameOfSAP"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div
+                class="form-label-group input-icon phone-field-wrapper {{
+                  manageInputValidation(sphReviewForm.controls.phoneOfSAP)
+                }}"
+              >
+                <input
+                  id="phoneOfSAP"
+                  class="form-control input-control required"
+                  placeholder="Phone"
+                  formControlName="phoneOfSAP"
+                  mask="(000) 000-0000"
+                  appInputFocus
+                />
+                <label class="required-label" for="phoneOfSAP">Phone</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.phoneOfSAP"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row drugAddress">
+            <div class="col-10">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                        {{ manageInputValidation(sphReviewForm.controls.addressOfSAP) }}"
+              >
+                <input
+                  id="addressOfSAP"
+                  class="form-control input-control required"
+                  placeholder="Address, City, State Zip"
+                  formControlName="addressOfSAP"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  [options]="optionsAddress"
+                  appAppTitleCase
+                  (onAddressChange)="handleAddressChange($event)"
+                />
+                <label class="required-label" for="addressOfSAP">Address, City, State Zip</label>
+                <app-required-label
+                  [control]="sphReviewForm.controls.addressOfSAP"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="addressUnitOfSAP"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="addressUnitOfSAP"
+                  maxlength="6"
+                  appInputrestriction="[A-Za-z0-9-]"
+                />
+                <label for="addressUnitOfSAP">Unit #</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="centerContent2">
+          <div class="row">
+            <div class="col-8">
+              <p class="yesno_paragraf yesno_paragraf-drugs">
+                For a driver who successfully completed an ASP’s rehabilitation referral and
+                remained in your employ. Did this driver, subsequently, have an alcohol test result
+                of 0.04 or greater, verified positive drug test, or refuse to be tested?<span
+                  style="color: #ff5d5d;"
+                >
+                  *
+                </span>
+              </p>
+              <app-required-yes-no
+                [control]="sphReviewForm.controls.completedASPRehabilitation"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1">
+              <div class="yesno yesno_drugs">
+                <input
+                  formControlName="completedASPRehabilitation"
+                  type="radio"
+                  id="op88996"
+                  value="yes"
+                />
+                <label for="op88996" class="yesno_label1" style="margin-top: 41px !important;">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="completedASPRehabilitation"
+                  type="radio"
+                  id="opt75727"
+                  value="no"
+                />
+                <label for="opt75727" class="yesno_label2" style="margin-top: 41px !important;">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

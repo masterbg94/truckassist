@@ -1,0 +1,492 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slideShow {
+  &__licence {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__country {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    z-index: 999999;
+  }
+  &__state {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    z-index: 999999;
+  }
+  &__class {
+    position: absolute;
+    top: 4px;
+    left: -2px;
+    z-index: 999999;
+  }
+  &__expDate {
+    position: absolute;
+    top: 4px;
+    left: 40px;
+    z-index: 999999;
+  }
+  &__endorsments {
+    position: absolute;
+    top: 4px;
+    left: 285px;
+    z-index: 999999;
+  }
+
+  &__firstrow {
+    position: absolute;
+    left: 58px;
+    top: 4.5px;
+  }
+  &__secondrow {
+    position: absolute;
+    left: 345px;
+    top: 4px;
+  }
+  &__thirdrow {
+    position: absolute;
+    left: 468px;
+  }
+  &__fourthrow {
+    position: absolute;
+    left: 469px;
+    top: 7px;
+  }
+  &__fifthrow {
+    position: absolute;
+    left: 469px;
+    top: 4px;
+  }
+}
+
+.hideForm {
+  position: absolute;
+  right: -26px;
+  cursor: pointer;
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_mobile {
+    display: none;
+  }
+  @media only screen and(max-width:414px) {
+    right: 6px;
+    &_desktop {
+      display: none;
+    }
+    &_mobile {
+      display: inline-block;
+    }
+  }
+}
+
+.additionalLicence {
+  font-weight: bold;
+  margin-top: -18px !important;
+
+  &_paragraf {
+    margin-top: -8px !important;
+    margin-bottom: 15px !important;
+
+    @media only screen and(max-width: 414px) {
+      margin-left: 19px !important;
+    }
+
+    @media only screen and(max-width: 376px) {
+      margin-left: -1px !important;
+    }
+  }
+
+  &_Yes {
+    margin-left: -5px !important;
+    margin-top: 3px !important;
+
+    @media only screen and(max-width: 414px) {
+      margin-left: -14px !important;
+    }
+    @media only screen and(max-width: 376px) {
+      margin-left: -13px !important;
+    }
+  }
+
+  &_No {
+    margin-top: 3px !important;
+    margin-right: -54px !important;
+    @media only screen and(max-width: 414px) {
+      margin-right: -64px !important;
+    }
+  }
+}
+.showLicence {
+  color: rgba(86, 115, 170, 0.7);
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  margin: 0 auto;
+  text-decoration: none;
+  top: -5px;
+  left: -15px;
+  &:hover {
+    color: rgba(86, 115, 170, 1);
+  }
+  @media only screen and(max-width: 414px) {
+    left: 0px;
+  }
+}
+.addLicence {
+  color: rgba(86, 115, 170, 0.7);
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  margin: 0 auto;
+  top: -6px;
+  left: -15px;
+  text-decoration: none;
+  @media only screen and(max-width: 414px) {
+    left: -4px;
+  }
+  @media only screen and(max-width: 376px) {
+    left: -6px;
+  }
+  @media only screen and(max-width: 361px) {
+    left: -4px;
+  }
+  &:hover {
+    color: rgba(86, 115, 170, 1);
+  }
+}
+
+.deleteLicence {
+  margin-top: 0px;
+  margin-right: -33px;
+  position: absolute;
+  right: -5px;
+  display: none;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_icon {
+    display: none;
+  }
+  &_mobile {
+    display: none;
+  }
+  @media only screen and (max-width: 414px) {
+    right: 40px;
+    display: inline-block;
+    &_desktop {
+      display: none;
+    }
+    &_mobile {
+      display: inline-block;
+    }
+  }
+}
+
+// Delete modal
+.dropdown-dialog {
+  &:after {
+    @include triangletop;
+    top: -6px;
+    left: 110px;
+    content: '';
+
+    @media only screen and (max-width: 414px) {
+      left: -73px;
+      top: -60px;
+    }
+  }
+
+  position: relative;
+  top: 17px;
+  right: 127px;
+  z-index: 99;
+  visibility: hidden;
+  opacity: 0;
+  @media only screen and (max-width: 414px) {
+    right: 106px;
+  }
+}
+
+/* Class add after event */
+.hide-dropdown-dialog {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: 0.2s;
+}
+
+.show-dropdown-dialog {
+  visibility: visible !important;
+  top: 28px !important;
+  opacity: 1 !important;
+  transition: 0.4s;
+}
+
+.editLicence {
+  cursor: pointer;
+  margin-top: 0px;
+  margin-right: -13px;
+  position: absolute;
+  right: -5px;
+  display: none;
+  text-decoration: none;
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_icon {
+    display: none;
+  }
+  @media only screen and (max-width: 414px) {
+    display: none !important;
+  }
+}
+
+.licence {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: -2px !important;
+  padding: 0px;
+  width: 516px;
+
+  @media only screen and (max-width: 414px) {
+    margin-bottom: 20px !important;
+    margin-left: 27px;
+  }
+
+  @media only screen and (max-width: 376px) {
+    margin-left: 26px;
+  }
+
+  &:hover .deleteLicence {
+    display: inline-block;
+  }
+
+  &:hover .editLicence {
+    display: inline-block;
+  }
+
+  &_input {
+    background-color: #919191 !important;
+    text-align: center;
+    text-transform: uppercase;
+    padding-left: 0px !important;
+
+    &_lic {
+      width: 170px;
+      margin-left: -16px;
+      padding: 0 6px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &_state {
+      width: 105px;
+      margin-left: 6px;
+    }
+
+    &_cls {
+      width: 105px;
+      margin-left: -10px;
+    }
+
+    &_date {
+      margin-left: -26px;
+    }
+
+    @media only screen and (max-width: 414px) {
+      &_lic {
+        width: 340px;
+        margin-left: -20px;
+      }
+      &_state {
+        margin-left: -20px;
+      }
+      &_cls {
+        margin-left: -75px;
+      }
+      &_date {
+        margin-left: -130px;
+        width: 140px;
+      }
+    }
+    @media only screen and (max-width: 376px) {
+      &_lic {
+        width: 303px;
+      }
+      &_date {
+        width: 105px;
+      }
+    }
+  }
+
+  &_input::-webkit-input-placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_input::-moz-placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_input:-ms-input-placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_input::placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_label {
+    position: relative;
+    top: -47px;
+    color: $color-gray-normal !important;
+    opacity: 1 !important;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    &_lic {
+      left: 42px;
+    }
+
+    &_state {
+      left: 41px;
+    }
+
+    &_cls {
+      left: 24px;
+    }
+
+    &_date {
+      left: -18px;
+    }
+
+    @media only screen and (max-width: 414px) {
+      &_lic {
+        left: 124px;
+      }
+      &_state {
+        left: 16px;
+      }
+      &_cls {
+        left: -40px;
+      }
+      &_date {
+        left: -89px;
+      }
+    }
+    @media only screen and (max-width: 376px) {
+      &_lic {
+        left: 106px;
+      }
+      &_date {
+        left: -104px;
+      }
+    }
+  }
+
+  &_paragrafYesNo {
+    margin-left: 0px !important;
+    margin-top: 15px !important;
+  }
+}
+
+.explaination {
+  margin-top: 4px;
+  @media only screen and (max-width: 414px) {
+    width: 470px !important;
+    margin-top: 25px;
+    margin-bottom: -35px;
+  }
+}
+
+.requiredYESNO-mobile {
+  @media only screen and (max-width: 414px) {
+    position: relative;
+    left: 37px;
+  }
+  @media only screen and (max-width: 376px) {
+    left: 19px;
+  }
+}
+
+// Mobile screen
+
+@media only screen and (max-width: 414px) {
+  .btn_mobile {
+    margin-left: -286px !important;
+  }
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .yesno {
+    top: 55px;
+    right: 82px;
+  }
+  .row {
+    &_mobile {
+      width: 471px;
+    }
+    .col-11 {
+      padding-left: 0px;
+      max-width: 83.66%;
+    }
+  }
+  .drop-down-delete-dialog {
+    left: -214px !important;
+    top: -54px;
+  }
+}
+
+@media only screen and(max-width: 376px) {
+  .btn_mobile {
+    margin-left: -332px !important;
+  }
+
+  .yesno {
+    top: 55px;
+    right: 101px;
+  }
+  .row {
+    &_mobile {
+      width: 422px;
+    }
+    .col-11 {
+      padding-left: 0px;
+      max-width: 83.66%;
+    }
+  }
+}
+
+@media only screen and(max-width: 360px) {
+  .btn_mobile {
+    margin-left: -341px !important;
+  }
+}

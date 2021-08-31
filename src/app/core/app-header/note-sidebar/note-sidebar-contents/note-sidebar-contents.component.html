@@ -1,0 +1,13 @@
+<div
+    #editContainer
+    (mousedown)="$event.stopPropagation()" 
+    class="note-sidebar-item-field" 
+    contenteditable 
+    placeholder="Jot something up..."
+    (keyup)="updateNoteMain($event)"
+    (focus)="focusElement($event)"
+    (blur)="blurElement($event)"
+    [ngStyle]="{ height: insideHeight + 'px' }"
+>
+    <span [innerHTML]="noteValue | safeHtml"></span>
+</div>

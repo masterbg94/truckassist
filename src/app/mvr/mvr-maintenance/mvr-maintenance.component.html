@@ -1,0 +1,253 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <div class="row modal-body-heading">
+      <div class="col-6">
+        <app-ta-tab-switch (switchClicked)="tabChange($event)" [tabs]="tabs"> </app-ta-tab-switch>
+      </div>
+      <div class="col-6">
+        <form [formGroup]="pickUpForm">
+          <div class="form-label-group">
+            <ng-select
+              placeholder="Name"
+              [items]="
+                selectedTab === 2 ? selectedApplicant : selectedTab === 1 ? selectedDriver : null
+              "
+              formControlName="pickUpOrder"
+              bindLabel="fullName"
+              appendTo="body"
+              class="input-control required-field selected-driver"
+              (change)="driverSelect($event)"
+              (clear)="clearSelectedDriver($event)"
+              [disabled]="selectedTab === 3"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.fullName }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="pickUpForm.controls.pickUpOrder"></app-required-label>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row modal-body-details">
+      <div class="col-12 note-wrapper{{ showDriverDetails ? ' visible-note' : ' hidden-note' }}">
+        <div class="note-label-wrapper" (click)="openDriverDetails()">
+          <span class="note-label">Driver Details</span>
+          <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{
+            showDriverDetails ? ' note-visible' : ' note-hidden'
+          }}"
+        >
+          <form
+            *ngIf="loaded"
+            class="form-container"
+            #driverDetails
+            [formGroup]="driverDetailForm"
+            (keydown)="keyDownFunction($event)"
+          >
+            <div class="row">
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="firstName"
+                    class="form-control input-control required"
+                    (paste)="onPaste($event, 'firstName')"
+                    onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                    placeholder="First name"
+                    formControlName="firstName"
+                    appInputrestriction="[A-Za-z]"
+                    appInputFocus
+                    appAutoFocus
+                    [modalType]="inputData.data.type"
+                  />
+                  <label class="required-label" for="firstName">First name</label>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.firstName"
+                  ></app-required-label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="lastName"
+                    class="form-control input-control required"
+                    (paste)="onPaste($event, 'lastName')"
+                    onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                    placeholder="Last name"
+                    formControlName="lastName"
+                    appInputrestriction="[A-Za-z]"
+                    appInputFocus
+                  />
+                  <label class="required-label" for="lastName">Last name</label>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.lastName"
+                  ></app-required-label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="ssn"
+                    class="form-control input-control required"
+                    (paste)="onPaste($event, 'ssn')"
+                    placeholder="SSN"
+                    formControlName="ssn"
+                    mask="000-00-0000"
+                    appInputFocus
+                  />
+                  <label class="required-label" for="ssn">SSN</label>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.ssn"
+                  ></app-required-label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="cdl"
+                    placeholder="CDL"
+                    class="form-control input-control required"
+                    formControlName="cdl"
+                    oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                    (paste)="onPaste($event, 'cdl', 17)"
+                    (keypress)="onLicenseNumberTyping($event)"
+                    maxlength="17"
+                    appInputFocus
+                  />
+                  <label class="required-label" for="cdl">CDL</label>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.cdl"
+                  ></app-required-label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <ng-select
+                    [items]="countryData"
+                    formControlName="country"
+                    placeholder="Country"
+                    bindLabel="value"
+                    (change)="getStateData($event)"
+                    class="required-field"
+                    appendTo="body"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                      <span [ngOptionHighlight]="search">{{ item.value }}</span>
+                    </ng-template>
+                  </ng-select>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.country"
+                  ></app-required-label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <ng-select
+                    [items]="stateData"
+                    formControlName="state"
+                    placeholder="State"
+                    bindLabel="key"
+                    class="required-field"
+                    appendTo="body"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                      <svg-icon
+                        src="assets/img/svgs/states/{{ item.value }}.svg"
+                        [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                        class="select-dropdown-image"
+                      ></svg-icon>
+                      <span [ngOptionHighlight]="search">{{ item.key }}</span>
+                    </ng-template>
+
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="value-label-container state-value-label">
+                        <svg-icon
+                          src="assets/img/svgs/states/{{ item.value }}.svg"
+                          [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                          class="select-dropdown-image"
+                        ></svg-icon>
+                        <span>{{ item.key }}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.state"
+                  ></app-required-label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <div
+                  class="form-label-group input-icon address-field-wrapper
+                            {{ manageInputValidation(driverDetailForm.controls.address) }}"
+                >
+                  <input
+                    id="address"
+                    formControlName="address"
+                    class="form-control input-control required"
+                    placeholder="Address, City, State Zip"
+                    ngx-google-places-autocomplete
+                    #placesRef="ngx-places"
+                    appInputFocus
+                    [options]="options"
+                    (onAddressChange)="handleAddressChange($event)"
+                  />
+                  <label class="required-label" for="address">Address, City, State Zip</label>
+                  <app-required-label
+                    [control]="driverDetailForm.controls.address"
+                  ></app-required-label>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-label-group">
+                  <input
+                    id="unit"
+                    class="form-control input-control"
+                    placeholder="Unit #"
+                    formControlName="unit"
+                    maxlength="6"
+                    appInputrestriction="[A-Za-z0-9-]"
+                    appInputFocus
+                  />
+                  <label for="unit">Unit #</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-10">
+                <p class="requested-charge">* Once requested orders are not refundable</p>
+              </div>
+              <div class="col-2">
+                <div class="form-label-group">
+                  <input
+                    id="charge"
+                    class="form-control input-control"
+                    placeholder="Charge"
+                    formControlName="charge"
+                    appInputrestriction="[0-9]"
+                    appInputFocus
+                  />
+                  <label for="unit">Charge</label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <app-loading-modal class="large" *ngIf="!loaded"></app-loading-modal>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeMvrMaintenance()">Cancel</button>
+    <button type="button" class="save-btn" (click)="requestMvr()">Request</button>
+  </div>
+</div>

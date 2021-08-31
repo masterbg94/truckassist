@@ -1,0 +1,147 @@
+<div class="d-inline-block action-dropdown" ngbDropdown #actionDrop="ngbDropdown" *ngIf="!hideDropDown">
+  <button
+    class="custom-rounded-btn"
+    aria-hidden="true"
+    [disabled]="false"
+    id="dropdownManual"
+    ngbDropdownToggle
+    [ngClass]="{'routing-style': category === 'routing'}"
+  >
+    <svg-icon
+      class="empty-icon"
+      [ngClass]="{ modifyPointsScss: specialStyle }"
+      src="assets/img/svgs/table/points.svg"
+      [svgStyle]="{
+        'width.px': specialStyle ? '17' : '20',
+        'height.px': specialStyle ? '13' : '20'
+      }"
+    ></svg-icon>
+  </button>
+  <div
+    ngbDropdownMenu
+    class="animate slideIn"
+    [ngClass]="{ 'edit-hovered': editHovered, 'delete-hovered': deleteHovered }"
+    aria-labelledby="dropdownManual"
+    appDropdownManager
+  >
+    <a
+      ngbDropdownItem
+      class="dropdown-item main-field"
+      *ngFor="let action of mainActions"
+      (click)="openAction({ id: identificator, type: action.name })"
+      (mouseover)="editHovered = true"
+      (mouseout)="editHovered = false"
+    >
+      <svg-icon
+        [src]="'/assets/img/svgs/edit-pencil.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+      <span>
+        {{ action.title }}
+      </span>
+    </a>
+
+    <a
+      ngbDropdownItem
+      class="dropdown-item main-field customer_list"
+      [class.dnu-field]="action.type == 'dnu'"
+      *ngFor="let action of customerActions"
+      (click)="openAction({ id: identificator, type: action.name })"
+      (mouseover)="editHovered = true"
+      (mouseout)="editHovered = false"
+    >
+      <svg-icon
+        [src]="'/assets/img/svgs/circle_minus.svg'"
+        [svgStyle]="{ 'width.px': '15', 'height.px': '15' }"
+      ></svg-icon>
+      <span>
+        {{ customerData[action.type] ? action.reverseTitle : action.title }}
+      </span>
+    </a>
+    <a
+      ngbDropdownItem
+      class="dropdown-item add-item"
+      *ngFor="let action of otherActions"
+      (click)="openAction({ id: identificator, type: action.name })"
+    >
+      <svg-icon
+        [src]="'/assets/img/svgs/add-plus-icon.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+      <span>
+        {{ action.title }}
+      </span>
+    </a>
+
+    <!-- Print Action -->
+    <a
+      ngbDropdownItem
+      class="dropdown-item"
+      *ngFor="let print of printAction"
+      (click)="openAction({ id: identificator, type: print.name })"
+      [ngClass]="{'print-action-radius': !activateAction && !deleteAction}"
+    >
+      <svg-icon
+        class="print-svg"
+        [src]="'/assets/img/svgs/Routing/print-v2.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+      <span>
+        {{ print.title }}
+      </span>
+    </a>
+
+    <!-- Activate Action -->
+    <a
+      ngbDropdownItem
+      class="dropdown-item"
+      [ngClass]="{ 'active-field': !status, 'inactive-field': status }"
+      *ngIf="activateAction"
+      (click)="openAction({ id: identificator, type: activateAction.name, status: status })"
+    >
+      <svg-icon
+        [src]="'/assets/img/svgs/activate.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+      <span class="title">
+        {{ status ? activateAction.reverseTitle : activateAction.title }}
+      </span>
+    </a>
+
+    <!-- Delete Action -->
+    <a
+      ngbDropdownItem
+      class="dropdown-item delete-field"
+      *ngIf="deleteAction"
+      (click)="
+        !dontShowDeleteDialog
+          ? toggleDeleteDialog({ id: identificator, type: deleteAction.name, category: category })
+          : (openDropDeleteDialog = true)
+      "
+      (mouseover)="deleteHovered = true"
+      (mouseout)="deleteHovered = false"
+    >
+      <svg-icon
+        [src]="'/assets/img/svgs/table/trash.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+      <span class="title">
+        {{ deleteAction.title }}
+      </span>
+    </a>
+  </div>
+
+  <!-- Delete Dialog -->
+  <div
+    class="dropdown-dialog"
+    [ngClass]="{
+      'show-dropdown-dialog': openDropDeleteDialog,
+      'hide-dropdown-dialog': !openDropDeleteDialog
+    }"
+  >
+    <app-delete-dropdown-dialog
+      [dialog]="'Are you sure you want to delete?'"
+      (actionEvent)="onDropDialog($event, { id: identificator, type: deleteAction.name })"
+    ></app-delete-dropdown-dialog>
+  </div>
+</div>

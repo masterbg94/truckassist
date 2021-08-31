@@ -1,0 +1,16 @@
+<svg id="Full_Screen" data-name="Full Screen" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_3105" data-name="Rectangle 3105" width="18" height="18" fill="none"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_3106" data-name="Rectangle 3106" width="32" height="32" rx="5" fill="#fff" opacity="0.8"/>
+  <g id="Group_5692" data-name="Group 5692" transform="translate(7 7)" opacity="0.7">
+    <g id="Group_5692-2" data-name="Group 5692" transform="translate(0 -0.001)" clip-path="url(#clip-path)">
+      <path id="Path_3536" data-name="Path 3536" d="M.643,7.021H6.379a.643.643,0,0,0,.643-.643V.643A.643.643,0,0,0,6.379,0H5.742A.643.643,0,0,0,5.1.643V5.1H.643A.643.643,0,0,0,0,5.742v.637a.643.643,0,0,0,.643.643" fill="#919191"/>
+      <path id="Path_3537" data-name="Path 3537" d="M17.721,7.021h5.736a.643.643,0,0,0,.643-.643V5.742a.643.643,0,0,0-.643-.643H19V.643A.643.643,0,0,0,18.358,0h-.637a.643.643,0,0,0-.643.643V6.379a.643.643,0,0,0,.643.643" transform="translate(-6.1)" fill="#919191"/>
+      <path id="Path_3538" data-name="Path 3538" d="M.643,19H5.1v4.456a.643.643,0,0,0,.643.643h.637a.643.643,0,0,0,.643-.643V17.721a.643.643,0,0,0-.643-.643H.643A.643.643,0,0,0,0,17.721v.637A.643.643,0,0,0,.643,19" transform="translate(0 -6.1)" fill="#919191"/>
+      <path id="Path_3539" data-name="Path 3539" d="M17.721,24.1h.637A.643.643,0,0,0,19,23.456V19h4.456a.643.643,0,0,0,.643-.643v-.636a.643.643,0,0,0-.643-.643H17.721a.643.643,0,0,0-.643.643v5.735a.643.643,0,0,0,.643.643" transform="translate(-6.1 -6.1)" fill="#919191"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,686 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slideShow {
+  &__description {
+    position: absolute;
+    top: 4px;
+    left: 162px;
+    z-index: 999999;
+  }
+  &__kendo1 {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    z-index: 999999;
+  }
+  &__kendo2 {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    z-index: 999999;
+  }
+  &__phone {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__email {
+    position: absolute;
+    top: 4px;
+    left: 244px;
+    z-index: 999999;
+  }
+  &__address {
+    position: absolute;
+    top: 4px;
+    left: 326px;
+    z-index: 999999;
+  }
+  &__unit {
+    position: absolute;
+    top: 4px;
+    left: 0px;
+    z-index: 999999;
+  }
+  &__vehicle {
+    position: absolute;
+    top: 4px;
+    left: 122px;
+    z-index: 999999;
+  }
+  &__trailer {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__length {
+    position: absolute;
+    top: 4px;
+    left: 40px;
+    z-index: 999999;
+  }
+  &__account {
+    position: absolute;
+    top: 4px;
+    left: 408px;
+    z-index: 999999;
+  }
+
+  &__firstrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+  &__secondrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+  &__thirdrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+  &__fourthrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+  &__fifthrow {
+    position: absolute;
+    top: 3.5px;
+    left: 470px;
+    z-index: 999999;
+  }
+  &__sixthrow {
+    position: absolute;
+    top: -6.5px;
+    left: 455px;
+  }
+  &__seventhrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+  &__eightrow {
+    position: absolute;
+    top: 4px;
+    left: 470px;
+  }
+}
+
+.employers {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: 26px !important;
+  background-color: rgb(86, 115, 170, 0.7);
+  color: $color-white-liighter;
+  border-radius: 3px;
+  font-weight: bold;
+
+  padding-top: 3px;
+  padding-left: 6px;
+  margin-bottom: 20px;
+
+  @media only screen and(max-width:414px) {
+    width: 366px;
+  }
+  @media only screen and(max-width:376px) {
+    width: 315px;
+  }
+  @media only screen and(max-width:361px) {
+    width: 302px;
+    margin-left: 6px;
+  }
+
+  &:hover {
+    background-color: rgb(86, 115, 170, 1);
+  }
+
+  &_new {
+    background-color: rgb(108, 108, 108, 0.7) !important;
+
+    &:hover {
+      background-color: rgb(108, 108, 108, 0.9) !important;
+    }
+  }
+
+  &_name {
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  &_update {
+    color: $color-white-normal;
+    text-decoration: none;
+    margin-right: 5px;
+    padding-top: 2px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  &_pen {
+    position: absolute;
+    margin-top: -1.2px !important;
+    right: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+      svg-icon {
+        svg {
+          path {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    @media only screen and(max-width:414px) {
+      display: none !important;
+    }
+  }
+
+  &_delete {
+    position: relative;
+    right: 5px;
+    margin-top: -1.2px !important;
+    display: none;
+    transition: all 0.3s ease-in 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      svg-icon {
+        svg {
+          path {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    @media only screen and(max-width:414px) {
+      display: none !important;
+    }
+  }
+
+  &:hover .employers_pen {
+    right: 25px;
+  }
+
+  &:hover .employers_delete {
+    display: inline-block;
+    right: 5px;
+
+    svg {
+      path {
+        fill: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+}
+
+.e_delete-mobile {
+  display: none;
+  @media only screen and (max-width: 414px) {
+    display: inline-block;
+    position: absolute;
+    right: -28px;
+  }
+  @media only screen and (max-width: 376px) {
+    right: -33px;
+  }
+  @media only screen and (max-width: 361px) {
+    right: -39px;
+  }
+}
+.e_delete-mobile-2 {
+  display: none;
+  @media only screen and (max-width: 414px) {
+    display: inline-block;
+  }
+}
+
+.employerName {
+  width: 477px;
+  @media only screen and(max-width: 361px) {
+    width: 458px;
+    margin-left: 13px;
+  }
+}
+.employerAddress {
+  @media only screen and(max-width: 361px) {
+    width: 451px;
+    margin-left: 15px;
+  }
+}
+
+.drivingPosition {
+  text-align: left;
+  position: relative;
+  top: -16px;
+  left: -14px;
+  margin-bottom: 5px;
+  @media only screen and(max-width: 414px) {
+    left: 99px;
+  }
+
+  @media only screen and(max-width: 376px) {
+    left: 78px;
+  }
+}
+
+.isDrivingPosition {
+  margin-top: -4px;
+}
+
+.truckEquipment {
+  position: relative;
+  top: -8px;
+  left: -127px;
+  color: rgba(86, 115, 170, 0.7);
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  @media only screen and(max-width: 414px) {
+    top: -6px;
+    left: -71px;
+  }
+  @media only screen and(max-width: 376px) {
+    left: -48px;
+  }
+}
+
+.showDeleteTruck:hover .deleteTruckType {
+  display: inline-block;
+}
+
+.showDeleteTruck {
+  margin-left: 0px !important;
+  @media only screen and(max-width: 414px) {
+    width: 497px;
+  }
+  @media only screen and(max-width: 361px) {
+    width: 480px;
+    margin-left: 7px !important;
+  }
+}
+.deleteTruckType {
+  margin-top: 0;
+  margin-right: 0;
+  position: absolute;
+  top: 2px;
+  right: -8px;
+  display: none;
+  cursor: pointer;
+
+  &:hover {
+    display: inline-block;
+
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+
+  &_text {
+    display: none;
+  }
+  &_mobile {
+    display: none;
+  }
+  @media only screen and (max-width: 414px) {
+    right: -3px;
+    &_desktop {
+      display: none;
+    }
+    &_mobile {
+      display: inline-block !important;
+    }
+  }
+  @media only screen and (max-width: 376px) {
+    right: 4px;
+  }
+}
+
+.addEmployer {
+  color: rgba(86, 115, 170, 0.7);
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  margin: 0 auto;
+  top: -13px;
+  left: -8px;
+
+  &:hover {
+    color: $color-blue-normal;
+  }
+
+  @media only screen and(max-width: 414px) {
+    left: 3px;
+  }
+}
+.showEmployer {
+  top: -5px !important;
+}
+
+.experience {
+  position: relative;
+  top: -3px;
+  left: 0px;
+
+  &_notExperience {
+    font-size: 12px;
+  }
+}
+
+.cfrFMCSA {
+  position: relative;
+  margin-top: 15px;
+  margin-left: 0px !important;
+  height: 40px;
+  @media only screen and(max-width: 414px) {
+    margin-bottom: 87px;
+    margin-left: 24px !important;
+  }
+
+  @media only screen and(max-width: 376px) {
+    margin-left: 7px !important;
+  }
+
+  @media only screen and(max-width: 360px) {
+    margin-left: 10px !important;
+  }
+}
+
+.cfr {
+  margin-top: -9px !important;
+  margin-left: 2px !important;
+
+  &_Yes {
+    margin-left: -17px !important;
+    margin-top: -11px !important;
+  }
+
+  &_No {
+    margin-top: -11px !important;
+    margin-right: -43px !important;
+  }
+
+  @media only screen and(max-width: 414px) {
+    margin-left: 1px !important;
+
+    &_Yes {
+      margin-left: -46px !important;
+    }
+    &_No {
+      margin-right: -32px !important;
+    }
+  }
+
+  @media only screen and(max-width: 376px) {
+    margin-left: 1px !important;
+
+    &_Yes {
+      margin-left: -45px !important;
+    }
+    &_No {
+      margin-right: -33px !important;
+    }
+  }
+}
+
+.fmcsa {
+  margin-top: -8px !important;
+  margin-left: 21px !important;
+  margin-bottom: 24px !important;
+
+  &_Yes {
+    margin-left: -6px !important;
+    margin-top: -11px !important;
+  }
+
+  &_No {
+    margin-top: -11px !important;
+    margin-right: -54px !important;
+  }
+  @media only screen and(max-width: 414px) {
+    margin-left: -198px !important;
+    margin-top: 54px !important;
+
+    &_Yes {
+      margin-left: -14px !important;
+    }
+    &_No {
+      margin-right: -64px !important;
+    }
+  }
+
+  @media only screen and(max-width: 376px) {
+    margin-left: -195px !important;
+    margin-top: 54px !important;
+    position: relative;
+    top: 5px;
+
+    &_Yes {
+      margin-left: -14px !important;
+    }
+    &_No {
+      margin-right: -64px !important;
+    }
+  }
+}
+
+.requiredStar2 {
+  position: relative;
+  color: $color-red-lighter;
+  top: -20px;
+  left: 130px;
+
+  @media only screen and (max-width: 414px) {
+    top: 0px;
+    left: 0px;
+  }
+}
+
+.checkbox-step2 {
+  font-size: 14px !important;
+  top: 1.6px !important;
+}
+
+.empty {
+  display: block;
+  content: '';
+  width: 42px;
+}
+
+.accountInput {
+  margin-top: -4px;
+}
+
+// Delete modal
+.dropdown-dialog {
+  &:after {
+    @include triangletop;
+    top: -6px;
+    left: 110px;
+    content: '';
+  }
+  position: absolute;
+  top: 15px;
+  right: 118px;
+  z-index: 99;
+  visibility: hidden;
+  opacity: 0;
+  @media only screen and (max-width: 414px) {
+    right: 125px;
+  }
+  @media only screen and (max-width: 376px) {
+    right: 131px;
+  }
+}
+
+.drop-dialog_paragraf {
+  font-size: 12px !important;
+  color: #6c6c6c !important;
+}
+
+/* Class add after event */
+.hide-dropdown-dialog {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: 0.2s;
+}
+
+.show-dropdown-dialog {
+  visibility: visible !important;
+  top: 28px !important;
+
+  opacity: 1 !important;
+  transition: 0.4s;
+
+  &_employe {
+    top: 30px !important;
+    right: 132px !important;
+    @media only screen and (max-width: 414px) {
+      right: 100px !important;
+    }
+    @media only screen and (max-width: 376px) {
+      right: 94px !important;
+    }
+    @media only screen and (max-width: 361px) {
+      right: 89px !important;
+    }
+  }
+}
+.cfr_requiredMobile {
+  position: relative;
+  top: -6px;
+  left: 3px;
+  @media only screen and (max-width: 414px) {
+    width: 190px;
+    top: 2px;
+    left: 22px;
+  }
+}
+.fmcsa_requiredMobile {
+  position: relative;
+  top: -34px;
+  left: 22px;
+  @media only screen and (max-width: 414px) {
+    width: 190px;
+    top: -4px;
+    left: -177px;
+  }
+}
+
+// Media query for mobile screen
+@media only screen and(max-width: 414px) {
+  .centerContent {
+    margin-left: -9px;
+  }
+  .row {
+    .col {
+      padding-right: 0px;
+    }
+    .col-10 {
+      max-width: 71.5% !important;
+    }
+    .col-12 {
+      max-width: 71%;
+    }
+    &_mobile {
+      width: 496px;
+    }
+  }
+  .yesno {
+    &_mobile1 {
+      right: -43px;
+      top: 30px;
+    }
+    &_mobile2 {
+      top: 94px;
+      right: 225px;
+    }
+  }
+  .btn_mobile {
+    margin-left: -295px;
+  }
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .drop-down-delete-dialog {
+    left: -35px !important;
+  }
+  .truckMobile {
+    width: 369px !important;
+  }
+  .employerName_mobile {
+    max-width: 77% !important;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .btn_mobile {
+    margin-left: -326px;
+  }
+  .yesno {
+    &_mobile1 {
+      right: -43px;
+      top: 30px;
+    }
+    &_mobile2 {
+      top: 94px;
+      right: 225px;
+    }
+  }
+  .row {
+    .col-10 {
+      max-width: 63% !important;
+    }
+  }
+  .truckMobile {
+    width: 317px !important;
+  }
+  .employerName_mobile {
+    max-width: 66% !important;
+  }
+}
+@media only screen and (max-width: 361px) {
+  .row {
+    &_mobile {
+      width: 478px;
+      margin-left: 13px;
+    }
+  }
+  .btn_mobile {
+    margin-left: -330px;
+  }
+}
+.hideForm {
+  position: absolute;
+  right: -22px;
+  cursor: pointer;
+  display: inline-block;
+  svg {
+    path {
+      opacity: 1;
+    }
+  }
+  @media only screen and(max-width:414px) {
+    right: -5px;
+  }
+  @media only screen and(max-width:376px) {
+    right: 4px;
+  }
+  @media only screen and(max-width:361px) {
+    right: 5.5px;
+  }
+}

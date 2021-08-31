@@ -1,0 +1,65 @@
+<form [formGroup]="cdlCard" (ngSubmit)="onSubmit()" class="my-2 cdl">
+  <div class="slideShow my-5 reviewer-slideShow">
+    <h1>
+      Upload CDL
+    </h1>
+    <p class="firstParagraf">
+      Your identification document will help us to validate your identity.
+      <br />
+      <span style="font-weight: bold;"
+        >To confirm you are you, please upload digital photo of the front & back side of your
+        CDL.</span
+      >
+    </p>
+    <div class="centerContent">
+      <div class="form-group">
+        <div class="col-12">
+          <div class="row rowMobile" style="position: relative;">
+            <div class="col-12">
+              <app-app-upload
+                [attachments]="attachments"
+                (filesEvent)="receiveMessage($event)"
+                [clearFiles]="clearFiles"
+                [component]="'medical'"
+                [multiple]="true"
+              ></app-app-upload>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[0]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="cdl_paragraf">
+      By continuing, you are agreeing to our
+      <span style="font-weight: bold;">Terms of Service</span> and
+      <span style="font-weight: bold;">Privacy Policy</span>
+    </p>
+
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+      style="margin-top: 12px !important;"
+    >
+      Finish
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2 btns_reviewConfirm"
+    >
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

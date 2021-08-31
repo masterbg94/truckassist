@@ -1,0 +1,664 @@
+<!-- Desktop progressBar -->
+<div *ngIf="step < 12" id="stepProgressBar">
+  <div class="step">
+    <div
+      [ngClass]="
+        step < 2
+          ? isReviewStepOne === null
+            ? 'completed'
+            : isReviewStepOne
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 1
+          ? isReviewStepOne === null
+            ? 'previous'
+            : isReviewStepOne
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_1 bulletFirst"
+      [routerLink]="1"
+    >
+      1
+    </div>
+    <p
+      [ngClass]="
+        step < 2
+          ? isReviewStepOne === null
+            ? 'completed'
+            : isReviewStepOne
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 1
+          ? isReviewStepOne === null
+            ? 'previous'
+            : isReviewStepOne
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Personal Info
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 2
+          ? isReviewStepTwo === null
+            ? 'completed'
+            : isReviewStepTwo
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 2
+          ? isReviewStepTwo === null
+            ? 'previous'
+            : isReviewStepTwo
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_2"
+      [routerLink]="2"
+    >
+      2
+    </div>
+    <p
+      [ngClass]="
+        step == 2
+          ? isReviewStepTwo === null
+            ? 'completed'
+            : isReviewStepTwo
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 2
+          ? isReviewStepTwo === null
+            ? 'previous'
+            : isReviewStepTwo
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Work <br />
+      experience
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 3
+          ? isReviewStepThree === null
+            ? 'completed'
+            : isReviewStepThree
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 3
+          ? isReviewStepThree === null
+            ? 'previous'
+            : isReviewStepThree
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_3"
+      [routerLink]="3"
+    >
+      3
+    </div>
+    <p
+      [ngClass]="
+        step == 3
+          ? isReviewStepThree === null
+            ? 'completed'
+            : isReviewStepThree
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 3
+          ? isReviewStepThree === null
+            ? 'previous'
+            : isReviewStepThree
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      CDL <br />
+      Information
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 4
+          ? isReviewStepFour === null
+            ? 'completed'
+            : isReviewStepFour
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 4
+          ? isReviewStepFour === null
+            ? 'previous'
+            : isReviewStepFour
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_4"
+      [routerLink]="4"
+    >
+      4
+    </div>
+    <p
+      [ngClass]="
+        step == 4
+          ? isReviewStepFour === null
+            ? 'completed'
+            : isReviewStepFour
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 4
+          ? isReviewStepFour === null
+            ? 'previous'
+            : isReviewStepFour
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Accident <br />
+      records
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 5
+          ? isReviewStepFive === null
+            ? 'completed'
+            : isReviewStepFive
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 5
+          ? isReviewStepFive === null
+            ? 'previous'
+            : isReviewStepFive
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_5"
+      [routerLink]="5"
+    >
+      5
+    </div>
+    <p
+      [ngClass]="
+        step == 5
+          ? isReviewStepFive === null
+            ? 'completed'
+            : isReviewStepFive
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 5
+          ? isReviewStepFive === null
+            ? 'previous'
+            : isReviewStepFive
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Traffic <br />
+      violations
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 6
+          ? isReviewStepSix === null
+            ? 'completed'
+            : isReviewStepSix
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 6
+          ? isReviewStepSix === null
+            ? 'previous'
+            : isReviewStepSix
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_6"
+      [routerLink]="6"
+    >
+      6
+    </div>
+    <p
+      [ngClass]="
+        step == 6
+          ? isReviewStepSix === null
+            ? 'completed'
+            : isReviewStepSix
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 6
+          ? isReviewStepSix === null
+            ? 'previous'
+            : isReviewStepSix
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Education
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 7
+          ? isReviewStepSeven === null
+            ? 'completed'
+            : isReviewStepSeven
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 7
+          ? isReviewStepSeven === null
+            ? 'previous'
+            : isReviewStepSeven
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_7"
+      [routerLink]="7"
+    >
+      7
+    </div>
+    <p
+      [ngClass]="
+        step == 7
+          ? isReviewStepSeven === null
+            ? 'completed'
+            : isReviewStepSeven
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 7
+          ? isReviewStepSeven === null
+            ? 'previous'
+            : isReviewStepSeven
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      7 Days HOS
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 8
+          ? isReviewStepEight === null
+            ? 'completed'
+            : isReviewStepEight
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 8
+          ? isReviewStepEight === null
+            ? 'previous'
+            : isReviewStepEight
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_8"
+      [routerLink]="8"
+    >
+      8
+    </div>
+    <p
+      [ngClass]="
+        step == 8
+          ? isReviewStepEight === null
+            ? 'completed'
+            : isReviewStepEight
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 8
+          ? isReviewStepEight === null
+            ? 'previous'
+            : isReviewStepEight
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Drug &#38; Alchocol <br />
+      statement
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 9
+          ? isReviewStepNine === null
+            ? 'completed'
+            : isReviewStepNine
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 9
+          ? isReviewStepNine === null
+            ? 'previous'
+            : isReviewStepNine
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_9"
+      [routerLink]="9"
+    >
+      9
+    </div>
+    <p
+      [ngClass]="
+        step == 9
+          ? isReviewStepNine === null
+            ? 'completed'
+            : isReviewStepNine
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 9
+          ? isReviewStepNine === null
+            ? 'previous'
+            : isReviewStepNine
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Driver rights
+    </p>
+  </div>
+  <div class="step">
+    <div
+      [ngClass]="
+        step == 10
+          ? isReviewStepTen === null
+            ? 'completed'
+            : isReviewStepTen
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 10
+          ? isReviewStepTen === null
+            ? 'previous'
+            : isReviewStepTen
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="bullet bullet_10"
+      [routerLink]="10"
+    >
+      10
+    </div>
+    <p
+      [ngClass]="
+        step == 10
+          ? isReviewStepTen === null
+            ? 'completed'
+            : isReviewStepTen
+            ? 'completed-review'
+            : 'rejected-review'
+          : step > 10
+          ? isReviewStepTen === null
+            ? 'previous'
+            : isReviewStepTen
+            ? 'previous-completed-review'
+            : 'previous-rejected-review'
+          : ''
+      "
+      class="step-text"
+    >
+      Disclosure &#38; <br />
+      release
+    </p>
+  </div>
+  <div class="step">
+    <div
+    [ngClass]="
+    step == 11
+      ? isReviewStepEleven === null
+        ? 'completed'
+        : isReviewStepEleven
+        ? 'completed-review'
+        : 'rejected-review'
+      : step > 11
+      ? isReviewStepEleven === null
+        ? 'previous'
+        : isReviewStepEleven
+        ? 'previous-completed-review'
+        : 'previous-rejected-review'
+      : ''
+  "
+      class="bullet bullet_11"
+      [routerLink]="11"
+    >
+      11
+    </div>
+    <p 
+    [ngClass]="
+    step == 11
+      ? isReviewStepEleven === null
+        ? 'completed'
+        : isReviewStepEleven
+        ? 'completed-review'
+        : 'rejected-review'
+      : step > 11
+      ? isReviewStepEleven === null
+        ? 'previous'
+        : isReviewStepEleven
+        ? 'previous-completed-review'
+        : 'previous-rejected-review'
+      : ''
+  " class="step-text">
+      Authorization
+    </p>
+  </div>
+</div>
+
+<!----------------------------------- Mobile stepProgressbar ------------------------------->
+<div *ngIf="step < 12" class="mobileProgressBar">
+  <!-- First, second, third step -->
+  <div *ngIf="step <= 3" class="mobileProgressBar_content">
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step < 2, previous: step > 1 }"
+        class="completed"
+        class="bullet bullet_1"
+        [routerLink]="1"
+      >
+        1
+      </div>
+      <p [ngClass]="{ completed: step < 2, previous: step > 1 }" class="step-text">
+        Personal Info
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 2, previous: step > 2 }"
+        class="bullet bullet_2"
+        [routerLink]="2"
+      >
+        2
+      </div>
+      <p [ngClass]="{ completed: step == 2, previous: step > 2 }" class="step-text">
+        Work <br />
+        experience
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 3, previous: step > 3 }"
+        class="bullet bullet_3"
+        [routerLink]="3"
+      >
+        3
+      </div>
+      <p [ngClass]="{ completed: step == 3, previous: step > 3 }" class="step-text">
+        CDL <br />
+        Information
+      </p>
+    </div>
+  </div>
+  <!-- Fourth, Fifth, Sixth -->
+  <div
+    *ngIf="step > 3 && step <= 6"
+    class="mobileProgressBar_content mobileProgressBar_content-second"
+  >
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 4, previous: step > 4 }"
+        class="bullet bullet_4 bulletFirst"
+        [routerLink]="4"
+      >
+        4
+      </div>
+      <p [ngClass]="{ completed: step == 4, previous: step > 4 }" class="step-text">
+        Accident <br />
+        records
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 5, previous: step > 5 }"
+        class="bullet bullet_5"
+        [routerLink]="5"
+      >
+        5
+      </div>
+      <p [ngClass]="{ completed: step == 5, previous: step > 5 }" class="step-text">
+        Traffic <br />
+        violations
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 6, previous: step > 6 }"
+        class="bullet bullet_6"
+        [routerLink]="6"
+      >
+        6
+      </div>
+      <p [ngClass]="{ completed: step == 6, previous: step > 6 }" class="step-text">
+        Education
+      </p>
+    </div>
+  </div>
+  <!-- Seventh, Eight, Ninth -->
+  <div
+    *ngIf="step > 6 && step <= 9"
+    class="mobileProgressBar_content mobileProgressBar_content-third"
+  >
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 7, previous: step > 7 }"
+        class="bullet bullet_7 bulletFirst"
+        [routerLink]="7"
+      >
+        7
+      </div>
+      <p [ngClass]="{ completed: step == 7, previous: step > 7 }" class="step-text">
+        7 Days HOS
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 8, previous: step > 8 }"
+        class="bullet bullet_8"
+        [routerLink]="8"
+      >
+        8
+      </div>
+      <p [ngClass]="{ completed: step == 8, previous: step > 8 }" class="step-text">
+        Drug &#38; Alchocol <br />
+        statement
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 9, previous: step > 9 }"
+        class="bullet bullet_9"
+        [routerLink]="9"
+      >
+        9
+      </div>
+      <p [ngClass]="{ completed: step == 9, previous: step > 9 }" class="step-text">
+        Driver rights
+      </p>
+    </div>
+  </div>
+  <div
+    *ngIf="step > 9 && step <= 11"
+    class="mobileProgressBar_content mobileProgressBar_content-fourth"
+  >
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 9, previous: step > 9 }"
+        class="bullet bullet_9 bulletFirst"
+        [routerLink]="9"
+      >
+        9
+      </div>
+      <p [ngClass]="{ completed: step == 9, previous: step > 9 }" class="step-text">
+        Driver rights
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 10, previous: step > 10 }"
+        class="bullet bullet_10"
+        [routerLink]="10"
+      >
+        10
+      </div>
+      <p [ngClass]="{ completed: step == 10, previous: step > 10 }" class="step-text">
+        Disclosure &#38; <br />
+        release
+      </p>
+    </div>
+    <div class="step">
+      <div
+        [ngClass]="{ completed: step == 11, previous: step > 11 }"
+        class="bullet bullet_11"
+        [routerLink]="11"
+      >
+        11
+      </div>
+      <p [ngClass]="{ completed: step == 11, previous: step > 11 }" class="step-text">
+        Authorization
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Steps -->
+<div
+  id="applicants-wrapper"
+  class="routeContainerApplication"
+  [@routeAnimation]="getDepth(myOutlet)"
+>
+  <router-outlet #myOutlet="outlet"></router-outlet>
+</div>

@@ -1,0 +1,23 @@
+.modal-body {
+  height: 315px;
+  .modal-body-heading {
+    padding: 12px 6px 0px 6px;
+    margin-bottom: -9px;
+
+    ::ng-deep .slide-container {
+      height: 26.4px !important;
+    }
+  }
+
+  .modal-body-details {
+    padding: 0 6px;
+
+    .requested-charge {
+      color: #b7b7b7;
+      font-size: 10px;
+      font-weight: bold;
+      margin-top: 7px;
+      margin-bottom: 0px;
+    }
+  }
+}

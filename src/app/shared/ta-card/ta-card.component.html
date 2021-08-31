@@ -1,0 +1,473 @@
+<div class="card-container">
+  <div class="ta-card-wrapper d-flex flex-wrap "
+       [class.disabled-card]="i%2===0"
+       *ngFor="let n of types;let i = index">
+    <!--  card body -->
+    <div class="ta-card d-flex flex-wrap position-relative overflow-hide">
+      <div class="ta-card-title">
+        <div class="d-flex flex-grow-1" (click)="toggleAdditional(i)">
+          <div class="icon-title d-flex flex-row align-items-center">
+            <div class="expanded-icon">
+              <svg-icon
+                src="{{expanded[i] ? 'assets/img/svgs/ta-card-collapse.svg' : 'assets/img/svgs/ta-card-expanded.svg'}}">
+              </svg-icon>
+            </div>
+            <!--  Customer card title addition -->
+            <div class="customer-title" *ngIf="types[i]==='customer'">
+              <svg-icon src="/assets/img/svgs/ta-card-customer-icon.svg"></svg-icon>
+            </div>
+            <p class="title">
+              {{types[i] === 'truck' ? 'Unit #2365'
+              : types[i] === 'driver' ? 'Ron Swanson'
+                : types[i] === 'trailer' ? 'Trailer 1565'
+                  : types[i] === 'load' ? 'Load 112'
+                    : types[i] === 'repair' ? 'Crox Repairs (47)'
+                      : types[i] === 'repair-truck-trailer' ? 'Unit #4032'
+                        : 'R2 Logistics'}}
+            </p>
+          </div>
+          <!--  Load card title addition -->
+          <div class="load-title d-flex justify-content-between"
+               *ngIf="types[i]==='load'">
+            <p><b>ACTIVE</b></p>
+            <p>$1,825</p>
+          </div>
+          <!--  Repair card title addition / STAR dropdown -->
+          <div class="repair-title-star" *ngIf="types[i]==='repair'">
+            <svg-icon src="/assets/img/svgs/ta-card-star.svg"></svg-icon>
+          </div>
+        </div>
+        <div class="dropdown">
+          <app-truckassist-dropdown
+            [mainActions]="dropdownOptions.mainActions"
+            [otherActions]="dropdownOptions.otherActions"
+            [deleteAction]="dropdownOptions.deleteAction"
+            [category]="types[i] === 'driver' ? 'driver' : types[i] ==='truck' ? 'truck' : types[i] ==='trailer' ? 'trailer' : 'load'">
+          </app-truckassist-dropdown>
+        </div>
+      </div>
+      <div class="ta-card-body">
+        <div class="ta-card-body-image"
+             *ngIf="types[i] !== 'load' && types[i] !== 'repair' && types[i] !== 'customer' && types[i] !== 'repair-truck-trailer'">
+          <div class="driver-image" *ngIf="types[i] === 'driver'">
+            <svg-icon src="assets/img/svgs/ta-card-driver-image.svg"></svg-icon>
+          </div>
+          <div class="truck-image" *ngIf="types[i] === 'truck' || types[i] === 'trailer'">
+            <div class="truck-icon">
+              <svg-icon
+                src="{{types[i] === 'truck' ? 'assets/img/svgs/ta-card-truck-image1.svg' : 'assets/img/svgs/ta-card-trailer-image1.svg'}}"></svg-icon>
+            </div>
+            <div class="truck-make">
+              <svg-icon
+                src="{{types[i] === 'truck' ? 'assets/img/svgs/ta-card-truck-image2.svg' : 'assets/img/svgs/ta-card-trailer-image2.svg'}}"></svg-icon>
+            </div>
+          </div>
+        </div>
+        <div class="ta-card-body-data">
+          <div class="driver-data" *ngIf="types[i] === 'driver'">
+            <p class="driver-data-item disabled-text"><span
+              class="black disabled-text-opacity">SSN</span>{{1234567890 | mask: '000-00-0000'}}</p>
+            <p class="driver-data-item disabled-text"><span class="black disabled-text-opacity">DOB</span>04/27/89</p>
+            <p class="driver-data-item disabled-text"><span
+              class="black disabled-text-opacity">CDL</span>{{771153269 | mask: '000-00-0000'}}</p>
+            <p class="driver-data-item disabled-text"><span class="disabled-text-opacity">Hired</span>05/28/20</p>
+            <div class="driver-state">
+              <p class="driver-data-item disabled-text"><span class="disabled-text-opacity">New York</span></p>
+              <svg-icon src="assets/img/svgs/ta-card-driver-state.svg"></svg-icon>
+            </div>
+            <p class="driver-data-item disabled-text"><span class="disabled-text-opacity">Term.</span>05/28/20</p>
+          </div>
+          <!--truck & trailer-->
+          <div class="truck-data" *ngIf="types[i] === 'truck' || types[i] === 'trailer' ">
+            <p class="truck-data-item truck-vin disabled-text">
+              <span
+                class="disabled-text-opacity">VIN</span>{{types[i] === 'truck' ? 'GHLCTPOS110632183' : 'CFGBFGDG110632133'}}
+            </p>
+            <div class="truck-year-color d-flex flex-row flex-wrap">
+              <p class="truck-data-item disabled-text"><span class="disabled-text-opacity">YEAR</span>2012</p>
+              <div class="truck-data-item-color">
+                <p class="truck-data-item disabled-text"><span class="disabled-text-opacity">Color</span></p>
+                <div class="color-box"></div>
+              </div>
+            </div>
+            <p class="truck-data-item disabled-text"><span class="disabled-text-opacity">Model</span>FH540</p>
+          </div>
+          <div class="load-data" *ngIf="types[i] === 'load'">
+            <div class="load-data-ref">
+              <div class="d-flex flex-column">
+                <p class="disabled-text">Fetch Logistics, Inc</p>
+                <p><b class="disabled-text-opacity">Ref. #821514</b></p>
+              </div>
+              <div class="d-flex flex-column">
+                <p><b class="disabled-text-opacity">1,234 miles</b></p>
+                <p class="disabled-text">Marko Markovic</p>
+              </div>
+            </div>
+            <div class="load-data-start-end" *ngIf="!expanded[i]">
+              <div class="start-address">
+                <div class="count">
+                  <p>1</p>
+                </div>
+                <div class="address-date">
+                  <p class="disabled-text">Forest Parl, GA</p>
+                  <p class="disabled-text">05/12/21 04:30AM</p>
+                </div>
+              </div>
+              <div class="end-address">
+                <div class="count">
+                  <p>4</p>
+                </div>
+                <div class="address-date">
+                  <p class="disabled-text">Forest Parl, GA</p>
+                  <p class="disabled-text">05/12/21 04:30AM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="repair-data" *ngIf="types[i] === 'repair' || types[i] === 'customer'">
+            <div class="repair-data-shop">
+              <div class="repair-data-shop-item">
+                <div class="repair-shop-phone">
+                  <div class="shop-item-icon disabled-opacity">
+                    <svg-icon src="/assets/img/svgs/ta-card-repair-phone.svg"></svg-icon>
+                  </div>
+                  <p class="disabled-text">{{1234567890 | mask: '(000) 000-0000'}}</p>
+                </div>
+                <div class="like-dislike disabled-opacity">
+                  <div class="likes-count">
+                    <div class="count-icon">
+                      <svg-icon src="/assets/img/svgs/ta-card-repair-like.svg"></svg-icon>
+                    </div>
+                    <div class="count-number">3</div>
+                  </div>
+                  <div class="dislikes-count">
+                    <div class="count-number">2</div>
+                    <div class="count-icon">
+                      <svg-icon src="/assets/img/svgs/ta-card-repair-dislike.svg"></svg-icon>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="repair-data-shop-item">
+                <div class="shop-item-icon disabled-opacity">
+                  <svg-icon src="/assets/img/svgs/ta-card-repair-mail.svg"></svg-icon>
+                </div>
+                <p class="disabled-text">ronswanson@p-and-r.com</p>
+              </div>
+              <div class="repair-data-shop-item">
+                <div class="shop-item-icon disabled-opacity">
+                  <svg-icon src="/assets/img/svgs/ta-card-repair-address.svg"></svg-icon>
+                </div>
+                <p class="disabled-text">5462 N East River Rd apt 611<br>Chicago, IL 60656, USA</p>
+              </div>
+            </div>
+          </div>
+          <div class="repair-truck-trailer-data" *ngIf="types[i] === 'repair-truck-trailer'">
+            <div class="repair-company-date">
+              <p><b class="disabled-text-opacity">IVS Truck Repair</b></p>
+              <p class="disabled-text-opacity"><b>05/07/20</b></p>
+            </div>
+            <div class="repair-company-odo">
+              <p class="disabled-text">Inv. #653-17</p>
+              <p class="disabled-text">1,254,478 odo</p>
+            </div>
+            <div class="repair-list">
+              <div class="repair-list-items">
+                <p class="disabled-text">{{truckRepairList[0].name}}</p>
+                <p class="disabled-text">{{truckRepairList[1].name}}</p>
+                <p class="disabled-text">{{truckRepairList.length - 2 + ' more'}}</p>
+              </div>
+              <div class="repair-list-price">
+                <p class="disabled-text-opacity">$32,245</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  expand -->
+      <div class="ta-card-expand "
+           [ngSwitch]="types[i]"
+           *ngIf="expanded[i]"
+           [@taCardExpand]
+           >
+        <div class="ta-card-expand-truck" *ngSwitchCase="'truck'">
+          <div class="inspection position-relative">
+            <app-progress-expiration [expireDate]="expireDate | date: 'short'">
+            </app-progress-expiration>
+          </div>
+          <div class="licence-owner">
+            <div class="licence-plate">
+              <p class="disabled-text-opacity">Licence Plate</p>
+              <p class="disabled-text">AR 2198065</p>
+            </div>
+            <div class="owner">
+              <p class="disabled-text-opacity">Owner</p>
+              <p class="disabled-text">Micheal Jordan</p>
+            </div>
+          </div>
+          <div class="truck-data">
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Axles</p>
+              <p class="disabled-text">3</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Empty Weight</p>
+              <p class="disabled-text">56,000 lbs.</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Engine</p>
+              <p class="disabled-text">Cummis L9</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Tire Size</p>
+              <p class="disabled-text">215-75-17.5</p>
+            </div>
+          </div>
+          <div class="commission">
+            <p class="disabled-text">Commission</p>
+            <ngx-slider
+              [value]="29"
+              [options]="sliderOptions"
+            ></ngx-slider>
+          </div>
+          <div class="mileage">
+            <div class="d-flex flex-column">
+              <p class="disabled-text-opacity">Mileage</p>
+              <p class="disabled-text">12,240 miles</p>
+            </div>
+            <div class="d-flex flex-column">
+              <p class="disabled-text-opacity">IPASS/EZPASS</p>
+              <p class="disabled-text">258789456159</p>
+            </div>
+          </div>
+          <div class="insurance">
+            <p class="disabled-text-opacity">Insurance Policy</p>
+            <p class="disabled-text">123-456-7890</p>
+          </div>
+        </div>
+        <div class="ta-card-expand-trailer" *ngSwitchCase="'trailer'">
+          <div class="inspection position-relative disabled-opacity">
+            <app-progress-expiration [expireDate]="expireDate | date: 'short'"></app-progress-expiration>
+          </div>
+          <div class="licence-owner">
+            <div class="licence-plate">
+              <p class="disabled-text-opacity">Licence Plate</p>
+              <p class="disabled-text">AR 2198065</p>
+            </div>
+            <div class="owner">
+              <p class="disabled-text-opacity">Owner</p>
+              <p class="disabled-text">Micheal Jordan</p>
+            </div>
+          </div>
+          <div class="truck-data">
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Axles</p>
+              <p class="disabled-text">3</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Empty Weight</p>
+              <p class="disabled-text">56,000 lbs.</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Engine</p>
+              <p class="disabled-text">Cummis L9</p>
+            </div>
+            <div class="truck-data-col">
+              <p class="disabled-text-opacity">Tire Size</p>
+              <p class="disabled-text">215-75-17.5</p>
+            </div>
+          </div>
+          <div class="insurance">
+            <p class="disabled-text-opacity">Insurance Policy</p>
+            <p class="disabled-text">123-456-7890</p>
+          </div>
+        </div>
+        <div class="ta-card-expand-driver" *ngSwitchCase="'driver'">
+          <div class="driver-info">
+            <div class="driver-info-item">
+              <svg-icon src="assets/img/svgs/ta-card-driver-phone.svg"></svg-icon>
+              <p class="disabled-text">{{1234567890 | mask: ' 00-0000000'}}</p>
+            </div>
+            <div class="driver-info-item">
+              <svg-icon src="assets/img/svgs/ta-card-driver-mail.svg"></svg-icon>
+              <p class="disabled-text">ronswanson@p-and-r.com</p>
+            </div>
+            <div class="driver-info-item">
+              <svg-icon src="assets/img/svgs/ta-card-driver-pin.svg"></svg-icon>
+              <p class="disabled-text">5462 N East River Rd apt 611<br>Chicago, IL 60656, USA</p>
+            </div>
+          </div>
+          <div class="driver-progress position-relative">
+            <app-progress-expiration
+
+              [expireDate]="expireDate1 | date: 'short'"
+            ></app-progress-expiration>
+            <app-progress-expiration
+
+              [expireDate]="expireDate2 | date: 'short'"
+            ></app-progress-expiration>
+            <app-progress-expiration
+
+              [expireDate]="expireDate | date: 'short'"
+            ></app-progress-expiration>
+          </div>
+          <div class="driver-bank d-flex align-items-center justify-content-between">
+            <div class="driver-bank-data d-flex flex-column">
+              <p class="disabled-text"><span class="disabled-text-opacity">Account</span>291029300532</p>
+              <p class="disabled-text"><span class="disabled-text-opacity">Routing</span>291029300532</p>
+            </div>
+            <svg-icon src="assets/img/svgs/ta-card-driver-bank.svg"></svg-icon>
+          </div>
+          <div class="driver-commission">
+            <div class="d-flex flex-column">
+              <p class="disabled-text">Pay Type</p>
+              <p class="disabled-text">Commission</p>
+            </div>
+            <ngx-slider
+              [value]="29"
+              [options]="sliderOptions"
+            ></ngx-slider>
+          </div>
+          <div class="driver-restrictions">
+            <p class="disabled-text">Restrictions</p>
+            <div class="restrictions-boxes">
+              <div class="single-restriction"
+                   *ngFor="let restriction of driverRestrictions"
+                   [appTaTooltip]="restriction.description"
+                   position="bottom-right"
+                   [tooltipBackground]="'#6C6C6C'">
+                <p>{{restriction.name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ta-card-expand-load" *ngSwitchCase="'load'">
+          <div class="load-route">
+            <div class="route-item"
+                 *ngFor="let l of arr(loopRoutes).fill(1);let i = index"
+                 [class.divided-first-last]="loopRoutes % 2 === 0 && loopRoutes > 2">
+              <div class="route-item-number disabled-opacity">
+                <p>{{i + 1}}</p>
+              </div>
+              <div class="route-item-address">
+                <p class="disabled-text">Forest Parl, GA</p>
+                <p class="disabled-text">05/12/21 04:30 AM</p>
+              </div>
+            </div>
+          </div>
+          <!-- Load route -->
+
+          <div class="load-info">
+            <div class="d-flex flex-column">
+              <p class="disabled-text-opacity">Truck</p>
+              <p class="disabled-text">#3564</p>
+            </div>
+            <div class="d-flex flex-column">
+              <p class="disabled-text-opacity">Trailer</p>
+              <p class="disabled-text">#C35464</p>
+            </div>
+            <div class="d-flex flex-column">
+              <p class="disabled-text-opacity">Driver</p>
+              <p class="disabled-text">Petar Petrovic</p>
+            </div>
+          </div>
+          <div class="load-money">
+            <div class="load-money-item disabled-opacity">
+              <div class="load-money-item-heading">
+                <p>BASE RATE</p>
+              </div>
+              <div class="load-money-item-body">
+                <p>$2,800</p>
+              </div>
+            </div>
+            <div class="load-money-item disabled-opacity">
+              <div class="load-money-item-heading">
+                <p>ADJUSTED</p>
+              </div>
+              <div class="load-money-item-body">
+                <p>$1,200</p>
+              </div>
+            </div>
+            <div class="load-money-item disabled-opacity">
+              <div class="load-money-item-heading">
+                <p>ADVANCE</p>
+              </div>
+              <div class="load-money-item-body">
+                <p>/</p>
+              </div>
+            </div>
+            <div class="load-money-item disabled-opacity">
+              <div class="load-money-item-heading">
+                <p>ADDITIONAL</p>
+              </div>
+              <div class="load-money-item-body">
+                <p>$225</p>
+              </div>
+            </div>
+          </div>
+          <div class="load-map disabled-opacity">
+            <agm-map
+              [streetViewControl]="false"
+              [controlSize]="20"
+              [styles]="styles"
+              [clickableIcons]="false"
+
+              [restriction]="mapRestrictions"
+
+              [zoom]="1">
+              <agm-direction *ngIf="origin && destination"
+                             [origin]="origin.address.address"
+                             [destination]="destination.address.address"
+                             [waypoints]="waypoints"
+                             [optimizeWaypoints]="false"
+                             [renderOptions]="renderOptions">
+              </agm-direction>
+              <div *ngFor="let marker of waypointMarkers; let i = index">
+                <agm-marker
+                  *ngIf="marker.lat !== null && marker.lng !== null"
+                  [latitude]="marker.lat"
+                  [longitude]="marker.lng"
+                  [agmFitBounds]="true"
+                  [zIndex]="100"
+                  [opacity]="1"
+
+                  [label]="{ text: marker.index.toString(), fontWeight: 'bold', fontSize: '18px', textAlign: 'center', color: '#656565'}"
+                  [iconUrl]="{url:marker.type === 'delivery' ? destinationIcon : originIcon, labelOrigin: {x: 20, y: 16}, scaledSize: {width: 40, height: 40}}">
+                </agm-marker>
+              </div>
+            </agm-map>
+          </div>
+        </div>
+        <div class="ta-card-expand-repair" *ngSwitchCase="'repair'">
+          <div class="star-dropdown">
+            <div class="star-dropdown-item disabled-opacity" *ngFor="let r of repairDropdown">
+              <p>{{r}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="ta-card-expand-customer" *ngSwitchCase="'customer'">
+          <div class="customer-loads">
+            <p class="disabled-text"><span class="disabled-text-opacity">Loads</span>375</p>
+            <p class="disabled-text"><span class="disabled-text-opacity">Gross</span>$12,321.00</p>
+          </div>
+        </div>
+        <div class="ta-card-expand-repair-truck-trailer" *ngSwitchCase="'repair-truck-trailer'">
+          <div class="repair-list-dropdown disabled-opacity">
+            <div class="repair-list-dropdown-item"
+                 *ngFor="let repair of truckRepairList; index as i">
+              <p class="index-number">{{i + 1}}</p>
+              <p class="repair-detail">{{repair.name}}</p>
+              <p class="repair-count">{{repair.count}}</p>
+              <p class="repair-price">${{repair.price}}</p>
+            </div>
+          </div>
+          <div class="total-repair-price">
+            <p>Total</p>
+            <p>${{returnRepairPrice() | number}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

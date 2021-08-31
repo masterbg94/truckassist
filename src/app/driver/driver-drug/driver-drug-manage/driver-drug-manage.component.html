@@ -1,0 +1,109 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal class='small' *ngIf="!loaded"></app-loading-modal>
+    <form
+      [formGroup]="testForm"
+      class="form-container"
+      (keydown)="keyDownFunction($event)"
+      *ngIf="loaded"
+    >
+      <div class="row">
+        <div class="col-3">
+          <div class="form-label-group">
+            <ng-select
+              [items]="types"
+              formControlName="testType"
+              bindLabel="value"
+              placeholder="Type"
+              class="required-field"
+              (change)="getReasons($event, true)"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.value }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="testForm.controls.testType"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-label-group">
+            <ng-select
+              [items]="reasons"
+              formControlName="reason"
+              bindLabel="value"
+              placeholder="Reason"
+              class="required-field"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.value }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="testForm.controls.reason"></app-required-label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Testing date"
+              class="required datepicker-label{{
+                testForm.controls.testingDate.value !== null &&
+                testForm.controls.testingDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                placeholder=""
+                formControlName="testingDate"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="testForm.controls.testingDate"></app-required-label>
+          </div>
+        </div>
+      </div>
+
+      <app-attachments page='drug-alcohol' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon
+              src="assets/img/svgs/down-arrow.svg"
+              class="down-icon"
+            ></svg-icon>
+          </div>
+          <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+              <textarea
+                cdkTextareaAutosize
+                #note
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
+                formControlName="note"
+                class="input-custom-textarea form-textarea"
+              ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="manageTest(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

@@ -1,0 +1,205 @@
+.no-margin {
+  margin: 0 !important;
+}
+
+.margin-insurance-type-forms {
+  margin: 22px 0 0 0 !important;
+}
+
+.automobile_liability_container {
+  padding: 0px 6px;
+
+  .automobile_liability {
+    width: 100%;
+    height: 54px;
+    background-color: #eeeeee;
+    color: #919191;
+    display: flex;
+    position: relative;
+    padding-left: 14px;
+    font-size: 14px;
+    border-radius: 3px 3px 3px 3px;
+
+    .edit_svg {
+      position: absolute;
+      right: -260px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .delete_svg {
+    position: absolute;
+    right: -280px;
+    width: 16px;
+    height: 16px;
+  }
+  .text_automobile {
+    position: absolute;
+    margin-top: 29px;
+    position: relative;
+    left: 5px;
+  }
+  .info_code {
+    font-size: 14px;
+    color: #919191;
+    position: relative;
+    left: -3px;
+    width: 200px;
+    font-weight: 500;
+  }
+  .info_company {
+    font-size: 14px;
+    color: #919191;
+    position: absolute;
+    right: -234px;
+    width: 200px;
+    text-align: right;
+    font-weight: 500;
+  }
+  .automobile_liability_text {
+    position: absolute;
+    top: 3px;
+    font-weight: bold;
+    .text_info {
+      position: relative;
+      left: 5px;
+    }
+  }
+}
+
+.automobile_liability_dropdown {
+  width: 456px;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: 0.25s;
+  background-color: rgba(229, 229, 229, 0.1);
+  border-radius: 0 0 3px 3px;
+
+  .item_title {
+    font-weight: bold;
+  }
+
+  .item_title,
+  .item_value {
+    width: 100%;
+    height: 21px;
+    color: #919191;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 21px;
+    font-size: 14px;
+  }
+
+  .container_drop {
+    width: 100%;
+    height: 61px;
+    padding: 9px;
+    display: flex;
+    position: relative;
+    .each {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+    }
+
+    .pers {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+      right: 174px;
+    }
+    .rent {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+      right: 9px;
+    }
+  }
+  .container_dropdown {
+    width: 100%;
+    height: 61px;
+    padding: 9px;
+    display: flex;
+    position: relative;
+    .aggreg {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+    }
+    .exp {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+      right: 174px;
+    }
+    .prod {
+      width: 107px;
+      height: 42px;
+      position: absolute;
+      right: 9px;
+    }
+  }
+}
+
+.insurance-policy-add-new {
+    color: #5673aa;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0 0;
+    cursor: pointer;
+}
+
+.save-edit {
+    cursor: pointer;
+    position: relative;
+    .save_svg {
+      position: absolute;
+      right: 35px;
+      svg {
+        path {
+          fill: rgb(145, 145, 145, 0.4);
+          opacity: 1;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #919191;
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .cancel_svg {
+      position: absolute;
+      right: 7px;
+      svg {
+        path {
+          fill: rgb(145, 145, 145, 0.4);
+          opacity: 1;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #919191;
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+/* NG CLASS */
+.automobile_liability_active {
+  visibility: visible !important;
+  height: 122px !important;
+  transition: 0.25s;
+}
+
+.automobile_liability_drop_active {
+  border-radius: 3px 3px 0px 0px !important;
+}

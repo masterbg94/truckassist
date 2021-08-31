@@ -1,0 +1,214 @@
+<div
+  class="pm-container"
+  appTaTooltip="{{ !showPmList ? toolTipText : '' }} "
+  tooltipBackground="#5673AA"
+  position="bottom-right"
+  [ngClass]="{ 'pm-container-add-style': !isFilter }"
+>
+  <!-- Add PM -->
+  <svg-icon
+    [ngClass]="{ 'pm-dropdown-active': showPmList, 'pm-icon-add-style': !isFilter }"
+    (click)="showPmList = !showPmList"
+    src="../../../assets/img/svgs/table/pm-filter.svg"
+    *ngIf="!isFilter"
+    #pmPopOverTag="ngbPopover"
+    [ngbPopover]="pmPopOver"
+    (click)="toggleAddPopUp(pmPopOverTag)"
+    triggers="manual"
+    [autoClose]="false"
+    [placement]="'bottom'"
+    [container]="'body'"
+    [popoverClass]="'pm-container'"
+  ></svg-icon>
+
+  <!-- Filter -->
+  <svg-icon
+    [ngClass]="{ 'pm-dropdown-active': showPmList }"
+    (click)="onShowFilterList()"
+    src="../../../assets/img/svgs/table/pm-filter.svg"
+    *ngIf="isFilter"
+  ></svg-icon>
+
+  <div class="filter-by-list" *ngIf="isFilter" [ngClass]="{ 'filter-pm-list-active': showPmList }">
+    <div
+      class="filter-item"
+      [ngStyle]="{ 'margin-top': i !== 0 ? '2px' : '0px' }"
+      (click)="onFilterPm(pm)"
+      [ngClass]="{ 'filter-item-avtive': pm.active }"
+      *ngFor="let pm of pmFilterList; let i = index"
+    >
+      <svg-icon *ngIf="pm.icon !== ''" src="{{ pm.icon }}"></svg-icon>
+      <div *ngIf="pm.icon === ''" class="customIcon">{{ pm.customIconText }}</div>
+      <div class="item-name">{{ pm.name }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Preventive Maintenance -->
+
+<ng-template #pmPopOver let-data="data">
+  <div class="add-pm-container">
+    <div
+      *ngFor="let pm of pmAddList; let i = index"
+      class="pm-list"
+      [ngClass]="{ 'add-margin-to-pm-list': pm.pms.length }"
+    >
+      <div *ngIf="pm.pms.length">
+        <div class="pm-title">{{ pm.miles }}</div>
+        <div
+          class="pm-item"
+          [ngClass]="{
+            'add-focus-pm-item': openDropDownI === i && openDropDownJ === j,
+            'edit-active': item.edit
+          }"
+          *ngFor="let item of pm.pms; let j = index"
+        >
+          <svg-icon *ngIf="item.icon !== ''" class="item-icon" src="{{ item.icon }}"></svg-icon>
+          <div *ngIf="item.icon === ''" class="customIcon">{{ item.customIconText }}</div>
+
+          <div class="pm-item-name">
+            <div *ngIf="!item.edit">{{ item.iconName }}</div>
+
+            <textarea
+              *ngIf="item.edit"
+              (keydown)="onEnterSaveRename($event, item)"
+              maxlength="40"
+              id="editPM{{ j }}"
+              [(ngModel)]="editPMName"
+              cols="1"
+              rows="1"
+            ></textarea>
+            <svg-icon
+              *ngIf="item.edit"
+              (click)="onSaveRename(item)"
+              class="save-new-rename-pm"
+              src="../../../assets/img/svgs/pm-component/save-pm.svg"
+            ></svg-icon>
+            <svg-icon
+              *ngIf="item.edit"
+              (click)="onDontSaveRename(item)"
+              class="dont-save-rename-pm"
+              src="../../../assets/img/svgs/pm-component/dont-save.svg"
+            ></svg-icon>
+          </div>
+          <svg-icon
+            class="options-svg"
+            src="../../../assets/img/svgs/pm-component/options.svg"
+            #pmDropdown="ngbPopover"
+            [ngbPopover]="dropdown"
+            (click)="toggleDropDown(pmDropdown, i, j, item)"
+            triggers="manual"
+            [autoClose]="false"
+            [placement]="'bottom'"
+            [container]="'body'"
+            [popoverClass]="'pm-container'"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+    <div class="add-new-container">
+      <div class="new-title">New Item</div>
+      <div class="add-container" [ngClass]="{ 'input-style': addNewPm }">
+        <div class="add-option" (click)="focusAddNewPM()" *ngIf="!addNewPm">
+          <svg-icon
+            class="add-btn"
+            src="../../../assets/img/svgs/pm-component/add-pm.svg"
+          ></svg-icon>
+          Add Item
+        </div>
+        <div class="input-container" *ngIf="addNewPm">
+          <textarea
+            maxlength="40"
+            id="createPM"
+            (keydown)="onEnterSaveNewPm($event)"
+            [(ngModel)]="newPM"
+            cols="1"
+            rows="1"
+          ></textarea>
+          <svg-icon
+            class="save-new-pm"
+            (click)="onSaveNewPm()"
+            src="../../../assets/img/svgs/pm-component/save-pm.svg"
+          ></svg-icon>
+          <svg-icon
+            class="dont-save-new-pm"
+            (click)="onDontSavePm()"
+            src="../../../assets/img/svgs/pm-component/dont-save.svg"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #dropdown let-data="data">
+  <div class="options-dropdown">
+    <div class="move" (click)="onOpenMoveToList(data)" [ngClass]="{'move-to-active': showMoveToOptions}">
+      <svg-icon
+        class="move-svg"
+        src="../../../assets/img/svgs/pm-component/move-icon.svg"
+      ></svg-icon>
+      <div>Move to</div>
+      <svg-icon
+        *ngIf="showMoveToOptions"
+        class="arrow-svg"
+        src="../../../assets/img/svgs/pm-component/arrow.svg"
+      ></svg-icon>
+    </div>
+    <div class="edit" (click)="onShowRename(data)">
+      <svg-icon src="../../../assets/img/svgs/pm-component/edit.svg"></svg-icon>
+      <div>Rename</div>
+    </div>
+    <div class="delete" [ngClass]="{'delete-dilaog-active': showDeleteDilaog}">
+      <svg-icon src="../../../assets/img/svgs/pm-component/delete.svg" (click)="showDeleteDilaog = true"></svg-icon>
+      <div class="text" (click)="showDeleteDilaog = true">Delete</div>
+      <div class="delete-dialog-container" *ngIf="showDeleteDilaog">
+        <app-delete-dropdown-dialog [dialog]="'Are you sure you want to delete?'" (actionEvent)="onDeletePM($event, data)"></app-delete-dropdown-dialog>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="move-top-options"
+    [ngClass]="{ 'extend-move-to-options': showAddMiles }"
+    *ngIf="showMoveToOptions"
+  >
+    <div class="options" *ngFor="let item of moveTo" (click)="onMoveTo(item, data)">
+      <div>{{ item.count }}K</div>
+      Miles
+    </div>
+    <div class="add-new-move-option">
+      <svg-icon
+        *ngIf="!showAddMiles"
+        (click)="showAddMiles = true"
+        class="add-btn"
+        src="../../../assets/img/svgs/pm-component/add-pm.svg"
+      ></svg-icon>
+      <div (click)="showAddMiles = true" *ngIf="!showAddMiles" class="custom">Custom</div>
+      <div class="add-cutom-move-to" *ngIf="showAddMiles">
+        <svg-icon
+          class="remuve-miles"
+          (click)="onRemuveMiles()"
+          [ngClass]="{ 'disable-remuve': milesCount === 10 }"
+          src="../../../assets/img/svgs/pm-component/remuve-miles.svg"
+        ></svg-icon>
+        <svg-icon
+          class="add-miles"
+          (click)="onAddMiles()"
+          src="../../../assets/img/svgs/pm-component/add-mailes.svg"
+        ></svg-icon>
+        <div class="count-mails">{{ milesCount }}K</div>
+        <svg-icon
+          (click)="saveNewMiles()"
+          class="save-new-miles"
+          src="../../../assets/img/svgs/pm-component/save-pm.svg"
+        ></svg-icon>
+        <svg-icon
+          class="dont-save-new-miles"
+          (click)="onDontSaveMiles()"
+          src="../../../assets/img/svgs/pm-component/dont-save.svg"
+        ></svg-icon>
+      </div>
+    </div>
+  </div>
+</ng-template>

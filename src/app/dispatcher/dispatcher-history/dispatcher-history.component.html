@@ -1,0 +1,420 @@
+<div class="modal-container dispatch_history" cdkDrag>
+    <div class="modal-header" cdkDragHandle>
+      <h5 class="modal-title">Dispatch History</h5>
+      <i
+        class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+        (click)="closeModal()"
+      ></i>
+    </div>
+    <div class="modal-body p-0 history_modal">
+      <div class="card no-border-radius mb-0">
+        <div class="card-body p-0">
+          <form>
+            <div class="history_head_selects d-flex">
+              <div class="chart_select_holder board_list">
+                  <ng-select
+                   [items]="dispatchersList"
+                   bindLabel="dispatcherName"
+                   (change)="boardChanged($event)"
+                   name="board"
+                   required
+                   bindValue="dispatcherId"
+                   [searchable]="true"
+                   placeholder="Board"
+                   [(ngModel)]="selectBoard"
+                  >
+                  <ng-template ng-label-tmp let-item="item" let-search="searchTerm">
+                    <span>#{{ item.dispatcherName }}
+                      <svg-icon class="remove_select_item" src="/assets/close.svg"></svg-icon>
+                    </span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div class="chart_select_holder truck_list">
+                  <ng-select
+                   [items]="mainTruckList"
+                   bindLabel="truckNumber"
+                   name="truck"
+                   required
+                   (change)="boardChanged($event)"
+                   bindValue="truckId"
+                   [searchable]="false"
+                   placeholder="Truck"
+                   [(ngModel)]="selectTruck"
+                  >
+                  <ng-template ng-label-tmp let-item="item" let-search="searchTerm">
+                    <span>#{{ item.truckNumber }}</span>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span>#{{ item.truckNumber }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div class="chart_select_holder trailer_list">
+                  <ng-select
+                   [items]="trailersList"
+                   bindLabel="trailerNumber"
+                   bindValue="trailerId"
+                   required
+                   [searchable]="false"
+                   (change)="boardChanged($event)"
+                   name="trailer"
+                   placeholder="Trailer"
+                   [(ngModel)]="selectTrailer"
+                  >
+                  <ng-template ng-label-tmp let-item="item" let-search="searchTerm">
+                    <span>#{{ item.trailerNumber }}</span>
+                  </ng-template>
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span>#{{ item.trailerNumber }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div class="chart_select_holder driver_list">
+                  <ng-select
+                   [items]="driversList"
+                   bindLabel="driverFullName"
+                   bindValue="driverId"
+                   required
+                   (change)="boardChanged($event)"
+                   [searchable]="false"
+                   name="driver"
+                   placeholder="Driver"
+                   [(ngModel)]="selectedDriver"
+                  ></ng-select>
+              </div>
+              <div class="chart_select_holder time_list">
+                <span
+                  [ngbPopover]="selectPopover"
+                  #t2="ngbPopover"
+                  triggers="manual"
+                  [autoClose]="'outside'"
+                  [placement]="'bottom'"
+                  popoverClass="dashboard-history-popover"
+                >
+                  <ng-select
+                      [items]="timeList"
+                      (open)="openSelect(t2)"
+                      [hideSelected]="false"
+                      required
+                      name="time"
+                      [searchable]="false"
+                      class="select_time_item"
+                      [(ngModel)]="selectTime"
+                    >
+                    <ng-template ng-label-tmp let-item="item" let-search="searchTerm">
+                      <span class="selected_time_sel" *ngIf="selectTime != 'Custom'">{{ item }}</span>
+                      <span class="selected_time_sel" *ngIf="selectTime == 'Custom'">{{ customDateSelect.startDate | date : 'M/dd/yyyy'}} - {{ customDateSelect.endDate | date : 'M/dd/yyyy'}}</span>
+                    </ng-template>
+                  </ng-select>
+                </span>
+                </div>
+            </div>
+          </form>
+
+          <div class="dispatch_history_table" *ngIf="historyBoardList.trailerList">
+              <div class="disp_hist_head">
+                  <div class="disp_head_item trailer_item" *ngIf="!selectTrailer && !selectedDriver">Trailer #</div>
+                  <div *ngIf="!selectedDriver" [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item driver_item">Driver</div>
+                  <div *ngIf="selectedDriver" [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item driver_item">Status</div>
+                  <div [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item pickup_date">Date</div>
+                  <div [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item pickup_date">Time</div>
+                  <div [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item delivery_date">Date</div>
+                  <div [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item delivery_date">Time</div>
+                  <div [class.trailer_selected]="selectTrailer || selectedDriver" class="disp_head_item duration_item">Duration</div>
+              </div>
+              <div class="disp_table_body d-flex">
+                <div *ngIf="!selectTrailer && !selectedDriver">
+                  <div [ngStyle]="{ height: ( trailer.heightCount * 26 + (trailer.heightCount-1)) + 'px' }" class="list_items trailer_list" *ngFor="let trailer of historyBoardList.trailerList">
+                    {{trailer.trailerNumber}}
+                  </div>
+                </div>
+                <div *ngIf="selectedDriver">
+                  <div 
+                    class="list_items drivers_list status_list" 
+                    *ngFor="let status of historyBoardList.statusList"
+                    [ngStyle]="{ color: status?.color }"
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    >
+                    <span *ngIf="status">{{status.name}}</span>
+                  </div>
+                </div>
+                <div *ngIf="!selectedDriver">
+                  <div 
+                    [ngStyle]="{ height: ( drivers.heightCount * 26 + (drivers.heightCount-1)) + 'px' }" 
+                    class="list_items drivers_list" 
+                    *ngFor="let drivers of historyBoardList.driversList"
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    >
+                    {{drivers.driverFullName}}
+                  </div>
+                </div>
+                <div>
+                  <div 
+                    class="list_items pickup_date"
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    *ngFor="let pickupDate of historyBoardList.pickupDates; let indx = index"
+                    [class.active]="selectedPicker.type == 'pickupDate' && selectedPicker.index == indx"
+                  >
+                    <div *ngIf="selectedPicker.type != 'pickupDate' || selectedPicker.index != indx">
+                      {{pickupDate.date | date : 'dd/MM/yy'}}
+                      <button 
+                        class="edit_button"
+                        appTaTooltip="Edit"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="setPickerEdit({ type: 'pickupDate', index: indx }, 'pickupDates')"
+                        >
+                        <svg-icon src="/assets/img/edit-pan.svg"></svg-icon>
+                      </button>
+                    </div>
+                    <div class="history_picker_hold" *ngIf="selectedPicker.type == 'pickupDate' && selectedPicker.index == indx">
+                      <kendo-datepicker
+                        [formatPlaceholder]="{
+                        year: 'yy',
+                        month: 'mm',
+                        day: 'dd'
+                        }"  
+                        [format]="'dd/MM/yy'" 
+                        [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                        placeholder="dd/mm/yy"
+                        (valueChange)="pickupDateTimeChange($event)" 
+                        [(ngModel)]="pickupChangeDate"
+                        [class]="'time_date_picker'"
+                      ></kendo-datepicker>
+                      <button 
+                        class="picker_handlers accept_item"
+                        appTaTooltip="Save"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="saveDate()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/check.svg"></svg-icon>
+                      </button>
+                      <button 
+                        class="picker_handlers"
+                        appTaTooltip="Cancel"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="closeEditInput()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/close.svg"></svg-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div 
+                    class="list_items pickup_date" 
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    *ngFor="let pickupTime of historyBoardList.pickupTimes; let indx = index"
+                    [class.active]="selectedPicker.type == 'pickupTime' && selectedPicker.index == indx"
+                    >
+                    <div *ngIf="selectedPicker.type != 'pickupTime' || selectedPicker.index != indx">
+                      {{pickupTime.date | date : 'hh:mm aaa'}}
+                      <button 
+                        class="edit_button"
+                        appTaTooltip="Edit"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="setPickerEdit({ type: 'pickupTime', index: indx }, 'pickupTimes')"
+                        >
+                        <svg-icon src="/assets/img/edit-pan.svg"></svg-icon>
+                      </button>
+                    </div>
+                    <div class="history_picker_hold" *ngIf="selectedPicker.type == 'pickupTime' && selectedPicker.index == indx">
+                      <kendo-datepicker
+                      [formatPlaceholder]="{
+                        hour: 'hh',
+                        minute: 'mm'
+                        }"  
+                        [format]="'hh:mm a'" 
+                        [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                        placeholder="hh:mm AM"
+                        (valueChange)="pickupDateTimeChange($event)" 
+                        [(ngModel)]="pickupChangeDate"
+                        [class]="'time_date_picker'"
+                      ></kendo-datepicker>
+                      <button 
+                        class="picker_handlers accept_item"
+                        appTaTooltip="Save"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="saveDate()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/check.svg"></svg-icon>
+                      </button>
+                      <button 
+                        class="picker_handlers"
+                        appTaTooltip="Cancel"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="closeEditInput()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/close.svg"></svg-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div 
+                    class="list_items delivery_date" 
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    *ngFor="let deliveryDate of historyBoardList.deliveryDates; let indx = index"
+                    [class.active]="selectedPicker.type == 'deliveryDate' && selectedPicker.index == indx"  
+                  >
+                    <div *ngIf="selectedPicker.type != 'deliveryDate' || selectedPicker.index != indx">
+                        {{deliveryDate.date | date : 'dd/MM/yy'}}
+                        <button 
+                          class="edit_button"
+                          appTaTooltip="Edit"
+                          position="bottom-right"
+                          tooltipBackground="#919191"
+                          (click)="setPickerEdit({ type: 'deliveryDate', index: indx }, 'deliveryDates')"
+                          >
+                          <svg-icon src="/assets/img/edit-pan.svg"></svg-icon>
+                        </button>
+                    </div>
+                    <div class="history_picker_hold" *ngIf="selectedPicker.type == 'deliveryDate' && selectedPicker.index == indx">
+                      <kendo-datepicker
+                      [formatPlaceholder]="{
+                        year: 'yy',
+                        month: 'mm',
+                        day: 'dd'
+                        }"  
+                        [format]="'dd/MM/yy'" 
+                        [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                        placeholder="dd/mm/yy"
+                        (valueChange)="pickupDateTimeChange($event)" 
+                        [(ngModel)]="pickupChangeDate"
+                        [class]="'time_date_picker'"
+                      ></kendo-datepicker>
+                      <button 
+                        class="picker_handlers accept_item"
+                        appTaTooltip="Save"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="saveDate()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/check.svg"></svg-icon>
+                      </button>
+                      <button 
+                        class="picker_handlers"
+                        appTaTooltip="Cancel"
+                        position="bottom-right"
+                        (click)="closeEditInput()"
+                        tooltipBackground="#919191"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/close.svg"></svg-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div 
+                    class="list_items delivery_date" 
+                    [class.trailer_selected]="selectTrailer || selectedDriver"
+                    *ngFor="let deliveryTime of historyBoardList.deliveryTimes; let indx = index"
+                    [class.active]="selectedPicker.type == 'deliveryTime' && selectedPicker.index == indx"
+                    >
+                    <div *ngIf="selectedPicker.type != 'deliveryTime' || selectedPicker.index != indx">
+                      {{deliveryTime.date | date : 'hh:mm aaa'}}
+                      <button 
+                        class="edit_button"
+                        appTaTooltip="Edit"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="setPickerEdit({ type: 'deliveryTime', index: indx }, 'deliveryTimes')"
+                        >
+                        <svg-icon src="/assets/img/edit-pan.svg"></svg-icon>
+                      </button>
+                    </div>
+                    <div class="history_picker_hold" *ngIf="selectedPicker.type == 'deliveryTime' && selectedPicker.index == indx">
+                      <kendo-datepicker
+                      [formatPlaceholder]="{
+                        hour: 'hh',
+                        minute: 'mm'
+                        }"  
+                        [format]="'hh:mm a'" 
+                        [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                        placeholder="hh:mm AM"
+                        (valueChange)="pickupDateTimeChange($event)" 
+                        [(ngModel)]="pickupChangeDate"
+                        [class]="'time_date_picker'"
+                      ></kendo-datepicker>
+                      <button 
+                        class="picker_handlers accept_item"
+                        appTaTooltip="Save"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="saveDate()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/check.svg"></svg-icon>
+                      </button>
+                      <button 
+                        class="picker_handlers"
+                        appTaTooltip="Cancel"
+                        position="bottom-right"
+                        tooltipBackground="#919191"
+                        (click)="closeEditInput()"
+                        >
+                        <svg-icon src="/assets/img/svgs/table/close.svg"></svg-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="list_items duration_item" 
+                  *ngFor="let durationList of historyBoardList.durationList"
+                  [class.trailer_selected]="selectTrailer || selectedDriver"
+                  >
+                    {{durationList}}
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="not_found d-flex" *ngIf="!historyBoardList.trailerList">
+              <svg-icon src="../../../assets/img/svg-page no found/dispatch _history.svg"></svg-icon>
+              <div class="not_found_text">
+                  <div class="nf_big_text">Pick something!</div>
+                  <div class="nf_small_text">Select one unit or driver to see history</div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<ng-template #selectPopover let-data="data">
+  <div class="history_select_groups">
+    <div *ngIf="!showDateRange">
+      <div class="history_group">
+        <div class="history_group_item" (click)="changeSelectedTime('Today')">Today</div>
+        <div class="history_group_item" (click)="changeSelectedTime('Yesterday')">Yesterday</div>
+      </div>
+      <div class="history_group">
+        <div class="history_group_item" (click)="changeSelectedTime('This week')">This week</div>
+        <div class="history_group_item" (click)="changeSelectedTime('Last week')">Last week</div>
+        <div class="history_group_item" (click)="changeSelectedTime('1 week')">1 week</div>
+      </div>
+      <div class="history_group">
+        <div class="history_group_item" (click)="changeSelectedTime('This month')">This month</div>
+        <div class="history_group_item" (click)="changeSelectedTime('Last month')">Last month</div>
+        <div class="history_group_item" *ngFor="let month of lastFourMonth" (click)="changeSelectedTime(month)">{{month}}</div>
+      </div>
+      <div class="history_group">
+        <div class="history_group_item" (click)="showDateRange = true">Custom</div>
+      </div>
+    </div>
+  </div>
+  <kendo-multiviewcalendar
+      *ngIf="showDateRange"
+      kendoDateRangeSelection
+      [selectionRange]="range"
+      (selectionRangeChange)="handleSelectionRange($event);"
+    ></kendo-multiviewcalendar>
+</ng-template>
+
+
+  

@@ -1,0 +1,42 @@
+.uploaded-files-container {
+  list-style: none;
+  padding: 0;
+  li.uploaded-file {
+    padding: 5px;
+    background-color: #cccccc;
+    border-radius: 5px !important;
+
+    .file-label {
+      padding: 5px;
+    }
+
+    .remove-btn {
+      border-radius: 50%;
+      padding: 0;
+      height: 30px;
+      width: 30px;
+      border: 1px solid transparent;
+      opacity: 1 !important;
+      transition: all 0.3s ease-in-out;
+      display: block;
+      line-height: 33px !important;
+      &:before {
+        background-color: transparent !important;
+      }
+      &:hover,
+      &:active {
+        opacity: 0;
+        background-color: transparent !important;
+        transition: all 0.3s ease-in-out;
+        line-height: 33px !important;
+        span {
+          color: #6c757d;
+          line-height: 12px;
+        }
+        &:before {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

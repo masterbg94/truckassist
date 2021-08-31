@@ -1,0 +1,55 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal class='small' *ngIf="!loaded"></app-loading-modal>
+    <form [formGroup]="medicalForm" class="form-container" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="Issue date" class="required datepicker-label{{
+              medicalForm.controls.startDate.value !== null &&
+              medicalForm.controls.startDate.value !== ''
+                ? ' valid-label'
+                : ''
+            }}">
+              <kendo-datepicker #startDate placeholder="" formControlName="startDate" [format]="format"
+                [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }" required appAutoFocus [modalType]="inputData.data.type" [max]="endDate.value"
+                [popupSettings]="{ popupClass: 'custom-datepick' }"></kendo-datepicker>
+              <app-required-label [control]="medicalForm.controls.startDate"></app-required-label>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="Exp. date" class="required datepicker-label{{
+              medicalForm.controls.endDate.value !== null &&
+              medicalForm.controls.endDate.value !== ''
+                ? ' valid-label'
+                : ''
+            }}">
+              <kendo-datepicker #endDate [min]="startDate.value" [format]="format" [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }" placeholder="" formControlName="endDate" required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"></kendo-datepicker>
+              <app-required-label [control]="medicalForm.controls.endDate"></app-required-label>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+      </div>
+      <app-attachments page='medical' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveMedical(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

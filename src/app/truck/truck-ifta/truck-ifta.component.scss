@@ -1,0 +1,17 @@
+::ng-deep{
+    .show-more-container, .truckassist-table{
+        display: none !important;
+    }
+
+    .accounting_header, .quartal_holder{
+        display: none;
+    }
+
+    .ifta_tables.no_flex_num{
+        margin-left: 0px;
+
+        .ifta_track{
+            display: none !important;
+        }
+    }
+}

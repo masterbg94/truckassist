@@ -1,0 +1,13 @@
+.signalr_table{
+    tr{
+        background-color: #fff;
+
+        &:hover{
+            background-color: #e1e1e1;
+        }
+    }
+}
+
+.main_status_switch_holder.active{
+    z-index: 99999;
+}

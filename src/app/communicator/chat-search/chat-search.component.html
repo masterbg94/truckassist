@@ -1,0 +1,39 @@
+<div
+  class="main-container"
+  [ngClass]="{
+    'not-expanded-main-container': !expanded && !inFocus,
+    'expanded-main-container': expanded,
+    'in-focus-main-container': inFocus,
+    'unread-message': unreadMessage
+  }"
+>
+  <div
+    class="search-icon-container"
+    (click)="toggleSearch()"
+  >
+    <svg-icon
+      class="search-icon"
+      [ngClass]="{'unread-message-icon': unreadMessage}"
+      src="assets/img/svgs/communicator/ic_search.svg"
+    ></svg-icon>
+  </div>
+  <div
+    class="search-input-container"
+    [@toggleClick]="chatName === 'mainChat' && expanded"
+    [@toggleClickMiniChat]="chatName === 'miniChat' && expanded"
+  >
+    <input
+      class="search-input"
+      type="text"
+      [ngClass]="{'search-input-unread': unreadMessage}"
+      placeholder="Search"
+      [(ngModel)]="searchText"
+      (ngModelChange)="textChanged()"
+      #focusSearch
+      (focus)="inFocus = true"
+      (focusout)="inFocus = false"
+      (keydown.backspace)="eventOnBackspace()"
+    />
+    <svg-icon (click)="emptyInputContent()" *ngIf="focusSearch.value !== ''" src="assets/img/svgs/table/close.svg" class="search-input-closed"></svg-icon>
+  </div>
+</div>

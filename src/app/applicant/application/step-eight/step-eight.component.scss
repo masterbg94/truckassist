@@ -1,0 +1,158 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slideShow {
+
+  &__motorCarrier {
+    position: absolute;
+    top: 4px;
+    left: 246px;
+  }
+
+  &__motorPone {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+  }
+
+  &__motorAddress {
+    position: absolute;
+    top: 4px;
+    left: 327px;
+  }
+
+  &__motorUnit {
+    position: absolute;
+    top: 4px;
+  }
+
+  &__sapName {
+    position: absolute;
+    top: 4px;
+    left: 246px;
+  }
+
+  &__sapPhone {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+  }
+
+  &__sapAddress {
+    position: absolute;
+    top: 4px;
+    left: 327px;
+  }
+
+  &__sapUnit {
+    position: absolute;
+    top: 4px;
+  }
+
+  &__firstrow {
+    position: absolute;
+    top: 12.5px;
+    left: 472px;
+  }
+
+  &__secondrow {
+    position: absolute;
+    top: 5px;
+    left: 472px;
+  }
+
+  &__thirdrow {
+    position: absolute;
+    top: 5px;
+    left: 472px;
+  }
+
+  &__fourthrow {
+    position: absolute;
+    top: 5px;
+    left: 472px;
+  }
+}
+
+.checkStep8 {
+  margin-left: -55px;
+  margin-top: -14px;
+  @media only screen and (max-width: 414px) {
+    margin-left: -6px;
+  }
+  @media only screen and (max-width: 376px) {
+    margin-left: -15px;
+  }
+}
+.certify {
+  font-size: 12px !important;
+  top: 1.5px !important;
+}
+
+.yesno_step81 {
+  margin-left: -36px !important;
+  @media only screen and (max-width: 414px) {
+    margin-left: -52px !important;
+  }
+}
+
+.requiredField {
+  position: absolute;
+  top: 277px;
+  left: 302px;
+  width: 150px;
+  @media only screen and (max-width: 414px) {
+    top: 375px;
+    left: 50px;
+    width: 190px;
+  }
+  @media only screen and (max-width: 376px) {
+    top: 391px;
+    left: 24px;
+  }
+  @media only screen and (max-width: 360px) {
+    top: 391px;
+    left: 20px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .btn_mobile {
+    margin-left: -285px;
+  }
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .yesno {
+    top: 0px;
+    right: 41px;
+    &_step82 {
+      margin-right: -40px !important;
+    }
+  }
+  .firstParagraf--step8 {
+    margin: 0 auto !important;
+    margin-bottom: 20px !important;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .btn_mobile {
+    margin-left: -337px;
+  }
+  .yesno {
+    right: 68px;
+    &_step82 {
+      margin-right: -40px !important;
+    }
+  }
+}
+@media only screen and (max-width: 361px) {
+  .btn_mobile {
+    margin-left: -342px;
+  }
+  .yesno {
+    right: 64px;
+  }
+}

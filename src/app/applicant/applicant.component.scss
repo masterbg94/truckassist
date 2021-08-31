@@ -1,0 +1,1426 @@
+@import '../../assets/scss/components/variables.scss';
+//---------------------------------Variables ---------------------------------
+$color-gray-normal: #6c6c6c;
+$color-gray-darken: #919191;
+$color-gray-light: #b7b7b7;
+
+$color-white-liighter: #f8f8f8;
+$color-white-light: #ffffff;
+$color-white-normal: #f9f9f9;
+$color-white-darken: #eeeeee;
+
+$color-blue-normal: #5673aa;
+$color-blue-normal-7: rgb(86, 115, 170, .7);
+$color-red-lighter: rgba(255, 93, 93, 0.7);
+
+$review-rejected-color: #FF5D5D;
+$review-rejected-color-2: rgba(255, 93, 93, 0.7);
+
+$review-completed-color: #24c1a1;
+$review-completed-color-2: rgb(36, 193, 161, .7);
+
+// --------------------------------- Review company ---------------------------------
+.reviewConfirmAll {
+  position: absolute;
+  left: 900px;
+  bottom: 162px;
+  z-index: 300;
+}
+
+.centerContent2-review {
+  max-width: 546px !important;
+  margin: -21px auto 11px 119px !important;
+  position: relative !important;
+  top: 11px !important;
+}
+.reviewOtherName {
+  margin-top: 5px;
+}
+.reviewMilitary {
+  margin-top: 4px;
+}
+.btns_reviewConfirm {
+  background: $review-completed-color-2 !important;
+  width: 146px !important;
+  height: 34px !important;
+  font-weight: bold !important;
+  padding-right: 28px !important;
+  svg {
+    #Rectangle_9389 {
+      fill: transparent !important;
+    }
+    path {
+      fill: #fff !important;
+    }
+  }
+  &:hover {
+    background: $review-completed-color !important;
+  }
+  &-text {
+    position: relative !important;
+    top: 1px !important;
+  }
+}
+.btns_reviewConfirm-new {
+  background: $review-completed-color-2 !important;
+  width: 146px !important;
+  height: 34px !important;
+  font-weight: bold !important;
+  padding-right: 28px !important;
+  svg {
+    #Rectangle_9389 {
+      fill: transparent !important;
+    }
+    path {
+      fill: #fff !important;
+    }
+  }
+  &:hover {
+    background: $review-completed-color !important;
+  }
+  &-text {
+    position: relative !important;
+    top: 1px !important;
+  }
+}
+
+.disable-review-fields {
+  pointer-events: none;
+  user-select: none;
+}
+
+.correct_review {
+  background-color: $review-completed-color-2 !important;
+  &:hover {
+    background-color: $review-completed-color !important;
+  }
+  &:focus {
+    background-color: $review-completed-color !important;
+  }
+}
+.denided_review {
+  background-color: $review-rejected-color-2 !important;
+  &:hover {
+    background-color: $review-rejected-color !important;
+  }
+  &:focus {
+    background-color: $review-rejected-color !important;
+  }
+}
+
+//--------------------------------- Routes ---------------------------------
+
+router-outlet {
+  display: none;
+}
+.routeContainerNavbar {
+  position: relative;
+  width: 700px;
+  margin: 0 auto;
+  & > * {
+    display: block;
+  }
+}
+.routeContainerApplication {
+  position: relative;
+  width: 680px;
+  margin: 0 auto;
+  & > * {
+    display: block;
+  }
+}
+//--------------------------------- Header ---------------------------------
+.header {
+  background-color: $color-gray-normal;
+  color: $color-white-light;
+  text-align: center;
+  font-weight: 500;
+  padding: 6px 0px;
+  &_text {
+    margin-left: -25px;
+  }
+
+  @media only screen and(max-width:414px) {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    background-color: $color-white-normal;
+    color: $color-gray-normal;
+    font-weight: bolder;
+    &_text {
+      margin-left: 6px;
+    }
+  }
+}
+
+//--------------------------------- Content ---------------------------------
+.applicant-content {
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background: $color-white-light;
+  margin: 0 auto;
+  padding: 0;
+  min-width: 100%;
+  text-align: center;
+}
+
+//--------------------------------- Company ---------------------------------
+.company {
+  width: 100%;
+  height: 82px;
+  background: $color-white-normal;
+  color: $color-gray-normal;
+  text-align: center;
+  font-size: 18px;
+  padding: 20px 0px;
+
+  &_up {
+    margin-left: -14px;
+  }
+
+  &_name {
+    font-weight: 900;
+    font-size: 22px;
+  }
+
+  &_usdot {
+    margin: 0 12px;
+  }
+
+  &_contact {
+    position: relative;
+    left: 0px;
+    top: -2px;
+
+    &_svg {
+      position: relative;
+      top: -1px;
+    }
+  }
+
+  &_down {
+    display: inline-block;
+  }
+
+  &_location {
+    &_icon {
+      position: relative;
+      left: -2px;
+      top: -2px;
+    }
+  }
+
+  @media only screen and(max-width:414px) {
+    & {
+      height: 134px;
+      margin-top: 74px;
+    }
+    &_name {
+      display: block;
+      margin-left: 17px;
+      margin-bottom: 5px;
+    }
+    &_usdot {
+      margin: 0 11px;
+    }
+    &_down {
+      margin-left: -15px;
+      margin-top: 4px;
+    }
+    &_location {
+      display: block;
+      margin-bottom: -6px;
+      &_icon {
+        top: 7px;
+      }
+    }
+    &_city {
+      margin-left: 31px;
+    }
+  }
+
+  @media only screen and(max-width:376px) {
+    & {
+      height: 134px;
+      margin-top: 78px !important;
+    }
+  }
+}
+//--------------------------------- NavBar - mobile ---------------------------------
+.navmobile {
+  display: none;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 32px;
+  z-index: 9999;
+  @media only screen and (max-width: 414px) {
+    height: 42px;
+  }
+  &_link {
+    display: block;
+    color: #919191;
+    background-color: #f9f9f9;
+    padding: 14px 16px;
+    text-decoration: none;
+    text-align: left;
+    font-weight: bold;
+    @media only screen and (max-width: 414px) {
+      padding: 12px 16px;
+    }
+    &:nth-child(even) {
+      background: #f3f3f3;
+    }
+    &-last {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &_header {
+    background: rgb(108, 108, 108, 0.7);
+    color: $color-white-normal;
+  }
+  .menu {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    position: absolute;
+    top: 9px;
+    right: 0px;
+    @media only screen and (max-width: 414px) {
+      top: 7px;
+    }
+  }
+  .line {
+    fill: none;
+    stroke: $color-white-normal;
+    stroke-width: 6;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .line1 {
+    stroke-dasharray: 60 207;
+    stroke-width: 6;
+  }
+  .line2 {
+    stroke-dasharray: 60 60;
+    stroke-width: 6;
+  }
+  .line3 {
+    stroke-dasharray: 60 207;
+    stroke-width: 6;
+  }
+  .opened .line1 {
+    stroke-dasharray: 90 207;
+    stroke-dashoffset: -134;
+    stroke-width: 6;
+  }
+  .opened .line2 {
+    stroke-dasharray: 1 60;
+    stroke-dashoffset: -30;
+    stroke-width: 6;
+  }
+  .opened .line3 {
+    stroke-dasharray: 90 207;
+    stroke-dashoffset: -134;
+    stroke-width: 6;
+  }
+  @media only screen and(max-width:414px) {
+    display: block;
+  }
+}
+
+//--------------------------------- NavBar ---------------------------------
+nav {
+  margin-left: -46px;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  @media only screen and(max-width:414px) {
+    display: none;
+  }
+}
+
+nav ul li {
+  display: inline-block;
+  line-height: 27px;
+  margin: 0 3px;
+  font-weight: bold;
+}
+
+nav ul li a {
+  text-decoration: none;
+  padding: 6px 12px;
+  color: $color-white-light;
+  border-radius: 0 0 3px 3px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.router-link-active {
+  background: #6c6c6c !important;
+}
+
+.nav_active {
+  background: rgba(145, 145, 145, 1) !important;
+  transition: all 0.2s ease-in;
+}
+
+.nav_completed {
+  background: rgba(86, 115, 170, 0.7) !important;
+
+  &:hover {
+    background: rgba(86, 115, 170, 1) !important;
+  }
+  &:focus {
+    background: rgba(86, 115, 170, 1) !important;
+  }
+}
+.nav_complete {
+  background: rgba(86, 115, 170, 1) !important;
+}
+
+.nav_inactive {
+  background: rgba(145, 145, 145, 0.4);
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    background: rgba(145, 145, 145, 0.7);
+  }
+}
+
+//--------------------------------- FOOTER ---------------------------------
+.footer {
+  background: $color-blue-normal;
+  color: $color-white-light;
+  text-align: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 7px;
+  padding-left: 9px;
+  height: 34px;
+}
+
+//-------------------------------------------------------Common utilities---------------------------------------------------------------
+.slideShow {
+  margin: 0 auto;
+  max-width: 680px;
+  text-align: center;
+  font-weight: 400;
+  cursor: context-menu;
+
+  h1 {
+    color: $color-blue-normal;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin-top: 12px;
+  }
+
+  .firstParagraf {
+    color: $color-gray-normal;
+  }
+
+  .firstParagraf--step8 {
+    margin: -8px -90px 17px -126px;
+  }
+
+  .secondParagraf {
+    color: rgba(108, 108, 108, 0.4);
+    transition: all 0.2s ease-in;
+  }
+
+  .secondParagraf:hover {
+    color: $color-blue-normal;
+  }
+  @media only screen and(max-width:414px) {
+    width: 388px;
+    margin-left: 1px;
+
+    .firstParagraf {
+      &_reasponsive {
+        margin-bottom: -3px;
+      }
+    }
+    .secondParagraf {
+      color: $color-blue-normal;
+    }
+    .heading1 {
+      margin-top: 20px;
+    }
+  }
+  @media only screen and(max-width:376px) {
+    width: 351px !important;
+  }
+
+  @media only screen and(max-width:361px) {
+    margin-left: -7px;
+  }
+}
+
+.centerContent {
+  max-width: 462px;
+  margin: 0 auto 0 119px;
+  position: relative;
+  @media only screen and(max-width:414px) {
+    margin: 0 auto;
+    .row {
+      .col-8 {
+        max-width: 49.9%;
+      }
+      .col-10 {
+        max-width: 66.5%;
+      }
+      .col-12 {
+        max-width: 83.5%;
+      }
+    }
+  }
+  @media only screen and(max-width:376px) {
+    .row {
+      .col-8 {
+        max-width: 41.6667%;
+      }
+      .col-10 {
+        max-width: 58.333%;
+      }
+      .col-12 {
+        max-width: 75.5%;
+      }
+    }
+  }
+}
+
+.centerContent .row > .col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-12 {
+  padding-left: 0px !important;
+}
+
+.centerContent2 {
+  max-width: 546px;
+  margin: -21px auto 11px 119px;
+  @media only screen and(max-width:414px) {
+    margin: -20px 0px 33px 40px;
+    .row {
+      margin-bottom: 15px;
+    }
+  }
+  @media only screen and(max-width:376px) {
+    margin: -20px 0px 33px 20px;
+  }
+}
+
+.centerContent3 {
+  width: 546px;
+  margin: 0;
+}
+
+.btns {
+  font-weight: bold;
+  width: 120px;
+  height: 34px;
+  padding: 0px 16px;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  margin: 15px 0px 45px 0px;
+  color: rgba(130, 128, 128, 0.7);
+  font-size: 12px;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  @media only screen and(max-width:414px) {
+    margin-left: -272px !important;
+    margin-top: 35px;
+  }
+
+  @media only screen and(max-width:376px) {
+    margin-left: -312px !important;
+  }
+
+  @media only screen and(max-width:361px) {
+    margin-left: -330px !important;
+  }
+
+  &_back {
+    background: rgb(238, 238, 238, 0.7);
+    color: $color-gray-normal;
+    transition: all 0.2s ease-in;
+  }
+
+  &_back:hover {
+    background: rgba(145, 145, 145, 0.7);
+    color: $color-white-darken;
+  }
+
+  &_next,
+  &_finish {
+    background: rgba(86, 115, 170, 0.7);
+    color: $color-white-normal;
+  }
+
+  &_next:hover,
+  &_finish:hover {
+    background: $color-blue-normal;
+    color: $color-white-normal;
+  }
+
+  &_next:disabled {
+    background: rgb(145, 145, 145, 0.4);
+    color: $color-white-normal;
+  }
+}
+
+.yesno {
+  color: rgba(130, 128, 128, 0.7);
+  font-size: 12px;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  @media only screen and(max-width:414px) {
+    position: relative;
+    top: 26px;
+    right: 185px;
+    &_misdemeanor {
+      margin-top: 20px;
+    }
+  }
+
+  /* Internet Explorer/Edge */
+  &_label1,
+  &_label2 {
+    width: 51px;
+    margin-top: 10px;
+    background: linear-gradient(
+      to bottom,
+      rgba(238, 238, 238, 0.7) 0,
+      rgba(238, 238, 238, 0.7) 90px,
+      rgba(86, 115, 170, 0.7) 90px,
+      rgba(86, 115, 170, 0.7) 180px
+    );
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+  }
+
+  &_label1 {
+    margin-left: -24px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    @media only screen and(max-width:414px) {
+      margin-left: -48px;
+    }
+  }
+
+  &_label2 {
+    right: 0;
+    margin-right: -45px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  &_step81 {
+    margin-left: -36px;
+    margin-top: -3px;
+  }
+
+  &_step82 {
+    margin-right: -21px !important;
+    margin-top: -3px;
+  }
+
+  &_label1:hover,
+  &_label2:hover {
+    background: #dadada;
+    color: #6c6c6c;
+  }
+
+  &_options {
+    display: flex;
+    height: 26px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  &_paragraf {
+    text-align: left;
+    @media only screen and(max-width: 414px) {
+      text-align: center;
+      width: 340px;
+      margin-left: -22px;
+    }
+  }
+}
+
+input[type='radio'] {
+  display: none;
+}
+input:checked + label {
+  color: $color-white-normal;
+  background: rgba(86, 115, 170, 0.7);
+  transition: all 0.1s ease;
+}
+
+input:checked + label:hover {
+  color: $color-white-normal;
+  background: rgba(86, 115, 170, 1);
+}
+
+.row {
+  text-align: left !important;
+
+  @media only screen and(max-width: 414px) {
+    width: 470px;
+    margin: 0 7px;
+
+    .col-9 {
+      max-width: 48%;
+    }
+  }
+}
+
+.requiredStar {
+  color: #ff5d5d;
+  position: relative;
+  top: 0px;
+  right: -4px;
+}
+
+.checkBox {
+  font-size: 12px;
+  position: relative;
+  top: 0.5px;
+  left: 3px;
+  font-weight: bold;
+}
+
+.step10paragraf {
+  margin-top: 2px !important;
+}
+
+.step11Paragraf {
+  margin-top: 3px !important;
+}
+
+.add_disabled {
+  pointer-events: none;
+  color: $color-gray-normal !important;
+  opacity: 0.5 !important;
+}
+
+// DropDown Dialog Container
+.delete-dialog-container {
+  position: relative;
+  @media only screen and(max-width:414px) {
+    right: 76px;
+  }
+
+  .drop-down-delete-dialog {
+    cursor: default;
+    position: absolute;
+    width: 240px;
+    height: 75px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: $box-shadow;
+
+    @media only screen and(max-width:414px) {
+      left: -50px;
+    }
+
+    p {
+      height: 43px;
+      width: 100%;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 3.5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .yes-no {
+      width: 100%;
+      height: 32px;
+      display: flex;
+      cursor: pointer;
+
+      .no,
+      .yes {
+        width: 50%;
+        height: 100%;
+        background: #f9f9f9;
+        transition: 0.2s;
+
+        p {
+          font-size: 16px;
+          font-weight: bold;
+          height: 100%;
+          line-height: 2;
+        }
+      }
+
+      .no {
+        border-bottom-left-radius: 3px;
+
+        p {
+          color: #b7b7b7;
+        }
+
+        &:hover {
+          background: #eeeeee;
+          transition: 0.2s;
+
+          p {
+            color: #919191;
+            transition: color 0.2s;
+          }
+        }
+      }
+
+      .yes {
+        border-bottom-right-radius: 3px;
+
+        p {
+          color: #ff5d5d;
+        }
+
+        &:hover {
+          background: #ff5d5d;
+          transition: 0.2s;
+
+          p {
+            color: white;
+            transition: color 0.2s;
+          }
+        }
+      }
+    }
+  }
+}
+// ---------------------------------- Fatality & Injuries -----------------------------------------------
+.fatality-injuries-conatiner {
+  width: 105px;
+  height: 26px;
+  display: flex;
+
+  p {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 5px 0 0;
+    padding: 2px 0 0 0;
+  }
+
+  input {
+    width: 30px;
+    height: 26px;
+    text-align: center;
+    padding-right: 6px;
+  }
+
+  svg-icon {
+    cursor: pointer;
+    position: relative;
+    height: 8px !important;
+    width: 12px;
+
+    svg {
+      position: relative;
+      top: -8px;
+    }
+  }
+
+  .up-svg {
+    position: relative;
+    left: 5px;
+    top: 3px;
+    @media only screen and (max-width: 414px) {
+      display: none !important;
+    }
+
+    &:hover path {
+      opacity: 1;
+    }
+  }
+
+  .down-svg {
+    position: relative;
+    left: -4px;
+    top: 13px;
+    @media only screen and (max-width: 414px) {
+      display: none !important;
+    }
+
+    &:hover path {
+      opacity: 1;
+    }
+
+    &_FD {
+      left: -7px !important;
+    }
+  }
+}
+// ---------------------------------- Hazmat -----------------------------------------------
+.hazmat {
+  &_paragraf {
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+  }
+
+  &_Yes {
+    margin-left: 108px !important;
+    margin-top: -19px !important;
+  }
+
+  &_No {
+    margin-top: -19px !important;
+    margin-right: -210px !important;
+  }
+}
+// ---------------------------------- Custom modal -----------------------------------------------
+.modal {
+  display: none;
+  position: fixed;
+  padding: 25px 0px;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-transition: 0.5s;
+  overflow: hidden;
+  transition: all 0.5s ease-in;
+
+  @media only screen and (max-width: 414px) {
+    z-index: 200;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  &_content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    border-radius: 4px;
+    width: 820px;
+    max-width: 100%;
+    height: 867px;
+    overflow: scroll;
+
+    box-shadow: 0 -7.2px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
+      0 12.5px 10px rgb(0 0 0 / 6%), 0 22.3px 17.9px rgb(0 0 0 / 7%),
+      0 41.8px 33.4px rgb(0 0 0 / 9%), 0 100px 80px rgb(0 0 0 / 12%);
+
+    @media only screen and (max-width: 414px) {
+      width: 655px !important;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  &_header {
+    margin-top: 45px;
+    @media only screen and (max-width: 414px) {
+      width: 333px;
+      margin-left: -6px !important;
+    }
+  }
+  &.show {
+    display: block;
+  }
+  &_close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    cursor: pointer;
+    &:hover {
+      svg-icon {
+        path {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// ---------------------------------- Signature pad -----------------------------------------------
+.pad {
+  margin-top: 3px;
+  overflow-x: hidden;
+  @media only screen and (max-width: 414px) {
+    width: 350px !important;
+  }
+  &_signature {
+    position: relative;
+    left: 10px;
+    width: 660px;
+    height: 204px;
+    margin-top: 21.3px;
+    img {
+      border-radius: 3px;
+      width: 660px;
+      height: 200px;
+    }
+    @media only screen and (max-width: 414px) {
+      width: 350px !important;
+      left: 0px;
+      img {
+        width: 350px;
+        height: 200px;
+      }
+    }
+
+    &_edit {
+      position: absolute;
+      right: 4.4px;
+      top: 2px;
+      &:hover {
+        cursor: pointer;
+        svg-icon {
+          svg {
+            path {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+canvas {
+  height: 5px;
+  background-color: #6c6c6c;
+  width: 660px;
+  position: relative;
+  top: 7px;
+  left: 0px;
+  border-radius: 50px !important;
+  @media only screen and (max-width: 414px) {
+    width: 350px !important;
+  }
+}
+
+.signature {
+  position: relative;
+  top: -6px;
+  left: 10px;
+  width: 660px;
+  height: 28px;
+  font-size: 12px;
+  text-align: center;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: $color-white-normal;
+  color: $color-gray-normal;
+  padding: 2px 0px;
+  @media only screen and (max-width: 414px) {
+    width: 350px !important;
+    margin-left: -10px;
+    height: 24px;
+  }
+  &_blok {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-bottom-left-radius: 3px;
+    width: 152px;
+    @media only screen and (max-width: 414px) {
+      width: 110px;
+    }
+  }
+
+  &_link {
+    text-decoration: none;
+    color: $color-gray-normal;
+    background-color: $color-white-darken;
+    display: inline-block;
+    height: 28px;
+    font-size: 14px !important;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 3px;
+    padding-top: 4px;
+
+    @media only screen and (max-width: 414px) {
+      font-size: 10px !important;
+      height: 24px;
+    }
+
+    &_clear {
+      width: 76px;
+      transition: all 0.2s ease-in;
+
+      @media only screen and (max-width: 414px) {
+        width: 55px;
+        height: 24px;
+        padding-top: 5px !important;
+      }
+
+      &:hover {
+        color: #ffffff;
+        background: $color-gray-normal;
+        border-bottom-left-radius: 3px;
+      }
+    }
+
+    &_undo {
+      width: 76px;
+      transition: all 0.2s ease-in;
+      @media only screen and (max-width: 414px) {
+        width: 55px;
+        height: 24px;
+        padding-top: 5px !important;
+      }
+
+      &:hover {
+        color: #ffffff;
+        background: $color-gray-normal;
+      }
+    }
+  }
+
+  &_text {
+    margin-top: 4px !important;
+
+    @media only screen and (max-width: 414px) {
+      font-size: 10px !important;
+      position: absolute;
+      right: 9px;
+    }
+  }
+}
+
+//----------------------------------- Truck type & trailer -----------------------------------------
+.svgIconTruck {
+  svg {
+    width: 38.28px !important;
+    height: 16px !important;
+    padding-left: 4px !important;
+  }
+}
+
+.svgTruck:hover {
+  color: $white;
+
+  &.semi-truck-icon {
+    background: #90bc6f;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.semi-wsleeper-icon {
+    background: #ffc061;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.box-truck-icon {
+    background: #ef6e6e;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.cargo-van-icon {
+    background: #78c7fc;
+
+    path {
+      fill: $white !important;
+    }
+  }
+
+  &.tow-truck-icon {
+    background: #90659b;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.truck-hauler-icon {
+    background: #668888;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+
+      #Path_10509 {
+        fill: $white !important;
+      }
+
+      #Path_10510 {
+        fill: $white !important;
+      }
+
+      #Rectangle_1321 {
+        fill: $white !important;
+      }
+
+      #Ellipse_492 {
+        fill: $white !important;
+      }
+
+      #Path_1243 {
+        path {
+          fill: $white !important;
+        }
+      }
+    }
+  }
+  &.bus-icon {
+    background: #eed070;
+    svg {
+      path {
+        fill: $white !important;
+      }
+      #Ellipse_2737 {
+        fill: $white !important;
+      }
+      #Ellipse_2738 {
+        fill: $white !important;
+      }
+    }
+  }
+  &.motorcycle-icon {
+    background: #7081db;
+    svg {
+      path {
+        fill: $white !important;
+      }
+      #Ellipse_2736 {
+        fill: $white !important;
+      }
+    }
+  }
+  &.personalvehicle-icon {
+    background: #78d1b5;
+    svg {
+      path {
+        fill: $white !important;
+      }
+      #Ellipse_2739 {
+        fill: $white !important;
+      }
+      #Ellipse_2740 {
+        fill: $white !important;
+      }
+    }
+  }
+}
+
+.svgIconTriler {
+  svg {
+    width: 40px !important;
+    height: 15.45px !important;
+    padding-left: 4px !important;
+  }
+}
+
+.svgTriler:hover {
+  color: $white;
+
+  &.reefer-icon {
+    background: #ef6e6e;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.dry-van-icon {
+    background: #5673aa;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.side-kit-icon {
+    background: #76a77d;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.conestoga-icon {
+    background: #484848;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.dumper-icon {
+    background: #8fdee1;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.container-icon {
+    background: #ffbe7d;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.tanker-icon {
+    background: #81ccff !important;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.trailer-hauler-icon {
+    background: #668888;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+
+      #Rectangle_1321 {
+        fill: $white !important;
+      }
+
+      #Ellipse_492 {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.flat-bed-icon {
+    background: #af88ea;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.low-boy-rgn-icon {
+    background: #955fa2;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.chassis-icon {
+    background: #547556;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+
+  &.step-deck-icon {
+    background: #f2dd75;
+
+    svg {
+      path {
+        fill: $white !important;
+      }
+    }
+  }
+}

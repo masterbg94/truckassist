@@ -1,0 +1,148 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <div class="d-flex align-items-center">
+      <i
+        class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+        (click)="closeAccountsEditModal()"
+      ></i>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form class="form-container" [formGroup]="accountForm">
+      <div class="row">
+        <div class="col-7">
+          <div class="form-label-group">
+            <input
+              id="name"
+              class="form-control input-control required"
+              placeholder="Name"
+              formControlName="name"
+              (paste)="onPaste($event, 'name', 23)"
+              (keydown)="onCheckBackSpace($event)"
+              (keypress)="onNameTyping($event)"
+              appInputFocus
+              maxlength="23"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+            />
+            <label class="required-label" for="name">Name</label>
+            <app-required-label [control]="accountForm.controls.name"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-label-group">
+            <ng-select
+              placeholder="Select label"
+              [items]="createdLabels"
+              formControlName="labelId"
+              bindValue="labelId"
+              bindLabel="labelName"
+              [(ngModel)]="selectedLabelId"
+              class="label-select"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngStyle]="{ color: item.labelColor }" [ngOptionHighlight]="search">{{ item.labelName }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-7">
+          <div class="form-label-group">
+            <input
+              id="username"
+              class="form-control input-control required"
+              placeholder="Username"
+              formControlName="username"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+              (keypress)="onEmailTyping($event)"
+              (keydown)="onCheckBackSpace($event)"
+              (paste)="onPaste($event, 'username', 20)"
+              maxlength="40"
+            />
+            <label class="required-label" for="username">Username</label>
+            <app-required-label [control]="accountForm.controls.username"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5 password-field">
+          <div class="form-label-group mat-form-password-custom">
+            <input
+              id="password"
+              class="form-control input-control required"
+              placeholder="Password"
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              #password
+              (ngModelChange)="accountPassChange($event)"
+              [value]="accountPass"
+              maxlength="20"
+            />
+            <i
+              class="fad fa-eye-slash mr-2 cursor-pointer password-icon"
+              (click)="hidePassword = !hidePassword"
+              *ngIf="hidePassword"
+            ></i>
+            <i
+              class="fad fa-eye mr-2 cursor-pointer password-icon"
+              (click)="hidePassword = !hidePassword"
+              *ngIf="!hidePassword"
+            ></i>
+            <i
+              class="fad fa-sync-alt cursor-pointer password-icon"
+              placement="bottom"
+              (click)="randomPassword()"
+            ></i>
+            <label class="required-label" for="password">Password</label>
+            <app-required-label [control]="accountForm.controls.password"></app-required-label>
+            <!-- TODO ADD PASSWORD STRENGTH WHICH IS NOT MATERIAL -->
+            <span class="fs-12 position-absolute">{{ passwordStrength }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-label-group input-icon link-field-wrapper">
+            <input
+              class="form-control input-control"
+              type="text"
+              id="hyperlink"
+              formControlName="url"
+              appInputFocus
+              placeholder="Hyperlink"
+              maxlength="400"
+            />
+            <label for="hyperlink">Hyperlink</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon
+              src="assets/img/svgs/down-arrow.svg"
+              class="down-icon"
+            ></svg-icon>
+          </div>
+          <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+              <textarea
+                cdkTextareaAutosize
+                #note
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
+                formControlName="note"
+                class="input-custom-textarea form-textarea"
+              ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeAccountsEditModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="manageAccount()" ngbAutofocus>Save</button>
+  </div>
+</div>

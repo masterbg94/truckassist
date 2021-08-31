@@ -1,0 +1,44 @@
+<ngb-progressbar
+  [type]="setProgressbarColor()"
+  [value]="calculateProgress()"
+  *ngIf="showProgress"
+  [class.todo-progress]="isTodo"
+  [class.insurance-policy-progress]="isInsurancePolicy"
+>
+  <div class="progress-panel">
+    <span
+      class="progress-text"
+      *ngIf="!negative && expire >= 1"
+      [ngClass]="{ 'd-none': expire !== expire }"
+    >
+      <span *ngIf="expire <= 365">Expires in {{ expire }} {{ expire > 1 ? 'days' : 'day' }}</span>
+      <span *ngIf="expire > 365">Expires in {{ year }}y. {{ days }}d.</span>
+    </span>
+
+    <!-- Expires today -->
+    <span *ngIf="expire === 0" class="progress-text">
+      <span *ngIf="!timeDifferenceAgo && timeDifference"
+        >Deadline in {{ timeDifference }} {{timeDifference < 2 ? 'hour' : 'hours'}}</span
+      >
+      <span *ngIf="timeDifferenceAgo && timeDifference"
+        >Deadline {{ timeDifference }} {{timeDifference < 2 ? 'hour' : 'hours'}} ago</span
+      >
+      <span *ngIf="timeDifference === 0">Expired now</span>
+    </span>
+
+    <!--  No deadline  -->
+    <span *ngIf="expireDate === null || expireDate === ''" class="progress-text">
+     <span>No deadline</span>
+    </span>
+
+    <!-- Expired before some time -->
+    <span class="progress-text" *ngIf="negative">
+      <span *ngIf="expire <= 365 && negative"
+        >Expired {{ expire }} {{ expire > 1 ? 'days' : 'day' }} ago</span
+      >
+      <span *ngIf="expire > 365 && negative">Expired {{ year }}y. {{ days }}d. ago</span>
+    </span>
+
+    <span class="progress-date" *ngIf="expireDate">{{ isTodo ? (expireDate | date : 'dd/MM/yy HH:mm') : expireDate  }}</span>
+  </div>
+</ngb-progressbar>

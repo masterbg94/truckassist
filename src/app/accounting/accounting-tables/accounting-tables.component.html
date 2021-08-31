@@ -1,0 +1,85 @@
+<div class="table_item_holder">
+    <div class="table_detail_add">
+        <span class="detail_text">{{tableName}}</span>
+        <div>
+            <button class="btn-transparent dispatch-bottom-add-accounting edit_reccurring" *ngIf="options.editItem">
+                <svg-icon 
+                    appTaTooltip="Edit {{options.editItem}}"
+                    position="bottom-right"
+                    class="icon-hover-blue-28 m-0" src="assets/img/svgs/edit-pencil.svg"
+                    [svgStyle]="{ 'width.px': 16, 'height.px': 16 }">
+                </svg-icon>
+            </button>
+            <button class="btn-transparent dispatch-bottom-add-accounting" (click)="openAddNew()">
+                <svg-icon 
+                    appTaTooltip="Add Deducation"
+                    position="bottom-right"
+                    class="icon-hover-blue-28 m-0" src="assets/img/svgs/just_plus.svg"
+                    [svgStyle]="{ 'width.px': 16, 'height.px': 16 }">
+                </svg-icon>
+            </button>
+        </div>
+    </div>
+    <table class="account_details_table">
+        <thead>
+            <tr class="transparent_rows small_tables">
+                <th *ngFor="let column of columns">{{column.title}}</th>
+            </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="onDrop($event)">
+            <ng-template ngFor let-items [ngForOf]="dataItem" let-i="index">
+                <tr
+                    class="dragg_row"
+                    *ngIf="items.draggable"
+                    cdkDrag
+                    cdkDragHandle
+                    cdkDragBoundary=".account_details_table"
+                    [cdkDragPreviewClass]="'line-drag-row'"
+                    (cdkDropListEntered)="enterDropList($event)"
+                    cdkDragLockAxis="y">
+                    <td colspan="3">{{items.name}} - {{items.start_period}} - {{items.end_period}}</td>
+                </tr>
+                <tr 
+                    cdkDrag
+                    cdkDragLockAxis="y"
+                    [class.low_opacity]="tableCurrentIndex < i"
+                    cdkDragHandle
+                    [cdkDragDisabled]="true"
+                    (cdkDropListEntered)="enterDropList($event)"
+                    class="table_row"
+                    *ngIf="!items.draggable">
+                    <td width="60%">
+                        <div class="description_hold">
+                            {{items.description}}
+                            <span *ngIf="items.type == 2" class="duration_type">
+                                <span class="duration_info" [class.infinity]="!items.limited">
+                                    <span *ngIf="items.limited">0/{{items.limitNumber}}</span>
+                                </span>
+                            </span>
+                            <div class="item_table_buttons">
+                                <svg-icon
+                                    appTaTooltip="Edit"
+                                    position="bottom-right"
+                                    src="/assets/img/svgs/edit-comment.svg"
+                                    class="cursor-pointer edit_checkmark"
+                                    (click)="openEdit(items)"
+                                >
+                                </svg-icon>
+                                <svg-icon
+                                    appTaTooltip="Delete"
+                                    position="bottom-right"
+                                    tooltipBackground="#FF5D5D"
+                                    src="/assets/img/svgs/delete-comment.svg"
+                                    class="ml-2 cursor-pointer delete_checkmark"
+                                    (click)="deleteItem(i)"
+                                ></svg-icon>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{items.itemDate | date: 'MM/dd/yy'}}</td>
+                    <td class="text-right">${{items.amount}}</td>
+                </tr>
+            </ng-template>
+        </tbody>
+    </table>
+</div>

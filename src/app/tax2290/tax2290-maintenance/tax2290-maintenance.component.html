@@ -1,0 +1,171 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-save (onSaveEmit)="onSave2290($event)"></app-modal-save>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <!-- Step1 -->
+    <app-tax2290-company
+      (resetCompany)="onResetCompany($event)"
+      [company]="company"
+      [taxSeason]="taxSeason"
+    ></app-tax2290-company>
+
+    <!-- Step2 -->
+    <div class="row row-custom">
+      <div class="col-12 note-wrapper{{ showCompanyInfo ? ' visible-note' : ' hidden-note' }}">
+        <div class="note-label-wrapper" (click)="openNewStep('company-info')">
+          <span class="note-label">Company Info</span>
+          <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{
+            showCompanyInfo ? ' note-visible' : ' note-hidden'
+          }}"
+        >
+          <app-tax2290-company-info></app-tax2290-company-info>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step3 -->
+    <div class="row row-custom">
+      <div
+        [style.height.px]="showVehicles ? (numberOfVehicles !== 0 ? (180 + 35 * numberOfVehicles) : 180) : 32"
+        class="col-12 note-wrapper{{ showVehicles ? ' visible-note-vehicles' : ' hidden-note' }}"
+      >
+        <div class="note-label-wrapper" (click)="openNewStep('vehicles')">
+          <span class="note-label"
+            ><span class="number-of-vehicles" *ngIf="numberOfVehicles !== 0">{{ numberOfVehicles }}</span> Vehicles
+          </span>
+          <span
+            ><span class="vehicle-total-tax" *ngIf="vehiclesSumTax !== ''">{{ vehiclesSumTax }}</span>
+            <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon
+          ></span>
+        </div>
+        <div
+          class="example-full-width note-input{{ showVehicles ? ' note-visible' : ' note-hidden' }}"
+        >
+          <app-tax2290-vehicles
+            [onResetCompany]="isResetCompany"
+            (onActionSchedule)="onActionsSchedule($event)"
+          ></app-tax2290-vehicles>
+        </div>
+      </div>
+    </div>
+    <!-- Step3 attachemnts -->
+    <div class="row row-custom" *ngIf="showAttachmentVehicle">
+      <div
+        class="col-12 note-wrapper{{
+          showAttachmentVehicle ? ' visible-note-vehicles-attachment' : ' hidden-note'
+        }}"
+      >
+        <div class="note-label-wrapper" (click)="openNewStep('vehicle-attachment')">
+          <span class="note-label"
+            ><span class="number-of-attachments">{{ numberOfAttachments }}</span
+            >Attachment</span
+          >
+          <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{
+            showAttachmentVehicle ? ' note-visible' : ' note-hidden'
+          }}"
+        >
+          <app-tax2290-vehicles-attachments
+            (numberOfAttachments)="onCountAttachments($event)"
+            [numberOfPreviousEnteredVehicles]="numberOfVehicles"
+          ></app-tax2290-vehicles-attachments>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step4 -->
+    <div class="row row-custom row-custom-signer">
+      <svg-icon
+        *ngIf="!isNewCompany && showSigner"
+        (click)="onEditableSigner()"
+        class="edit-icon"
+        src="assets/img/svgs/table/edit-pencil.svg"
+        [appTaTooltip]="'Edit'"
+        position="bottom-right"
+        zIndex="99999999999"
+        tooltipBackground="#919191"
+        tooltipColor="#FFFFFF"
+      ></svg-icon>
+      <div class="col-12 note-wrapper{{ showSigner ? ' visible-note' : ' hidden-note' }}">
+        <div class="note-label-wrapper" (click)="openNewStep('signer')">
+          <span class="note-label">Signer </span>
+          <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{ showSigner ? ' note-visible' : ' note-hidden' }}"
+        >
+          <app-tax2290-signer [isSignerEditable]="isSignerEditable"></app-tax2290-signer>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step5 -->
+    <div class="row row-custom">
+      <div
+        class="col-12 note-wrapper{{
+          showIrsPayment ? ' visible-note-irsPayment' : ' hidden-note'
+        }}"
+      >
+        <div class="note-label-wrapper" (click)="openNewStep('irs-payment')">
+          <span class="note-label">IRS Payment</span>
+          <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{
+            showIrsPayment ? ' note-visible' : ' note-hidden'
+          }}"
+        >
+          <app-tax2290-irs-payment></app-tax2290-irs-payment>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step6 -->
+    <div class="row row-custom row-custom-signer">
+      <svg-icon
+        *ngIf="showReview"
+        src="../../../assets/img/svgs/table/add-plus-modal-table.svg"
+        class="add-icon"
+        [appTaTooltip]="'Add New Payment Method'"
+        position="bottom-right"
+        zIndex="99999999999"
+        tooltipBackground="#5673AA"
+        tooltipColor="#FFFFFF"
+        (click)="addNewPaymentMethod()"
+      >
+      </svg-icon>
+      <div class="col-12 note-wrapper{{ showReview ? ' visible-note-review' : ' hidden-note' }}">
+        <div class="note-label-wrapper" (click)="openNewStep('review')">
+          <span class="note-label">Review and E-file</span>
+          <svg-icon
+            *ngIf="!showReview"
+            src="assets/img/svgs/down-arrow.svg"
+            class="down-icon"
+          ></svg-icon>
+        </div>
+        <div
+          class="example-full-width note-input{{ showReview ? ' note-visible' : ' note-hidden' }}"
+        >
+          <app-tax2290-review
+            [isNewCompany]="isNewCompany"
+            [userData]="selectedCompany"
+          ></app-tax2290-review>
+        </div>
+      </div>
+    </div>
+
+    <app-loading-modal class="large" *ngIf="!loaded"></app-loading-modal>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="onBack()">Back</button>
+    <button type="button" class="save-btn" (click)="onSubmit()">{{counterStep === 6 ? 'Finish' : 'Next'}}</button>
+  </div>
+</div>

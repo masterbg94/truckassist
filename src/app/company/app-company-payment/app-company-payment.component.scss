@@ -1,0 +1,562 @@
+/* billing */
+.billing-conteiner {
+  p {
+    margin: 0;
+  }
+  width: 505px;
+  height: 645px;
+  background: #ffffff;
+  border-radius: 3px;
+  .title {
+    width: 100%;
+    height: 40px;
+    background: #f9f9f9;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 8px 0 0 10px;
+    p {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  .plans {
+    width: 100%;
+    height: 78px;
+    padding: 8px 0 0 10px;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1 !important;
+      transition: 0.3s;
+    }
+    .title-plans {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .plans-iner-text {
+      width: 495px;
+      height: 40px;
+      margin-top: 5px;
+      .blue,
+      .date,
+      .right {
+        font-size: 12px;
+      }
+      .blue {
+        color: #28529f;
+        font-weight: bold;
+      }
+      .date {
+        line-height: 12px;
+      }
+      .right {
+        position: relative;
+        width: auto;
+        right: -420px;
+        top: -11px;
+        font-size: 10px;
+      }
+    }
+  }
+
+  .bank-payment {
+    width: 100%;
+    height: 78px;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1 !important;
+      transition: 0.3s;
+    }
+    .logo {
+      width: 100%;
+      height: 33px;
+      padding: 5px 0 0 10px;
+      background: #f9f9f9;
+      p {
+        position: relative;
+        top: 19px;
+        left: 32px;
+      }
+      .ok {
+        position: relative;
+        top: -43px;
+        right: -463px;
+      }
+    }
+    .account-info {
+      width: 100%;
+      height: 45px;
+      padding-left: 10px;
+      .ac-num,
+      .rg-num {
+        font-size: 12px;
+      }
+      .ac-num {
+        line-height: 29px;
+      }
+      .rg-num {
+        line-height: 8px;
+      }
+      .right {
+        position: relative;
+        font-size: 10px;
+        top: -8px;
+        right: -395px;
+      }
+    }
+  }
+
+  .additional {
+    width: 100%;
+    height: 176px;
+    margin-top: 10px;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1 !important;
+      transition: 0.3s;
+    }
+    .charges {
+      display: block !important;
+      width: 100%;
+      height: 33px;
+      background: #f9f9f9;
+      padding: 5px 0 0 10px;
+      p {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .description {
+      width: 100%;
+      height: 28px;
+      padding: 7px 10px 0 10px;
+      border-bottom: 1px solid #d1d1d1;
+      display: grid;
+      grid-template-columns: 233px 78px 23px 50px;
+      grid-column-gap: 32px;
+      margin-bottom: 5px;
+      p {
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+    .type-charge {
+      width: 100%;
+      height: 25px;
+      padding: 5px 10px 0 10px;
+      background: #f9f9f9;
+      display: grid;
+      grid-template-columns: 266px 68px 63px 84px;
+      margin-top: 3px;
+      p {
+        font-size: 12px;
+      }
+      .right {
+        text-align: right;
+      }
+    }
+    .total-charges {
+      margin-top: 3px;
+      width: 100%;
+      height: 25px;
+      padding: 5px 10px 0 10px;
+      background: #28529f;
+      display: grid;
+      grid-template-columns: 397px 84px;
+      p {
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+      }
+      .right {
+        text-align: right;
+      }
+    }
+  }
+
+  .invoice {
+    width: 100%;
+    height: 249px;
+    margin-top: 15px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    &:hover {
+      opacity: 1 !important;
+    }
+    .tl {
+      opacity: 0.7;
+      width: 100%;
+      height: 33px;
+      background: #f9f9f9;
+      padding: 5px 0 0 10px;
+      p {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .description {
+      opacity: 0.7;
+      width: 100%;
+      height: 33px;
+      padding: 12px 10px 0 10px;
+      border-bottom: 1px solid #d1d1d1;
+      display: grid;
+      grid-template-columns: 106px 88px 78px 70px 136px;
+      p {
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+    .invoice-info {
+      cursor: pointer;
+      width: 100%;
+      height: 25px;
+      display: grid;
+      grid-template-columns: 2px 1fr;
+      margin-top: 5px;
+      transition: 0.3s;
+      &:hover {
+        background: #eeeeee;
+        opacity: 1 !important;
+        transition: 0.3s !important;
+        .left-div {
+          width: 4px !important;
+          transition: 0.5s !important;
+        }
+      }
+      .left-div {
+        width: 2px;
+        height: 20px;
+        background: #28529f;
+        border: 1px solid #28529f;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        opacity: 0.7;
+      }
+
+      .info {
+        width: 500px;
+        height: 100%;
+        padding-left: 8px;
+        display: grid;
+        grid-template-columns: 55px 82px 85px 78px 131px 33px 30px;
+        button {
+          position: relative;
+          top: -5px;
+          right: 8px;
+          background: none;
+          border: none;
+          svg-icon {
+            position: relative;
+            top: 4px;
+            right: 0;
+            &:hover {
+              svg {
+                path {
+                  fill: #28529f !important;
+                }
+              }
+            }
+          }
+        }
+        p {
+          font-size: 12px;
+          position: relative;
+          top: 4px;
+          opacity: 0.7;
+        }
+        .right {
+          text-align: right;
+        }
+        .paid-or {
+          opacity: 0.7;
+          height: 20px;
+          width: 86px;
+          border-radius: 50px;
+          background: #919191;
+          color: white;
+          margin-left: 19px;
+          margin-top: 2.5px;
+          &:hover {
+            opacity: 1 !important;
+            transition: 0.3s;
+            .invoice-info {
+              background: white !important;
+            }
+          }
+          p {
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            top: 0px !important;
+          }
+        }
+      }
+    }
+
+    .Showing {
+      cursor: pointer;
+      opacity: 0.7;
+      height: 33px;
+      width: 100%;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
+      padding: 8px 10px 0 10px;
+      display: grid;
+      grid-template-columns: 328px 1fr 1fr;
+      p {
+        font-size: 12px;
+      }
+      .show {
+        color: #919191;
+        font-weight: bold;
+      }
+      .right {
+        text-align: right;
+        font-weight: bold;
+        color: #d1d1d1;
+      }
+    }
+  }
+}
+
+/* Invoice */
+.invoice-conteiner {
+  position: absolute;
+  top: 0;
+  left: 522px;
+  width: 720px;
+  height: 608px;
+  background: white;
+  border-radius: 3px;
+  .invoice-date {
+    width: 100%;
+    height: 40px;
+    background: #f9f9f9;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    padding: 0 10px 0 10px;
+    p {
+      cursor: pointer;
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0;
+      width: 300px;
+      margin-top: 7px;
+    }
+    .paid-or-not {
+      cursor: pointer;
+      float: right;
+      width: 86px;
+      height: 21px;
+      background: #24c1a1;
+      border-radius: 10px;
+      opacity: 0.7;
+      color: white;
+      margin: 10px 10px 0 0;
+      text-align: center;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    svg-icon {
+      cursor: pointer;
+      float: right;
+      svg {
+        width: 16px;
+        height: 16px;
+        margin-top: 12px;
+      }
+    }
+  }
+
+  .logo {
+    width: 100%;
+    height: 61px;
+    padding: 10px 10px 10px 10px;
+    .logo-truck {
+      float: left;
+      svg {
+        width: 155px;
+        height: 41px;
+      }
+    }
+    button {
+      float: right;
+      background: none;
+      border: none;
+      width: 22px !important;
+      height: 22px !important;
+      margin: 0;
+      svg-icon {
+        position: relative;
+        right: 7px;
+        cursor: pointer;
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #28529f;
+            }
+          }
+        }
+      }
+    }
+
+    .download {
+      margin-right: 10px;
+    }
+
+    .print {
+      margin-right: 0px;
+    }
+  }
+
+  .info {
+    width: 100%;
+    height: 125px;
+    padding-left: 10px;
+    display: flex;
+    .left-info {
+      width: 350px;
+      height: 100%;
+      .address,
+      .invoice {
+        width: 100%;
+        height: 50%;
+        p {
+          font-size: 14px;
+          width: 290px;
+          font-weight: bold;
+          margin: 0;
+        }
+      }
+    }
+    .right-info {
+      width: 350px;
+      height: 100%;
+      p {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+        width: 283px;
+      }
+      .customer {
+        color: #28529f;
+      }
+    }
+  }
+
+  .base-m-plan {
+    margin-top: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+      transition: 0.3s;
+    }
+    width: 100%;
+    height: 149px;
+    .base-title,
+    .base-total,
+    .base-des {
+      width: 100%;
+    }
+    .base-title {
+      padding-left: 8px;
+      height: 52px;
+      p {
+        font-size: 20px;
+        font-weight: bold;
+        color: #28529f;
+      }
+    }
+    .base-des {
+      height: 54px;
+      .info-info {
+        padding-left: 8px;
+        height: 22px;
+        width: 100%;
+        padding-right: 10px;
+        border-bottom: 1px solid #d1d1d1;
+        p {
+          font-size: 14px;
+          font-weight: bold;
+          margin: 0;
+          width: auto;
+          float: left;
+        }
+        .right {
+          float: right;
+          margin-left: 60px;
+        }
+      }
+      .amount {
+        height: auto;
+        width: 100%;
+        .amounts {
+          width: 100%;
+          height: 25px;
+          margin: 5px 0 5px 0;
+          background: #f9f9f9;
+          padding: 0 10px 0 8px;
+          p {
+            margin: 0;
+            float: left;
+            font-size: 14px;
+          }
+          .right {
+            float: right;
+            margin-left: 73px;
+          }
+          .more {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    .base-total {
+      padding: 10px 8px 0 8px;
+      height: 43px;
+      background: #28529f;
+      p {
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        float: left;
+      }
+      .right {
+        float: right;
+      }
+    }
+  }
+
+  .some-text {
+    height: 214px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    p {
+      width: 610px;
+      font-size: 12px;
+    }
+    .text-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+
+.addBackgroun {
+  background: #f9f9f9;
+}
+
+.addBorderBack {
+  background: #606060 !important;
+  border: 1px solid #606060 !important;
+}

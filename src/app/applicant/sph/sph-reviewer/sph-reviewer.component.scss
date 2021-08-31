@@ -1,0 +1,42 @@
+@import '../../applicant.component.scss';
+@import '../sph.component.scss';
+
+
+@media only screen and (max-width: 414px) {
+    .explainContent {
+        margin-left: -9px;
+        width: 307px !important;
+    }
+}
+
+.driverForYourCompany {
+    margin-top: 10px;
+    padding-left: 11px;
+    @media only screen and (max-width: 414px) {
+        padding-left: 0px;
+        margin-left: 0px;
+        margin-top: 34px;
+        margin-bottom: -10px;
+    }
+}
+
+.workForCompany-fromDate {
+    position: absolute; 
+    bottom: 0px; 
+    left: 87px;
+    @media only screen and (max-width: 414px) {
+        bottom: -12px; 
+        left: -14px;
+    }
+
+}
+
+.workForCompany-toDate {
+    position: absolute; 
+    bottom: 0px; 
+    left: 240px;
+    @media only screen and (max-width: 414px) {
+        bottom: -12px; 
+        left: 184px;
+    }
+}

@@ -1,0 +1,45 @@
+<app-app-header
+  (click)="resetBackToTop()"
+  *ngIf="!mapFullScreen && !expanded && currentUser"
+  [currentUser]="currentUser"
+></app-app-header>
+
+<div [ngClass]="expanded ? 'expanded-container' : 'container app-content collapsed-container'">
+  <div class="table-header" *ngIf="expanded">
+    <app-extended-table-header></app-extended-table-header>
+  </div>
+  <div class="col-auto expanded-table-container p-0">
+    <section class="section" id="top">
+      <router-outlet></router-outlet>
+      <div @scrollButtonAnimation *ngIf="showScrollButton" id="scrollTop" (click)="top()"></div>
+    </section>
+    <div class="toastMessages" *ngIf="toastMessages.length > 0">
+      <app-communicator-toast-message
+        *ngFor="let message of toastMessages"
+        [toastMessage]="message"
+        (toastMessageClosed)="closeToastMessage($event)"
+        (hoverReactionOnMessage)="hoverToastMessage($event)"
+        (noHoverReactionOnMessage)="noHoverToastMessage($event)"
+      >
+      </app-communicator-toast-message>
+    </div>
+  </div>
+</div>
+
+<div class="communicator-mini">
+  <app-communicator-mini></app-communicator-mini>
+</div>
+<app-gallery [visible]="isGalleryVisible"> </app-gallery>
+
+<!-- Drag and Drop zone -->
+<div
+  *ngIf="router.url.includes('communicator') && isDragOverAttachment"
+  class="drag-drop-container"
+>
+  <div
+    *ngIf="isDragOverAttachment"
+    appDragDropFile
+    (onDropFile)="onDragDropFile($event)"
+    (onDropBackground)="onDropBackground($event)"
+  ></div>
+</div>

@@ -1,0 +1,92 @@
+<form class="custom-form" [formGroup]="form">
+  <div class="row">
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="firstName"
+          placeholder="First Name"
+          class="form-control input-control required"
+          formControlName="firstName"
+          (paste)="onPaste($event, 'firstName')"
+          onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+          appInputrestriction="[A-Za-z]"
+          appInputFocus
+          appAutoFocus
+        />
+        <label class="required-label" for="firstName">First Name</label>
+        <app-required-label [control]="form.controls.firstName"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="lastName"
+          class="form-control input-control required"
+          placeholder="Last name"
+          formControlName="lastName"
+          (paste)="onPaste($event, 'lastName')"
+          onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+          appInputFocus
+          appInputrestriction="[A-Za-z]"
+        />
+        <label class="required-label" for="lastName">Last name</label>
+        <app-required-label [control]="form.controls.lastName"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="title"
+          class="form-control input-control required"
+          placeholder="Title"
+          formControlName="title"
+          (paste)="onPaste($event, 'title')"
+          onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+          appInputFocus
+          appInputrestriction="[A-Za-z]"
+        />
+        <label class="required-label" for="title">Title</label>
+        <app-required-label [control]="form.controls.title"></app-required-label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5">
+      <div
+        class="form-label-group input-icon phone-field-wrapper
+                          {{ manageInputValidation(form.controls.phone) }}"
+      >
+        <input
+          id="phone"
+          class="form-control input-control required"
+          placeholder="Phone"
+          formControlName="phone"
+          mask="(000) 000-0000"
+          appInputFocus
+        />
+        <label class="required-label" for="phone">Phone</label>
+        <app-required-label [control]="form.controls.phone"></app-required-label>
+      </div>
+    </div>
+    <div class="col-7">
+      <div
+        class="form-label-group input-icon email-field-wrapper {{
+          manageInputValidation(form.controls.email)
+        }}"
+      >
+        <input
+          id="email"
+          class="form-control input-control"
+          placeholder="Email"
+          formControlName="email"
+          oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+          (keypress)="onEmailTyping($event)"
+          (paste)="onPaste($event, 'email')"
+          appInputFocus
+        />
+        <label class="required-label" for="email">Email</label>
+        <app-required-label [control]="form.controls.email"></app-required-label>
+      </div>
+    </div>
+  </div>
+</form>

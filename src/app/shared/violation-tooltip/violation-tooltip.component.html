@@ -1,0 +1,67 @@
+<div class="violation_tooltip_container">
+  <div class="violation_tooltip_container_header">
+    <div
+      *ngFor="let tab of violationTabs; let i = index"
+      (click)="switchTab(i)"
+      [ngClass]="{
+        'violation_tooltip_container_header_tab-active': i === activeTabIndexNumber,
+        'violation_tooltip_container_header_tab-null': tab.data.length === 0
+      }"
+      class="violation_tooltip_container_header_tab"
+    >
+      <svg-icon [src]="tab.iconUrl"></svg-icon>
+      <span *ngIf="i === activeTabIndexNumber">{{ tab.title }}</span>
+    </div>
+    <div class="violation_tooltip_container_header_side">
+      <span>SW</span>
+      <span>TiW</span>
+      <span>TotW</span>
+    </div>
+  </div>
+  <div
+    *ngIf="
+      violationTabs[activeTabIndexNumber]?.data.length > 0;
+      else noBodyData
+    "
+    class="violation_tooltip_container_body"
+  >
+    <div
+      *ngFor="let item of violationTabs[activeTabIndexNumber]?.data"
+      class="violation_tooltip_container_body_row"
+    >
+      <div class="violation_tooltip_container_body_row_violation-number">
+        {{ item.violationNumber }}
+      </div>
+      <div class="violation_tooltip_container_body_row_type">
+        {{ item.type }}
+      </div>
+      <div class="violation_tooltip_container_body_row_desc">
+        {{ item.desc }}
+      </div>
+      <div class="violation_tooltip_container_body_row_sums">
+        <span>
+          {{ item.sw }}
+        </span>
+        <span>
+          {{ item.tiw }}
+        </span>
+        <span>
+          {{ item.totw }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <ng-template #noBodyData>
+    <div class="violation_tooltip_container_body">
+      <span class="no-data">No {{ violationTabs[activeTabIndexNumber]?.title }} Violations</span>
+    </div>
+  </ng-template>
+  <div class="violation_tooltip_container_footer">
+    <span>Total</span>
+    <div class="violation_tooltip_container_footer_sum">
+      <span>20</span>
+      <span>3</span>
+      <span>60</span>
+    </div>
+  </div>
+</div>

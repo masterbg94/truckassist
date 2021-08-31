@@ -1,0 +1,164 @@
+<!-- Map -->
+<div class="map-conteiner" [ngClass]="{ 'fullscreen-map-mode': fullScreenMode }">
+  <agm-map
+    style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+    [restriction]="mapRestrictions"
+    [streetViewControl]="false"
+    [latitude]="mapOptions.latitude"
+    [longitude]="mapOptions.longitude"
+    [clickableIcons]="false"
+    [controlSize]="1"
+    [zoom]="zoom"
+    [styles]="styles"
+    (mapReady)="mapReady($event)"
+  >
+    <agm-marker-cluster
+      [draggable]="true"
+      [zoomOnClick]="false"
+      [styles]="clusterStyles.styles"
+      averageCenter="true"
+      minimumClusterSize="2"
+    >
+      <!-- Markers For accidents -->
+      <agm-marker
+        [draggable]="true"
+        *ngFor="let accident of markerReiting; let i = index"
+        [latitude]="accident.latitude"
+        [longitude]="accident.longitude"
+        [agmFitBounds]="true"
+        [animation]="accident.animation"
+        [opacity]="1"
+        [iconUrl]="{
+          url: accident.marker,
+          scaledSize: {
+            width: 26,
+            height: 32
+          }
+        }"
+        (markerClick)="clickedMarker(i, accident)"
+      >
+      </agm-marker>
+    </agm-marker-cluster>
+    <!-- Info Shop -->
+    <agm-snazzy-info-window
+      #mainTooltip
+      [isOpen]="closeInfoWindow"
+      (isOpenChange)="snazzyInfoWindowIsToggled($event)"
+      [latitude]="+markerInfoData.latitude"
+      [longitude]="+markerInfoData.longitude"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      [maxWidth]="351"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="single_accident_map_tooltip">
+          <div class="single_accident_map_tooltip_header">
+            <span>{{ markerInfoData.report }}</span>
+          </div>
+          <div #accidentCard class="single_accident_map_tooltip_body">
+            <div class="single_accident_map_tooltip_body_header">
+              <span appSelectionColor class="single_accident_map_tooltip_body_header_name"
+                >Driver</span
+              >
+
+              <span appSelectionColor class="single_accident_map_tooltip_body_header_right">{{
+                markerInfoData.eventDate
+              }}</span>
+            </div>
+            <div class="single_accident_map_tooltip_body_header">
+              <span appSelectionColor>{{ markerInfoData.driverFullName }}</span>
+
+              <span appSelectionColor class="single_accident_map_tooltip_body_header_right">{{
+                markerInfoData.time
+              }}</span>
+            </div>
+            <div class="single_accident_map_tooltip_body_body">
+              <div class="single_accident_map_tooltip_body_body_truck">
+                <span appSelectionColor>Truck</span>
+                <br />
+                <span appSelectionColor>{{ markerInfoData.truckNumber }}</span>
+              </div>
+              <div class="single_accident_map_tooltip_body_body_trailer">
+                <span appSelectionColor>Trailer</span>
+                <br />
+                <span appSelectionColor>{{ markerInfoData.trailerNumber }}</span>
+              </div>
+              <div class="single_accident_map_tooltip_body_body_ins">
+                <span appSelectionColor>Ins. Claim #</span>
+                <br />
+                <span appSelectionColor>{{ markerInfoData.insuranceClaim }}</span>
+              </div>
+            </div>
+            <div class="single_accident_map_tooltip_body_location">
+              <svg-icon src="assets/img/svgs/form-icons/address/address-default.svg"> </svg-icon>
+              <span appSelectionColor>{{ markerInfoData.address }}</span>
+            </div>
+            <div class="single_accident_map_tooltip_body_info">
+              <div>
+                <span>Fatality</span>
+                <span>{{ markerInfoData.fatality }}</span>
+              </div>
+              <div>
+                <span>Injury</span>
+                <span>{{ markerInfoData.injuries }}</span>
+              </div>
+              <div>
+                <span>Towing</span>
+                <span>{{ markerInfoData.towing }}</span>
+              </div>
+              <div>
+                <span>HazMat</span>
+                <span>{{ markerInfoData.hm }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+    <agm-snazzy-info-window
+      [isOpen]="openClusterDropdown"
+      (isOpenChange)="snazzyInfoMainWindowIsToggled($event)"
+      [maxWidth]="152"
+      [latitude]="clusterLocation.lat"
+      [longitude]="clusterLocation.long"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="grup-of-shops">
+          <div class="accident-map-tooltip">
+            <div
+              class="shop-names"
+              [ngClass]="{ 'cluster-last-element': i === clusterDropdownData.length - 1 }"
+              *ngFor="let shop of clusterDropdownData; let i = index"
+              (click)="clickedMarker(i, shop)"
+            >
+              <p style="font-weight: bold;">{{ shop.report }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+  </agm-map>
+
+  <!-- Shop List -->
+  <div class="shop-list-container" [ngClass]="{ 'fullscreen-list-mode': fullScreenMode }">
+    <!-- Favorite Shop List -->
+    <app-accident-map-list
+      [titleOfList]="'Accident List'"
+      [shopList]="tableShopData"
+      (shopDelete)="onDeleteShop($event)"
+    ></app-accident-map-list>
+  </div>
+
+  <!-- Fullscreen And Zoom -->
+  <div class="map-control">
+    <app-map-control (mapMode)="onFullScreen($event)" (zoom)="onZoom($event)"></app-map-control>
+  </div>
+
+  <div class="fullscreen-truckassist-logo" *ngIf="fullScreenMode">
+    <svg-icon src="../../../assets/img/svgs/shop-map/Logo.svg"></svg-icon>
+  </div>
+</div>

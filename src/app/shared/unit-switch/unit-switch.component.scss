@@ -1,0 +1,272 @@
+@import '../../../assets/scss/components/variables.scss';
+
+
+.details-card-header {
+  padding-left: 40px !important;
+  padding-right: 38px;
+  .switch-btn {
+    border-radius: 3px;
+    transition: $transition;
+    cursor: pointer;
+    width: 32px !important;
+    background-color: $white !important;
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+
+    svg {
+      path {
+        transition: $transition;
+        fill: #919191;
+      }
+    }
+    &:hover {
+      background-color: $bw5 !important;
+      color: $white !important;
+      transition: $transition;
+      svg {
+        path {
+          fill: $white !important;
+        }
+      }
+    }
+  }
+
+  .item-select-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    background: $white;
+    width: 100%;
+    max-width: 167px;
+    align-items: center;
+    font-size: 18px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
+
+    /*Autocomplete*/
+    ::ng-deep.autocomplete-container {
+      box-shadow: none !important;
+      border-radius: 3px;
+      height: 32px;
+
+      .input-container {
+        border-radius: 3px;
+        .x {
+          display: none;
+        }
+        input {
+          border-radius: 3px;
+          padding: 0 12px;
+          font-weight: bold;
+          color: #919191;
+          font-size: 18px;
+          white-space: nowrap;
+          width: 85%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 32px;
+        }
+        input:disabled {
+          background-color: transparent !important;
+        }
+      }
+
+      &.active {
+        .suggestions-container {
+          box-shadow: $box-shadow !important;
+          padding-top: 32px !important;
+          top: 0px !important;
+          z-index: -1;
+          height: auto;
+          ul {
+            max-height: 360px;
+            overflow: hidden;
+            overflow-y: auto;
+            transition: $transition;
+          }
+        }
+      }
+      .suggestions-container {
+        box-shadow: $box-shadow !important;
+        border-radius: 3px;
+        z-index: 1000;
+        height: 0;
+
+        ul {
+          overflow: hidden;
+          border-radius: 3px;
+          max-height: 0px;
+          transition: $transition;
+          border-top-left-radius: 0 !important;
+          border-top-right-radius: 0 !important;
+
+          li.item {
+            width: 100% !important;
+            height: 36px;
+            line-height: normal;
+            border: 0 !important;
+
+            .ng-star-inserted {
+              width: 220px !important;
+              height: 36px;
+              color: #606060;
+              display: inline-block;
+              vertical-align: middle;
+              line-height: normal;
+              span.option-item {
+                line-height: 36px;
+                left: 0;
+                color: #919191;
+                position: absolute;
+                padding: 0 12px;
+                font-size: 14px;
+                font-weight: 600 !important;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 243px;
+                &.option-item-inactive {
+                  font-style: italic !important;
+                  color: #dadada !important;
+                }
+                b {
+                  font-size: 14px;
+                  font-weight: 600 !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .driver-input-icon {
+      position: absolute;
+      right: 12px;
+      z-index: 1000;
+      transition: $transition;
+
+      svg {
+        path {
+          fill: #919191 !important;
+          stroke: #919191 !important;
+        }
+      }
+    }
+
+    &.hovered {
+      background-color: #919191 !important;
+      .driver-input-icon {
+        svg {
+          path {
+            fill: #ffffff !important;
+            stroke: #ffffff !important;
+          }
+        }
+      }
+
+      ::ng-deep .input-container {
+        background-color: #919191 !important;
+        color: #ffffff !important;
+        input {
+          background-color: #919191 !important;
+          color: #ffffff !important;
+        }
+      }
+    }
+
+    &.focused {
+      .driver-input-icon {
+        transform: rotate(180deg);
+        transition: $transition;
+        svg {
+          path {
+            fill: #919191 !important;
+            stroke: #919191 !important;
+          }
+        }
+      }
+
+      background-color: #ffffff !important;
+
+      ::ng-deep .input-container {
+        background-color: #f3f3f3 !important;
+        color: #919191 !important;
+        input {
+          background-color: #f3f3f3 !important;
+          color: #919191 !important;
+        }
+      }
+    }
+
+    &.focusedTbaleStyle {
+      .driver-input-icon {
+        transform: rotate(180deg);
+        transition: $transition;
+        svg {
+          path {
+            fill: #ffffff !important;
+            stroke: #ffffff !important;
+          }
+        }
+      }
+
+      background-color: #5673aa !important;
+
+      ::ng-deep .input-container {
+        background-color: #5673aa !important;
+        color: #ffffff !important;
+        input {
+          background-color: #5673aa !important;
+          color: #ffffff !important;
+        }
+      }
+    }
+  }
+
+  /* NG CLASS */
+  .item-select-max-width{
+    max-width: 238px !important;
+  }
+
+  .svgTabelStyle {
+    svg {
+      #Path_1186,
+      #Path_1187,
+      path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+      }
+    }
+  } 
+
+  .tabelColorsAutocomplite {
+    background: #b7b7b7 !important;
+    ::ng-deep.autocomplete-container {
+      box-shadow: none !important;
+
+      .input-container {
+        input {
+          background: none;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .leftBtnStyle {
+    background: #b7b7b7 !important;
+    margin-right: 0px;
+  }
+
+  .rightBtnStyle {
+    background: #b7b7b7 !important;
+    margin-left: 0px;
+  }
+}

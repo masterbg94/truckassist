@@ -1,0 +1,76 @@
+<div class="chart_holder">
+    <div class="chart_header">
+        <div class="chart_white_part with_counter">
+            <span
+                style="color: #919191b3;"
+                appSelectionColor
+                class="d-flex"
+            >
+            <span class="load_counts_dash">336</span>
+            Vehicle Status</span>
+        </div>
+    </div>
+    <div class="chart_main_holder d-flex vehicle-chart">
+        <chart #mainChart [type]="type" [data]="data" [options]="options"></chart>
+        <div class="dash_count_legend">
+            <div class="legend_item">
+                <span class="legend_color all_time vehicle_legend">
+                    <svg-icon src="../../../../assets/img/svgs/charts/graph_dot.svg"> </svg-icon>
+                </span>
+                <span 
+                    style="color: #919191B3;"
+                    appSelectionColor
+                    class="legend_text"
+                >All time avg.</span>
+            </div>
+        </div>
+        <div class="chart-bottom-items d-flex">
+            <div class="bottom_value_item">
+                <div
+                    appSelectionColor
+                    class="bottom_value" 
+                    [style.color]="'#24C1A1'"
+                >153</div>
+                <div
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="bottom_pecentage"
+                >72%</div>
+            </div>
+            <div class="bottom_value_item">
+                <div
+                    appSelectionColor
+                    class="bottom_value" 
+                    [style.color]="'#5673AA'"
+                >15</div>
+                <div 
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="bottom_pecentage"
+                >7%</div>
+            </div>
+            <div class="bottom_value_item">
+                <div
+                    appSelectionColor
+                    class="bottom_value" 
+                    [style.color]="'#FFA24E'">31</div>
+                <div
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="bottom_pecentage"
+                >14%</div>
+            </div>
+            <div class="bottom_value_item">
+                <div
+                    appSelectionColor
+                    class="bottom_value" 
+                    [style.color]="'#6C6C6C'">22</div>
+                <div
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="bottom_pecentage"
+                >10%</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+::ng-deep.my-note-popover {
+    margin-right: 4px;
+    box-shadow: none !important;
+    &::after {
+        display: none !important;
+    }
+    &.editor  {
+        &::after {
+            display: none !important;
+        }
+    }
+}

@@ -1,0 +1,32 @@
+<div class="switch-container">
+  <div class="switcher-go-back-container d-flex flex-column">
+    <a
+      class="go-back-btn-new"
+      [routerLink]="['/drivers']"
+      appTaTooltip="Back"
+      tooltipColor="#FFFFFF"
+      tooltipBackground="#6C6C6C90"
+      position="bottom-right"
+    >
+      <svg-icon
+        class="d-flex"
+        [src]="'assets/img/svgs/left.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+    </a>
+  </div>
+  <!-- <div class="switch-header d-flex flex-column">
+      <div class="switch-dropdown d-flex">
+        <button class="switch-btn table-view-btn d-flex justify-content-center align-items-center" [disabled]="true">
+          <svg-icon
+            class="d-flex"
+            [src]="'assets/img/svgs/table/table-view.svg'"
+            [svgStyle]="{ 'width.px': '20.59', 'height.px': '18' }"
+          ></svg-icon>
+        </button>
+      </div>
+    </div> -->
+  <div class="switch-body">
+    <app-driver-details></app-driver-details>
+  </div>
+</div>

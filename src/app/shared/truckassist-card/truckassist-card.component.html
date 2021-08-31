@@ -1,0 +1,1087 @@
+<div
+  #cardMain
+  class="ta-card-wrapper d-flex flex-wrap"
+  *ngIf="cardItem"
+  [ngClass]="{ 'ta-card-wrapper_shadow': expanded }"
+  [class.disabled-card]="cardItem?.status === 0"
+>
+  <!--  card body -->
+  <!-- TODO: Razdvojiti po templejtima -->
+  <div class="ta-card d-flex flex-wrap position-relative"
+       [ngClass]="(heightClass && !expanded) ? 'height-' + heightClass : ''"
+       [class.ta-card-border-bottom]="expanded">
+    <div
+      class="ta-card-title"
+      [ngStyle]="{
+        cursor:
+          stateName === 'violations' ||
+          stateName === 'accidents' ||
+          stateName === 'accidents_non-reportable'
+            ? 'pointer'
+            : 'auto'
+      }"
+    >
+      <div class="d-flex flex-grow-1" (click)="toggleExpand()">
+        <div class="icon-title d-flex flex-row align-items-center">
+          <div class="expanded-icon">
+            <svg-icon
+              src="{{
+                expanded
+                  ? 'assets/img/svgs/ta-card-collapse.svg'
+                  : 'assets/img/svgs/ta-card-expanded.svg'
+              }}"
+            >
+            </svg-icon>
+          </div>
+          <!--  Customer card title addition -->
+          <div class="customer-title" *ngIf="stateName === 'shippers' || stateName === 'brokers'">
+            <svg-icon src="/assets/img/svgs/ta-card-customer-icon.svg"></svg-icon>
+          </div>
+          <p class="title">
+            {{ cardItem.title }}
+          </p>
+        </div>
+        <!--  Load card title addition -->
+        <div class="load-title d-flex justify-content-between" *ngIf="stateName === 'loads'">
+          <p><b *ngIf="cardItem.load.status === 'DISPATCHED'">ACTIVE</b></p>
+          <p>{{ cardItem.load.totalPrice }}</p>
+        </div>
+        <!--  Repair card title addition / STAR dropdown -->
+        <div class="repair-title-star" *ngIf="stateName === 'repair'">
+          <svg-icon src="/assets/img/svgs/ta-card-star.svg"></svg-icon>
+        </div>
+        <!-- Violation Report Title -->
+        <div *ngIf="stateName === 'violations'" class="violations-title">
+          {{ cardItem.violation.reportNumber }}
+        </div>
+        <!-- Violation Report Title -->
+        <!-- Accident Report Title -->
+        <div
+          *ngIf="stateName === 'accidents' || stateName === 'accidents_non-reportable'"
+          class="accidents-title"
+        >
+          {{ cardItem.accident.reportNumber }}
+        </div>
+        <!-- Accident Report Title -->
+      </div>
+      <div class="dropdown">
+        <app-truckassist-dropdown
+          [mainActions]="dropdownOptions.mainActions"
+          [otherActions]="dropdownOptions.otherActions"
+          [deleteAction]="dropdownOptions.deleteAction"
+          [identificator]="cardIdentificator"
+          [category]="type"
+          (actionEvent)="editCard($event)"
+        >
+        </app-truckassist-dropdown>
+      </div>
+    </div>
+    <div class="ta-card-body position-relative"
+    [class.small-margin-top]="stateName === 'repair_shops' || stateName === 'shippers' || stateName === 'brokers'">
+      <div
+        class="ta-card-body-image"
+        *ngIf="stateName == 'trucks' || stateName == 'trailers' || stateName == 'drivers'">
+        <div class="driver-image" *ngIf="stateName === 'drivers'">
+          <svg-icon
+            *ngIf="!cardItem?.driver?.image; else driverImage"
+            src="assets/img/svgs/ta-card-driver-image.svg">
+          </svg-icon>
+          <ng-template #driverImage>
+            <img [src]="cardItem?.driver?.image" />
+          </ng-template>
+        </div>
+        <div class="truck-image" *ngIf="stateName == 'trucks' || stateName == 'trailers'">
+          <div class="truck-icon">
+            <svg-icon
+              [src]="
+                stateName === 'trucks'
+                  ? 'assets/img/svgs/truck/' + cardItem.truck.mainImage
+                  : 'assets/img/svgs/trailer/' + cardItem.trailer.mainImage
+              "
+            ></svg-icon>
+          </div>
+          <div class="truck-make">
+            <svg-icon
+              [src]="
+                stateName === 'trucks'
+                  ? 'assets/img/svgs/truck/makers/' + cardItem.truck.logoImage
+                  : 'assets/img/svgs/trailer/makers/' + cardItem.trailer.logoImage
+              "
+            ></svg-icon>
+          </div>
+        </div>
+      </div>
+      <div class="ta-card-body-data" #taCardBody>
+        <div class="driver-data" *ngIf="stateName === 'drivers'">
+          <div class="driver-data-row">
+            <p class="driver-data-item disabled-text">
+            <span class="black disabled-text-opacity">SSN</span
+            >{{ cardItem?.driver.ssn | mask: '000-00-0000' }}
+            </p>
+            <p class="driver-data-item disabled-text">
+            <span class="black disabled-text-opacity">DOB</span
+            >{{ cardItem?.driver.dob | date: 'dd/MM/yy' }}
+            </p>
+          </div>
+          <div class="driver-data-row">
+            <p class="driver-data-item disabled-text">
+            <span class="black disabled-text-opacity">CDL</span
+            >{{ cardItem?.driver.cdl | mask: '000-00-0000' }}
+            </p>
+            <p class="driver-data-item disabled-text">
+            <span class="disabled-text-opacity">Hired</span
+            >{{ cardItem.driver.hired | date: 'dd/MM/yy' }}
+            </p>
+          </div>
+          <div class="driver-data-row">
+            <div class="driver-state">
+              <p class="driver-data-item disabled-text">
+                <span class="disabled-text-opacity">New York</span>
+              </p>
+              <svg-icon src="assets/img/svgs/ta-card-driver-state.svg"></svg-icon>
+            </div>
+            <p class="driver-data-item disabled-text">
+            <span class="disabled-text-opacity">Term.</span
+            >{{ cardItem?.driver.term | date: 'dd/MM/yy' }}
+            </p>
+          </div>
+        </div>
+        <!--truck & trailer-->
+        <div class="truck-data" *ngIf="stateName === 'trucks' || stateName === 'trailers'">
+          <p class="truck-data-item truck-vin disabled-text">
+            <span class="disabled-text-opacity">VIN</span
+            >{{ stateName === 'trucks' ? cardItem.truck.vin : cardItem.trailer.vin }}
+          </p>
+          <div class="truck-year-color d-flex flex-row flex-wrap">
+            <p class="truck-data-item disabled-text">
+              <span class="disabled-text-opacity">YEAR</span
+              >{{ stateName === 'trucks' ? cardItem.truck.year : cardItem.trailer.year }}
+            </p>
+            <div class="truck-data-item-color">
+              <p class="truck-data-item disabled-text">
+                <span class="disabled-text-opacity">Color</span>
+              </p>
+              <div
+                class="color-box"
+                [ngStyle]="{
+                  background: stateName === 'trucks' ? cardItem.truck.color : cardItem.trailer.color
+                }"
+              ></div>
+            </div>
+          </div>
+          <p class="truck-data-item disabled-text">
+            <span class="disabled-text-opacity">Model</span
+            >{{ stateName === 'trucks' ? cardItem.truck.model : cardItem.trailer.model }}
+          </p>
+        </div>
+
+        <div class="load-data" *ngIf="stateName === 'loads'">
+          <div class="load-data-ref">
+            <div class="d-flex flex-column">
+              <p class="disabled-text">{{ cardItem.load.company }}</p>
+              <p>
+                <b class="disabled-text-opacity">Ref. #{{ cardItem.load.reference }}</b>
+              </p>
+            </div>
+            <div class="d-flex flex-column">
+              <p>
+                <b class="disabled-text-opacity">{{ cardItem.load.miles }} miles</b>
+              </p>
+              <p class="disabled-text">{{ cardItem.load.dispatcher }}</p>
+            </div>
+          </div>
+          <div class="load-data-start-end" *ngIf="!expanded && cardItem?.load?.route?.length >= 2">
+            <div class="start-address">
+              <div class="count">
+                <p>1</p>
+              </div>
+              <div class="address-date">
+                <p
+                  class="disabled-text"
+                  [appTaTooltip]="cardItem?.load?.route[0]?.pointAddress"
+                  position="bottom-right"
+                >
+                  {{ cardItem?.load?.route[0]?.pointAddress }}
+                </p>
+                <p class="disabled-text">{{ cardItem?.load?.route[0]?.pointDateTime }}</p>
+              </div>
+            </div>
+            <div class="end-address">
+              <div class="count">
+                <p>{{ cardItem?.load?.route?.length }}</p>
+              </div>
+              <div class="address-date">
+                <p
+                  class="disabled-text"
+                  [appTaTooltip]="cardItem.load?.lastRoute?.pointAddress"
+                  position="bottom-right"
+                >
+                  {{ cardItem.load?.lastRoute?.pointAddress }}
+                </p>
+                <p class="disabled-text">
+                  {{ cardItem.load?.lastRoute?.pointDateTime }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Repair / Customer -->
+        <div
+          class="repair-data"
+          *ngIf="stateName === 'repair_shops' || stateName === 'shippers' || stateName === 'brokers'">
+          <div class="repair-data-shop">
+            <div class="repair-data-shop-item">
+              <div class="repair-shop-phone">
+                <div class="shop-item-icon disabled-opacity">
+                  <svg-icon src="/assets/img/svgs/ta-card-repair-phone.svg"></svg-icon>
+                </div>
+                <p class="disabled-text" *ngIf="stateName !== 'repair_shops'">
+                  {{ cardItem?.customer?.phone }}
+                </p>
+                <p class="disabled-text" *ngIf="stateName === 'repair_shops'">
+                  {{ cardItem?.repair?.phone | mask: '(000) 000-0000' }}
+                </p>
+              </div>
+              <div class="like-dislike disabled-opacity">
+                <div class="likes-count">
+                  <div class="count-icon">
+                    <svg-icon src="/assets/img/svgs/ta-card-repair-like.svg"></svg-icon>
+                  </div>
+                  <div class="count-number">{{ cardItem?.customer?.likes || 0 }}</div>
+                </div>
+                <div class="dislikes-count">
+                  <div class="count-number">{{ cardItem?.customer?.dislikes || 0 }}</div>
+                  <div class="count-icon">
+                    <svg-icon src="/assets/img/svgs/ta-card-repair-dislike.svg"></svg-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="repair-data-shop-item">
+              <div class="shop-item-icon disabled-opacity">
+                <svg-icon src="/assets/img/svgs/ta-card-repair-mail.svg"></svg-icon>
+              </div>
+              <p class="disabled-text">
+                {{
+                  stateName === 'repair_shops' ? cardItem?.repair?.email : cardItem?.customer?.email
+                }}
+              </p>
+            </div>
+            <div class="repair-data-shop-item">
+              <div class="shop-item-icon disabled-opacity">
+                <svg-icon src="/assets/img/svgs/ta-card-repair-address.svg"></svg-icon>
+              </div>
+              <p class="disabled-text" *ngIf="stateName !== 'repair_shops'">
+                {{ cardItem?.customer?.address?.streetNumber }} {{ cardItem?.customer?.address?.streetName }}<br/>
+                {{cardItem?.customer?.address?.city}}, {{ cardItem?.customer?.address?.stateShortName }} {{ cardItem?.customer?.address?.zipCode }}, {{ cardItem?.customer?.address?.country }}
+              </p>
+
+              <p class="disabled-text" *ngIf="stateName === 'repair_shops'">
+                {{ cardItem?.repair?.address?.streetNumber }} {{ cardItem?.repair?.address?.streetName }}<br/>
+                {{cardItem?.repair?.address?.city}}, {{ cardItem?.repair?.address?.stateShortName }} {{ cardItem?.repair?.address?.zipCode }}, {{ cardItem?.repair?.address?.country }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="repair-truck-trailer-data"
+          *ngIf="stateName === 'repair_trucks' || stateName === 'repair_trailers'"
+        >
+          <div class="repair-company-date">
+            <p>
+              <b class="disabled-text-opacity">{{ cardItem?.repairTruckTrailer?.company }}</b>
+            </p>
+            <p class="disabled-text-opacity">
+              <b>{{ cardItem?.repairTruckTrailer?.repairDate }}</b>
+            </p>
+          </div>
+          <div class="repair-company-odo">
+            <p class="disabled-text">Inv. #{{ cardItem?.repairTruckTrailer?.inv }}</p>
+            <p class="disabled-text">{{ cardItem?.repairTruckTrailer?.odo }}</p>
+          </div>
+          <div class="repair-list" *ngIf="cardItem?.repairTruckTrailer?.repairItems?.length">
+            <div class="repair-list-items">
+              <p class="disabled-text">
+                {{ (cardItem?.repairTruckTrailer?.repairItems)[0]?.item }}
+              </p>
+              <p class="disabled-text">
+                {{ (cardItem?.repairTruckTrailer?.repairItems)[1]?.item }}
+              </p>
+              <p
+                class="disabled-text"
+                *ngIf="cardItem?.repairTruckTrailer?.repairItems?.length > 2"
+              >
+                {{ cardItem?.repairTruckTrailer?.repairItems?.length - 2 + ' more' }}
+              </p>
+            </div>
+            <div class="repair-list-price">
+              <p class="disabled-text-opacity">{{ cardItem?.repairTruckTrailer?.total }}</p>
+            </div>
+          </div>
+        </div>
+        <!-- Violations Card Template -->
+        <div #violationCard class="ta-card-body-data_violations" *ngIf="stateName === 'violations'">
+          <div class="ta-card-body-data_violations_header">
+            <span appSelectionColor class="ta-card-body-data_violations_header_name">{{
+              cardItem.violation.driverName
+            }}</span>
+            <span appSelectionColor class="ta-card-body-data_violations_header_right">{{
+              cardItem.violation.date
+            }}</span>
+          </div>
+          <div class="ta-card-body-data_violations_header">
+            <span appSelectionColor>{{ cardItem.violation.state }}</span>
+            <span appSelectionColor class="ta-card-body-data_violations_header_right">{{
+              cardItem.violation.time
+            }}</span>
+          </div>
+          <div
+            class="ta-card-body-data_violations_body"
+            *ngIf="!expanded; else expandedViolationBody"
+          >
+            <div
+              class="ta-card-body-data_violations_body_box"
+              *ngFor="let box of violationIconData"
+            >
+              <div
+                class="ta-card-body-data_violations_body_box_icon"
+                [ngClass]="{ 'ta-card-body-data_violations_body_box_icon-active': +box.weight > 0 }"
+              >
+                <svg-icon
+                  src="assets/img/svgs/table/violation-{{ box.iconUrl }}.svg"
+                  [svgStyle]="{ 'width.px': '19', 'height.px': '21' }"
+                ></svg-icon>
+              </div>
+              <div
+                class="ta-card-body-data_violations_body_box_value"
+                [ngClass]="{
+                  'ta-card-body-data_violations_body_box_value-active': box.weight !== '0'
+                }"
+              >
+                <span appSelectionColor>
+                  {{ box.weight }}
+                </span>
+              </div>
+            </div>
+            <div class="ta-card-body-data_violations_body_citation">
+              <svg-icon
+                class="ta-card-body-data_violations_body_citation_off"
+                *ngIf="cardItem.violation.citationNumber === '0'; else citation"
+                src="assets/img/svgs/table/citation-ticket.svg"
+                [svgStyle]="{ 'width.px': '30', 'height.px': '20' }"
+              ></svg-icon>
+              <ng-template #citation>
+                <svg-icon
+                  class="ta-card-body-data_violations_body_citation_on"
+                  src="assets/img/svgs/table/citation-ticket-on.svg"
+                  [svgStyle]="{ 'width.px': '50', 'height.px': '20' }"
+                ></svg-icon>
+              </ng-template>
+              <span appSelectionColor> {{ cardItem.violation.citationNumber }} </span>
+              <span
+                appSelectionColor
+                [ngClass]="{
+                  'ta-card-body-data_violations_body_citation_regular':
+                    cardItem.violation.citationNumber === '0'
+                }"
+              >
+                {{ cardItem.violation.citationNumber === '0' ? '$0' : cardItem.violation.total }}
+              </span>
+            </div>
+          </div>
+          <ng-template #expandedViolationBody>
+            <div class="ta-card-body-data_violations_body-expanded">
+              <div class="ta-card-body-data_violations_body-expanded_truck">
+                <span appSelectionColor>Truck</span>
+                <br />
+                <span appSelectionColor>{{ cardItem.violation.truck }}</span>
+              </div>
+              <div class="ta-card-body-data_violations_body-expanded_trailer">
+                <span appSelectionColor>Trailer</span>
+                <br />
+                <span appSelectionColor>{{ cardItem.violation.trailer }}</span>
+              </div>
+              <div class="ta-card-body-data_violations_body-expanded_lvl">
+                <span appSelectionColor>Inspection LVL</span>
+                <br />
+                <span appSelectionColor
+                  >{{ cardItem.violation.lvl }} - {{ cardItem.violation.lvlTitle }}</span
+                >
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <!-- Violations Card Template -->
+        <!-- Accident Card Template -->
+        <div
+          #accidentCard
+          class="ta-card-body-data_accidents"
+          *ngIf="stateName === 'accidents' || stateName === 'accidents_non-reportable'"
+        >
+          <div class="ta-card-body-data_accidents_header">
+            <span appSelectionColor class="ta-card-body-data_accidents_header_name">{{
+              cardItem.accident.driverFullName
+            }}</span>
+            <span appSelectionColor class="ta-card-body-data_accidents_header_right">{{
+              cardItem.accident.eventDate
+            }}</span>
+          </div>
+          <div class="ta-card-body-data_accidents_header">
+            <span appSelectionColor>{{ cardItem.accident.state }}</span>
+            <span appSelectionColor class="ta-card-body-data_accidents_header_right">{{
+              cardItem.accident.time
+            }}</span>
+          </div>
+          <div class="ta-card-body-data_accidents_body-expanded">
+            <div class="ta-card-body-data_accidents_body-expanded_truck">
+              <span appSelectionColor>Truck</span>
+              <br />
+              <span appSelectionColor>{{ cardItem.accident.truck }}</span>
+            </div>
+            <div class="ta-card-body-data_accidents_body-expanded_trailer">
+              <span appSelectionColor>Trailer</span>
+              <br />
+              <span appSelectionColor>{{ cardItem.accident.trailer }}</span>
+            </div>
+            <div class="ta-card-body-data_accidents_body-expanded_ins">
+              <span appSelectionColor>Ins. Claim #</span>
+              <br />
+              <span appSelectionColor>{{ cardItem.accident.insuranceClaim }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Accident Card Template -->
+      </div>
+    </div>
+    <!--  expand -->
+    <div class="ta-card-expand position-absolute" [ngSwitch]="stateName" *ngIf="expanded">
+      <div class="ta-card-expand-driver" *ngSwitchCase="'drivers'">
+        <div class="driver-info">
+          <div class="driver-info-item">
+            <svg-icon src="assets/img/svgs/ta-card-driver-phone.svg"></svg-icon>
+            <p class="disabled-text">{{ cardItem.driver.phone | mask: '00-0000000' }}</p>
+          </div>
+          <div class="driver-info-item">
+            <svg-icon src="assets/img/svgs/ta-card-driver-mail.svg"></svg-icon>
+            <p class="disabled-text">{{ cardItem.driver.mail }}</p>
+          </div>
+          <div class="driver-info-item">
+            <svg-icon src="assets/img/svgs/ta-card-driver-pin.svg"></svg-icon>
+            <p class="disabled-text">
+              {{ cardItem.driver.address.streetNumber }} {{ cardItem.driver.address.streetName }}
+              <br />{{ cardItem.driver.address.city }} ,
+              {{ cardItem.driver.address.stateShortName }} {{ cardItem.driver.address.zipCode }} ,
+              {{ cardItem.driver.address.country }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="driver-progress position-relative"
+          *ngIf="
+            cardItem?.driver?.expiredMedical ||
+            cardItem?.driver?.expiredCDL ||
+            cardItem?.driver?.expiredMVR
+          "
+        >
+          <app-progress-expiration
+            *ngIf="cardItem?.driver?.expiredMedical"
+            [expireDate]="cardItem?.driver?.expiredMedical | date: 'short'"
+          ></app-progress-expiration>
+          <app-progress-expiration
+            *ngIf="cardItem?.driver?.expiredCDL"
+            [expireDate]="cardItem?.driver?.expiredCDL | date: 'short'"
+          ></app-progress-expiration>
+          <app-progress-expiration
+            *ngIf="cardItem?.driver?.expiredMVR"
+            [expireDate]="cardItem?.driver?.expiredMVR | date: 'short'"
+          ></app-progress-expiration>
+        </div>
+        <div
+          class="driver-bank d-flex align-items-center justify-content-between"
+          *ngIf="cardItem.driver.account"
+        >
+          <div class="driver-bank-data d-flex flex-column">
+            <p class="disabled-text">
+              <span class="disabled-text-opacity">Account</span>{{ cardItem.driver.account }}
+            </p>
+            <p class="disabled-text">
+              <span class="disabled-text-opacity">Routing</span>{{ cardItem.driver.routing }}
+            </p>
+          </div>
+          <svg-icon [src]="cardItem.driver.bankImage"></svg-icon>
+        </div>
+        <div class="driver-commission" *ngIf="cardItem?.driver?.commission">
+          <div class="d-flex flex-column">
+            <p class="disabled-text">Pay Type</p>
+            <p class="disabled-text">Commission</p>
+          </div>
+          <ngx-slider [value]="cardItem.driver.commission" [options]="sliderOptions"></ngx-slider>
+        </div>
+        <div
+          class="restrictions-endorsements"
+          *ngIf="cardItem?.driver?.restrictions || cardItem?.driver?.endorsements"
+        >
+          <div
+            class="driver-restrictions"
+            *ngIf="cardItem?.driver?.restrictions && cardItem?.driver?.restrictions.length"
+          >
+            <p class="disabled-text">Restrictions</p>
+            <div class="restrictions-boxes">
+              <div
+                class="single-restriction"
+                *ngFor="let restriction of cardItem.driver.restrictions"
+                [appTaTooltip]="restriction.restrictionName"
+                position="bottom-right"
+                [tooltipBackground]="'#6C6C6C'"
+              >
+                <p>{{ restriction.restrictionName.substring(0, 2).trim() }}</p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="driver-endorsements"
+            *ngIf="cardItem?.driver?.endorsements && cardItem?.driver?.endorsements.length"
+          >
+            <p class="disabled-text">Endorsements</p>
+            <div class="endorsements-boxes">
+              <div
+                class="single-endorsement"
+                *ngFor="let endorsement of cardItem.driver.endorsements"
+                [appTaTooltip]="endorsement.endorsementName"
+                position="bottom-right"
+                [tooltipBackground]="'#6C6C6C'"
+              >
+                <p>{{ endorsement.endorsementName.substring(0, 2).trim() }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ta-card-expand-truck" *ngSwitchCase="'trucks'">
+        <div class="inspection position-relative" *ngIf="cardItem?.truck?.expireDate">
+          <app-progress-expiration [expireDate]="cardItem.truck.expireDate | date: 'short'">
+          </app-progress-expiration>
+        </div>
+        <div class="licence-owner">
+          <div class="licence-plate">
+            <p class="disabled-text-opacity">Licence Plate</p>
+            <p class="disabled-text">{{ cardItem.truck.licencePlate }}</p>
+          </div>
+          <div class="owner">
+            <p class="disabled-text-opacity">Owner</p>
+            <p class="disabled-text">{{ cardItem.truck.owner }}</p>
+          </div>
+        </div>
+        <div class="truck-data">
+          <div class="truck-data-col">
+            <p class="disabled-text-opacity">Axles</p>
+            <p class="disabled-text">{{ cardItem.truck.axles }}</p>
+          </div>
+          <div class="truck-data-col">
+            <p class="disabled-text-opacity">Empty Weight</p>
+            <p class="disabled-text">{{ cardItem.truck.weight }} lbs.</p>
+          </div>
+          <div class="truck-data-col">
+            <p class="disabled-text-opacity">Engine</p>
+            <p class="disabled-text">{{ cardItem.truck.engine }}</p>
+          </div>
+          <div class="truck-data-col">
+            <p class="disabled-text-opacity">Tire Size</p>
+            <p class="disabled-text">{{ cardItem.truck.tireSize.value }}</p>
+          </div>
+        </div>
+        <div class="commission" *ngIf="cardItem.truck.commission > 0">
+          <p class="disabled-text">Commission</p>
+          <ngx-slider [value]="cardItem.truck.commission" [options]="sliderOptions"></ngx-slider>
+        </div>
+        <div class="mileage" *ngIf="cardItem?.truck?.mileage || cardItem?.truck?.ipass">
+          <div class="d-flex flex-column">
+            <p class="disabled-text-opacity">Mileage</p>
+            <p class="disabled-text">{{ cardItem?.truck?.mileage }} miles</p>
+          </div>
+          <div class="d-flex flex-column">
+            <p class="disabled-text-opacity">IPASS/EZPASS</p>
+            <p class="disabled-text">{{ cardItem?.truck?.ipass }}</p>
+          </div>
+        </div>
+        <div class="insurance" *ngIf="cardItem?.truck?.insurance">
+          <p class="disabled-text-opacity">Insurance Policy</p>
+          <p class="disabled-text">{{ cardItem?.truck?.insurance }}</p>
+        </div>
+      </div>
+      <div class="ta-card-expand-trailer" *ngSwitchCase="'trailers'">
+        <div
+          class="inspection position-relative disabled-opacity"
+          *ngIf="cardItem?.trailer.expireDate && cardItem?.trailer.expireDate != ''"
+        >
+          <app-progress-expiration
+            [expireDate]="cardItem?.trailer.expireDate | date: 'short'"
+          ></app-progress-expiration>
+        </div>
+        <div class="licence-owner">
+          <div class="licence-plate">
+            <p class="disabled-text-opacity">Licence Plate</p>
+            <p class="disabled-text">{{ cardItem.trailer.licencePlate }}</p>
+          </div>
+          <div class="owner">
+            <p class="disabled-text-opacity">Owner</p>
+            <p class="disabled-text">{{ cardItem.trailer.owner }}</p>
+          </div>
+        </div>
+        <div class="trailer-data">
+          <div class="trailer-data-col">
+            <p class="disabled-text-opacity">Axles</p>
+            <p class="disabled-text">{{ cardItem.trailer.axles }}</p>
+          </div>
+          <div class="trailer-data-col">
+            <p class="disabled-text-opacity">Tire Size</p>
+            <p class="disabled-text">{{ cardItem.trailer.tireSize }}</p>
+          </div>
+          <div class="trailer-data-col">
+            <p class="disabled-text-opacity">Length</p>
+            <p class="disabled-text">{{ cardItem.trailer.length }}</p>
+          </div>
+        </div>
+        <div class="insurance" *ngIf="cardItem?.trailer?.insurance">
+          <p class="disabled-text-opacity">Insurance Policy</p>
+          <p class="disabled-text">{{ cardItem.trailer.insurance }}</p>
+        </div>
+      </div>
+      <div class="ta-card-expand-load" *ngSwitchCase="'loads'">
+        <div class="load-route" *ngIf="cardItem?.load?.route?.length > 1">
+          <div
+            class="route-item"
+            *ngFor="let route of cardItem.load.route; let i = index"
+            [class.divided-first-last]="cardItem.load.route % 2 === 0 && cardItem.load.route > 2"
+          >
+            <div class="route-item-number disabled-opacity">
+              <p>{{ i + 1 }}</p>
+            </div>
+            <div class="route-item-address">
+              <p
+                class="disabled-text"
+                [appTaTooltip]="cardItem.load.route[i].pointAddress"
+                position="bottom-right"
+              >
+                {{ cardItem.load.route[i].pointAddress }}
+              </p>
+              <p class="disabled-text">{{ cardItem.load.route[i].pointDateTime }}</p>
+            </div>
+          </div>
+        </div>
+        <!-- Load route -->
+        <div class="load-info">
+          <div class="d-flex flex-column">
+            <p class="disabled-text-opacity">Truck</p>
+            <p class="disabled-text">#{{ cardItem.load.truck }}</p>
+          </div>
+          <div class="d-flex flex-column">
+            <p class="disabled-text-opacity">Trailer</p>
+            <p class="disabled-text">#{{ cardItem.load.trailer }}</p>
+          </div>
+          <div class="d-flex flex-column">
+            <p class="disabled-text-opacity">Driver</p>
+            <p class="disabled-text">{{ cardItem.load.driver }}</p>
+          </div>
+        </div>
+        <div class="load-money">
+          <div class="load-money-item disabled-opacity">
+            <div class="load-money-item-heading">
+              <p>BASE RATE</p>
+            </div>
+            <div class="load-money-item-body">
+              <p>${{ cardItem.load.baseRate }}</p>
+            </div>
+          </div>
+          <div class="load-money-item disabled-opacity">
+            <div class="load-money-item-heading">
+              <p>ADJUSTED</p>
+            </div>
+            <div class="load-money-item-body">
+              <p>${{ cardItem.load.adjusted }}</p>
+            </div>
+          </div>
+          <div class="load-money-item disabled-opacity">
+            <div class="load-money-item-heading">
+              <p>ADVANCE</p>
+            </div>
+            <div class="load-money-item-body">
+              <p>${{ cardItem.load.advance }}</p>
+            </div>
+          </div>
+          <div class="load-money-item disabled-opacity">
+            <div class="load-money-item-heading">
+              <p>ADDITIONAL</p>
+            </div>
+            <div class="load-money-item-body">
+              <p>${{ cardItem.load.additional }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="load-map disabled-opacity" *ngIf="cardItem?.load?.route.length >= 2">
+          <agm-map
+            [streetViewControl]="false"
+            [clickableIcons]="false"
+            [controlSize]="20"
+            [styles]="styles"
+            [restriction]="mapRestrictions"
+            (mapReady)="getMapInstance($event)"
+            [zoom]="1"
+          >
+            <agm-direction
+              *ngFor="let dir of directionRoutes"
+              [origin]="dir.origin"
+              [destination]="dir.destination"
+              [waypoints]="dir.waypoints"
+              [optimizeWaypoints]="false"
+              [renderOptions]="dir.renderOptions"
+            ></agm-direction>
+            <div *ngFor="let mark of waypointMarkers; let i = index">
+              <agm-marker
+                [latitude]="mark.lat"
+                [longitude]="mark.lng"
+                [agmFitBounds]="true"
+                [visible]="false"
+              >
+                <agm-snazzy-info-window
+                  [latitude]="mark.lat"
+                  [longitude]="mark.lng"
+                  [openOnMarkerClick]="false"
+                  [closeOnMapClick]="false"
+                  [maxWidth]="33"
+                  [maxHeight]="48"
+                  [isOpen]="true"
+                  [closeWhenOthersOpen]="false"
+                  placement="bottom"
+                >
+                  <ng-template class="marker-tool-tip">
+                    <svg
+                      class="routing_marker"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="33"
+                      height="48"
+                      viewBox="0 0 32.999 48.234"
+                    >
+                      <g
+                        id="Group_11810"
+                        data-name="Group 11810"
+                        transform="translate(-509.694 -364.016)"
+                      >
+                        <g id="Group_11809" data-name="Group 11809">
+                          <path
+                            id="Path_10542"
+                            [ngStyle]="{ fill: mapCollors[mark.type].bottom }"
+                            data-name="Path 10542"
+                            d="M526.194,399.25a6.5,6.5,0,1,0,6.5,6.5A6.5,6.5,0,0,0,526.194,399.25Zm0,10a3.5,3.5,0,1,1,3.5-3.5A3.5,3.5,0,0,1,526.194,409.25Z"
+                          />
+                          <circle
+                            id="Ellipse_1439"
+                            data-name="Ellipse 1439"
+                            cx="3.5"
+                            cy="3.5"
+                            r="3.5"
+                            transform="translate(522.694 402.25)"
+                            fill="#fff"
+                          />
+                        </g>
+                        <g id="Locator">
+                          <path
+                            id="Path_10543"
+                            [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                            data-name="Path 10543"
+                            d="M526.2,364.016a16.637,16.637,0,0,0-16.5,16.769,16.879,16.879,0,0,0,3.229,9.966c3,4.127,13.3,15.265,13.3,15.265s10.231-11.138,13.237-15.265a16.865,16.865,0,0,0,3.229-9.966A16.636,16.636,0,0,0,526.2,364.016Zm0,28.246a11.631,11.631,0,0,1,0-23.262h0a11.631,11.631,0,1,1,0,23.262Z"
+                          />
+                          <path
+                            id="Path_2808"
+                            data-name="Path 2808"
+                            d="M526.2,369a11.631,11.631,0,1,1-11.631,11.631h0A11.631,11.631,0,0,1,526.194,369Z"
+                            fill="#fff"
+                          />
+                        </g>
+                        <text
+                          id="_1"
+                          data-name="1"
+                          transform="translate(520.195 366.25)"
+                          [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                          font-size="14"
+                          font-family="Montserrat"
+                          font-weight="Bold"
+                          startOffset="50%"
+                          text-anchor="middle"
+                          alignement-baseline="middle"
+                        >
+                          <tspan x="5.8" y="19">{{ mark.index }}</tspan>
+                        </text>
+                      </g>
+                    </svg>
+                  </ng-template>
+                </agm-snazzy-info-window>
+              </agm-marker>
+            </div>
+          </agm-map>
+        </div>
+      </div>
+      <div class="ta-card-expand-repair" *ngSwitchCase="'repair_shops'">
+        <div class="star-dropdown">
+          <div
+            class="star-dropdown-item disabled-opacity"
+            *ngFor="let item of cardItem?.repair?.dropdownItems"
+          >
+            <p>{{ item?.short }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="ta-card-expand-customer" *ngSwitchCase="'brokers'">
+        <div class="customer-loads">
+          <p class="disabled-text">
+            <span class="disabled-text-opacity">Loads</span>{{ cardItem.customer.loads }}
+          </p>
+          <p class="disabled-text">
+            <span class="disabled-text-opacity">Gross</span>{{ cardItem.customer.gross }}
+          </p>
+        </div>
+      </div>
+      <div class="ta-card-expand-customer" *ngSwitchCase="'shippers'">
+        <div class="customer-loads">
+          <p class="disabled-text">
+            <span class="disabled-text-opacity">Loads</span>{{ cardItem.customer.loads }}
+          </p>
+          <p class="disabled-text">
+            <span class="disabled-text-opacity">Gross</span>{{ cardItem.customer.gross }}
+          </p>
+        </div>
+      </div>
+      <div class="ta-card-expand-repair-truck-trailer" *ngSwitchCase="'repair_trucks'">
+        <div
+          class="repair-list-dropdown disabled-opacity"
+          *ngIf="cardItem?.repairTruckTrailer?.repairItems?.length"
+        >
+          <div
+            class="repair-list-dropdown-item"
+            *ngFor="let repair of cardItem?.repairTruckTrailer?.repairItems; index as i"
+          >
+            <p class="index-number">{{ i + 1 }}</p>
+            <p class="repair-detail">{{ repair?.item }}</p>
+            <p class="repair-count">{{ repair?.quantity }}</p>
+            <p class="repair-price">{{ repair?.price }}</p>
+          </div>
+        </div>
+        <div class="total-repair-price">
+          <p>Total</p>
+          <p>${{ cardItem?.repairTruckTrailer?.total }}</p>
+        </div>
+      </div>
+      <div class="ta-card-expand-repair-truck-trailer" *ngSwitchCase="'repair_trailers'">
+        <div
+          class="repair-list-dropdown disabled-opacity"
+          *ngIf="cardItem?.repairTruckTrailer?.repairItems?.length"
+        >
+          <div
+            class="repair-list-dropdown-item"
+            *ngFor="let repair of cardItem?.repairTruckTrailer?.repairItems; index as i"
+          >
+            <p class="index-number">{{ i + 1 }}</p>
+            <p class="repair-detail">{{ repair?.item }}</p>
+            <p class="repair-count">{{ repair?.quantity }}</p>
+            <p class="repair-price">{{ repair?.price }}</p>
+          </div>
+        </div>
+        <div class="total-repair-price">
+          <p>Total</p>
+          <p>${{ cardItem?.repairTruckTrailer?.total }}</p>
+        </div>
+      </div>
+      <!--
+        *
+        Violations Card Expand Template
+        *
+      -->
+      <div class="ta-card-expand_violations" *ngSwitchCase="'violations'">
+        <div class="ta-card-expand_violations_violation-list">
+          <div
+            *ngFor="let violation of cardItem.violation.violationsData"
+            class="ta-card-expand_violations_violation-list_box"
+          >
+            <div class="ta-card-expand_violations_violation-list_box_header">
+              <div class="ta-card-expand_violations_violation-list_box_header_icon">
+                <svg-icon
+                  [src]="violation.iconUrl"
+                  [svgStyle]="{ 'width.px': '18', 'height.px': '20' }"
+                ></svg-icon>
+              </div>
+              <div
+                appSelectionColor
+                class="ta-card-expand_violations_violation-list_box_header_title"
+              >
+                {{ violation.title }}
+              </div>
+              <div
+                appSelectionColor
+                class="ta-card-expand_violations_violation-list_box_header_weight"
+              >
+                <span appSelectionColor>{{ violation.sumWeight }}</span> =
+                <span appSelectionColor>{{ violation.timeWeight }}</span> x
+                <span appSelectionColor>{{ violation.weight }}</span>
+              </div>
+            </div>
+            <div
+              *ngFor="let detail of violation.violationDetails"
+              class="ta-card-expand_violations_violation-list_box_body"
+            >
+              <div class="ta-card-expand_violations_violation-list_box_body_header">
+                <span appSelectionColor> {{ detail.oos }} </span>
+                <svg-icon
+                  *ngIf="detail.oosStatus"
+                  src="assets/img/svgs/table/violation-state-cancel.svg"
+                  [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+                ></svg-icon>
+                <span appSelectionColor>{{ detail.title }}</span>
+                <span appSelectionColor *ngIf="!detail.oosStatus; else outOfServiceViolation">{{
+                  detail.weight
+                }}</span>
+                <ng-template #outOfServiceViolation>
+                  <span appSelectionColor class="active">2+{{ detail.weight }}</span>
+                </ng-template>
+              </div>
+              <div appSelectionColor class="ta-card-expand_violations_violation-list_box_body_desc">
+                {{ detail.desc }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ta-card-expand_violations_out-of-service">
+          <div class="ta-card-expand_violations_out-of-service_header">
+            <span appSelectionColor>Out of Service</span>
+            <span appSelectionColor>Customer</span>
+          </div>
+          <div class="ta-card-expand_violations_out-of-service_data">
+            <span
+              appSelectionColor
+              *ngFor="let oos of cardItem.violation.oos"
+              [ngStyle]="{ background: oos.active ? '#5673AAc0' : '#DADADA' }"
+            >
+              {{ oos.title }}
+            </span>
+            <span appSelectionColor> {{ cardItem.violation.customer }} </span>
+          </div>
+        </div>
+        <div class="ta-card-expand_violations_citation">
+          <div class="ta-card-expand_violations_citation_list">
+            <div
+              class="ta-card-expand_violations_citation_list_citation"
+              *ngFor="let citation of cardItem.violation.citation"
+            >
+              <div class="ta-card-expand_violations_citation_list_citation_box">
+                <span appSelectionColor>{{ citation.title }}</span>
+                <span appSelectionColor>{{ citation.desc }}</span>
+              </div>
+              <span
+                appSelectionColor
+                class="ta-card-expand_violations_citation_list_citation_value"
+                >{{ citation.value }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="ta-card-expand_violations_total">
+          <div class="ta-card-expand_violations_total_header">
+            <span appSelectionColor>Police Department</span>
+            <span appSelectionColor>Total</span>
+          </div>
+          <div class="ta-card-expand_violations_total_desc">
+            <span appSelectionColor>{{
+              cardItem.violation.policeDepartment.length > 33
+                ? (cardItem.violation.policeDepartment | slice: 0:33) + '...'
+                : cardItem.violation.policeDepartment
+            }}</span>
+            <span appSelectionColor>{{ cardItem.violation.total }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="cardItem.violation.files && cardItem.violation.files.length > 0"
+          class="ta-card-expand_violations_files"
+        >
+          <app-card-preview
+            [attachments]="cardItem.violation.files"
+            [visible]="true"
+          ></app-card-preview>
+        </div>
+      </div>
+      <!--
+        *
+        Violations Card Expand Template
+        *
+      -->
+      <!--
+        *
+        Accidents Card Expand Template
+        *
+      -->
+      <div class="ta-card-expand_accidents" *ngSwitchCase="'accidents'">
+        <div class="ta-card-expand_accidents_info">
+          <div>
+            <span>Fat.</span>
+            <span>{{ cardItem.accident.fatality }}</span>
+          </div>
+          <div>
+            <span>Inj.</span>
+            <span>{{ cardItem.accident.injuries }}</span>
+          </div>
+          <div>
+            <span>Tow.</span>
+            <span>{{ cardItem.accident.towing }}</span>
+          </div>
+          <div>
+            <span>HM</span>
+            <span>{{ cardItem.accident.hm }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="cardItem.accident.files && cardItem.accident.files.length > 0"
+          class="ta-card-expand_accidents_files"
+        >
+          <app-card-preview
+            [attachments]="cardItem.accident.files"
+            [visible]="true"
+          ></app-card-preview>
+        </div>
+      </div>
+      <div class="ta-card-expand_accidents" *ngSwitchCase="'accidents_non-reportable'">
+        <div class="ta-card-expand_accidents_info">
+          <div>
+            <span>Fat.</span>
+            <span>{{ cardItem.accident.fatality }}</span>
+          </div>
+          <div>
+            <span>Inj.</span>
+            <span>{{ cardItem.accident.injuries }}</span>
+          </div>
+          <div>
+            <span>Tow.</span>
+            <span>{{ cardItem.accident.towing }}</span>
+          </div>
+          <div>
+            <span>HM</span>
+            <span>{{ cardItem.accident.hm }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="cardItem.accident.files && cardItem.accident.files.length > 0"
+          class="ta-card-expand_accidents_files"
+        >
+          <app-card-preview
+            [attachments]="cardItem.accident.files"
+            [visible]="true"
+          ></app-card-preview>
+        </div>
+      </div>
+      <!--
+        *
+        Accidents Card Expand Template
+        *
+      -->
+    </div>
+  </div>
+</div>

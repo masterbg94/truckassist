@@ -1,0 +1,2523 @@
+@import '../../assets/scss/components/variables.scss';
+
+::-webkit-scrollbar-thumb {
+  background-color: #606060 !important;
+}
+
+.gps-container {
+  width: 1440px;
+  height: calc(100vh - 235px);
+  position: relative;
+
+  .legend-container {
+    width: 191px;
+    height: auto;
+    position: absolute;
+    right: 6px;
+    top: 50px;
+    z-index: 100;
+  }
+
+  .gps-map-icons-legend {
+    position: absolute;
+    width: auto;
+    height: calc(100vh - 291px);
+    top: 50px;
+    right: -235px;
+    z-index: 100;
+    transform: scale(1);
+    overflow-x: hidden;
+    border-radius: 3px;
+  }
+
+  .remuve-gps-legend {
+    transform: scale(0) !important;
+    opacity: 0 !important;
+    transition: opacity 0.25s, transform 0.6s;
+  }
+
+  .gps-legend-active {
+    right: 6px !important;
+    transition: 0.25s;
+  }
+
+  agm-map {
+    height: 100%;
+  }
+
+  .options-container {
+    display: grid;
+    /* grid-template-columns: auto 1fr 6px 32px; */
+    grid-template-columns: 75px 149px 112px 163px auto 1fr;
+    width: auto;
+    height: 32px;
+    margin-bottom: 12px;
+    .count-all-gps-devices {
+      height: 32px;
+      background: white;
+      border-radius: 3px;
+      padding: 4px;
+      margin-right: 6px;
+      display: flex;
+      .count-container {
+        width: 25px;
+        height: 24px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 24px;
+        background: rgba(183, 183, 183, 0.3);
+        border-radius: 2px;
+        color: #b7b7b7;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .count-all-title {
+        width: 36px;
+        height: 100%;
+        font-size: 14px;
+        font-weight: 600;
+        color: #b7b7b7;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 24px;
+      }
+    }
+    .live-tracking-btn,
+    .history-log-btn {
+      height: 32px;
+      border-radius: 3px;
+      margin-right: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .live-tracking-btn {
+      background: rgba(86, 115, 170, 0.7);
+      padding: 4px;
+      display: flex;
+      position: relative;
+      &:hover {
+        background: rgba(86, 115, 170, 1);
+        transition: 0.25s;
+      }
+      .count-of-selected {
+        width: 26px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        p {
+          font-size: 14px;
+          font-weight: bold;
+          width: 100%;
+          height: 100%;
+          color: white;
+          text-align: center;
+          margin: 0;
+          padding-top: 2px;
+        }
+      }
+      .title {
+        width: 109px;
+        padding-left: 4px;
+        position: absolute;
+        left: 30px;
+        top: 4px;
+        p {
+          font-size: 14px;
+          font-weight: 600;
+          color: white;
+          text-align: left;
+          padding-top: 2px;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+      }
+    }
+
+    .history-log-btn {
+      background: #ffffff;
+      &:hover {
+        p {
+          color: #919191;
+          transition: 0.25s;
+        }
+      }
+      p {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        color: #b7b7b7;
+        text-align: center;
+        padding-top: 6px;
+      }
+    }
+
+    .switch-gps-type {
+      height: 32px;
+      background: white;
+      border-radius: 3px;
+      margin-right: 6px;
+      padding: 2px;
+      display: flex;
+      cursor: pointer;
+      .mobile {
+        width: 63px;
+      }
+      .gps-device {
+        width: 96px;
+      }
+      .mobile,
+      .gps-device {
+        height: 100%;
+        border-radius: 2px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 28px;
+        font-size: 14px;
+        color: #b7b7b7;
+        font-weight: 600;
+        transition: 0.25s;
+        &:hover {
+          color: #919191;
+          transition: 0.25s;
+        }
+      }
+    }
+
+    .gpsModeActive {
+      background: rgba(238, 238, 238, 0.7);
+      font-weight: bold !important;
+      color: #889CC3 !important;
+      transition: 0.25s;
+      &:hover {
+        color: rgba(86, 115, 170, 1) !important;
+        transition: 0.25s;
+      }
+    }
+
+    app-custom-search {
+      margin-right: 6px;
+    }
+
+    .tracking-tab {
+      width: 100%;
+      height: 32px;
+      background: #ffffff;
+      border-radius: 3px;
+      /* margin-left: 6px; */
+
+      .tracking-options {
+        float: right;
+        width: auto;
+        height: 32px;
+        display: flex;
+
+        button {  
+          border: none;
+          background: none;
+          position: relative;
+
+          svg-icon {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 32px;
+            height: 32px;
+            svg {
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+            &:hover {
+              svg {
+                #Path_8060,
+                #Path_8061,
+                #traffic-light,
+                #Path_10764,
+                #Path_1103,
+                #Ellipse_418,
+                #Ellipse_1211,
+                #globe,
+                #Path_10571,
+                #Path_4767,
+                #Path_4768,
+                #Path_4769,
+                #Path_4770,
+                #Path_10767 {
+                  fill: #5673aa;
+                  transition: all 0.3s;
+                }
+              }
+            }
+          }
+        }
+        .tool-bar-btn {
+          width: 32px;
+          height: 32px;
+          position: relative;
+          .gps-legend {
+            &:hover {
+              svg {
+                path {
+                  fill: #919191;
+                  transition: 0.25s;
+                }
+              }
+            }
+          }
+          .sattings-svg {
+            svg {
+              width: 32px !important;
+              top: 7px !important;
+            }
+          }
+          svg-icon {
+            svg {
+              #Rectangle_6258 {
+                fill: none;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* .add-gps {
+      margin: 0 !important;
+    } */
+    .switch-date {
+      height: 32px;
+    }
+  }
+
+  .devices-container {
+    width: 238px;
+    transition: width 0.25s;
+    height: auto;
+    position: absolute;
+    top: 56px;
+    left: 12px;
+    .devices-title-container {
+      width: 100%;
+      height: 32px;
+      margin-bottom: 4px;
+      display: grid;
+      grid-template-columns: 170px 32px 32px;
+      grid-column-gap: 2px;
+      .title {
+        user-select: none;
+        background: white;
+        border-radius: 3px;
+        height: 32px;
+        padding: 9px 6px;
+        padding-left: 9px;
+        display: flex;
+        .checkbox-container {
+          width: 15px;
+          height: 15px;
+          position: relative;
+          margin-right: 10px;
+          .selected {
+            width: 14px;
+            height: 14px;
+            background: rgba(183, 183, 183, 0.7);
+            cursor: pointer;
+            &:hover {
+              background: rgba(183, 183, 183, 1);
+              transition: 0.25s;
+            }
+            border-radius: 2px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 23px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            transition: width 0.25s, height 0.25s, margin-top 0.25s, margin-left 0.25s;
+            .drop-select {
+              width: 150px;
+              height: auto;
+              background: white;
+              border-radius: 2px;
+              padding: 6px 12px;
+              position: absolute;
+              box-shadow: $box-shadow;
+              top: 25px;
+              left: 0;
+              z-index: 100;
+              .drop-option {
+                width: 100%;
+                height: 16px;
+                text-align: left;
+                vertical-align: middle;
+                line-height: 16px;
+                font-size: 14px;
+                font-weight: 400;
+                color: rgba(25, 25, 25, 0.7);
+                &:hover {
+                  color: rgba(25, 25, 25, 1);
+                  transition: 0.25s;
+                }
+              }
+            }
+          }
+          .all-checkbox,
+          .single-checkbox {
+            position: absolute;
+            left: 0;
+          }
+        }
+
+        .title-text {
+          cursor: pointer;
+          height: 100%;
+          font-size: 12px;
+          font-weight: bold;
+          color: #919191;
+          text-align: left;
+          vertical-align: middle;
+          line-height: 14px;
+          padding-top: 1px;
+          position: relative;
+        }
+
+        .truck {
+          width: 65px;
+        }
+
+        .trailer {
+          width: 82px;
+        }
+
+        .status {
+          width: 127px;
+        }
+        .hardware-id {
+          width: 87px;
+        }
+        .driver {
+          width: 70px;
+        }
+
+        .location {
+          width: 107px;
+        }
+
+        .destination {
+          width: 106px;
+        }
+
+        .speed {
+          width: 60px;
+          text-align: center;
+        }
+      }
+
+      svg-icon {
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .expend-table-svg {
+        &:hover {
+          svg {
+            #Path_2281 {
+              fill: #919191;
+              transition: 0.25s;
+            }
+          }
+        }
+      }
+    }
+
+    /* .devices-title-container {
+      margin-bottom: 4px;
+      padding: 8px 6px;
+      width: 238px;
+      height: 32px;
+      border-radius: 3px;
+      background: #ffffff;
+      display: flex;
+
+      p {
+        font-size: 12px;
+        font-weight: bold;
+        color: #919191;
+      }
+
+      .title-container {
+        user-select: none;
+        position: relative;
+        .hardware-arrow {
+          left: 76px !important;
+        }
+      }
+
+      .truck-title,
+      .hardware-title,
+      .driver-title {
+        cursor: pointer;
+      }
+
+      .truck-title {
+        margin-right: 50px;
+      }
+
+      .hardware-title {
+        margin-right: 22px;
+      }
+
+      .driver-title {
+        margin-right: 67px;
+      }
+
+      .unassign-svg {
+        position: relative;
+        cursor: pointer;
+        right: 9px;
+
+        svg {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+
+          rect {
+            opacity: 0;
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #ff5d5d;
+              transition: 0.3s;
+            }
+
+            rect {
+              opacity: 1;
+              fill: #ff5d5d;
+              transition: 0.25s;
+            }
+          }
+        }
+      }
+    } */
+
+    .devices-driver-list-container {
+      width: 238px;
+      transition: width 0.25s;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 3px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transition: 0.25s;
+      }
+
+      .devices-driver-list {
+        width: 238px;
+        height: auto;
+        margin-bottom: 12px;
+
+        .checkbox-container {
+          width: 15px;
+          height: 15px;
+          position: relative;
+          margin-right: 10px;
+
+          .all-checkbox,
+          .single-checkbox {
+            position: absolute;
+            left: 0;
+          }
+        }
+
+        virtual-scroller {
+          display: block;
+          overflow-x: hidden;
+          overflow-y: scroll;
+
+          ::ng-deep.scrollable-content {
+            height: auto;
+            max-height: unset;
+          }
+        }
+
+        .device-driver {
+          position: relative;
+          width: 100%;
+          height: 20px;
+          /*  padding-left: 6px; */
+          padding-left: 9px;
+          padding-top: 3px;
+          display: flex;
+
+          &:hover {
+            background: #f9f9f9 !important;
+            transition: 0.25s;
+            .unassign {
+              visibility: visible;
+              opacity: 1;
+              transition: opacity 0.25s;
+            }
+            .destination {
+              svg-icon {
+                svg {
+                  #Group_39135 {
+                    rect {
+                      fill: #b7b7b7;
+                      transition: 0.25s;
+                    }
+                  }
+                  #map_indicator {
+                    #Path_2805 {
+                      fill: #ffffff;
+                      transition: 0.25s;
+                    }
+                    #Path_2808 {
+                      fill: #b7b7b7;
+                      transition: 0.25s;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .moving-hover {
+            .hover-table-marker {
+              background: #5673aa;
+              .marker-svg {
+                svg {
+                  #Path_2991 {
+                    fill: #5673aa !important;
+                    transition: 0.25s;
+                  }
+                }
+              }
+            }
+          }
+
+          .short-stop-hover {
+            .hover-table-marker {
+              background: #ffa24e;
+              .marker-svg {
+                svg {
+                  #Path_2991 {
+                    fill: #ffa24e !important;
+                    transition: 0.25s;
+                  }
+                }
+              }
+            }
+          }
+
+          .extended-stop-hover {
+            .hover-table-marker {
+              background: #f96c62;
+              .marker-svg {
+                svg {
+                  #Path_2991 {
+                    fill: #f96c62 !important;
+                    transition: 0.25s;
+                  }
+                }
+              }
+            }
+          }
+
+          .parking-stop-hover {
+            .hover-table-marker {
+              background: #6c6c6c;
+              .marker-svg {
+                svg {
+                  #Path_2991 {
+                    fill: #6c6c6c !important;
+                    transition: 0.25s;
+                  }
+                }
+              }
+            }
+          }
+
+          .table-marker-container {
+            width: 14.5px;
+            height: 14px;
+            position: relative;
+            margin-right: 6px;
+            cursor: pointer;
+            overflow: unset !important;
+            &:hover {
+              .hover-table-marker {
+                width: auto !important;
+                border-radius: 2px;
+                max-width: 300px;
+                transition: max-width 0.25s;
+                .marker-svg {
+                  svg {
+                    #Path_2989,
+                    #Path_2991-2,
+                    #Path_5834 {
+                      fill: white;
+                      transition: 0.25s;
+                    }
+                    #Path_2991 {
+                      fill: transparent;
+                      transition: 0.25s;
+                    }
+                  }
+                }
+              }
+            }
+
+            .hover-table-marker {
+              width: 16px !important;
+              height: 16px;
+              position: absolute;
+              width: 100px;
+              left: -2px;
+              top: -1px;
+              display: flex;
+              z-index: 1000;
+              max-width: 16px;
+              .hover-table-text {
+                color: white;
+                font-size: 12px;
+                font-weight: 400;
+                margin-right: 12px;
+                line-height: 17px;
+              }
+              .marker-svg {
+                width: 14.5px;
+                height: 14px;
+                position: relative;
+                left: 2px;
+                top: 1px;
+                margin-right: 6px;
+                svg {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 14.5px;
+                  height: 14px;
+                }
+              }
+            }
+          }
+
+          div {
+            height: 100%;
+            text-align: left;
+            vertical-align: middle;
+            line-height: 15px;
+            color: #919191;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 12px;
+          }
+          .truck-number {
+            width: 66px;
+            font-weight: bold;
+          }
+          .trailer-number {
+            width: 84px;
+            font-weight: bold;
+          }
+          .status {
+            width: 128px;
+            font-weight: 900;
+            position: relative;
+            .vehicle-time-container {
+              overflow: hidden;
+              width: 16px;
+              height: 16px;
+              position: absolute;
+              cursor: pointer;
+              svg-icon {
+                position: relative;
+                svg {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                }
+              }
+
+              .time {
+                margin-left: 25px;
+                color: white;
+              }
+
+              &:hover {
+                width: 100%;
+                background: #5673aa;
+                border-radius: 3px;
+                transition: 0.25s;
+                svg-icon {
+                  svg {
+                    rect {
+                      fill: #5673aa;
+                      transition: 0.25s;
+                    }
+                    path {
+                      fill: #ffffff;
+                      transition: 0.25s;
+                    }
+                  }
+                }
+              }
+            }
+
+            .status-text {
+              margin-left: 22px;
+            }
+          }
+          .hardware-id {
+            width: 89px;
+          }
+          .driver-name {
+            width: 142px;
+          }
+          .location {
+            width: 110px;
+          }
+
+          .destination {
+            overflow: unset;
+            width: 110px;
+            svg-icon {
+              cursor: pointer;
+              position: relative;
+              svg {
+                position: relative;
+                top: -2px;
+                left: 0px;
+              }
+              &:hover {
+                svg {
+                  #Group_39135 {
+                    rect {
+                      fill: #dadada;
+                      transition: 0.25s;
+                    }
+                  }
+                  #map_indicator {
+                    #Path_2805 {
+                      fill: #919191;
+                      transition: 0.25s;
+                    }
+                    #Path_2808 {
+                      fill: #dadada;
+                      transition: 0.25s;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .speed {
+            width: 60px;
+            text-align: center;
+          }
+          .statistic {
+            cursor: pointer;
+            width: 189px;
+            position: relative;
+            top: -3px;
+          }
+          .unassign {
+            width: 22px;
+            cursor: pointer;
+            padding-top: 2px;
+            padding-left: 5px;
+            position: relative;
+            overflow: unset;
+            &:hover {
+              svg-icon {
+                opacity: 1;
+                visibility: visible;
+                transition: 0.25s;
+              }
+            }
+            svg-icon {
+              width: 10px !important;
+              height: 10px !important;
+              position: relative;
+              opacity: 0;
+              visibility: hidden;
+              &:hover {
+                svg {
+                  path {
+                    opacity: 1;
+                    transition: 0.25s;
+                  }
+                }
+              }
+              svg {
+                width: 10px;
+                height: 10px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                path {
+                  fill: #ff5d5d;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .not-assigned-devices-container {
+      width: 238px;
+      height: auto;
+      border-radius: 3px;
+      transition: background 0.2s;
+
+      .not-assigned-devices-title {
+        user-select: none;
+        width: 100%;
+        height: 32px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 12px 12px 12px 6px;
+        display: flex;
+        position: relative;
+        cursor: pointer;
+        padding: 4px;
+        &:hover {
+          background: #e5e5e5 !important;
+          transition: all 0.3s;
+
+          .count-unassigned {
+            background: #ffffff;
+            transition: 0.25s;
+          }
+        }
+
+        .count-unassigned {
+          width: auto;
+          height: 24px;
+          min-width: 24px;
+          background: #e5e5e5;
+          border-radius: 2px;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 24px;
+          color: #919191;
+          font-size: 14px;
+          font-weight: bold;
+          margin-right: 6px;
+        }
+
+        .title {
+          font-size: 14px;
+          font-weight: bold;
+          color: #919191;
+          height: 24px;
+          text-align: left;
+          vertical-align: middle;
+          line-height: 25px;
+        }
+
+        .down-arrow-svg {
+          width: 14.5px;
+          height: 8.6px;
+          position: absolute;
+          right: 12px;
+          top: 12px;
+          transform: rotateZ(0deg);
+          transition: transform 0.2s;
+
+          svg {
+            position: absolute;
+            top: 0;
+
+            path {
+              stroke: #919191;
+            }
+          }
+        }
+      }
+
+      .title-of-devices-show {
+        height: 21px !important;
+        visibility: visible !important;
+        transition: height 0.25s;
+      }
+
+      .title-of-devices {
+        width: 100%;
+        height: 0px;
+        overflow: hidden;
+        visibility: hidden;
+        border-radius: 3px 3px 0px 0px;
+        background: #f7f7f7;
+        padding-left: 6px;
+        margin-top: 2px;
+
+        p {
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          color: #919191;
+          font-size: 12px;
+          font-weight: bold;
+          position: relative;
+          top: 2px;
+        }
+      }
+
+      .devices-drop-container {
+        overflow: hidden;
+
+        .devices-list-container {
+          width: 238px;
+          max-height: 0;
+          visibility: hidden;
+
+          .title-devices {
+            width: 100%;
+            height: 18px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0 0 3px 0;
+            color: #919191;
+          }
+
+          .devices {
+            position: relative;
+            height: 21px;
+            width: 238px;
+            left: -6px;
+            padding: 6px 6px;
+
+            &:hover {
+              background: #f9f9f9;
+              transition: 0.3s;
+
+              .add-btn {
+                color: #28529f;
+                transition: 0.2s;
+              }
+            }
+
+            p {
+              font-size: 12px;
+              margin: 0;
+              height: 10px;
+              line-height: 10px;
+            }
+
+            .devices-id {
+              color: #919191;
+            }
+
+            .add-btn {
+              position: relative;
+              cursor: pointer;
+              top: -10px;
+              font-weight: bold;
+              color: #919191;
+              float: right;
+            }
+
+            .search-driver {
+              width: 130px;
+              height: 19px;
+              position: relative;
+              z-index: 100;
+              border-radius: 3px;
+              background: #ffffff;
+              top: -15px;
+              right: -100px;
+
+              .selected-truck {
+                position: absolute;
+                font-weight: 600;
+                top: 3px;
+                left: 6px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 80px;
+                height: 12px;
+              }
+
+              ng-select {
+                ::ng-deep.ng-select-container {
+                  &:after {
+                    border-bottom: none !important;
+                  }
+
+                  .ng-value-container {
+                    height: 19px;
+
+                    .ng-placeholder {
+                      margin-top: 1px;
+                      color: #919191 !important;
+                      font-size: 12px;
+                      font-weight: 600px;
+                    }
+
+                    .ng-value,
+                    .ng-star-inserted {
+                      .ng-value-icon,
+                      .ng-star-inserted {
+                        display: none;
+                      }
+
+                      .ng-value-label,
+                      .ng-star-inserted {
+                        display: none;
+                      }
+                    }
+                  }
+
+                  .ng-arrow-wrapper {
+                    &:after {
+                      top: 6px;
+                    }
+                  }
+
+                  .ng-clear-wrapper {
+                    .ng-clear {
+                      display: none;
+                    }
+                  }
+
+                  height: 19px;
+                }
+              }
+
+              .save-cancel-ng-select {
+                width: 29px;
+                height: 12px;
+                position: absolute;
+                right: 6px;
+                top: 4px;
+                z-index: 100;
+                cursor: pointer;
+
+                svg-icon {
+                  position: absolute;
+                  top: 0;
+                  height: 12px;
+
+                  svg {
+                    position: absolute;
+                    top: 0;
+
+                    path {
+                      fill: #b7b7b7;
+                    }
+                  }
+
+                  &:hover {
+                    svg {
+                      path {
+                        opacity: 1;
+                        fill: #919191;
+                        transition: 0.3s;
+                      }
+                    }
+                  }
+                }
+
+                .ok-svg {
+                  svg {
+                    width: 12px;
+                    height: 10px;
+
+                    path {
+                      opacity: 0.7;
+                    }
+                  }
+                }
+
+                .cancle-svg {
+                  right: 11px;
+
+                  svg {
+                    width: 10px;
+                    height: 10px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .history-log-tabs-container {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    top: 56px;
+    left: 12px;
+
+    .driver-truck-info {
+      .driver-truck-selected {
+        width: 100%;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+        padding: 10px 12px;
+        position: relative;
+        display: flex;
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          transition: all 0.25s;
+
+          p {
+            color: rgba(145, 145, 145, 1);
+            transition: all 0.25s;
+          }
+
+          .down-arrow-svg {
+            svg {
+              path {
+                stroke: rgba(145, 145, 145, 1);
+                transition: all 0.25s;
+              }
+            }
+          }
+        }
+
+        p {
+          margin: 0;
+          height: 0;
+          font-size: 16px;
+          line-height: 13px;
+          color: rgba(145, 145, 145, 0.7);
+        }
+
+        .truck-unit {
+          font-weight: bold;
+        }
+
+        .driver-name {
+          position: absolute;
+          top: 10px;
+          left: 86px;
+        }
+
+        .down-arrow-svg {
+          position: absolute;
+          right: 12px;
+          top: 5px;
+          transition: 0.25s;
+
+          svg {
+            path {
+              stroke: rgba(145, 145, 145, 0.7);
+            }
+          }
+        }
+      }
+
+      .driver-truck-list {
+        margin-top: 2px;
+        width: 300px;
+        max-height: 0px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+
+        .driver-truck {
+          width: 100%;
+          height: 32px;
+          padding: 10px 12px;
+          display: flex;
+          position: relative;
+          cursor: pointer;
+
+          p {
+            font-size: 16px;
+            color: #b7b7b7;
+            margin: 0;
+            height: 0;
+            position: relative;
+            top: -5px;
+          }
+
+          .truck {
+            font-weight: bold;
+            margin-right: 12px;
+          }
+
+          .dviver-name {
+            position: absolute;
+            top: 5px;
+            left: 86px;
+          }
+        }
+      }
+    }
+
+    .driver-time-data {
+      width: 100%;
+      height: 164px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transition: all 0.3s;
+
+        .driveing-time,
+        .stop-time,
+        .idle-time {
+          background: rgba(218, 218, 218, 1);
+          transition: all 0.3s;
+        }
+
+        .driveing-time {
+          .data-time-presentation {
+            background: rgba(86, 115, 170, 1);
+            transition: all 0.3s;
+          }
+        }
+
+        .short-stop {
+          .data-time-presentation {
+            background: #FFA24E;
+            transition: all 0.3s;
+          }
+        }
+
+        .stop-time {
+          .data-time-presentation {
+            background: #F96C62;
+            transition: all 0.3s;
+          }
+        }
+
+        .idle-time {
+          .data-time-presentation {
+            background: #6C6C6C;
+            transition: all 0.3s;
+          }
+        }
+      }
+
+      .driveing-time,
+      .stop-time,
+      .idle-time,
+      .short-stop {
+        position: relative;
+        width: 100%;
+        height: 26px;
+        border-radius: 3px;
+        background: rgba(218, 218, 218, 0.7);
+
+        &:hover {
+          background: rgba(183, 183, 183, 1);
+          transition: all 0.3s;
+        }
+
+        .data-time-presentation {
+          height: 26px;
+          border-radius: 3px;
+          position: absolute;
+          left: 0;
+          transition: width 1s !important;
+        }
+
+        p {
+          margin: 0;
+          height: 0;
+          position: absolute;
+          font-size: 14px;
+          color: #ffffff;
+          top: 3px;
+        }
+
+        .presentation-name {
+          left: 6px;
+        }
+
+        .percentage-time {
+          right: 6px;
+        }
+      }
+
+      .driveing-time {
+        .data-time-presentation {
+          background: rgba(86, 115, 170, 0.7);
+        }
+      }
+
+      .short-stop {
+        .data-time-presentation {
+          background: rgba(255, 162, 78, 0.7);
+        }
+      }
+
+      .stop-time {
+        .data-time-presentation {
+          background: rgba(249, 108, 98, 0.7);
+        }
+      }
+
+      .idle-time {
+        .data-time-presentation {
+          background: rgba(108, 108, 108, 0.7);
+        }
+      }
+    }
+  }
+
+  .history-log-date-options-container {
+    width: 382px;
+    height: auto;
+    position: absolute;
+    top: 56px;
+    right: 12px;
+
+    .date-picker-container {
+      position: relative;
+      width: 382px;
+      height: 32px;
+
+      p {
+        position: absolute;
+        height: 0;
+        margin: 0;
+        left: 12px;
+        top: 6px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #919191;
+        z-index: 1000;
+      }
+
+      .down-arrow-svg {
+        position: absolute;
+        right: 12px;
+        top: 5px;
+        z-index: 1000;
+        transform: rotateZ(-90deg);
+        transition: transform 0.2s;
+
+        svg {
+          path {
+            stroke: #919191;
+          }
+        }
+      }
+
+      kendo-datepicker {
+        background: rgba(255, 255, 255, 0.7);
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          transition: 0.25s;
+        }
+
+        border-radius: 3px;
+        width: 382px;
+        height: 32px;
+
+        ::ng-deep.k-picker-wrap {
+          border-color: transparent;
+
+          input {
+            height: unset;
+            display: none;
+          }
+
+          .k-select {
+            background: transparent !important;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1005;
+
+            .k-icon,
+            .k-i-calendar {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    .kendo-date-range-container {
+      position: relative;
+      cursor: pointer !important;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.7);
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transition: 0.25s;
+      }
+
+      .range-picker-container {
+        width: 382px;
+        height: 32px;
+
+        p {
+          position: absolute;
+          height: 0;
+          margin: 0;
+          left: 12px;
+          top: 6px;
+          font-size: 14px;
+          font-weight: bold;
+          color: #919191;
+        }
+
+        .down-arrow-svg {
+          position: absolute;
+          right: 12px;
+          top: 5px;
+          transform: rotateZ(-90deg);
+          transition: transform 0.2s;
+
+          svg {
+            path {
+              stroke: #919191;
+            }
+          }
+        }
+      }
+
+      kendo-daterange {
+        position: absolute;
+        top: 0;
+        height: 32px;
+        z-index: 1000;
+        cursor: pointer !important;
+        position: absolute;
+
+        ::ng-deep.range-container {
+          opacity: 0 !important;
+
+          input {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .pick-date-range,
+    .switch-day {
+      user-select: none;
+      width: 100%;
+      height: 32px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 10px 12px;
+      position: relative;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transition: all 0.3s;
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: bold;
+        color: #919191;
+        margin: 0;
+        height: 0;
+        line-height: 13px;
+      }
+
+      .down-arrow-svg {
+        position: absolute;
+        right: 12px;
+        top: 5px;
+        transform: rotateZ(-90deg);
+        transition: transform 0.2s;
+
+        svg {
+          path {
+            stroke: #919191;
+          }
+        }
+      }
+    }
+
+    .switch-day {
+      display: flex;
+
+      svg-icon {
+        position: relative;
+        top: -5px;
+      }
+
+      .arrow-left {
+        right: 6px;
+      }
+
+      p {
+        position: relative;
+        right: -73px;
+      }
+
+      .arrow-right {
+        right: -138px;
+      }
+    }
+
+    .truck-time-info-container {
+      width: 100%;
+      height: auto;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.7);
+
+      &:hover {
+        background: rgba(255, 255, 255, 1);
+        transition: all 0.3s;
+      }
+
+      .title-truck-time-info {
+        user-select: none;
+        width: 100%;
+        height: 32px;
+        background: rgba(145, 145, 145, 0.7);
+        border-radius: 3px 3px 3px 3px;
+        padding: 4px;
+        display: flex;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          background: rgba(145, 145, 145, 1);
+          transition: all 0.3s;
+        }
+
+        .stops-count {
+          width: auto;
+          min-width: 24px;
+          border-radius: 2px;
+          background: rgba(255, 255, 255, 0.3);
+          color: white;
+          margin-right: 4px;
+        }
+
+        .cdt {
+          position: absolute;
+          left: 195px;
+        }
+
+        .list-title,
+        .cdt {
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        .list-title,
+        .stops-count,
+        .cdt {
+          font-size: 14px;
+          font-weight: bold;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 24px;
+          height: 24px;
+        }
+
+        .down-arrow-svg {
+          position: absolute;
+          right: 12px;
+          top: 5px;
+          transform: rotateZ(-90deg);
+          transition: transform 0.2s;
+
+          svg {
+            path {
+              stroke: #ffffff;
+            }
+          }
+        }
+      }
+
+      .truck-time-drop-down {
+        visibility: hidden;
+        overflow: hidden;
+        max-height: 0;
+        width: 100%;
+        height: auto;
+
+        .drop-down-title {
+          width: 100%;
+          height: 8px;
+          display: flex;
+          padding-left: 17px;
+          margin-bottom: 20px;
+
+          p {
+            font-size: 12px;
+            font-weight: bold;
+            color: rgba(145, 145, 145, 0.7);
+            height: 0;
+            margin: 0;
+            position: relative;
+            top: -5px;
+          }
+
+          .stop-time {
+            left: 113px;
+          }
+
+          .leg {
+            left: 146px;
+          }
+
+          .total {
+            left: 169px;
+          }
+        }
+
+        .time-info-container {
+          width: 100%;
+          max-height: 149px;
+          position: relative;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          padding-top: 1px;
+
+          .time-info {
+            height: 10px;
+            width: 100%;
+            display: flex;
+            position: relative;
+
+            .bullet-point {
+              width: 10px;
+              height: 10px;
+              border-radius: 50px;
+              position: relative;
+              z-index: 100;
+            }
+
+            .line {
+              width: 2px;
+              border-left: 0px solid transparent;
+              border-right: 0px solid transparent;
+              border-bottom: 32px solid #eeeeee;
+              position: absolute;
+              left: 4px;
+            }
+
+            p {
+              color: rgba(108, 108, 108, 0.7);
+              margin: 0;
+              height: 0;
+              position: relative;
+              top: 0;
+            }
+
+            .place {
+              font-size: 14px;
+              top: -5px;
+              left: 6px;
+              height: 16px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              max-width: 167px;
+            }
+
+            .time-from-to,
+            .leg,
+            .total {
+              position: absolute;
+              font-size: 12px;
+              top: -3px;
+            }
+
+            .leg,
+            .total {
+              font-weight: 600;
+            }
+
+            .time-from-to {
+              left: 185px;
+            }
+
+            .leg {
+              left: 282px;
+            }
+
+            .total {
+              left: 329px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .player-wrapper {
+    position: absolute;
+    bottom: -32px;
+    width: 100%;
+
+    .player-container {
+      display: none;
+      height: 72px;
+      width: 100%;
+      padding: 0 12px;
+
+      .player {
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
+        padding: 16px 24px 15px 24px;
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        background: rgba(255, 255, 255, 0.9);
+        position: relative;
+
+        &:hover {
+          background: rgba(255, 255, 255, 1);
+          transition: 0.25s;
+        }
+
+        .play-btn-svg {
+          cursor: pointer;
+          position: relative;
+          top: 8px;
+          &:hover {
+            path {
+              fill: rgb(86, 115, 170);
+              transition: 0.25s;
+            }
+          }
+          path {
+            fill: rgb(183, 183, 183);
+            transition: 0.25s;
+          }
+        }
+
+        .slider-ruler-container {
+          width: 100%;
+          height: 100%;
+
+          .player-slider {
+            cursor: pointer;
+            width: 100%;
+            height: 7px;
+            background: #d1d1d1;
+            border-radius: 50px;
+            position: relative;
+            .time-line {
+              width: 100%;
+              border: 1px solid red;
+              height: 7px;
+              float: left;
+            }
+            .ng5-slider-no-time-line {
+              top: -7px !important;
+            }
+            ng5-slider {
+              margin: 0;
+              top: -14px;
+
+              ::ng-deep {
+                .ng5-slider-selection {
+                  background: none !important;
+                }
+
+                .ng5-slider-bar {
+                  background: transparent !important;
+                }
+
+                .ng5-slider-pointer-min {
+                  width: 10px;
+                  height: 24px;
+                  top: -10px;
+                  border-radius: 3px;
+                  background: #5673aa;
+                  border: 2px solid white;
+
+                  &:after {
+                    display: none;
+                  }
+                }
+
+                .ng5-slider-active {
+                  outline: none;
+                }
+              }
+            }
+          }
+
+          .time-ruler-svg {
+            position: relative;
+            left: 12px;
+            top: 12px;
+
+            svg {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .map-control {
+    width: 60px;
+    height: 32px;
+    position: absolute;
+    right: 12px;
+    bottom: -32px;
+    cursor: pointer;
+  }
+
+  .logo-container {
+    opacity: 0.5;
+    width: 45.5px;
+    height: 42px;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+  }
+}
+
+agm-snazzy-info-window {
+  ::ng-deep {
+    .si-wrapper-bottom {
+      height: 0px !important;
+    }
+  }
+}
+
+/* NG CLASS */
+.bullet-short-stop{
+  background: #FFA24E;
+}
+.bullet-extended-stop{
+  background: #F96C62;
+}
+.bullet-parking{
+  background: #6C6C6C;
+}
+.stop-list-active {
+  border-radius: 3px 3px 0px 0px !important;
+  transition: 0.25s;
+}
+
+.ng-select-truck-active {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #6c6c6c !important;
+}
+
+.ng-select-truck-inactive {
+  font-size: 14px !important;
+  font-weight: normal !important;
+  color: #b7b7b7 !important;
+}
+
+.active-show-direction {
+  svg-icon {
+    svg {
+      #Group_39135 {
+        rect {
+          fill: #eeeeee !important;
+          transition: 0.25s;
+        }
+      }
+      #map_indicator {
+        #Path_2805 {
+          fill: #5673aa !important;
+          transition: 0.25s;
+        }
+        #Path_2808 {
+          fill: #eeeeee !important;
+          transition: 0.25s;
+        }
+      }
+    }
+  }
+}
+
+.statistic-margin {
+  margin-right: 6px;
+}
+
+.truck-width-all-off {
+  width: 67px !important;
+}
+
+.drop-selected-has-no-selected {
+  top: 17px !important;
+}
+
+.hasSelected {
+  width: 24px !important;
+  height: 23px !important;
+  margin-top: -4px;
+  margin-left: -5px;
+  background: rgba(86, 115, 170, 0.7) !important;
+  &:hover {
+    background: rgba(86, 115, 170, 1) !important;
+    transition: 0.25s;
+  }
+}
+
+.drop-option-margin {
+  margin-top: 4px;
+}
+
+.expend-show-unassign-option-normal-title {
+  grid-template-columns: 281px 32px 32px !important;
+  transition: 0.25s;
+}
+
+.expend-show-unassign-option-normal-list {
+  width: 349px !important;
+  transition: 0.25s;
+  .devices-driver-list {
+    width: 349px !important;
+    transition: 0.25s;
+  }
+  virtual-scroller {
+    width: 349px !important;
+    transition: 0.25s;
+  }
+}
+
+.hide-statistic {
+  display: none;
+}
+
+.tabel-expend-active {
+  svg {
+    transform: rotate(180deg);
+    transition: 0.25s;
+  }
+}
+
+.tabel-expend-driver-name {
+  width: 117px !important;
+}
+
+.tabel-expend-driver-title {
+  width: 116px !important;
+}
+
+.tabel-expend-checkbox-margin {
+  margin-right: 29px !important;
+  transition: 0.25s;
+}
+
+.expend-show-unassign-option-tabel-expend-title {
+  grid-template-columns: 946px 32px 32px !important;
+  transition: 0.25s;
+}
+
+.tabel-expend-title-conatiner {
+  grid-template-columns: 844px 32px 32px !important;
+  transition: 0.25s;
+}
+
+.sorting-asc-arrow {
+  opacity: 0.7;
+  position: absolute;
+  top: -2px;
+  left: 35px;
+  margin-left: 6px;
+  &:hover {
+    opacity: 1;
+  }
+  &:before {
+    font-family: 'Font Awesome 5 Duotone';
+    content: '\f0de' !important;
+    color: $primary;
+  }
+  &:after {
+    margin-left: 3px;
+    font-family: 'Font Awesome 5 Duotone';
+    content: '\f0dd' !important;
+    color: #b7b7b7;
+    left: -11.8px;
+    position: relative;
+  }
+}
+
+.sorting-desc-arrow {
+  opacity: 0.7;
+  position: absolute;
+  top: -2px;
+  left: 35px;
+  margin-left: 6px;
+  &:hover {
+    opacity: 1;
+  }
+  &:before {
+    font-family: 'Font Awesome 5 Duotone';
+    content: '\f0dd' !important;
+    color: $primary;
+  }
+  &:after {
+    margin-left: 3px;
+    font-family: 'Font Awesome 5 Duotone';
+    content: '\f0de' !important;
+    color: #b7b7b7;
+    left: -11.8px;
+    position: relative;
+  }
+}
+
+.live-tracking-off {
+  background: #ffffff !important;
+  padding: 1px !important;
+  transition: background 0.25s;
+  &:hover {
+    .count-of-selected,
+    .title {
+      p {
+        color: #919191 !important;
+        transition: 0.25s;
+      }
+    }
+  }
+  .count-of-selected {
+    background: rgba(183, 183, 183, 0.3) !important;
+    width: 30px !important;
+    height: 30px !important;
+    transition: background 0.25s;
+    p {
+      color: #b7b7b7 !important;
+      padding-top: 5px !important;
+      transition: color 0.25s;
+    }
+  }
+  .title {
+    p {
+      color: #b7b7b7 !important;
+      transition: color 0.25s;
+    }
+  }
+}
+
+.history-log-on {
+  background: rgba(86, 115, 170, 0.7) !important;
+  transition: 0.25s;
+  &:hover {
+    background: rgba(86, 115, 170, 1) !important;
+    transition: 0.25s;
+  }
+  p {
+    color: white !important;
+    transition: 0.25s;
+  }
+}
+
+.truck-info-container-first-click-with-status {
+  height: 74px;
+  max-height: 74px;
+}
+
+.truck-info-container-first-click-no-status {
+  height: 52px;
+  max-height: 52px;
+}
+
+.truck-info-container-second-click {
+  height: auto !important;
+  max-height: 500px !important;
+  transition: max-height 0.25s;
+}
+
+.unassign-active {
+  svg {
+    rect {
+      opacity: 1 !important;
+    }
+  }
+
+  &:hover {
+    svg {
+      path {
+        fill: #d1d1d1 !important;
+      }
+
+      rect {
+        fill: #d1d1d1 !important;
+      }
+    }
+  }
+}
+
+.active-tool {
+  svg {
+    path {
+      fill: #5673aa !important;
+      transition: 0.25s;
+    }
+  }
+}
+
+.active-toll {
+  svg {
+    #Path_10767 {
+      fill: #5673aa !important;
+      transition: 0.25s;
+    }
+    #Path_10766 {
+      fill: white !important;
+    }
+  }
+}
+
+.fullscreen-mode-zoom {
+  bottom: 12px !important;
+}
+
+.move-logo {
+  bottom: 97px !important;
+}
+
+.fullscreen-mode-zoom-historylog {
+  bottom: 92px !important;
+}
+
+.move-zoom-fullscreen {
+  bottom: 52px !important;
+
+  .zoom-control-container {
+    top: 0px !important;
+
+    .zoom-out-svg {
+      top: -5px !important;
+    }
+  }
+}
+
+.show-player {
+  display: block !important;
+}
+
+.player-wrapper-fullscreen {
+  padding-right: 23px !important;
+  bottom: 12px !important;
+}
+
+.player-fullscreen {
+  position: relative !important;
+  padding: 0px !important;
+}
+
+.driver-truck-list-show {
+  max-height: 160px !important;
+  transition: 0.25s;
+}
+
+.rotate-truck-driver {
+  transform: rotateX(-180deg);
+  transition: 0.25s;
+}
+
+.rotate-arrow {
+  transform: rotateZ(0deg) !important;
+  transition: transform 0.2s;
+}
+
+/* .hide-scrolle {
+  margin-right: -25px !important;
+  padding-right: 25px !important;
+  overflow: hidden !important;
+} */
+
+.show-x {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.unassign-svg-active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: 0.2s;
+}
+
+.devices-first {
+  border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
+}
+
+.unassign-dialog {
+  width: 500px !important;
+
+  virtual-scroller {
+    width: 510px !important;
+  }
+
+  .driver-name {
+    left: 220px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 90px;
+  }
+}
+
+.expend-show-unassign-option-tabel-expen-list {
+  grid-template-columns: 1014px 32px 32px !important;
+  width: 1014px !important;
+  transition: 0.25s;
+  .devices-driver-list-unassign {
+    width: 1014px !important;
+    transition: 0.25s;
+
+    virtual-scroller {
+      width: 1014px !important;
+      transition: 0.25s;
+    }
+  }
+}
+
+.devices-driver-list-container-unassign {
+  width: 912px !important;
+  transition: 0.25s;
+}
+
+.devices-driver-list-unassign {
+  width: 912px !important;
+  transition: 0.25s;
+
+  virtual-scroller {
+    width: 912px !important;
+    transition: 0.25s;
+  }
+
+  /* .driver-name {
+    left: 220px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 90px;
+  } */
+}
+
+.expend-devices-title-container {
+  width: 338px !important;
+}
+
+.truck-selected {
+  ng-select {
+    ::ng-deep.ng-select-container {
+      .ng-value,
+      .ng-star-inserted {
+        .ng-value-label,
+        .ng-star-inserted {
+          position: relative;
+          top: 1px;
+        }
+      }
+
+      .ng-clear-wrapper,
+      .ng-arrow-wrapper {
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.focuse-ng-select {
+  background: #eeeeee !important;
+  border-radius: 3px !important;
+
+  ng-select {
+    ::ng-deep.ng-select-container {
+      .ng-value-container {
+        .ng-placeholder {
+          color: #919191 !important;
+        }
+      }
+
+      .ng-arrow-wrapper {
+        &::after {
+          color: #919191 !important;
+          top: 10px !important;
+          transition: transform 0.2s !important;
+        }
+      }
+
+      .ng-value,
+      .ng-star-inserted {
+        .ng-value-label {
+          color: #919191 !important;
+        }
+      }
+
+      input {
+        color: #919191;
+        line-height: 15px;
+        height: 20px;
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+}
+
+.devices-first {
+  border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
+}
+
+.devices-last {
+  border-bottom-left-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+
+.active-devices {
+  background: #b7b7b7 !important;
+  height: 21px !important;
+  border-radius: 0px !important;
+
+  p {
+    color: #919191 !important;
+    line-height: 14px !important;
+  }
+
+  .devices-id {
+    color: white !important;
+    line-height: 10px !important;
+  }
+}
+
+.hide-devices {
+  display: none !important;
+}
+
+.hide-search-driver {
+  display: none;
+  visibility: hidden;
+}
+
+.truck-time-arrow-active {
+  transform: rotateZ(0deg) !important;
+  transition: transform 0.3s;
+}
+
+.truck-time-drop-down-active {
+  max-height: 200px !important;
+  padding: 8px 0 16px 12px;
+  visibility: visible !important;
+  transition: max-height 0.3s;
+}
+
+.time-info-margin {
+  margin-top: 20px;
+}
+
+.history-log-time-pick-margin {
+  margin-top: 6px;
+}
+
+.time-data-margin {
+  margin-top: 12px;
+}
+
+.options-container-history-log-mode {
+  grid-template-columns: 75px 149px 112px 163px 1fr 6px 203px !important;
+}
+
+.options-container-history-log-mode-fullscreen {
+  grid-template-columns: 75px 149px 112px 163px 1fr 6px 382px !important;
+}
+
+.truffic-active-style {
+  svg {
+    #traffic-light {
+      fill: #5673aa;
+    }
+  }
+}
+
+.legend {
+  svg {
+    path {
+      opacity: 1;
+      fill: #5673aa;
+      transition: 0.25s;
+    }
+  }
+}
+
+.fullscreen-mode-fullscreen-svg {
+  top: 0 !important;
+  left: 0 !important;
+}
+
+.fullscreen-mode-agm-map {
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute !important;
+  top: 0px !important;
+  left: 0px !important;
+}
+
+.fullscreen-mode-options-container {
+  width: 100% !important;
+  position: relative !important;
+  z-index: 100;
+  margin: 12px 0 0 0 !important;
+}
+
+.fullscreen-mode-gps-container {
+  width: 100% !important;
+  height: 100% !important;
+  left: 0 !important;
+  top: 0 !important;
+  position: fixed !important;
+  padding: 0px 12px;
+}
+
+.devices-title-active {
+  background: #e5e5e5 !important;
+
+  .count-unassigned {
+    background: #ffffff !important;
+  }
+
+  .down-arrow-svg {
+    transform: rotateZ(-180deg) !important;
+    transition: transform 0.2s;
+
+    svg {
+      g {
+        path {
+          stroke: #606060 !important;
+        }
+      }
+    }
+  }
+}
+
+.show-devices-list {
+  max-height: 500px !important;
+  padding: 0 6px 0px 6px !important;
+  visibility: visible !important;
+  transition: max-height 0.3s ease-in;
+  border-radius: 0px 0px 3px 3px;
+  background: #ffffff;
+}

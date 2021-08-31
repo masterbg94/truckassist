@@ -1,0 +1,35 @@
+.switch-container {
+  width: 110px;
+  height: 32px;
+  background: white;
+  border-radius: 3px;
+  margin-right: 6px;
+  display: grid;
+  padding: 2px;
+  grid-template-columns: 35px 69px;
+  grid-column-gap: 2px;
+  .switch-option {
+    cursor: pointer;
+    height: 100%;
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #B7B7B7;
+    &:hover{
+        color: #919191;
+    }
+    
+    transition: color 0.25s, background 0.25s;
+  }
+}
+
+/* NG CLASS */
+.active-option{
+    background: #5673AA !important;
+    color: white !important;
+    cursor: default !important;
+    transition: 0.25s;
+}

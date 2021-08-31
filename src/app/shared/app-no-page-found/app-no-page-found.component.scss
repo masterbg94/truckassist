@@ -1,0 +1,238 @@
+//-------------- Mixins --------------
+@mixin animationCloud {
+    position: relative;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+            animation-direction: alternate;
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+    display: inline-block;
+    -webkit-animation-duration: 60000ms;
+            animation-duration: 60000ms;
+}
+@mixin flashing_light {
+    position: absolute;
+    top: -58px;
+    z-index: 10;
+}
+@mixin cloud--left {
+    position: absolute;
+    left: 0;
+    z-index: 0;
+}
+@mixin road_closed {
+    position: relative;
+    bottom: 0px;
+}
+@mixin cloud_big {
+    position: absolute;
+    right: 115px;
+    z-index: -1;
+}
+
+//-------------- Clouds --------------
+.cloud {
+    -webkit-animation: animateCloudLR;
+            animation: animateCloudLR;
+    @include animationCloud;
+    &--right {
+        margin-top: 56px;
+        margin-left: 90px;
+        margin-bottom: 38px;
+    }
+}
+.cloud2 {
+    -webkit-animation: animateCloudBig;
+            animation: animateCloudBig;
+            @include animationCloud;
+}
+.cloud--big, .road_cloud--1 {
+    -webkit-animation: animateCloudRL;
+            animation: animateCloudRL;
+    @include animationCloud;
+}
+
+//-------------- Big cloud in middle content --------------
+.bigCloud{
+    margin-left: 494px;
+    margin-top: 19px;
+}
+
+//-------------- Middle content --------------
+.mdcontent_inner{
+    position: relative;
+    left: 74px;
+    top: 66px;
+}
+
+//-------------- Gears container --------------
+.gears_container {
+    position: relative;
+    left: 910px;
+    top: -115px;
+    &--big {
+        position: absolute;
+        top: 20px;
+        left: 3px;
+    }
+    &--small {
+        position: absolute;
+        top: 99px;
+        left: 86px;
+    }
+}
+
+//-------------- Gears --------------
+.gears_spin svg{
+     animation-name:spin;
+     animation-direction: linear;
+     animation-timing-function: 60;
+     animation-duration: 10s;
+}
+.gears_spin-back svg{
+    animation-name:spin-back;
+    animation-direction: linear;
+     animation-timing-function: 60;
+     animation-duration: 10s;
+}
+
+
+//-------------- road section --------------
+.road {
+    position: relative;
+    margin-top: 70px;
+    border-bottom: solid 3px #919191;
+    &_flashing_light1{
+        left: 547px;
+        @include flashing_light;
+    }
+    &_flashing_light2{
+        left: 861px;
+        @include flashing_light;
+    }
+    &_cloud--left{
+        top: 80px;
+        @include cloud--left;
+    }
+    &_cloud--left1{
+        top: 48px;
+        @include cloud--left;
+    }
+    &_cloud--left2{
+        top: 152px;
+        @include cloud--left;
+    }
+    &_closed2 svg-icon svg{
+        @include road_closed;
+        left: 80px;
+    }
+    &_closed22 svg-icon svg{
+        @include road_closed;
+        left: 170px;
+    }
+    &_lane-closed svg-icon svg{
+        @include road_closed;
+        left: 400px;
+    }
+    &_cloud--big{
+        @include cloud_big;
+        top: 90px;
+    }
+    &_cloud--big1{
+        @include cloud_big;
+        top: 48px;
+    }
+    &_cloud--big2{
+        @include cloud_big;
+        top: 206px;
+    }
+    &_gear {
+        position: absolute;
+        top: 73px;
+        left: 377px;
+    }
+    &_gear1 {
+        position: absolute;
+        top: 29px;
+        left: 379px;
+    }
+    &_gear2 {
+        position: absolute;
+        top: 252px;
+        left: 254px;
+    }
+}
+//-------------- flashing lights --------------
+#Ellipse_1507 {
+            animation-name: flashing1;
+            animation-duration: 1.1s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+}
+#Ellipse_1507-2 {
+            animation: flashing2;
+            animation-delay: .3s;
+            animation-duration: .9s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+}
+
+//-------------- Keyframes --------------
+
+// 50px left-right big cloud
+@-webkit-keyframes animateCloudBig {
+    from {left: 0px}
+    to{left: 50px;}
+}
+@keyframes animateCloudBig {
+    from {left: 0px}
+    to{left: 50px;}
+}
+
+// Animation Cloud left-right
+@-webkit-keyframes animateCloudLR {
+    from {left: 0px}
+    to{left: 100px;}
+}
+@keyframes animateCloudLR {
+    from {left: 0px}
+    to{left: 100px;}
+}
+
+// Animation Cloud right-left
+@-webkit-keyframes animateCloudRL {
+    from {left: 100px}
+    to{left: 0px;}
+}
+@keyframes animateCloudRL {
+    from {left: 100px}
+    to{left: 0px;}
+}
+
+// Animation gears
+@keyframes spin { 0% {transform: rotate(0deg);} 100% { transform:rotate(360deg); } }
+@keyframes spin-back { 0% {transform: rotate(0deg);}  100% { transform:rotate(-360deg); } }
+
+
+// Animation flashing
+@-webkit-keyframes flashing1 {
+    from{ fill: #FFEEA9;}
+    to {fill: #FBA312;}
+}
+@keyframes flashing1 {
+    from{ fill: #FFEEA9;}
+    to {fill: #FBA312;}
+}
+@-webkit-keyframes flashing2 {
+    from{ fill:#FBA312;}
+    to {fill: #FFEEA9;}
+}
+@keyframes flashing2 {
+    from{ fill:#FBA312;}
+    to {fill: #FFEEA9;}
+}
+
+
+
+

@@ -1,0 +1,6 @@
+<div class="time-zone-container">
+    <div class="time-zone" [ngClass]="{'add-margin': i !== 0}" *ngFor="let timezone of timezones; let i = index">
+        <div class="timezone-color" [ngStyle]="{'background': timezone.color}"></div>
+        <div class="timezone-data">{{ timezone.text }}</div>
+    </div>
+</div>

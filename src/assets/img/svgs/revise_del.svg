@@ -1,0 +1,9 @@
+<svg id="Del" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+  <g id="Group_9684" data-name="Group 9684">
+    <circle id="Ellipse_2538" data-name="Ellipse 2538" cx="7" cy="7" r="7" fill="#fff"/>
+    <g id="Group_9685" data-name="Group 9685" opacity="0.7">
+      <circle id="Ellipse_1411" data-name="Ellipse 1411" cx="6" cy="6" r="6" transform="translate(1 1)" fill="#6c6c6c"/>
+      <path id="Path_5683" data-name="Path 5683" d="M386.56,373.32l-1.943-1.943,1.9-1.9a.63.63,0,1,0-.892-.892l-1.9,1.9-1.943-1.943a.563.563,0,0,0-.8,0l-.1.1a.563.563,0,0,0,0,.8l1.943,1.943-1.9,1.9a.63.63,0,1,0,.892.892l1.9-1.9,1.943,1.943a.563.563,0,0,0,.8,0l.1-.1A.564.564,0,0,0,386.56,373.32Z" transform="translate(-376.725 -364.377)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

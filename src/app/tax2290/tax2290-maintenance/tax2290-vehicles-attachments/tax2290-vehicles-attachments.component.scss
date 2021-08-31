@@ -1,0 +1,54 @@
+.attachment {
+  margin: 10px 12px;
+  position: re;
+  &-action {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+
+    .download-action {
+      color: rgb(86, 115, 170, 0.4);
+      cursor: pointer;
+      text-align: left;
+      font-weight: bold;
+      &:hover {
+        color: rgb(86, 115, 170, 1);
+      }
+    }
+
+    .buttons {
+      display: flex;
+
+      .button-true {
+        margin-right: 2px;
+        transition: all 0.2s ease-in;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            #Rectangle_20181 {
+              fill: rgb(86, 115, 170, 1) !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      .button-false {
+        margin-right: -6px;
+        transition: all 0.2s ease-in;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            #Rectangle_20182 {
+              fill: rgb(255, 92, 92, 1) !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

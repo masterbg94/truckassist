@@ -1,0 +1,331 @@
+<div class="mvr-details">
+  <!-- First column -->
+  <div class="mvr-details-firstColumn">
+    <div class="switch-container">
+      <a
+        class="switch-container-back-btn"
+        [routerLink]="['/tools/mvr']"
+        appTaTooltip="Back"
+        tooltipColor="#FFFFFF"
+        tooltipBackground="#6C6C6C90"
+        position="bottom-right"
+      >
+        <svg-icon
+          class="d-flex"
+          [src]="'assets/img/svgs/left.svg'"
+          [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+        ></svg-icon>
+      </a>
+
+      <app-unit-switch
+        [options]="allDrivers"
+        [keywordPasted]="'id'"
+        [type]="'tools/mvr'"
+      ></app-unit-switch>
+    </div>
+
+    <div class="header-body">
+      <div class="row row-custom">
+        <div class="col-6">
+          <p class="header-body-title">Ordered:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.order.orderDate }}
+          </p>
+        </div>
+        <div class="col-6">
+          <p class="header-body-title">
+            {{ selectedUser.order.status === 'Complete' ? 'Completed' : 'Status' }}
+          </p>
+          <p
+            class="header-body-text"
+            [ngClass]="{ 'status-pending': selectedUser.order.status === 'Pending' }"
+            style="color: #919191;"
+            appSelectionColor
+          >
+            {{
+              selectedUser.order.status === 'Complete'
+                ? selectedUser.order.completedDate
+                : 'Pending'
+            }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <p class="header-body-title">Ordered By:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.order.orderedBy }}
+          </p>
+        </div>
+        <div class="col-6">
+          <p class="header-body-title">Charge:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.order.charge }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second column -->
+  <div class="mvr-details-secondColumn">
+    <div class="header-title">
+      <p class="header-title-text">Driver Information</p>
+    </div>
+    <div class="header-body">
+      <div class="row row-custom">
+        <div class="col-7">
+          <p class="header-body-title">Name:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.driver.name }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">DOB:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.driver.dob }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-7">
+          <p class="header-body-title">Address:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.driver.address }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">SSN:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.driver.ssn }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12" style="color: #919191;" appSelectionColor>
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-contact.svg"></svg-icon>
+          {{ formatTelephone(selectedUser.driver.phone) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12" style="color: #919191;" appSelectionColor>
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-email.svg"></svg-icon>
+          {{ selectedUser.driver.email }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third column -->
+  <div class="mvr-details-thirdColumn">
+    <div class="header-title">
+      <p class="header-title-text">Licence Info</p>
+    </div>
+    <div class="header-body " [ngClass]="{'header-body-without-cornerRadius': selectedUser.order.status === 'Complete'}">
+      <div class="row row-custom">
+        <div class="col-7">
+          <p class="header-body-title">Licence #:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.licences.cdl }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">Status:</p>
+          <p
+            class="header-body-text"
+            style="user-select: none;"
+            [ngClass]="{
+              'status-complete': selectedUser.licences.status === 'Valid',
+              'status-pending': selectedUser.licences.status === 'Pending'
+            }"
+          >
+            {{ selectedUser.licences.status }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.licences.conutry }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-7">
+          <p class="header-body-title">Type:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.licences.type }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">Class:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.licences.class }}
+          </p>
+        </div>
+      </div>
+      <div class="row" *ngIf="selectedUser.order.status === 'Complete'">
+        <div class="col-12">
+          <p class="header-body-title">Issued Date:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedUser.licences.issuedDate }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <app-progress-expiration
+      *ngIf="selectedUser.order.status === 'Complete'"
+      [startDate]="selectedUser.licences.startDate | date: 'shortDate'"
+      [expireDate]="selectedUser.licences.issuedDate | date: 'shortDate'"
+      [status]="selectedUser.driver.statusLicence"
+    ></app-progress-expiration>
+  </div>
+
+  <!-- Fourth column -->
+  <div class="mvr-details-fourthColumn">
+    <div class="header-title">
+      <p class="header-title-text">Medical Certificate</p>
+    </div>
+    <span *ngIf="selectedUser.order.status === 'Complete'">
+      <div class="header-body row-custom header-body-without-cornerRadius">
+        <div class="row">
+          <div class="col-7">
+            <p class="header-body-title">Issued Date:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.issuedDate }}
+            </p>
+          </div>
+          <div class="col-5">
+            <p class="header-body-title">Status:</p>
+            <p
+              class="header-body-text"
+              style="user-select: none;"
+              [ngClass]="{ 'status-complete': selectedUser.medical.statusMedial === 'Certified' }"
+            >
+              {{ selectedUser.medical.statusMedial }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <app-progress-expiration
+        [startDate]="selectedUser.medical.startDate | date: 'shortDate'"
+        [expireDate]="selectedUser.medical.endDate | date: 'shortDate'"
+        [status]="selectedUser.driver.status"
+      ></app-progress-expiration>
+
+      <div class="header-body">
+        <div class="row row-custom">
+          <div class="col-7">
+            <p class="header-body-title">Examiner Name:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.examinerName }}
+            </p>
+          </div>
+          <div class="col-5">
+            <p class="header-body-title">Licence #:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.licence }}
+            </p>
+          </div>
+        </div>
+        <div class="row row-custom">
+          <div class="col-12">
+            <p class="header-body-title" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.conutry }}
+            </p>
+          </div>
+        </div>
+        <div class="row row-custom">
+          <div class="col-7">
+            <p class="header-body-title">Registration #:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.licenceRegistration }}
+            </p>
+          </div>
+          <div class="col-5">
+            <p class="header-body-title">Speciality:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ selectedUser.medical.speciality }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12" style="color: #919191;" appSelectionColor>
+            <svg-icon src="assets/img/svgs/communicator/ic_user-info-contact.svg"></svg-icon>
+            {{ formatTelephone(selectedUser.medical.medicalPhone) }}
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+
+  <!-- Fifth column -->
+  <div class="mvr-details-fifthColumn">
+    <div class="header-title header-title-fifthColumn">
+      <p class="header-title-text">Violations/Suspentions</p>
+    </div>
+    <div class="header-title-svg" (click)="downloadMvrDetails()">
+      <svg-icon class="title-svg" src="assets/img/svgs/table/download.svg"></svg-icon>
+    </div>
+    <span *ngIf="selectedUser.order.status === 'Complete'">
+      <div
+        class="header-body row-custom"
+        *ngFor="let violation of selectedUser.violations; let i = index"
+      >
+        <div class="row row-custom user-click" (click)="onOpenViolationBody(i)">
+          <div class="col-6">
+            <p class="header-body-title">Incident Date:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ violation.incidentDate }}
+            </p>
+          </div>
+          <div class="col-6">
+            <p class="header-body-title">Conv. Date:</p>
+            <p class="header-body-text" style="color: #919191;" appSelectionColor>
+              {{ violation.convDate }}
+            </p>
+          </div>
+        </div>
+        <div *ngIf="isViolationBodyOpen[i].open">
+          <div class="row row-custom">
+            <div class="col-12">
+              <p class="header-body-title" style="color: #919191;" appSelectionColor>
+                {{ violation.country }}
+              </p>
+            </div>
+          </div>
+          <div class="row row-custom">
+            <div class="col-12">
+              <p class="header-body-title">Location:</p>
+              <p class="header-body-text" style="color: #919191;" appSelectionColor>
+                {{ violation.location }}
+              </p>
+            </div>
+          </div>
+          <div class="row row-custom">
+            <div class="col-6">
+              <p class="header-body-title">Haz. Material:</p>
+              <p class="header-body-text" style="color: #919191;" appSelectionColor>
+                {{ violation.hazMaterial }}
+              </p>
+            </div>
+            <div class="col-6">
+              <p class="header-body-title">Commerical:</p>
+              <p class="header-body-text" style="color: #919191;" appSelectionColor>
+                {{ violation.commerical }}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="header-body-title">Description:</p>
+              <p class="header-body-text" style="color: #919191;" appSelectionColor>
+                {{ violation.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>

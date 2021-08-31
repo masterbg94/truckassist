@@ -1,0 +1,28 @@
+<div class="company-side-nav">
+  <h5>Settings</h5>
+  <div class="nav flex-column nav-pills options-container" role="tablist" aria-orientation="vertical">
+    <a (click)="onSwitchPage('')" [ngClass]="{'active-nav': this.page === ''}"class="nav-link first">
+      <svg-icon src="../../../assets/img/svgs/settings-company/setting-svg.svg"></svg-icon>
+      General settings
+    </a>
+    <a (click)="onSwitchPage('documents')" class="nav-link rest" [ngClass]="{'active-nav': this.page === 'documents'}">
+      <svg-icon class="doc-icon" src="../../../assets/img/svgs/settings-company/documents.svg"></svg-icon>
+      Documents
+    </a>
+    <a (click)="onSwitchPage('billing')" class="nav-link rest" [ngClass]="{'active-nav': this.page === 'billing'}">
+      <svg-icon class="billing-icon " src="../../../assets/img/svgs/settings-company/billing.svg"></svg-icon>
+      Billing</a>
+    <a (click)="onSwitchPage('users')" class="nav-link last" [ngClass]="{'active-nav': this.page === 'users'}">
+      <svg-icon class="users-icon" src="../../../assets/img/svgs/settings-company/users.svg"></svg-icon>
+      Users</a>
+  </div>
+  <h5>Integrations</h5>
+    <a class="nav-link fuel" [ngClass]="{addActiveDrop: rotateArrow}" (click)="rotateArrow = !rotateArrow">
+      <svg-icon class="fuel-icon" src="../../../assets/img/svgs/settings-company/fuel.svg"></svg-icon>
+      <svg-icon [ngClass]="{addRotation: rotateArrow}" class="arrow-icon" src="assets/img/svgs/down.svg"></svg-icon>
+    Fuel account</a>
+    <div class="fuel-dropdown" [ngClass]="{addDropDown: rotateArrow}">
+      <svg-icon class="fuel-icon" src="../../../assets/img/svgs/Comdata.svg"></svg-icon>
+      <svg-icon class="fuel-icon" src="../../../assets/img/svgs/EFS Logo.svg"></svg-icon>
+    </div>
+</div>

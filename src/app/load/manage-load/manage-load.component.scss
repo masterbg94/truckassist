@@ -1,0 +1,307 @@
+.height-240 {
+  max-height: 240px !important;
+}
+
+.loadRatesHeight {
+  max-height: 115px !important;
+}
+
+
+.load_dropdown
+{
+  flex: 1;
+  align-items: center;
+}
+
+.load_dropdown_truck
+{
+  flex: 1;
+  align-items: center;
+}
+
+.custom-dropdown.load_dropdown_truck .ng-select-container.ng-has-value{
+  top: 0px !important;
+}
+
+
+.bigZindex
+{
+  z-index: 1000000;
+}
+
+.datepickerError .k-widget.k-datetimepicker.ng-invalid{
+  border-bottom: 1px solid red;;
+}
+
+.flex_row{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.upload_comment_row{
+   margin-bottom: 20px;
+  .flex1{ flex: 1; }
+  .comment_section{
+    position: relative;
+    right: 0px;
+    width: 33px;
+    margin-left: auto;
+    transition: all 0.2s;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+
+    &.active{
+      transition: all 0.2s;
+      width: 328px !important;
+    }
+    &.show_active{
+      pointer-events: all;
+      opacity: 1;
+
+      &.active{
+        .new_commment{
+          border-bottom-left-radius: 3px;
+        }
+      }
+    }
+
+    .comment_text{
+      position: relative;
+      width: 32px;
+      right: -1px;
+      padding-bottom: 19px;
+      padding-top: 2px;
+      background-color: #F7F7F7;
+      border-bottom-left-radius: 3px;
+
+      line-height: 158%;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      color: rgba(145, 145, 145, 0.7);
+      user-select: none;
+
+      span{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: #5673AA;
+        border-bottom-left-radius: 3px;
+
+        color: #fff;
+        text-align: center;
+      }
+    }
+
+    .new_comment_hold{
+       position: relative;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       &.active{
+          flex-direction: row;
+          padding-top: 0px;
+       }
+
+       .comments_title{
+        display: flex;
+        flex:1;
+        height: 32px;
+        padding-left: 5px;
+        margin-right: 5px;
+        border-radius: 3px;
+        background-color: #F7F7F7;
+        background-image: url('/assets/img/svgs/table/delTo.svg');
+        background-repeat: no-repeat;
+        background-size: 8px auto;
+        background-position: 97% center;
+
+        align-items: center;
+
+        cursor: pointer;
+        color: #919191;
+        font-size: 12px;
+        font-weight: bold;
+       }
+      .new_commment{
+        right: 0;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        background-color: #EEEEEE;
+        border-top-left-radius: 3px;
+        cursor: pointer;
+        svg-icon{
+          display: flex;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+.modal-title{
+  span{
+    margin-left: 10px;
+    color: rgba(86, 115, 170, 0.7);
+  }
+}
+
+.new_load_picker{
+  display: flex;
+  flex: 1;
+  kendo-floatinglabel{
+    width: 110px !important;
+    margin-left: 5px !important;
+    width: 68px !important;
+    &.active{
+      // width: 68px !important;
+    }
+    ::ng-deep{
+      .k-datepicker{
+        .k-select{
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0 !important;
+        }
+        &.ng-dirty{
+          // .k-select{
+          //   display: none !important;
+          // }
+        }
+      }
+    }
+  }
+  .new_load_buttons{
+    width: 103px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
+    margin-left: 4px;
+    border-radius: 3px;
+
+    background-color: #F7F7F7;
+
+    &.active{
+      width: 135px;
+
+      background-color: transparent;
+    }
+
+    .new_load_button{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 26px;
+      width: calc(50% - 1px);
+      border-radius: 3px;
+      background-color: #FFFFFF;
+
+      font-size: 12px;
+      font-weight: 600;
+      color: #919191;
+
+      &:hover{
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+      }
+
+      &.active{
+        background-color: #5673AA;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+
+        color: #fff;
+      }
+    }
+
+    .time_buttons{
+      display: flex;
+      .time_holders{
+        &:first-child{
+          margin-right: 4px;
+        }
+        width: 65px;
+        &.full_width{
+          width: 134px;
+        }
+
+        .time_holders_time{
+          height: 15px;
+          display: flex;
+          ::ng-deep{
+            .k-timepicker{
+              height: 15px;
+              width: 100%;
+              .k-picker-wrap{
+                border: none;
+                .k-select{
+                  display: none;
+                }
+
+                .k-dateinput-wrap{
+                  input{
+                    margin: 0;
+                    padding: 0 3px;
+                    height: 15px;
+                    background-color: #F3F3F3;
+                    border-radius: 1px;
+
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #919191;
+
+                    &:focus{
+                      background-color: #5673AA;
+                      color: #fff !important;
+                    }
+
+                    &:hover{
+                      cursor: pointer;
+                      color: #6C6C6C;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .time_holders_head{
+          font-size: 10px;
+          font-weight: 700;
+          color: #5673AAB3;
+
+          &.head_hold_item{
+            display: flex;
+            justify-content: space-between;
+            .time_next{
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 13px;
+              max-width: 47px;
+              flex: 1;
+              margin-left: 3px;
+              
+              background-color: #5673AA;
+              color: #fff;
+              border-radius: 2px;
+
+              text-align: center;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+@import '../../../assets/scss/components/variables.scss';
+
+/*
+.body {
+  width: 480px;
+}
+.svg-position {
+    padding-top: 30px;
+    // padding-bottom: 20px;
+  }
+  .titles {
+    padding-bottom: 15px;
+    padding-top: 30px;
+  }
+  .styles {
+    font-size: 32px;
+    font-weight: normal !important;
+    color: $app-main-gray !important;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+.note {
+    text-align: center;
+}
+
+.button {
+  width: 100%;
+  height: 40px;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  opacity: 0.7;
+  background-color: $bw1;
+  margin-top: 20px;
+  border-radius: 0px 0px 5px 5px !important;
+  &:hover {
+    background-color: $primary;
+    opacity: 0.7;
+    margin-top: 20px;
+    transition-duration: 0.2s!important;
+    .btn-control {
+      border: none;
+      font-weight: bold !important;
+      font-size: 16px !important;
+      width: 100%;
+      color: $bw1;
+    }
+  }
+}
+.btn-control {
+  border: none;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  width: 100%;
+  color: $primary;
+}*/
+
+svg-icon {
+  margin-top: 22px;
+}
+
+.subscribed {
+  font-size: 32px;
+  color: #606060;
+  line-height: 39px;
+  margin-bottom: 22px;
+  margin-top: 32px;
+  text-align: center;
+
+  &-desc {
+    font-size: 14px;
+    line-height: 24px;
+    color: #606060;
+    text-align: center;
+    margin: 0;
+  }
+}

@@ -1,0 +1,426 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title calendar-title">{{ modalTitle }}</h5>
+    <div class="d-flex align-items-center">
+      <i
+        class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+        (click)="closeEventModal()"
+      ></i>
+    </div>
+  </div>
+  <div class="modal-body calendar-modal-body">
+    <form class="calendar-form" [formGroup]="calendarForm">
+      <div class="rowCalendar">
+        <div class="form-label-group calendarLabelGroup">
+          <input
+            id="eventTitle"
+            class="form-control input-control required {{
+              !calendarForm.controls.title.valid ? ' invalid-input' : ''
+            }}"
+            placeholder="Event Title"
+            formControlName="title"
+            [(ngModel)]="eventModel.title"
+            maxLength="55"
+            appAutoFocus
+            [modalType]="'new'"
+            required
+          />
+          <label for="eventTitle" class="eventTitle required-label">Event Title</label>
+        </div>
+      </div>
+      <div @fuelAnimation *ngIf="!getRrule.value">
+        <!-- class="datepicker-label required" -->
+        <div class="rowCalendar new_picker_date_label new_pick_start_end">
+          <kendo-floatinglabel text="" class="datePicker1 required">
+            <kendo-datepicker
+              [format]="format"
+              [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }"
+              [popupSettings]="{ popupClass: 'custom-datepick' }"
+              placeholder="MM/DD/YY"
+              formControlName="startDate"
+              class="dateTimePicker"
+            >
+            </kendo-datepicker>
+          </kendo-floatinglabel>
+          <kendo-floatinglabel text="" class="datePicker2">
+            <kendo-datepicker
+              [format]="format"
+              [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }"
+              [popupSettings]="{ popupClass: 'custom-datepick' }"
+              placeholder="MM/DD/YY"
+              [min]="calendarForm.controls.startDate.value"
+              formControlName="endDate"
+            >
+            </kendo-datepicker>
+          </kendo-floatinglabel>
+          <ng-select
+            [items]="eventType"
+            formControlName="eventType"
+            placeholder="Event Type"
+            class="load_dropdown d-flex dropDown1"
+            bindValue="name"
+            bindLabel="name"
+            appendTo="body"
+          >
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <span [ngOptionHighlight]="search">{{ item.name }}</span>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="rowCalendar new_picker_date_label new_pick_start_end">
+          <span class="addTimeText" (click)="onChange(eventModel.allDay)" *ngIf="calendarForm.controls.allDay.value"
+            >Add Time</span
+          >
+          <kendo-floatinglabel text="" class="timePicker1" *ngIf="!calendarForm.controls.allDay.value">
+            <kendo-timepicker
+              [formatPlaceholder]="{
+                hour: 'hh',
+                minute: 'mm'
+              }"
+              [format]="'hh:mm a'"
+              [popupSettings]="{ popupClass: 'custom-timepick' }"
+              placeholder="HH:MM"
+              formControlName="startDate"
+              class="timePicker1"
+            >
+            </kendo-timepicker>
+          </kendo-floatinglabel>
+          <kendo-floatinglabel text="" class="timePicker2" *ngIf="!calendarForm.controls.allDay.value">
+            <kendo-timepicker
+              [formatPlaceholder]="{
+                hour: 'hh',
+                minute: 'mm'
+              }"
+              [format]="'hh:mm a'"
+              [popupSettings]="{ popupClass: 'custom-timepick' }"
+              placeholder="HH:MM"
+              formControlName="endDate"
+              class="timePicker2"
+            >
+            </kendo-timepicker>
+          </kendo-floatinglabel>
+          <ng-select
+            [items]="remindMe"
+            formControlName="eventType"
+            bindLabel="name"
+            placeholder="Remind Me"
+            class="load_dropdown d-flex dropDown2"
+            bindValue="name"
+            appendTo="body"
+          >
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <span [ngOptionHighlight]="search">{{ item.name }}</span>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="rowCalendarRepeater1">
+          <span class="repeatEventText" (click)="checkRepeatingEvent(isRepeatingEvent)"
+            >Repeat Event</span
+          >
+        </div>
+      </div>
+      <div @fuelAnimation *ngIf="getRrule.value">
+        <div class="rowCalendarRepeater1">
+          <span class="repeatEveryText">Repeat Every</span>
+          <input
+            type="number"
+            class="inputNumber"
+            min="1"
+            formControlName="dailyNumber"
+            [(ngModel)]="docRule.interval"
+            [value]="docRule.interval"
+            required
+          />
+          <div class="svgIconsCounter increase_holder">
+            <svg-icon
+              src="../../../assets/img/calendarUpArrow.svg"
+              class="svgArrowInput"
+              (click)="changeCount('interval', true)"
+            ></svg-icon>
+            <svg-icon
+              src="../../../assets/img/calendarDownArrow.svg"
+              class="svgArrowInput2"
+              (click)="changeCount('interval', false)"
+            ></svg-icon>
+          </div>
+          <app-ta-switch
+            [data]="eventRepeater"
+            (switchClicked)="changeRepeater(eventRepeater)"
+            class="eventSwitcher"
+          ></app-ta-switch>
+          <a class="eventXButton" (click)="checkRepeatingEvent(isRepeatingEvent)">×</a>
+        </div>
+        <div>
+          <div class="rowCalendarRepeaterTypes" *ngIf="docRule.freq === rrRules.WEEKLY">
+            <span class="weeklyText">On</span>
+            <div class="toggleDaysGroup">
+              <button
+                *ngFor="let day of weeklyPeriod"
+                class="toggleDays{{ docRule.byweekday.includes(day.options) ? 'Active' : '' }}"
+                value="{{ day.selected }}"
+                (click)="setSelected(day)"
+              >
+                <span class="weeklyText2">{{ day.name }}</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="rowCalendarRepeaterTypes" *ngIf="docRule.freq === rrRules.MONTHLY">
+            <span class="weeklyText">On</span>
+            <div class="toggleMonthDaysGroup">
+              <button
+                *ngFor="let day of monthlyRadioFields"
+                class="toggleMonthDays{{ (day.name == 'Day' && docRule.bymonthday) || day.name == 'Every' && docRule.bysetpos ? 'Active' : '' }}"
+                value="{{ day.selected }}"
+                (click)="setMonthlyField(day, monthlyRadioFields)"
+              >
+                <span class="weeklyText2">{{ day.name }}</span>
+              </button>
+            </div>
+            <div *ngIf="!docRule.bysetpos" class="monthlyDay">
+              <input
+                type="number"
+                class="monthlyDayInput"
+                min="1"
+                formControlName="monthlyDayNumber"
+                [(ngModel)]="docRule.bymonthday"
+                required
+              />
+              <div class="svgIconsMonthlyCounter increase_holder">
+                <svg-icon
+                  src="../../../assets/img/calendarUpArrow.svg"
+                  class="svgArrowInput"
+                  (click)="changeCount('bymonthday', true)"
+                ></svg-icon>
+                <svg-icon
+                  src="../../../assets/img/calendarDownArrow.svg"
+                  class="svgArrowInput2"
+                  (click)="changeCount('bymonthday', false)"
+                ></svg-icon>
+              </div>
+              <span class="monthlyDayText">of the month</span>
+            </div>
+            <div *ngIf="docRule.bysetpos" class="monthlyEvery">
+              <div class="form-label-group monthlyEveryDropdown1">
+                <ng-select
+                  [items]="monthlyPeriodOccurences"
+                  formControlName="selectOccurence"
+                  bindLabel="name"
+                  bindValue="name"
+                  (change)="setMonthlyOccurence($event, true)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div class="form-label-group monthlyEveryDropdown2">
+                <ng-select
+                  [items]="weeklyPeriod"
+                  formControlName="dayPerMonth"
+                  placeholder="Day"
+                  bindValue="name"
+                  bindLabel="name"
+                  (change)="setMonthlyOccurence($event, false)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="rowCalendarRepeaterTypes" *ngIf="docRule.freq === rrRules.YEARLY">
+            <span class="yearlyText">On</span>
+            <div class="toggleYearDaysGroup">
+              <button
+                *ngFor="let day of yearlyRadioFields"
+                class="toggleYearlyDays{{ (day.name == 'Day of Month' && docRule.bymonthday) || day.name == 'Every' && docRule.bysetpos ? 'Active' : '' }}"
+                value="{{ day.selected }}"
+                (click)="setYearlyField(day, yearlyRadioFields)"
+              >
+                <span class="weeklyText2">{{ day.name }}</span>
+              </button>
+            </div>
+            <div class="yearlyMonth" *ngIf="docRule.bymonthday || docRule.bymonthday == 0 || docRule.bymonthday == ''">
+              <div class="form-label-group yearlyDropdown1">
+                <ng-select
+                  [items]="monthsPerYear"
+                  formControlName="monthPerYear"
+                  placeholder="Month"
+                  bindValue="name"
+                  bindLabel="name"
+                  class="required-field"
+                  (change)="setRuleData($event, false, false, true)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <input
+                type="number"
+                class="yearlyDayInput"
+                min="1"
+                formControlName="yearlyDayNumber"
+                [(ngModel)]="docRule.bymonthday"
+                required
+              />
+              <div class="svgIconsCounter increase_holder">
+                <svg-icon
+                  src="../../../assets/img/calendarUpArrow.svg"
+                  class="svgArrowInput"
+                  (click)="changeCount('bymonthday', true)"
+                ></svg-icon>
+                <svg-icon
+                  src="../../../assets/img/calendarDownArrow.svg"
+                  class="svgArrowInput2"
+                  (click)="changeCount('bymonthday', false)"
+                ></svg-icon>
+              </div>
+            </div>
+            <div class="yearlyEvery" *ngIf="docRule.bysetpos">
+              <div class="yearlyDropdownEvery1">
+                <ng-select
+                  [items]="monthlyPeriodOccurences"
+                  formControlName="selectOccurence"
+                  bindValue="name"
+                  bindLabel="name"
+                  (change)="setRuleData($event, true, false, false)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <div class="yearlyDropdownEvery2">
+                <ng-select
+                  [items]="weeklyPeriod"
+                  formControlName="yearlyDayPerMonth"
+                  placeholder="Day"
+                  bindValue="name"
+                  bindLabel="name"
+                  (change)="setRuleData($event, false, true, false)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+              <span class="yearlyTextEvery2">of</span>
+              <div class="yearlyDropdownEvery3">
+                <ng-select
+                  [items]="monthsPerYear"
+                  formControlName="monthPerYear"
+                  placeholder="Mo"
+                  bindValue="shortName"
+                  bindLabel="shortName"
+                  class="required-field"
+                  (change)="setRuleData($event, false, false, true)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.shortName }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rowCalendarRepeater1 new_picker_date_label">
+          <ng-select
+            [items]="endPeriod"
+            formControlName="endPeriodOccurence"
+            bindLabel="name"
+            class="{{ checkClassForOccurence() }}"
+            bindValue="name"
+            (click)="setEndPeriod()"
+            appendTo="body"
+          >
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <span [ngOptionHighlight]="search">{{ item.name }}</span>
+            </ng-template>
+          </ng-select>
+          <kendo-floatinglabel
+            text=""
+            class="untilDatePicker required"
+            *ngIf="calendarForm.controls.endPeriodOccurence.value === 'Until'"
+          >
+            <kendo-datepicker
+              [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }"
+              [format]="'MM/dd/yy'"
+              [popupSettings]="{ popupClass: 'custom-datepick' }"
+              placeholder="MM/DD/YY"
+              formControlName="endInputDate"
+              [(ngModel)]="docRule.until"
+            >
+            </kendo-datepicker>
+          </kendo-floatinglabel>
+          <div
+            *ngIf="calendarForm.controls.endPeriodOccurence.value === 'No of Times'"
+            class="numberOfTimes"
+          >
+            <span class="numberOfTimesText1">For</span>
+            <input
+              type="number"
+              class="numberOfTimesInput"
+              min="1"
+              formControlName="count"
+              [(ngModel)]="docRule.count"
+              [value]="docRule.count"
+              required
+            />
+            <div class="svgIconsCounter increase_holder">
+              <svg-icon
+                src="../../../assets/img/calendarUpArrow.svg"
+                class="svgArrowInput"
+                (click)="changeCount('count', true)"
+              ></svg-icon>
+              <svg-icon
+                src="../../../assets/img/calendarDownArrow.svg"
+                class="svgArrowInput2"
+                (click)="changeCount('count', false)"
+              ></svg-icon>
+            </div>
+            <span class="numberOfTimesText2">Occurences</span>
+          </div>
+        </div>
+      </div>
+      <div class="rowCalendar">
+        <div class="form-label-group calendarLabelGroup">
+          <input
+            id="description"
+            class="form-control input-control{{
+              !calendarForm.controls.description.valid ? ' invalid-input' : ''
+            }}"
+            placeholder="Description"
+            formControlName="description"
+            [(ngModel)]="eventModel.description"
+          />
+          <label for="description" class="eventTitle">Description</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeEventModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveEvent()" ngbAutofocus>Save</button>
+  </div>
+</div>

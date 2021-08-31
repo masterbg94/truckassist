@@ -1,0 +1,320 @@
+.main-container-deleted {
+  background-color: #ff5d5d;
+  color: #f9f9f9;
+}
+.main-container {
+  display: flex;
+  padding: 3px 0;
+  padding-bottom: 4px;
+  background: white;
+  transition: 0.2s;
+  position: relative;
+
+  p {
+    margin: 0;
+  }
+  .options-container {
+    display: flex;
+    position: absolute;
+    right: 2px;
+
+    .chat-emoji {
+      position: relative;
+      top: 42px;
+      z-index: 99;
+      left: 25px;
+    }
+  }
+
+  .time-text {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 10px;
+    color: #b4b4b4;
+    visibility: hidden;
+    position: relative;
+    margin-right: 4px;
+    margin-top: 6.5px;
+  }
+
+  .user-image-time-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3px;
+
+    .user-image {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
+  }
+  .time-text-group {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 10px;
+    color: #b4b4b4;
+    visibility: hidden;
+    position: absolute;
+    top: 7px;
+    left: -3.5px;
+  }
+
+  &:hover {
+    .time-text-group {
+      visibility: visible;
+    }
+  }
+
+  .message-container {
+    width: 540px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 6px;
+    word-wrap: break-word;
+    position: relative;
+
+    .info-container {
+      display: flex;
+      align-items: center;
+
+      .name-info {
+        font-weight: bold;
+        font-size: 12px;
+        color: #6c6c6c;
+      }
+
+      .time-info {
+        font-weight: bold;
+        font-size: 10px;
+        color: #b4b4b4;
+        margin: 0 8px;
+      }
+    }
+
+    .reactions-conatiner {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .reactions-group-container {
+      margin-left: 30px;
+    }
+    .reactions-group-container-first {
+      margin-left: 0px;
+    }
+
+    .message-text {
+      font-size: 14px;
+      color: #6c6c6c;
+      white-space: pre-line;
+
+      .edited-text {
+        font-size: 12px;
+        color: #919191;
+      }
+    }
+
+    .message-text-group {
+      margin-left: 30px;
+    }
+
+    .native-message {
+      color: #919191;
+      text-decoration: none;
+    }
+
+    .link-message {
+      color: rgb(86, 115, 170, .7);
+      cursor: pointer;
+      transition: all .2s ease-in;
+      &:hover {
+        color: #5673AA;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .add-reaction-icon {
+    position: absolute;
+    right: 36px;
+    margin-top: -0.5px;
+    visibility: hidden;
+    cursor: pointer;
+
+    svg {
+      width: 18px;
+      height: 18px;
+
+      path {
+        fill: #dadada;
+      }
+    }
+  }
+  .add-reaction-icon-visible {
+    position: absolute;
+    right: 36px;
+    margin-top: -0.5px;
+    cursor: pointer;
+    svg {
+      path {
+        fill: #919191 !important;
+      }
+    }
+  }
+  .add-reaction-icon-group {
+    top: 1.5px;
+    visibility: hidden;
+    cursor: pointer;
+    margin-right: 2px;
+    margin-top: -0.5px;
+    svg {
+      width: 18px;
+      height: 18px;
+
+      path {
+        fill: #dadada;
+      }
+    }
+  }
+  .add-reaction-icon-group-visible {
+    top: 1.5px;
+    cursor: pointer;
+    margin-right: 2px;
+    margin-top: -0.5px;
+    svg {
+      path {
+        fill: #919191 !important;
+      }
+    }
+  }
+  .add-reaction-icon-first {
+    top: 1.5px;
+    visibility: hidden;
+    cursor: pointer;
+    margin-right: 4px;
+    svg {
+      width: 18px;
+      height: 18px;
+
+      path {
+        fill: #dadada;
+      }
+    }
+  }
+
+  &:hover {
+    background: #f9f9f9;
+    transition: 0.2s;
+
+    .time-text {
+      visibility: visible;
+    }
+
+    .add-reaction-icon {
+      visibility: visible;
+      &:hover {
+        svg {
+          path {
+            fill: #919191 !important;
+          }
+        }
+      }
+    }
+    .add-reaction-icon-group {
+      visibility: visible;
+      &:hover {
+        svg {
+          path {
+            fill: #919191 !important;
+          }
+        }
+      }
+    }
+
+    .add-reaction-icon-first {
+      visibility: visible;
+      &:hover {
+        svg {
+          path {
+            fill: #919191 !important;
+          }
+        }
+      }
+    }
+  }
+  // Override style in link component
+  ::ng-deep.main-container-link {
+    padding-left: 0px !important;
+  }
+  ::ng-deep.yt-player-title {
+    left: -122px !important;
+  }
+  ::ng-deep.yt-player {
+    position: relative !important;
+    left: -93px !important;
+  }
+
+  ::ng-deep.main-container-receiver {
+    position: relative !important;
+  }
+  ::ng-deep.media-playButton {
+    position: absolute !important;
+    z-index: 999 !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -40%) !important;
+    svg {
+      width: 80px !important;
+      height: 80px !important;
+    }
+  }
+
+  // Override emoji
+  ::ng-deep.emoji-triangle-down {
+    left: 239px !important;
+  }
+}
+.emoji {
+  position: absolute;
+  bottom: -14px;
+  right: 4px;
+}
+
+.emoji-up {
+  position: absolute;
+  top: 42px;
+  right: 2px;
+  z-index: 99;
+}
+
+.emoji-group {
+  position: absolute;
+  right: -29px;
+  bottom: -7px;
+}
+.emoji-group-up {
+  position: absolute;
+  right: -32px;
+  top: 45px;
+  z-index: 99;
+}
+.emoji-group-first {
+  position: absolute;
+  right: -29px;
+  bottom: -10px;
+  z-index: 99;
+}
+.emoji-group-first-up {
+  position: absolute;
+  right: -32px;
+  top: 46px;
+  z-index: 99;
+}
+
+.attachment-group {
+  position: relative;
+  left: 31px;
+}

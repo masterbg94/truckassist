@@ -1,0 +1,198 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <form
+      class="form-container no-margin"
+      [formGroup]="officeForm"
+      (keydown)="keyDownFunction($event)"
+    >
+      <!-- Producer Details -->
+      <div>
+        <div class="producer_details_container" (click)="onOpenDropDown('Producer')">
+          <p class="product">Producer Details</p>
+          <svg-icon class="arrow" src="../../../assets/img/company-settings/arrow.svg"></svg-icon>
+        </div>
+
+        <div
+          class="producer_details_dropdown"
+          [ngClass]="{ producer_details_active: openProductDetailsDropDown }"
+        >
+          <div class="row">
+            <div class="col-12">
+              <div class="form-label-group">
+                <input
+                  id="name"
+                  class="form-control input-control required"
+                  placeholder="Company name"
+                  maxlength="30"
+                  formControlName="producer"
+                  appInputFocus
+                  appAutoFocus
+                />
+                <label class="required-label" for="producer">Producer</label>
+                <app-required-label [control]="officeForm.controls.producer"></app-required-label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="form-label-group input-icon phone-field-wrapper">
+                <input
+                  id="phone"
+                  appInputFocus
+                  class="form-control input-control required"
+                  placeholder="Phone"
+                  formControlName="phone"
+                  mask="(000) 000-0000"
+                />
+                <label for="phone">Phone</label>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-label-group input-icon email-field-wrapper">
+                <input
+                  id="email"
+                  appInputFocus
+                  class="form-control input-control required"
+                  placeholder="Email"
+                  formControlName="email"
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                />
+                <label class="" for="email">Email</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-10">
+              <div class="form-label-group input-icon address-field-wrapper">
+                <input
+                  id="address"
+                  class="form-control input-control required"
+                  placeholder="Address, City, State Zip"
+                  formControlName="address"
+                  appInputFocus
+                  ngx-google-places-autocomplete
+                  [options]="optionsAddress"
+                  #placesRef="ngx-places"
+                  (onAddressChange)="handleAddressChange($event)"
+                />
+                <label class="" for="address">Address, City, State Zip</label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="address_unit"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="addressUnit"
+                  maxlength="6"
+                  (keypress)="onUnitTyping($event)"
+                  appInputFocus
+                />
+                <label for="address_unit">Unit #</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Policy Details -->
+      <div class="policy_details_container" (click)="onOpenDropDown('Policy')">
+        <p class="policy">Policy Details</p>
+        <svg-icon class="arrow" src="../../../assets/img/company-settings/arrow.svg"></svg-icon>
+      </div>
+
+      <div
+        class="policy_details_dropdown"
+        [ngClass]="{ policy_details_active: openPolicyDetailsDropDown }"
+      >
+        <div class="container_calendar">
+          <div class="calendar">
+            <div class="rowCalendar new_picker_date_label new_pick_start_end">
+              <kendo-floatinglabel text="" class="timePicker1">
+                <kendo-timepicker
+                  [formatPlaceholder]="{
+                    hour: 'hh',
+                    minute: 'mm'
+                  }"
+                  [format]="'hh:mm a'"
+                  [popupSettings]="{ popupClass: 'custom-timepick' }"
+                  placeholder="HH:MM"
+                  formControlName="startDate"
+                  class="timePicker1"
+                >
+                </kendo-timepicker>
+              </kendo-floatinglabel>
+            </div>
+          </div>
+
+          <div class="item_time">
+            <div class="rowCalendar new_picker_date_label new_pick_start_end">
+              <kendo-floatinglabel text="" class="timePicker2">
+                <kendo-timepicker
+                  [formatPlaceholder]="{
+                    hour: 'hh',
+                    minute: 'mm'
+                  }"
+                  [format]="'hh:mm a'"
+                  [popupSettings]="{ popupClass: 'custom-timepick' }"
+                  placeholder="HH:MM"
+                  formControlName="endDate"
+                  class="timePicker2"
+                >
+                </kendo-timepicker>
+              </kendo-floatinglabel>
+            </div>
+          </div>
+        </div>
+        
+        <app-insurance-type-edit></app-insurance-type-edit>
+      </div>
+
+      <!-- Attachment -->
+      <app-attachments
+        page="truck"
+        (filesChanged)="setFiles($event)"
+        [attachments]="attachments"
+      ></app-attachments>
+
+      <!-- Note -->
+
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+          </div>
+          <div
+            class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}"
+          >
+            <textarea
+              placeholder="Write a note…"
+              cdkTextareaAutosize
+              #note
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="5"
+              formControlName="note"
+              class="input-custom-textarea form-textarea"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeOfficeEditModal()">
+      Cancel
+    </button>
+    <button type="button" class="save-btn" (click)="saveOffice()" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

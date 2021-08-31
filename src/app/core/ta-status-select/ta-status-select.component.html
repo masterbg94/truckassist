@@ -1,0 +1,78 @@
+<ng-select
+  [items]="items"
+  bindLabel="name"
+  bindValue="id"
+  [disabled]="hadDriver || addTonyStatusActive"
+  class="status-select-wrapper"
+  placeholder="{{ placeholder }}"
+  [clearable]="clearable"
+  [searchable]="searchable"
+  [(ngModel)]="value"
+  [hideSelected]="true"
+  [ngClass]="additionalClass + ' status_' + value"
+  [class.load_status]="load_status"
+  [class.tony_add_start]="addTonyStatusActive"
+  (change)="change($event)"
+  (close)="toggleClass($event, false);"
+  (open)="toggleClass($event, true);"
+  appendTo="body"
+>
+  <ng-template ng-label-tmp let-item="item">
+    <div
+      *ngIf="!addTonyStatusActive"
+      [ngClass]="extraNewClass"
+      (mouseover)="hoverItem = 0"
+      (mouseleave)="hoverItem = -1"  
+      class="status_select_custom load_count_main">
+      <div class="load-count ng-star-inserted repair_item" [class.tonu_item]="item.type == 'T'" [class.revised_item]="item.type == 'R'" *ngIf="item.type"> {{item.type}} </div>
+      <span class="status_select_placeholder" [class.has_tr]="item.type == 'T' || item.type == 'R'" [ngClass]="additionalClass"  [ngStyle]="{ backgroundColor: ((selectOpened) ? item.color : 'transparent')} " [style.color]="!selectOpened ? item.color + ( hoverItem == 0 ? '' : '70') : '#fff'"> {{ item.name }}</span>
+    </div>
+    <div 
+      *ngIf="addTonyStatusActive"
+      class="status_select_custom load_count_main"
+    >
+      <div class="tonu_status_add">
+        <span class="tony_title">Tonu rate <span>*</span></span>
+        <div class="input_hold">
+          <input 
+          currencyMask
+          value="$0.00"
+          maxlength="6"
+          [ngModel]="tonyRate"
+          type="text" />
+          <button 
+            class="picker_handlers accept_item"
+            appTaTooltip="Save"
+            position="bottom-right"
+            tooltipBackground="#919191"
+            (click)="saveTonuStatus()"
+            >
+            <svg-icon src="/assets/img/svgs/table/check.svg"></svg-icon>
+          </button>
+          <button 
+            class="picker_handlers"
+            appTaTooltip="Cancel"
+            position="bottom-right"
+            tooltipBackground="#919191"
+            (click)="closeStatusChane()"
+            >
+            <svg-icon src="/assets/img/svgs/table/close.svg"></svg-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+    <div
+      [ngClass]="extraNewClass"
+      (mouseover)="hoverItem = index"
+      (mouseleave)="hoverItem = -1"    
+      class="status_select_custom load_count_main">
+      <div class="load-count ng-star-inserted repair_item" [class.tonu_item]="item.type == 'T'" [class.revised_item]="item.type == 'R'" *ngIf="item.type"> {{item.type}} </div>
+      <div class="custom-dropdown-item custom-status-item" [class.has_tr]="item.type == 'T' || item.type == 'R'" [ngClass]="additionalClass" [ngStyle]="{ color: ( hoverItem != index ? item.color : '#fff' ), backgroundColor: ( hoverItem == index ? item.color : '#fff' ) } " [ngOptionHighlight]="search">
+        {{ item.name }}
+      </div>
+    </div>
+  </ng-template>
+</ng-select>

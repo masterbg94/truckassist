@@ -1,0 +1,117 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <app-modal-close></app-modal-close>
+</div>
+
+<div class="button-switch">
+  <app-ta-switch [data]="SwitchValues" (switchClicked)="tabChange($event); switch_plan()">
+  </app-ta-switch>
+</div>
+
+<div class="d-flex flex-column switch-style">
+  <div id="anually" class="d-flex justify-content-center tex-tyle">Base Anually Plan</div>
+  <div class="d-flex justify-content-center">3 VEHICLE LICENESES INCLUDED</div>
+  <div id="income" class="d-flex justify-content-center tex-style">$1,049.00</div>
+</div>
+
+<div class="body">
+  <div>
+    <ul id="acc-modal-ul">
+      <li *ngFor="let item of items">
+        <div class="d-flex justify-content-between item-box">
+          &nbsp;&nbsp;
+          {{ item.name }}
+          <div>
+            <svg-icon
+              class="warnning-icon"
+              src="assets/img/svgs/questionmark.svg"
+              [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+            ></svg-icon>
+            &nbsp;&nbsp;
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <p class="text-style">{{ middHeadline }}</p>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="gray" scope="col">
+          {{ headers.get('truck') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/questionmark.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+        <th class="gray" scope="col">
+          {{ headers.get('unit') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/questionmark.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+        <th class="gray" scope="col">
+          {{ headers.get('ach') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/questionmark.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+        <th class="primary" scope="col">
+          {{ headers.get('fax') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/qmarkblue.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+        <th class="primary" scope="col">
+          {{ headers.get('gps') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/qmarkblue.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+        <th class="primary" scope="col">
+          {{ headers.get('eld') }}
+          <span>&nbsp;</span>
+          <svg-icon
+            class="warnning-icon"
+            src="assets/img/svgs/qmarkblue.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+          ></svg-icon>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let value of charges">
+        <td class="gray others-el-width">
+          {{ value['truck'] }}
+        </td>
+        <td class="gray others-el-width"><span>&#36;</span>{{ value['unit'] }}</td>
+        <td class="gray others-el-width"><span>&#36;</span>{{ value['ach'] }}</td>
+        <td class="primary others-el-width"><span>&#36;</span>{{ value['fax'] }}</td>
+        <td class="primary others-el-width"><span>&#36;</span>{{ value['gps'] }}</td>
+        <td class="primary eld-width"><span>&#36;</span>{{ value['eld'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="small-text">{{ bottomtext }}</p>
+</div>
+<div class="d-flex justify-content-center modal-footer button">
+  <a class="btn btn-control">{{ buttonText }}</a>
+</div>
+</div>

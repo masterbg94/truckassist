@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="20.241" viewBox="0 0 21 20.241">
+  <g id="Live_Tracking" data-name="Live Tracking" transform="translate(1.5 2.12)">
+    <g id="Live" transform="translate(0.001 0)">
+      <circle id="Ellipse_1211" data-name="Ellipse 1211" cx="2" cy="2" r="2" transform="translate(7.002 6.001)" fill="#c7c7c7"/>
+      <path id="Path_4767" data-name="Path 4767" d="M304.01,416.47a5.877,5.877,0,0,1,0,8.92" transform="translate(-292.061 -412.93)" fill="none" stroke="#c7c7c7" stroke-linecap="round" stroke-width="3"/>
+      <path id="Path_4768" data-name="Path 4768" d="M294.11,425.39a5.877,5.877,0,0,1,0-8.92" transform="translate(-288.061 -412.93)" fill="none" stroke="#c7c7c7" stroke-linecap="round" stroke-width="3"/>
+      <path id="Path_4769" data-name="Path 4769" d="M307.55,412.93a10.872,10.872,0,0,1,0,16" transform="translate(-293.061 -412.93)" fill="none" stroke="#c7c7c7" stroke-linecap="round" stroke-width="3"/>
+      <path id="Path_4770" data-name="Path 4770" d="M290.58,428.92a10.828,10.828,0,0,1,0-15.98" transform="translate(-287.061 -412.93)" fill="none" stroke="#c7c7c7" stroke-linecap="round" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

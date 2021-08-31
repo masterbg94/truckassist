@@ -1,0 +1,13 @@
+<div class="conteiner" [ngClass]="{ addShadow: dropDownActive}"> 
+  <div class="tool" (click)="dropDownActive = !dropDownActive" [ngClass]="{activeDrop: dropDownActive}">
+    <p [ngClass]="{remuveOpacity: dropDownActive}">{{curentRoute.name}}</p>
+   <div class="arrow-svg-container">
+      <svg-icon src="assets/img/svgs/down.svg" [ngClass]="{addRotation: dropDownActive}"></svg-icon>
+   </div>
+  </div>
+  <div class="drop-contant" [ngClass]="{addDrop: dropDownActive}">
+    <div class="option" [ngClass]="{'option-last-element': i === (options.length - 1)}" *ngFor="let option of options; let i = index;">
+      <p routerLink="{{option.path}}" >{{option.name}}</p>
+    </div>
+  </div>
+</div>

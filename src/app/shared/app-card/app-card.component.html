@@ -1,0 +1,600 @@
+<div class="card-item d-flex"
+[class.account-height]="type==='account'"
+[class.contact-height]="type==='contact'"
+>
+  <ng-container *ngIf="type === 'owner'">
+    <div class="card-item-body d-flex flex-row position-relative">
+      <!-- CARD COUNT -->
+      <div
+        class="card-count position-relative d-flex flex-column align-items-center justify-content-center cursor-pointer"
+        style="width: 60px; z-index: 5;"
+        [ngClass]="{ 'count-active': toggledRev }"
+        (click)="flip === 'inactive' && toggleR()"
+      >
+        <div
+          class="d-flex flex-column w-100 align-items-center justify-content-center"
+          style="flex: 1;"
+        >
+          <p *ngIf="data">
+            <b>{{ data?.status===1 ? data?.activeTruckCount : data?.inactiveTruckCount }}</b>
+          </p>
+<!--          <p *ngIf="!data.activeTruckCount"><b>0</b></p>-->
+          <p>Trucks</p>
+        </div>
+        <hr class="count-divider" />
+        <div
+          class="d-flex flex-column w-100 align-items-center justify-content-center"
+          style="flex: 1;"
+        >
+          <p *ngIf="data">
+            <b>{{ data?.status===1 ? data?.activeTrailerCount : data?.inactiveTrailerCount }}</b>
+          </p>
+<!--          <p *ngIf="!data.activeTrailerCount"><b>0</b></p>-->
+          <p>Trailers</p>
+        </div>
+      </div>
+
+      <!-- CARD DATA -->
+      <div class="card-data d-flex flex-column flex-grow-1 h-100">
+        <!--heading -->
+        <div
+          class="card-data-heading d-flex align-items-center justify-content-between"
+          style="height: 40px;padding:0 12px"
+        >
+          <p *ngIf="data.businessName">
+            <b [innerHtml]="data.businessName | taHighlight: highlightingWords"></b>
+          </p>
+          <!--<div class="d-flex justify-content-center h-100" style="width: 40px;">
+            <div class="dropdown action-dropdown">
+              <a
+                id="dropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                class="h-100 d-flex align-items-center justify-content-center"
+              >
+                <svg-icon src="assets/img/svgs/3dots.svg"></svg-icon>
+              </a>
+              <div class="dropdown-menu dropdown-detail" aria-labelledby="dropdownMenuLink">
+                <a class="cursor-pointer text-left" (click)="editModal(data.id)">
+                  <svg-icon src="/assets/img/svgs/cards-edit.svg"></svg-icon>
+                  <span>Edit</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a
+                  class="cursor-pointer text-left"
+                  [text]="{ text: 'Are you sure you want to delete ' + type + '?' }"
+
+                >
+                  <svg-icon src="/assets/img/svgs/cards-delete.svg"></svg-icon>
+                  <span>Delete</span>
+                </a>
+              </div>
+            </div>
+          </div>-->
+          <app-truckassist-dropdown
+            (actionEvent)="openAction($event)"
+            [identificator]="data.id"
+            [mainActions]="dropdownOptions.mainActions"
+            [otherActions]="dropdownOptions.otherActions"
+            [deleteAction]="dropdownOptions.deleteAction"
+            [category]="type"
+          ></app-truckassist-dropdown>
+        </div>
+
+        <!-- data info -->
+        <div class="card-data-info d-flex flex-grow-1 position-relative">
+          <!-- flipping data container -->
+          <div class="d-flex flex-grow-1">
+            <!-- flip front-->
+            <div
+              class="owner-info d-flex flex-column flex-grow-1 align-items-between justify-content-between"
+              [@flip]="flip === 'inactive' ? 'front' : 'back'"
+            >
+              <div class="d-flex detail-info" *ngIf="data?.doc?.additionalData?.phone">
+                <div class="d-flex justify-content-center align-items-center" style="width: 20px;">
+                  <svg-icon src="assets/img/svgs/phone-dark.svg" class="data-icon"></svg-icon>
+                </div>
+                <p
+                  class="ml-2"
+                  [innerHtml]="data?.doc?.additionalData?.phone | taHighlight: highlightingWords"
+                ></p>
+              </div>
+
+              <div class="d-flex detail-info" *ngIf="data?.doc?.additionalData?.email">
+                <div class="d-flex justify-content-center align-items-center" style="width: 20px;">
+                  <svg-icon src="assets/img/svgs/email-filled.svg" class="data-icon"></svg-icon>
+                </div>
+                <p
+                  class="ml-2"
+                  [innerHtml]="data?.doc?.additionalData?.email | taHighlight: highlightingWords"
+                ></p>
+              </div>
+
+              <div class="d-flex detail-info" *ngIf="data?.doc?.additionalData?.address?.address">
+                <div class="d-flex justify-content-center" style="width: 20px;">
+                  <svg-icon src="assets/img/svgs/location-pin.svg" class="data-icon"></svg-icon>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                  <span
+                    [innerHtml]="
+                      formatAddress(
+                        data?.doc?.additionalData?.address?.address,
+                        data?.doc?.additionalData?.address?.addressUnit,
+                        0
+                      ) | taHighlight: highlightingWords
+                    "
+                  ></span>
+                  <span
+                    [innerHtml]="
+                      formatAddress(
+                        data?.doc?.additionalData?.address?.address,
+                        data?.doc?.additionalData?.address?.addressUnit,
+                        1
+                      ) +
+                        ', ' +
+                        formatAddress(
+                          data?.doc?.additionalData?.address?.address,
+                          data?.doc?.additionalData?.address?.addressUnit,
+                          2
+                        ) | taHighlight: highlightingWords
+                    "
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- flip back / BANK DETAILS -->
+            <div
+              class="owner-bank-info d-flex flex-column flex-grow-1 align-items-between justify-content-between"
+              [@flip]="flip === 'inactive' ? 'back' : 'front'"
+            >
+              <div class="d-flex align-items-center bank-item">
+                <span *ngIf="data.category === 'Company'"><b>EIN</b></span>
+                <span *ngIf="data.category === 'Proprietor'"><b>SSN</b></span>
+                <p class="ml-2" *ngIf="data.taxNumber && data.category === 'Company'">
+                  {{ data.taxNumber | mask: '00-000000000' }}
+                </p>
+                <p class="ml-2" *ngIf="data.taxNumber && data.category === 'Proprietor'">
+                  {{ data.taxNumber | mask: '000-00-0000' }}
+                </p>
+              </div>
+              <!-- account/rountin nums -->
+              <div class="d-flex flex-column">
+                <div class="bank-nums-label d-flex bank-item">
+                  <span class="flex-grow-1 w-50" *ngIf="data?.accountNumber"><b>Account</b></span>
+                  <span class="flex-grow-1 w-50" *ngIf="data?.routingNumber"><b>Routing</b></span>
+                </div>
+                <div class="bank-nums-data d-flex bank-item">
+                  <span class="flex-grow-1 w-50">{{ data?.accountNumber }}</span>
+                  <span class="flex-grow-1 w-50">{{ data?.routingNumber }}</span>
+                </div>
+              </div>
+              <div class="d-flex bank-item">
+                <img
+                  class="bank-image"
+                  *ngIf="data?.doc?.additionalData?.bankData?.bankLogoWide;else elseBlock"
+                  [src]="
+                    'assets/img/svgs/bank-logos/' +
+                    data?.doc?.additionalData?.bankData?.bankLogoWide +
+                    '.svg'
+                  "
+                />
+                <ng-template #elseBlock>
+                  <p class="bank-without-logo">{{data?.doc?.additionalData?.bankData?.bankName}}</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- toggle i / ABSOLUTE -->
+          <div
+            class="toggling position-absolute d-flex flex-column justify-content-center align-items-center"
+            style="width: 40px; height: 40px; right: 0; bottom: 0;"
+          >
+            <svg-icon
+              class="info-icon cursor-pointer"
+              src="assets/img/svgs/information-icon.svg"
+              (click)="!toggledRev && toggleFlip()"
+              [ngClass]="{ 'info-icon-active': flip === 'inactive' }"
+            ></svg-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLUE SLIDE -->
+      <div
+        class="reveneue position-absolute h-100"
+        style="width: calc(100% - 100px); left: 60px; background: #28529f;"
+        [@reveneueSlide]
+        *ngIf="toggledRev"
+      >
+        <div class="reveneue-heading d-flex align-items-center">
+          <div class="reveneue-heading-border d-flex flex-grow-1 h-100">
+            <p>
+              <b>{{ data?.businessName }}</b>
+            </p>
+          </div>
+        </div>
+        <div class="reveneue-data d-flex flex-column justify-content-between">
+          <div class="d-flex revenue-unit-year">
+            <div class="revenue-unit">
+              <span><b>UNIT:</b> ALL</span>
+            </div>
+            <div class="revenue-year">
+              <span><b>YEAR:</b> YTD</span>
+            </div>
+          </div>
+          <div class="gross-reveneue d-flex flex-column">
+            <span><b>Gross Reveneue</b></span>
+            <span>$250,762.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="type === 'account' || type === 'contact'">
+    <div class="card d-flex flex-column flex-grow-1 m-0">
+      <div class="card-content d-flex flex-column">
+        <div
+          class="label-color"
+          *ngIf="data"
+          [ngStyle]="{ background: !haveCardData ? '#606060' : cardLabelData.labelColor }"
+        ></div>
+        <div class="card-content-title-menu d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img *ngIf="type == 'contact'"
+                 class="contact-avatar"
+                 src="/assets/img/svgs/contact-card-avatar-test.png" alt="contact-avatar">
+            <span [innerHtml]="data.name | taHighlight: highlightingWords"></span>
+          </div>
+          <!-- <div class="dropdown action-dropdown">
+            <a
+              id="dropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <svg-icon src="assets/img/svgs/3dots.svg"></svg-icon>
+            </a>
+            <div class="dropdown-menu dropdown-detail" aria-labelledby="dropdownMenuLink">
+              <a class="cursor-pointer text-left" (click)="editModal(data.id)">
+                <svg-icon src="/assets/img/svgs/cards-edit.svg"></svg-icon>
+                <span>Edit</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a
+                class="cursor-pointer text-left"
+                [text]="{ text: 'Are you sure you want to delete ' + type + '?' }"
+                (confirm)="deleteItem(data.id)"
+              >
+                <svg-icon src="/assets/img/svgs/cards-delete.svg"></svg-icon>
+                <span>Delete</span>
+              </a>
+            </div>
+          </div> -->
+
+          <app-truckassist-dropdown
+          (actionEvent)="openAction($event)"
+          [identificator]="data"
+          [mainActions]="dropdownOptions.mainActions"
+          [otherActions]="dropdownOptions.otherActions"
+          [deleteAction]="dropdownOptions.deleteAction"
+          [category]="type"
+        ></app-truckassist-dropdown>
+
+        </div>
+        <div class="card-content-bottom-data d-flex">
+          <!-- bottom data email,phone,password,link -->
+          <div class="bottom-data-left d-flex flex-column justify-content-between">
+            <!-- username / phone -->
+            <div class="bottom-data-item card-username-phone">
+              <svg-icon
+                src="{{
+                type === 'contact'
+                  ? '/assets/img/svgs/contact-card-phone.svg'
+                  : '/assets/img/svgs/account-card-avatar.svg'
+              }}"
+              ></svg-icon>
+              <span
+                class="d-flex align-items-center"
+                [innerHtml]="
+                (type === 'contact' ? (data.doc.phone | mask: '(000) 000-0000') : data.username)
+                  | taHighlight: highlightingWords
+              "
+              >
+            </span>
+             <!-- <svg-icon
+                *ngIf="type === 'account' && data?.doc?.note?.length > 2"
+                class="card-note-icon"
+                src="/assets/img/svgs/card-note-icon-2.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="data.doc.note"
+                position="bottom-right"
+              ></svg-icon>-->
+<!--              <svg-icon
+                *ngIf="type === 'contact'"
+                class="card-copy-icon"
+                src="/assets/img/svgs/contact-card-copy-all.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 18 }"
+                [appTaTooltip]="'Copy all'"
+                position="bottom-right"
+                (click)="copyAll(data)"
+              ></svg-icon>-->
+            </div>
+            <!-- account password -->
+            <div
+              class="bottom-data-item card-password d-flex align-items-center"
+              *ngIf="type === 'account'"
+            >
+              <svg-icon
+                *ngIf="type === 'account'"
+                (click)="getPassword(index)"
+                class="account-cards-avatar cursor-pointer"
+                src="/assets/img/svgs/password-icon.svg"
+              ></svg-icon>
+              <div class="show-password d-flex">
+                <div
+                  class="d-flex align-items-center w-100"
+                  *ngIf="keyVisible[index]"
+                  [@enterAnimation]
+                >
+                  <span (click)="copy($event, cardPassword)">{{ cardPassword }}</span>
+                </div>
+              </div>
+            </div>
+            <!-- contact email  -->
+            <div class="bottom-data-item card-email" *ngIf="data?.doc?.email">
+            <span class="d-flex align-items-center">
+              <!--              <i class="fad fa-envelope fs-18 fa-fw"></i>-->
+              <svg-icon src="/assets/img/svgs/contact-card-mail.svg"></svg-icon>
+              <span [innerHtml]="data.doc.email | taHighlight: highlightingWords"></span>
+            </span>
+            </div>
+            <!-- hyperlink / address + label  -->
+            <div class="bottom-data-item card-hyper-address d-flex">
+              <div class="card-info-bottom d-flex align-items-start overflow-ellipsis">
+                <svg-icon
+                  src="{{
+                  type === 'account'
+                    ? '/assets/img/svgs/url.svg'
+                    : '/assets/img/svgs/contact-card-pin.svg'
+                }}"
+                ></svg-icon>
+                <a
+                  class="mr-2"
+                  *ngIf="type === 'account' && data.url.length > 1"
+                  href="{{ data.url }}"
+                  target="_blank"
+                >{{ data.url }}</a
+                >
+                <div
+                  *ngIf="type === 'contact' && data.doc.address != null"
+                  class="d-flex flex-column overflow-ellipsis contact-address"
+                >
+                <span
+                  class="overflow-ellipsis"
+                  [innerHtml]="
+                    formatAddress(data?.doc?.address, data?.doc?.address_unit, 0)
+                      | taHighlight: highlightingWords
+                  "
+                ></span>
+                  <span
+                    class="overflow-ellipsis"
+                    [innerHtml]="
+                    formatAddress(data?.doc?.address, data?.doc?.address_unit, 1)
+                      | taHighlight: highlightingWords
+                  "
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- icons-->
+          <div class="bottom-data-icons d-flex flex-column"
+               [ngStyle]="{'justify-content': (data?.doc?.note?.length>2 || type==='contact' ) ? 'space-between' : 'flex-end' }"
+          >
+            <svg-icon
+              *ngIf="data?.doc?.note?.length > 2"
+              class="card-note-icon"
+              src="/assets/img/svgs/card-note-icon-2.svg"
+              [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+              [appTaTooltip]="data.doc.note"
+              position="bottom-right"
+            ></svg-icon>
+            <svg-icon
+              *ngIf="type === 'contact'"
+              class="card-copy-icon"
+              src="/assets/img/svgs/contact-card-copy-all.svg"
+              [svgStyle]="{ 'width.px': 16, 'height.px': 18 }"
+              [appTaTooltip]="'Copy all'"
+              position="bottom-right"
+              (click)="copyAll(data)"
+            ></svg-icon>
+            <div class="card-bottom-label d-flex ml-auto align-items-end position-relative"
+                 ngbDropdown
+                 container="body"
+                 placement="bottom">
+              <svg-icon
+                class="tag-icon cursor-pointer position-relative"
+                src="/assets/img/svgs/icon-tag.svg"
+                appTaTooltip="{{ haveCardData ? cardLabelData.labelName : 'No label' }}"
+                position="bottom-right"
+                tooltipBackground="{{ haveCardData ? cardLabelData.labelColor : '#606060' }}"
+                [svgStyle]="{
+                  fill: !haveCardData ? '#606060' : cardLabelData.labelColor
+                }"
+                id="dropdownBasic"
+                ngbDropdownToggle
+              >
+              </svg-icon>
+
+              <div
+                class="labels-dropdown position-absolute"
+                ngbDropdownMenu
+                aria-labelledby="dropdownBasic"
+              >
+                <div class="card-labels">
+                  <!--card triangle-->
+                  <div
+                    class="colored-triangle"
+                    [ngStyle]="{
+                      'border-bottom-color':
+                        haveCardData && !createLabelVisible && !editLabelVisible
+                          ? cardLabelData.labelColor
+                          : 'white',
+                      opacity:
+                        (triangleOpacity && haveCardData) || createLabelVisible || editLabelVisible
+                          ? 1
+                          : 0.6
+                    }"
+                  ></div>
+
+                  <!-- Show if not creating or editing label -->
+                  <div class="card-label-list" *ngIf="!createLabelVisible && !editLabelVisible">
+                    <!-- current card label -->
+                    <div
+                      class="select-label-item"
+                      *ngIf="haveCardData"
+                      [style.background-color]="cardLabelData.labelColor"
+                      [style.border-top-color]="cardLabelData.labelColor"
+                      (mouseenter)="triangleOpacity = true"
+                      (mouseleave)="triangleOpacity = false"
+                    >
+                      <div class="label-count-circle">
+                        <span>{{
+                          cardLabelData.labelCount
+                          }}</span>
+                      </div>
+                      <p class="p-0 m-0 cursor-pointer">
+                        {{ cardLabelData.labelName }}
+                      </p>
+                      <div class="d-flex flex-row select-label-actions">
+                        <svg-icon
+                          src="/assets/img/svgs/card-label-edit.svg"
+                          class="cursor-pointer"
+                          (click)="editLabel(cardLabelData.labelId); $event.stopPropagation()"
+                        >
+                        </svg-icon>
+                      </div>
+                    </div>
+
+                    <!-- actions -->
+                    <div
+                      class="card-label-actions"
+                      *ngIf="!createLabelVisible && !editLabelVisible"
+                    >
+                      <!-- no label-->
+                      <li
+                        class="d-flex align-items-center two-items cursor-pointer"
+                        (click)="setCardLabel(data, 0); $event.stopPropagation()"
+                      >
+                        <svg-icon src="assets/img/svgs/icon-tag.svg"></svg-icon>
+                        <span>No label</span>
+                      </li>
+                      <div class="dropdown-divider"></div>
+
+                      <!-- add label -->
+                      <li
+                        class="d-flex align-items-center two-items cursor-pointer"
+                        (click)="crateLabelForm(); $event.stopPropagation()"
+                      >
+                        <svg-icon src="assets/img/svgs/label-add-icon.svg"
+                                  class="d-flex"></svg-icon>
+                        <span>Create Label</span>
+                      </li>
+                    </div>
+
+                    <!-- Other card labels -->
+                    <div
+                      class="other-labels"
+                      [ngStyle]="{ 'overflow-y': filteredLabels.length > 9 ? 'scroll' : 'unset' }"
+                    >
+                      <div
+                        class="select-label-item"
+                        *ngFor="let l of filteredLabels; let i = index"
+                        [style.background-color]="l.labelColor"
+                      >
+                        <div class="label-count-circle">
+                          <span>{{ l.labelCount }}</span>
+                        </div>
+                        <p class="p-0 m-0 cursor-pointer" (click)="setCardLabel(data, l.labelId)">
+                          {{ l.labelName }}
+                        </p>
+                        <div class="d-flex flex-row select-label-actions">
+                          <svg-icon
+                            src="/assets/img/svgs/card-label-edit.svg"
+                            class="cursor-pointer"
+                            (click)="editLabel(l.labelId); $event.stopPropagation()"
+                          >
+                          </svg-icon>
+                          <svg-icon
+                            src="/assets/img/svgs/card-label-delete.svg"
+                            class="cursor-pointer ml-2"
+                            (click)="deleteLabel(l.labelId); $event.stopPropagation()"
+                            *ngIf="l.labelCount === 0"
+                          >
+                          </svg-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Create/Update label form-->
+                  <div *ngIf="createLabelVisible" class="d-flex flex-column create-label">
+                    <div class="create-label-input d-flex align-items-center">
+                      <div
+                        class="create-label-color"
+                        [style.background-color]="createLabelColor"
+                      ></div>
+                      <input
+                        type="text"
+                        placeholder="Label Name"
+                        [(ngModel)]="createLabelName"
+                        (ngModelChange)="isAllowedSave($event)"
+                        maxlength="17"
+                        minlength="2"
+                      />
+                      <div class="d-flex align-items-center create-label-actions">
+                        <svg-icon
+                          src="assets/img/svgs/label-create.svg"
+                          class="label-action-icon"
+                          *ngIf="allowSave"
+                          (click)="createUpdateLabel()"
+                        >
+                        </svg-icon>
+                        <svg-icon
+                          src="assets/img/svgs/label-cancel.svg"
+                          class="label-action-icon"
+                          (click)="cancelCreating()"
+                        >
+                        </svg-icon>
+                      </div>
+                    </div>
+
+                    <div class="label-colors w-100 d-flex flex-wrap justify-content-between">
+                      <div
+                        class="d-flex d-flex mb-1 label-single-color"
+                        *ngFor="let c of colorPalette; let i = index"
+                      >
+                        <div
+                          class="cursor-pointer"
+                          [style.background-color]="returnUsedColor(c) ? c : '#EEEEEE'"
+                          [style.border-color]="c"
+                          [style.cursor]="returnUsedColor(c) ? 'pointer' : 'auto'"
+                          (click)="returnUsedColor(c) && setLabelColor(c)"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- icons-->
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

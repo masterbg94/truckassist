@@ -1,0 +1,57 @@
+<!-- <table class="table table-hover mb-0">
+  <thead>
+    <tr class="text-nowrap no-hover">
+      <th>Truck</th>
+      <th>Trailer</th>
+      <th>Driver</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data.message" class="cursor-pointer">
+      <td>{{ item.truck }}</td>
+      <td>{{ item.trailer }}</td>
+      <td>{{ item.driver }}</td>
+      <td>
+        <app-ta-status-select
+              [value]="item.statusId"
+              [searchable]="false"
+              [dataItems]="item"
+              [dataType]="'dispatch'"
+              [clearable]="false"
+              (changeVal)="addStatus($event, item.id)"
+            >
+        </app-ta-status-select>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>New Table Signal</h2>
+<table class="table table-hover mb-0">
+  <thead>
+    <tr class="text-nowrap no-hover">
+      <th>Truck</th>
+      <th>Trailer</th>
+      <th>Driver</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data2.message" class="cursor-pointer">
+      <td>{{ item.truck }}</td>
+      <td>{{ item.trailer }}</td>
+      <td>{{ item.driver }}</td>
+      <td>
+        <app-ta-status-select
+              [value]="item.statusId"
+              [searchable]="false"
+              [dataItems]="item"
+              [dataType]="'dispatch'"
+              [clearable]="false"
+              (changeVal)="sendMessage($event, item.id)"
+            >
+        </app-ta-status-select>
+      </td>
+    </tr>
+  </tbody>
+</table> -->

@@ -1,0 +1,88 @@
+<div class="dashboard_history_holder ml-0">
+    <div class="dashboar_hist_header weather_holder load_holder_dash">
+        <div class="dashb_white_part">
+            <span
+                style="color: #919191b3;"
+                appSelectionColor 
+            >To-Do List</span>
+        </div>
+        <div class="chart_select_holder todo_select_holder">
+            <ng-select
+             [items]="todoList"
+             bindLabel="name"
+             bindValue="item"
+             [searchable]="false"
+             (change)="selectTodos($event)"
+             [(ngModel)]="selectedTodoId"
+             bindValue="id"
+            >
+                <ng-template ng-label-tmp let-item="item">
+                    <div 
+                        style="color: #919191;"
+                        appSelectionColor 
+                        class="todo_select_option"
+                    >
+                        {{item.name}} <span
+                            style="color: #919191;"
+                            appSelectionColor 
+                        >({{allToDoTasks[item.item].length}})</span>
+                    </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                    <div class="todo_select_option">
+                        {{item.name}} <span>({{allToDoTasks[item.item].length}})</span>
+                    </div>
+                </ng-template>
+            </ng-select>
+        </div>
+        <button
+              class="plus-svg-container"
+              appTaTooltip="Add To-Do"
+              position="bottom-right"
+              tooltipBackground="#707070"
+          >
+              <svg-icon src="../../../../assets/img/svgs/table/add.svg"> </svg-icon>
+        </button>
+    </div>
+    <div class="dashboard_todo_holder">
+        <div class="dash_todo_item" *ngFor="let item of allToDoTasks[selectedTodoItem]">
+            <div class="todo_item_header">
+                <span
+                    style="color: #919191;"
+                    appSelectionColor 
+                >{{item.name}}</span>
+                <div class="todo_info_button d-flex">
+                    <div 
+                        style="color: #fff;"
+                        appSelectionColor     
+                        class="todo_button"
+                    >{{item.category}}</div>
+                    <div class="todo_comment_users d-flex">
+                        <div class="todo_comment_image">
+                            <svg-icon src="../../../../assets/img/svgs/table/profile.svg"> </svg-icon>
+                        </div>
+                        <div class="todo_comment_image">
+                            <svg-icon src="../../../../assets/img/svgs/table/profile.svg"> </svg-icon>
+                        </div>
+                        <div class="todo_comment_image">
+                            <svg-icon src="../../../../assets/img/svgs/table/profile.svg"> </svg-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div 
+                style="color: #919191;"
+                appSelectionColor 
+                class="todo_description">
+                {{item.note}}
+            </div>
+            <div class="todo_deadline d-flex">
+                <app-progress-expiration
+                *ngIf="item.createdAt"
+                [expireDate]="item.deadLine | date: 'short'"
+                [isTodo]="true"
+                ></app-progress-expiration>
+            </div>
+        </div>
+    </div>
+</div>

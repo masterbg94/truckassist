@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="router-container">
+    <app-app-company-info (pageChange)="onPageChange($event)"></app-app-company-info>
+    <app-app-company-document *ngIf="page === 'documents'"></app-app-company-document>
+    <app-app-company-payment *ngIf="page === 'billing'"></app-app-company-payment>
+    <app-app-company-user-list  *ngIf="page === 'users'"></app-app-company-user-list>
+  </div>
+</div>

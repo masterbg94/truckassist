@@ -1,0 +1,48 @@
+@import '../../applicant.component.scss';
+.component {
+  width: 260px;
+  height: 102px;
+  background: #919191;
+  color: #fff;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in;
+  &__text {
+    padding-right: 20px;
+    padding-top: 12px;
+  }
+
+  &__button {
+    background: #ffffff;
+    color: rgb(36, 193, 161, 1);
+    width: 142px;
+    height: 30px;
+    font-weight: bold;
+    margin: 0px;
+    margin-top: 8px;
+    padding: 0px;
+    padding-right: 28px;
+    svg {
+      #Rectangle_9389 {
+        fill: transparent;
+      }
+      path {
+        fill: rgb(36, 193, 161, 1);
+      }
+    }
+    &-text {
+      position: relative;
+      top: 1px;
+    }
+    &:hover {
+      cursor: pointer;
+      background: #ffffff;
+      color: rgb(36, 193, 161, 1);
+    }
+  }
+  &:hover {
+    background: rgb(36, 193, 161, 1);
+    color: #fff;
+  }
+}

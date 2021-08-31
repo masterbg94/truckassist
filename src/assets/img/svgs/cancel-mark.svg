@@ -1,0 +1,8 @@
+<svg id="cancel" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_2663" data-name="Group 2663">
+    <g id="Group_2662" data-name="Group 2662" transform="translate(0 0)">
+      <path id="Path_1540" data-name="Path 1540" d="M17.075,2.995a10,10,0,1,0,0,14.149A10.013,10.013,0,0,0,17.075,2.995Zm-1.1,13.053a8.454,8.454,0,1,1,0-11.957A8.461,8.461,0,0,1,15.98,16.048Z" transform="translate(0 -0.07)" fill="#ff5d5d"/>
+    </g>
+  </g>
+  <path id="Path_1542" data-name="Path 1542" d="M6.2.246-.077,6.525" transform="translate(6.881 6.682)" fill="#ff5d5d" stroke="#ff5d5d" stroke-linecap="round" stroke-width="1.6"/>
+</svg>

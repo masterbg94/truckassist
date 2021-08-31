@@ -1,0 +1,77 @@
+.repair-shop {
+    font-size: 14px;
+    font-family: "Montserrat";
+    font-weight: 800;
+    color: #FFFFFF;
+}
+.modal-header-card {
+    padding: 5px 5px 9px 8px;
+}
+.repair-items-wrapper {
+  .form-array-wrapper .loop-row {
+    .form-control {
+      color: #6c6c6c !important;
+      &:focus {
+        background-color: #6c6c6c !important;
+        color: #fff !important;
+      }
+    }
+    .form-control.input-control:not(:focus) {
+      background-color: transparent;
+    }
+    .form-control.required.ng-valid {
+      background-color: transparent !important;
+      border-right: none !important;
+      &:focus {
+        background-color: #6c6c6c !important;
+      }
+    }
+    .form-control.ng-valid.ng-touched {
+      background-color: transparent !important;
+      &:focus {
+        background-color: #6c6c6c !important;
+      }
+    }
+    .form-control.required.ng-valid.ng-touched {
+      background-color: transparent !important;
+      border-right: none !important;
+      &:focus {
+        background-color: #6c6c6c !important;
+      }
+    }
+    .form-control.required.ng-invalid {
+      background-color: transparent !important;
+      border-right: none !important;
+      &:focus {
+        background-color: #6c6c6c !important;
+      }
+    }
+  }
+}
+.form-submitted {
+  .form-array-wrapper .loop-row {
+    .form-control {
+      color: #6C6C6C !important;
+      &:focus {
+        background-color: #EEEEEE !important;
+      }
+    }
+  }
+  .repair-items-wrapper {
+    .form-array-wrapper .loop-row {
+      .form-control.required.ng-invalid {
+        background-color: #F9F9F9 !important;
+        border-right: 3px solid #ff5d5d !important;
+        &:focus {
+          background-color: #ff5d5d !important;
+          color: #fff !important;
+        }
+      }
+    }
+  }
+}
+.card-phone-wrapper { width: 125px; }
+.card-email-wrapper {
+  width: auto;
+  margin-right: 10px;
+}

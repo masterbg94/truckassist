@@ -1,0 +1,14 @@
+<div class="truffic-container">
+  <div class="truffic-title">
+    <div class="fast">Fast</div>
+    <div class="slow">Slow</div>
+  </div>
+  <div class="layers">
+    <div
+      class="layers-color"
+      [ngClass]="{ 'add-margin-right': i !== layers.length - 1 }"
+      [ngStyle]="{ background: layer.color }"
+      *ngFor="let layer of layers; let i = index"
+    ></div>
+  </div>
+</div>

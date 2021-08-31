@@ -1,0 +1,234 @@
+#back-to-top {
+  color: $white;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  display: none;
+  text-align: center;
+  border-radius: 25px;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  height: 50px;
+  width: 50px;
+  transition: background-color 0.15s linear;
+  -moz-transition: background-color 0.15ss linear;
+  -webkit-transition: background-color 0.15ss linear;
+  -o-transition: background-color 0.15ss linear;
+  background: $primary center no-repeat;
+
+  i {
+    padding-top: 15px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: linear-gradient(to bottom right, $white, $white) !important;
+    color: $primary;
+    border: 2px solid $primary;
+  }
+}
+
+.Advance-table {
+  .form-control {
+    height: 30px !important;
+  }
+}
+
+.guage {
+  tspan {
+    font-weight: 200 !important;
+    fill: #575c5d !important;
+  }
+}
+
+.table-up {
+  a {
+    padding: 5px;
+  }
+}
+
+.table-down {
+  a {
+    padding: 5px;
+  }
+}
+
+.form-control {
+  background-clip: unset;
+  &::-webkit-input-placeholder {
+    color: $muted;
+    opacity: 1;
+  }
+}
+
+#smartwizard {
+  .nav {
+    &.nav-tabs {
+      &.step-anchor {
+        border-bottom: 0 !important;
+        padding: 15px;
+      }
+    }
+  }
+}
+
+.header-style-2 {
+  &.dropdown-toggle {
+    &::after {
+      top: 8px;
+      right: 10px;
+      border-right: 0;
+      border-bottom: 0;
+      border-left: 0;
+      content: "\f107";
+      font-family: 'FontAwesome' !important;
+      position: absolute;
+      display: inline-block;
+    }
+  }
+}
+
+.single-page1 {
+  width: 50%;
+  margin: 120px auto;
+  padding: 30px;
+  display: table;
+  position: relative;
+  border-radius: 7px;
+}
+
+.bootstrap-datetimepicker-widget {
+  table {
+    border-collapse: collapse;
+  }
+}
+
+.ms-drop {
+  .form-group {
+    label {
+      color: inherit;
+    }
+  }
+}
+
+.upload-btn-wrapper1 {
+  outline: 2px dashed #e9f1f1;
+  background-color: #fafafd;
+}
+
+#addClass {
+  background: $secondary center no-repeat;
+  color: $white;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 99;
+  text-align: center;
+  border-radius: 25px;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  height: 50px;
+  width: 50px;
+  transition: background-color 0.1s linear;
+  -moz-transition: background-color 0.1s linear;
+  -webkit-transition: background-color 0.1s linear;
+  -o-transition: background-color 0.1s linear;
+  text-decoration: none;
+
+  i {
+    font-size: 16px;
+    text-align: center;
+    line-height: 3;
+    text-decoration: none !important;
+  }
+}
+
+.text-light-color {
+  color: #eaeaea;
+}
+
+.avatar-md {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  font-size: 1rem;
+}
+
+.avatar-xl {
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
+  font-size: 1.75rem;
+}
+
+.avatar-lg {
+  width: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  font-size: 1.25rem;
+}
+
+.header {
+  background: $white;
+}
+
+
+@media (min-width: 576px) and (max-width: 1025px) {
+  .header .container {
+    //max-width: 711px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Advance-table .float-right {
+    float: none !important;
+  }
+}
+
+@media (min-width: 418px) and (max-width: 992px) {
+  .popup-box {
+    height: 300px !important;
+    width: 90% !important;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 100033 !important;
+  }
+}
+
+@media (max-width: 568px) {
+  .popup-box {
+    height: 350px !important;
+    z-index: 100033 !important;
+    width: 90% !important;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 320px) {
+  .popup-box-on {
+    display: none !important;
+  }
+  #addClass {
+    display: none !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .header-1 .navbar-nav .dropdown-toggle::after {
+    display: none;
+  }
+  .header-2 .header-style-2.dropdown-toggle::after {
+    display: none;
+  }
+  .header-3 .navbar-nav .dropdown-toggle::after {
+    display: none;
+  }
+  .header-2 .main-navbar .header-brand {
+    margin-left: 1rem;
+  }
+
+}

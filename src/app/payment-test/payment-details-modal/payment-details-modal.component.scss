@@ -1,0 +1,115 @@
+@import '../../../assets/scss/components/variables.scss';
+.body {
+  width: 480px;
+  padding: 0;
+  margin: 0;
+}
+.payment-date {
+  background-color: $bw4;
+  color: $white;
+  font-size: 14px;
+  width: 100%;
+  border-radius: 0;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+.logo {
+  padding-top: 22px;
+  padding-bottom: 4px;
+}
+.styles {
+  font-size: 16px;
+  color: $app-main-gray;
+  font-weight: bold;
+  margin-left: 12px;
+ }
+.titles {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 22px;
+  margin-bottom: 22px;
+  background: rgba(234, 234, 234, 0.7);
+}
+.under-text-bold {
+  font-size: 14px;
+  color: $muted;
+  font-weight: bold;
+  // margin-bottom: 6px;
+}
+.under-text {
+  font-size: 14px;
+  color: $muted;
+  margin: 0;
+  padding: 0;
+}
+.label-control {
+  margin-bottom: 22px;
+  margin-left: 8px;
+  margin-right: 8px 
+}
+.style-email {
+ width: 260px;
+  }
+.style-address {
+  width: 380px;
+}
+.style-account {
+width: 280px;
+}
+.third-header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.checked-style {
+  color: $app-main-gray;
+  border: $white;
+  margin-right: 12px;
+  margin-left: 12px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal !important;
+}
+.check-style {
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal !important;
+  color: $app-main-gray;
+  margin-left: 5px;
+  padding-bottom: 5px;
+}
+.button {
+  width: 100%;
+  height: 40px;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  opacity: 0.7;
+  background-color: $bw1;
+  margin-top: 20px;
+  border-radius: 0px 0px 5px 5px !important;
+  &:hover {
+    background-color: $primary;
+    opacity: 0.7;
+    margin-top: 20px;
+    .btn-control {
+      border: none;
+      font-weight: bold !important;
+      font-size: 16px !important;
+      width: 100%;
+      color: $bw1;
+    }
+  }
+}
+.btn-control {
+  border: none;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  width: 100%;
+  color: $primary;
+}
+.mat-style {
+  margin-left: 12px;
+}
+.input-field {
+  margin-left:4px;
+  margin-right:4px;
+}

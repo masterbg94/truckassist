@@ -1,0 +1,80 @@
+<div class="main_comment_hold" *ngIf="isExpanded">
+<div  *ngFor="let comment of todoTaskComments; let i = index" class="p-0 m-0 card-body">
+  <div class="single-comment d-flex" [class.new_comment]="comment.new_comment">
+    <div class="comment-avatar" [ngStyle]="{ 'background-image': 'url('+(comment.userAvatar ? comment.userAvatar : 'assets/img/svgs/avatar.svg')+')' }">
+      <!-- <img [src]="comment.userAvatar" alt="" class="img-fluid" /> -->
+    </div>
+
+    <div class="comment-text d-flex flex-column">
+      <div class="comment-date d-flex">
+        <div class="comment_p">
+          <div class="user_comment_name" *ngIf="comment.userFullName">{{comment.userFullName}}</div>
+          <div class="created_date">{{ comment.createdAt | date: 'M/d/yyyy' }}</div>
+          <span class="created_time">{{ comment.createdAt | date: 'hh:mm a' }}</span>
+        </div>
+      </div>
+      <div class="comment-desc">
+        <p *ngIf="!toggledEditComment[i] && !comment.new_comment">{{ comment.commentText }}</p>
+        <div class="d-flex" *ngIf="toggledEditComment[i] || comment.new_comment">
+          <textarea
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="2"
+            [(ngModel)]="comment.commentText"
+            [formControl]="updateCommentControl"
+            class="comment-textarea form-textarea"
+            [placeholder]="comment.new_comment ? 'Enter a new comment' : ''"
+            maxlength="100"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="comment-actions" *ngIf="toggledEditComment[i]">
+      <svg-icon
+        class="filled_checkmark"
+        src="/assets/img/svgs/checkmark-filled.svg"
+        (click)="updateComment(comment, i)"
+        [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 5 }"
+      >
+      </svg-icon>
+      <svg-icon
+        class="edit_checkmark"
+        src="/assets/img/svgs/close-filled.svg"
+        (click)="toggleEditComment(comment.id, i)"
+        [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 8 }"
+      >
+      </svg-icon>
+    </div>
+    <div class="d-flex create-comment-new-icons" *ngIf="comment.new_comment">
+      <svg-icon
+        class="filled_checkmark"
+        src="/assets/img/svgs/checkmark-filled.svg"
+        (click)="addNewComment(i)"
+        [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 5 }"
+      >
+      </svg-icon>
+      <svg-icon
+        *ngIf="!showNewMessageOnStart"
+        class="edit_checkmark"
+        src="/assets/img/svgs/close-filled.svg"
+        (click)="removeNewMessageAdding()"
+        [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 8 }"
+      >
+      </svg-icon>
+    </div>
+    <div class="comment-actions" *ngIf="!toggledEditComment[i] && !comment.new_comment">
+      <svg-icon
+        src="/assets/img/svgs/edit-comment.svg"
+        class="cursor-pointer edit_checkmark"
+        (click)="toggleEditComment(comment.id, i)"
+      >
+      </svg-icon>
+      <svg-icon
+        src="/assets/img/svgs/delete-comment.svg"
+        (click)="deleteComment(comment.id, i)"
+        class="ml-2 cursor-pointer delete_checkmark"
+      ></svg-icon>
+    </div>
+  </div>
+</div>
+</div>

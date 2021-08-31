@@ -1,0 +1,118 @@
+.page-error {
+  height: 100%;
+  width: 100%;
+  padding-top: 60px;
+  text-align: center;
+  display: flex;
+  .page-inner {
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+  }
+  h1 {
+    font-size: 10em;
+    font-weight: 300;
+  }
+  .page-description {
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .page-search {
+    margin: 20px auto;
+    max-width: 100%;
+    width: 350px;
+    .btn {
+      margin-left: 10px;
+    }
+  }
+}
+.page-error .page-search .form-control, .page-error .page-search .btn {
+  border-radius: 30px;
+}
+.icons-list {
+  list-style: none;
+  margin: 0 -1px -1px 0;
+  padding: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  & > li {
+    -ms-flex: 1 0 4rem;
+    flex: 1 0 4rem;
+  }
+}
+.icons-list-wrap {
+  overflow: hidden;
+}
+.icons-list-item {
+  text-align: center;
+  height: 4rem;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  i {
+    font-size: 1.25rem;
+  }
+}
+#notfound {
+  position: relative;
+  height: 100vh;
+  .notfound {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+.notfound {
+  max-width: 650px;
+  width: 100%;
+  line-height: 1.4;
+  padding: 110px 40px;
+  background: $white;
+  text-align: center;
+  border-radius: 7px;
+  color: #575c5d;
+  h1 {
+    font-size: 10rem;
+    color: #444646;
+    span {
+      font-size: 6rem;
+      font-weight: 500;
+      line-height: 30px;
+    }
+  }
+  .notfound-404 {
+    position: relative;
+    height: 180px;
+    h1 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      font-size: 165px;
+      font-weight: 700;
+      margin: 0;
+      color: #575c5d;
+      text-transform: uppercase;
+      & > span {
+        color: #00b7ff;
+      }
+    }
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 400;
+    color: #444646;
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
+}

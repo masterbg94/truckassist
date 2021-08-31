@@ -1,0 +1,67 @@
+<form class="form" *ngIf="isNewCompany" [formGroup]="form">
+  <div class="row">
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="nameOfPayment"
+          placeholder="Name"
+          class="form-control input-control required"
+          formControlName="nameOfPayment"
+          (paste)="onPaste($event, 'nameOfPayment')"
+          onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+          appInputrestriction="[A-Za-z]"
+          appAutoFocus
+          appInputFocus
+        />
+        <label class="required-label" for="nameOfPayment">Name</label>
+        <app-required-label [control]="form.controls.nameOfPayment"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="accountNumber"
+          class="form-control input-control required"
+          placeholder="Account number"
+          formControlName="accountNumber"
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+          (paste)="onPaste($event, 'accountNumber')"
+          minlength="4"
+          maxlength="17"
+        />
+        <label class="required-label" for="accountNumber">Account number</label>
+        <app-required-label [control]="form.controls.accountNumber"></app-required-label>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="form-label-group">
+        <input
+          id="routingNumber"
+          class="form-control input-control required"
+          placeholder="Routing number"
+          formControlName="routingNumber"
+          onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+          (paste)="onPaste($event, 'routingNumber')"
+          minlength="9"
+          maxlength="9"
+          appInputFocus
+        />
+        <label class="required-label">Routing number</label>
+        <app-required-label [control]="form.controls.routingNumber"></app-required-label>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="!isNewCompany" class="payment">
+  <div class="inner-container" *ngFor="let item of paymentData; let ind = index" (click)="onSelectPayment(ind)" [ngClass]="{'inner-container-pressed': selectPaymentMethod[ind].pressed}">
+    <svg-icon
+      class="inner-container-svg"
+      src="assets/img/svgs/table/table-payment-house.svg"
+    ></svg-icon>
+    <div class="inner-container-body">
+      <p class="inner-container-body-name">{{ item.name }}</p>
+      <p class="inner-container-body-number">{{ convertTextWithStars(item.accountNumber) }}</p>
+    </div>
+  </div>
+</div>

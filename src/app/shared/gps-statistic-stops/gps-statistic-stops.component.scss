@@ -1,0 +1,15 @@
+/* NG CLASS */
+.gps-statistic-stops-style {
+  box-shadow: unset;
+  background: #eeeeee;
+  width: 215px;
+}
+
+.active-stop-gps {
+  .stop_location {
+    color: #6c6c6c !important;
+  }
+  .full_mileage {
+    color: #6c6c6c !important;
+  }
+}

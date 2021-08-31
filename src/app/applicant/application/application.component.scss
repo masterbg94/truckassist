@@ -1,0 +1,329 @@
+@import '../applicant.component.scss';
+//--------------------------------- Progress bar for Mobile version ---------------------------------
+.mobileProgressBar {
+  display: none;
+  @media only screen and(max-width:414px) {
+    display: block;
+    &_content {
+      display: flex;
+      justify-content: space-between;
+      width: 350px;
+      align-items: stretch;
+      font-weight: bold;
+      margin-left: 25px;
+      margin-top: 50px;
+      &-third {
+        margin-left: 38px;
+      }
+      &-fourth {
+        margin-left: 37px;
+      }
+      .bullet_1::after {
+        width: 90px;
+        right: -90px;
+      }
+      .bullet_4::after {
+        width: 71px;
+        right: -71px;
+      }
+      .bullet_7::after {
+        width: 88px;
+        right: -88px;
+      }
+      .bullet_9::after {
+        width: 83px;
+        right: -83px;
+      }
+      &-second {
+        width: 300px;
+        margin-left: 60px;
+      }
+    }
+  }
+  @media only screen and(max-width:376px) {
+    &_content {
+      margin-left: 7px;
+      &-second {
+        margin-left: 38px;
+      }
+      &-third {
+        margin-left: 17px;
+      }
+      &-fourth {
+        margin-left: 14px;
+      }
+    }
+  }
+  @media only screen and(max-width:361px) {
+    &_content {
+      margin-left: 3px;
+      &-second {
+        margin-left: 36px;
+      }
+      &-third {
+        margin-left: 6px;
+      }
+      &-fourth {
+        margin-left: 7px;
+      }
+    }
+  }
+}
+//--------------------------------- Progress bar and different elements of forms ---------------------------------
+#stepProgressBar {
+  display: flex;
+  width: 1440px;
+  margin: 35px auto 0px -360px;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: stretch;
+  font-weight: bold;
+
+  @media only screen and(max-width:414px) {
+    display: none;
+  }
+}
+
+.step {
+  text-align: center;
+
+  &-text {
+    margin-top: 10px;
+    color: $color-gray-light;
+
+    &.completed {
+      color: $color-blue-normal;
+      cursor: pointer;
+    }
+    &.completed-review {
+      color: $review-completed-color !important;
+      cursor: pointer;
+    }
+    &.rejected-review {
+      color: $review-rejected-color;
+      cursor: pointer;
+    }
+
+    &.previous {
+      color: rgb(86, 115, 170, 0.7);
+      cursor: pointer;
+    }
+    &.previous-completed-review {
+      color: $review-completed-color-2;
+      cursor: pointer;
+    }
+    &.previous-rejected-review {
+      color: $review-rejected-color-2;
+      cursor: pointer;
+    }
+  }
+}
+
+.bullet {
+  display: inline-block;
+  position: relative;
+  font-size: 27px;
+  font-weight: bold;
+  line-height: 40px;
+  height: 42px;
+  width: 42px;
+  background-color: $color-gray-light;
+  color: $color-white-normal;
+  border-radius: 3px;
+  transition: background-color 500ms;
+  pointer-events: none;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  outline: none !important;
+  border: none !important;
+}
+
+.bullet.previous {
+  color: $color-white-normal;
+  background-color: $color-blue-normal-7;
+  border: $color-blue-normal-7;
+  pointer-events: auto;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(86, 115, 170, 0.85);
+  }
+}
+.bullet.previous-completed-review {
+  color: $color-white-normal;
+  background-color: $review-completed-color-2 !important;
+  border: $review-completed-color-2 !important;
+  pointer-events: auto;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(36, 193, 161, 0.85) !important;
+  }
+}
+
+.bullet.previous-rejected-review {
+  color: $color-white-normal;
+  background-color: $review-rejected-color-2 !important;
+  border: $review-rejected-color-2 !important;
+  pointer-events: auto;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 93, 93, 0.85) !important;
+  }
+}
+
+.bullet.completed {
+  color: $color-white-normal;
+  background-color: $color-blue-normal;
+  border: $color-blue-normal;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.bullet.completed-review {
+  color: $color-white-normal;
+  background-color: $review-completed-color !important;
+  border: $review-completed-color !important;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.bullet.rejected-review {
+  color: $color-white-normal;
+  background-color: $review-rejected-color !important;
+  border: $review-rejected-color !important;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+//--------------------------------- Bullet after element ---------------------------------
+.bullet::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  bottom: 19px;
+  background-color: $color-gray-light;
+}
+
+.bullet.completed::after {
+  background-color: $color-blue-normal;
+}
+.bullet.completed-review::after {
+  background-color: $color-gray-light !important;
+}
+.bullet.rejected-review::after {
+  background-color: $color-gray-light !important;
+}
+
+.bullet.previous::after {
+  background-color: $color-blue-normal-7;
+}
+.bullet.previous-completed-review::after {
+  background-color: $color-gray-light !important;
+}
+.bullet.previous-rejected-review::after {
+  background-color: $color-gray-light !important;
+}
+
+.bullet_1::after {
+  width: 95px;
+  right: -95px;
+}
+
+.bullet_2::after {
+  width: 90px;
+  right: -90px;
+}
+
+.bullet_3::after {
+  width: 82px;
+  right: -82px;
+}
+
+.bullet_4::after {
+  width: 74px;
+  right: -74px;
+}
+
+.bullet_5::after {
+  width: 79px;
+  right: -79px;
+}
+
+.bullet_6::after {
+  width: 86px;
+  right: -86px;
+}
+
+.bullet_7::after {
+  width: 107px;
+  right: -107px;
+}
+
+.bullet_8::after {
+  width: 111px;
+  right: -111px;
+}
+
+.bullet_9::after {
+  width: 97px;
+  right: -97px;
+}
+
+.bullet_10::after {
+  width: 101px;
+  right: -101px;
+}
+
+.bullet_11::after {
+  width: 91px;
+  right: -91px;
+}
+
+//--------------------------------- Bullet before element ---------------------------------
+@mixin bulletFirstBefore {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 92px;
+  right: 42px;
+  bottom: 19px;
+}
+
+.bulletFirst::before {
+  @include bulletFirstBefore;
+  background-color: $color-gray-light;
+}
+
+.bulletFirst.completed::before {
+  @include bulletFirstBefore;
+  background-color: $color-blue-normal;
+}
+.bulletFirst.bullet.completed-review::before {
+  @include bulletFirstBefore;
+  background-color: $color-gray-light;;
+}
+.bulletFirst.bullet.rejected-review::before {
+  @include bulletFirstBefore;
+  background-color: $color-gray-light;;
+}
+
+.bulletFirst.previous::before {
+  @include bulletFirstBefore;
+  background-color: $color-blue-normal-7;
+}
+.bulletFirst.bullet.previous-completed-review::before {
+  @include bulletFirstBefore;
+  background-color: $color-gray-light;;
+}
+.bulletFirst.bullet.previous-rejected-review::before {
+  @include bulletFirstBefore;
+  background-color: $color-gray-light;;
+}

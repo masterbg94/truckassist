@@ -1,0 +1,36 @@
+.group-item-container {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  margin-right: -3px;
+  p {
+    margin: 0;
+  }
+
+  .group-header {
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+
+    .marker {
+      flex: 1;
+      height: 1px;
+      background: #F7F7F7;
+    }
+
+    .header-description {
+      background: #F7F7F7;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #919191;
+      border-radius: 3px;
+      user-select: none;
+    }
+
+  }
+}
+
+.new-header-description {
+  color: #5673AA !important;
+}

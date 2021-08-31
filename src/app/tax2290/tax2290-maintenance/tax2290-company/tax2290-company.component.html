@@ -1,0 +1,40 @@
+<form class="form" [formGroup]="form">
+  <div class="row row-custom">
+    <div class="col-6">
+      <div class="form-label-group">
+        <ng-select
+          placeholder="Company"
+          [items]="company"
+          formControlName="company"
+          bindLabel="name"
+          appendTo="body"
+          class="input-control required-field selected-driver"
+          (clear)="onClear($event, 'company')"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span [ngOptionHighlight]="search">{{ item.name }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label [control]="form.controls.company"></app-required-label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-label-group">
+        <ng-select
+          placeholder="Tax Season"
+          [items]="taxSeason"
+          formControlName="taxSeason"
+          bindLabel="name"
+          appendTo="body"
+          class="input-control required-field selected-driver"
+          (clear)="onClear($event, 'tax')"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span class="new-company" [ngOptionHighlight]="search">{{ item.name }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label [control]="form.controls.taxSeason"></app-required-label>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,1003 @@
+<!-- NO TEMPLATE -->
+<ng-template #noTemplate [appCtrlTemplate]="'noTemplate'">
+  <span>-</span>
+</ng-template>
+
+<!-- DEFAULT TEMPLATE-->
+<ng-template
+  #defaultTemplate
+  [appCtrlTemplate]="'defaultTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span class="field-container">
+    <span
+      style="color: #919191;"
+      appSelectionColor
+      [ngClass]="column.class"
+      [ngClass]="{
+        'field-value': !scope.options.toolbarActions.userTabelStyle,
+        dont_use: (row.dnu || row.ban) && column.field == 'name',
+        banned: row.ban && column.field == 'name'
+      }"
+      [innerHtml]="row | valueByField: column.field | taHighlight: scope.highlightingWords"
+    ></span>
+  </span>
+</ng-template>
+
+<!-- CHECKBOX TEMPLATE-->
+<ng-template
+  #checkboxTemplate
+  [appCtrlTemplate]="'checkboxTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <app-truckassist-checkbox
+    [id]="'ckbtd-' + i"
+    [(ngModel)]="row.isSelected"
+    (change)="scope.onSelectItem(row, i, scope)"
+    [checked]="row.isSelected || row?.enabled === 0"
+    [disabled]="scope.loadingItems || row?.userType === 'owner'"
+  ></app-truckassist-checkbox>
+</ng-template>
+
+<!-- USER TABLE CHECKBOX TEMPLATE-->
+<ng-template
+  #userCheckboxTemplate
+  [appCtrlTemplate]="'userCheckboxTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <svg-icon
+    *ngIf="row?.userType === 'Owner' && column.showUserCheckbox"
+    class="disable-svg"
+    src="../../../assets/img/svgs/table/Disabled.svg"
+  ></svg-icon>
+
+  <app-truckassist-checkbox
+    *ngIf="column.showUserCheckbox && row?.userType !== 'Owner'"
+    [id]="'ckbtd-' + i"
+    [checked]="row?.status === 1"
+    [disabled]="row?.userType === 'Owner'"
+    [setChecked]="setChecked"
+    (click)="
+      row.userType !== 'Owner' && row.status ? (showUserQuestion = i) : scope.onToggleUser(i, row)
+    "
+  ></app-truckassist-checkbox>
+
+  <div
+    class="delete-dialog-container"
+    [ngClass]="{
+      'animation-dropdown-dialog': showUserQuestion === i
+    }"
+  >
+    <div class="drop-down-delete-dialog">
+      <p>Are you sure you want to disable?</p>
+      <div class="yes-no">
+        <div class="no" (click)="showUserQuestion = -1">
+          <p>No</p>
+        </div>
+        <div class="yes" (click)="onToggleUser(i, row, scope)">
+          <p>Yes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div
+    class="popup-disable-user"
+    [ngClass]="{
+      'animation-dropdown-dialog': showUserQuestion
+    }"
+  >
+    <app-delete-dropdown-dialog
+      [dialog]="'Are you sure you want to disable?'"
+      (actionEvent)="scope.disableUser($event, i, row)"
+    ></app-delete-dropdown-dialog>
+  </div> -->
+
+  <!--  <app-truckassist-checkbox
+    *ngIf="!column.showUserCheckbox"
+    [id]="'ckbtd-' + i"
+    [(ngModel)]="row.isSelected"
+    (change)="scope.onSelectItem(row, i)"
+    [checked]="row.isSelected || row?.enabled === 0"
+    [disabled]="scope.loadingItems || row?.userType === 'owner'"
+  ></app-truckassist-checkbox> -->
+</ng-template>
+
+<!--LINK FIELD TEMPLATE-->
+<ng-template
+  #linkFieldTemplate
+  [appCtrlTemplate]="'linkFieldTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="link-field-container">
+    <a
+      class="link-field"
+      [ngClass]="{
+        'link-field-declined':
+          ((row['status'] | isString) && row['status']?.toLowerCase() === 'declined') ||
+          ((row['status'] | isString) && row['status']?.toLowerCase() === 'incomplete')
+      }"
+      (click)="
+        goToRoute(
+          column.linkField.routerLinkStart + row['id'] + column.linkField.routerLinkEnd,
+          row['status']
+        )
+      "
+      ><span
+        style="color: #919191;"
+        appSelectionColor
+        [innerHtml]="row | valueByField: column.field | taHighlight: scope.highlightingWords"
+      ></span
+    ></a>
+  </div>
+</ng-template>
+
+<!--AVATAR COLUMN-->
+<ng-template
+  #avatarTemplate
+  [appCtrlTemplate]="'avatarTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div
+    class="avatar-box d-flex"
+    [ngClass]="{ 'move-avatar-box': scope.options.toolbarActions.userTabelStyle }"
+  >
+    <a
+      class="avatar-container mr-2"
+      (click)="
+        scope.onAvatarNavigate(!scope.options.toolbarActions.userTabelStyle, column, row['id'])
+      "
+    >
+      <!-- If Photo Exists -->
+      <img
+        *ngIf="!row['error']"
+        [class]="
+          !row['status'] && !scope.options.disabledMutedStyle
+            ? 'truckassist-avatar image-muted'
+            : 'truckassist-avatar'
+        "
+        [ngClass]="{
+          'user-diabled-avatar': row?.status === 0 && row?.userType !== 'Owner',
+          'truckassist-avatar': !scope.options.toolbarActions.userTabelStyle,
+          'user-avatar': scope.options.toolbarActions.userTabelStyle,
+          userDisabled: row?.status === 0
+        }"
+        [src]="row | avatarByField: column.avatar.src"
+        alt="Avatar"
+      />
+      <!-- If There Is No Photo  -->
+      <span
+        class="profile-icon"
+        aria-hidden="true"
+        *ngIf="row['error']"
+        [ngClass]="{ 'user-table-icon': scope.options.toolbarActions.userTabelStyle }"
+      >
+        <!-- For Others That Have No Img-->
+        <div
+          class="user-profile"
+          [ngClass]="{
+            'user-diabled-avatar': row?.status === 0 && row?.userType !== 'Owner'
+          }"
+          *ngIf="scope.options.toolbarActions.userTabelStyle"
+        >
+          <span>{{ row.userFullName.charAt(0) }}{{ scope.getUserlastName(row.userFullName) }}</span>
+        </div>
+        <!-- For User That Has No Img-->
+        <svg-icon
+          *ngIf="!scope.options.toolbarActions.userTabelStyle"
+          class="cursor-pointer"
+          [src]="'assets/img/svgs/table/profile.svg'"
+          [svgStyle]="{ 'width.px': '20', 'height.px': '24' }"
+        ></svg-icon>
+      </span>
+
+      <!-- Test If Img Src Exists -->
+      <img
+        *ngIf="!row['error']"
+        [style.display]="'none'"
+        [src]="row | avatarByField: (column.avatar.src ? column.avatar.src : '')"
+        (error)="row['error'] = true"
+      />
+
+      <span
+        class="driver-badge"
+        *ngIf="row?.isOwner"
+        tooltipBackground="#5673AA"
+        position="bottom-right-corner"
+        appTaTooltip="Owner"
+      >
+        <svg-icon
+          class="driver-badge-icon"
+          [src]="'assets/img/svgs/table/owner.svg'"
+          [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+        ></svg-icon>
+      </span>
+    </a>
+    <a
+      [ngClass]="{
+        'avatar-name': !scope.options.toolbarActions.userTabelStyle,
+        'user-avatar-name': scope.options.toolbarActions.userTabelStyle,
+        'move-user-avatar-name': scope.options.toolbarActions.userTabelStyle && !row['error'],
+        userNameEnabledStyle:
+          scope.options.toolbarActions.userTabelStyle &&
+          row?.status === 1 &&
+          row?.userType !== 'Owner',
+        userNameDisabledStyle:
+          scope.options.toolbarActions.userTabelStyle &&
+          row?.status === 0 &&
+          row?.userType !== 'Owner',
+        userNameOwnerStyle: scope.options.toolbarActions.userTabelStyle && row?.userType === 'Owner'
+      }"
+      (click)="
+        scope.onAvatarNavigate(!scope.options.toolbarActions.userTabelStyle, column, row['id'])
+      "
+      ><span
+        style="color: #919191;"
+        appSelectionColor
+        class="text-left avatar-field-name"
+        [ngClass]="{ 'avatar-field-name-italic': row?.status === 0 }"
+        [innerHtml]="row[column.field] | taHighlight: scope.highlightingWords"
+      ></span>
+    </a>
+  </div>
+</ng-template>
+
+<!--PROGRESS TEMPLATE COLUMN-->
+<ng-template
+  #progressTemplate
+  [appCtrlTemplate]="'progressTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="progress-expiration">
+    <app-progress-expiration
+      *ngIf="!scope.loadingItems"
+      [startDate]="
+        column.progress.start
+          ? (row | valueByField: column.progress.start | date: 'shortDate')
+          : undefined
+      "
+      [expireDate]="
+        column.progress.end
+          ? column.progress.start
+            ? (row | valueByField: column.progress.end | date: 'shortDate')
+            : (scope.getExpireData(row | valueByField: column.progress.end) | date: 'shortDate')
+          : undefined
+      "
+      [status]="row['status']"
+    ></app-progress-expiration>
+  </div>
+</ng-template>
+
+<!-- SVG COLUMN WITH SVG HOVER TEMPLATE -->
+<ng-template
+  #svgTemplate
+  [appCtrlTemplate]="'svgTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span>
+    <svg-icon
+      position="bottom-right-corner"
+      tooltipColor="#ffffff"
+      tooltipBackground="{{ row | tooltipBg: [stateName, column.field] }}"
+      appTaTooltip="{{
+        row
+          | valueByField: (column.hoverTemplate?.field ? column.hoverTemplate.field : column.field)
+      }}"
+      *ngIf="row | avatarByField: column.field"
+      class="truckassist-icon"
+      [ngClass]="
+        column.imageHover.class
+          ? column.class + ' ' + (row | valueByField: column.imageHover.class)
+          : column.class
+      "
+      [src]="column.imageHover.url + (row | valueByField: column.imageHover.file)"
+    ></svg-icon>
+  </span>
+</ng-template>
+
+<!-- STATE TEMPLATE -->
+<ng-template
+  #stateTemplate
+  [appCtrlTemplate]="'stateTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span
+    ><svg-icon
+      class="state-icon cursor-pointer state-hover"
+      [src]="
+        column.hoverTemplate.urlStart +
+        (row | valueByField: column.field) +
+        column.hoverTemplate.urlEnd
+      "
+      [svgStyle]="{ 'width.px': '28', 'height.px': '28' }"
+      tooltipBackground="#5673AA"
+      position="bottom-right-corner"
+      appTaTooltip="{{
+        row
+          | valueByField: (column.hoverTemplate?.field ? column.hoverTemplate.field : column.field)
+      }}"
+      crossorigin="anonymous"
+    ></svg-icon
+  ></span>
+</ng-template>
+
+<!-- OUT OF SERVICE COLUMN TEMPLATE -->
+<ng-template
+  #oosTemplate
+  [appCtrlTemplate]="'oosTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="out_of_service">
+    <span
+      *ngFor="let item of row.oos"
+      [ngStyle]="{
+        background: item.active ? '#5673AA' : '#ffffff00',
+        color: item.active ? '#fff' : '#b5b5b5'
+      }"
+    >
+      {{ item.value }}
+    </span>
+  </div>
+</ng-template>
+
+<!-- PASSWORD TEMPLATE -->
+<ng-template
+  #passwordTemplate
+  [appCtrlTemplate]="'passwordTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="password-container" (click)="scope.onShowPassword(i, row)">
+    <svg-icon src="/assets/img/svgs/key.svg"></svg-icon>
+    <span [ngClass]="{ showPassword: row.showPass }">{{
+      scope.showPass[i] ? scope.decryptedPassword[i] : row.password
+    }}</span>
+  </div>
+</ng-template>
+
+<!-- COLOR COLUMN TEMPLATE -->
+<ng-template
+  #colorTemplate
+  [appCtrlTemplate]="'colorTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span>
+    <div class="sti-container">
+      <button
+        class="btn"
+        [ngClass]="{ 'white-color': (row | avatarByField: column.field) === 'White' }"
+        [style.backgroundColor]="row | avatarByField: column.colorTemplate.value"
+      >
+        <span
+          class="btn-text"
+          [ngClass]="{
+            'btn-text-black': (row | avatarByField: column.field) === 'White'
+          }"
+          >{{ row | avatarByField: column.field }}</span
+        >
+      </button>
+    </div>
+  </span>
+</ng-template>
+
+<!-- STATE TEMPLATE -->
+<ng-template
+  #stateTemplate
+  [appCtrlTemplate]="'stateTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span
+    ><svg-icon
+      class="state-icon cursor-pointer state-hover"
+      [src]="
+        column.hoverTemplate.urlStart +
+        (row | valueByField: column.field) +
+        column.hoverTemplate.urlEnd
+      "
+      [svgStyle]="{ 'width.px': '28', 'height.px': '28' }"
+      tooltipBackground="#5673AA"
+      position="bottom-right-corner"
+      appTaTooltip="{{
+        row
+          | valueByField: (column.hoverTemplate?.field ? column.hoverTemplate.field : column.field)
+      }}"
+      crossorigin="anonymous"
+    ></svg-icon
+  ></span>
+</ng-template>
+
+<!-- TOGGLE FILES TEMPLATE -->
+<ng-template
+  #filesTemplate
+  [appCtrlTemplate]="'filesTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <button
+    class="custom-rounded-btn"
+    [ngClass]="{
+      'active-btn': row['expandedRow'] && scope.showExpandedContainer === i,
+      'empty-icon': !(row | valueByField: column.field)
+    }"
+    (click)="expandRow(scope, row, i)"
+  >
+    <svg-icon
+      class="empty-icon"
+      src="assets/img/svgs/table/attach.svg"
+      [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+    ></svg-icon>
+  </button>
+</ng-template>
+
+<!--TOGGLE NOTE TEMPLATE-->
+<ng-template
+  #noteTemplate
+  [appCtrlTemplate]="'noteTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <app-ta-note
+    [note]="row | valueByField: column.field"
+    (saveNoteValue)="scope.saveNote($event, row['id'])"
+  ></app-ta-note>
+</ng-template>
+
+<!-- TOGGLE COMMENTS TEMPLATE -->
+<ng-template
+  #commentsTemplate
+  [appCtrlTemplate]="'commentsTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <app-load-comments [commentcount]="row.commentsCount" [loadId]="row.id"></app-load-comments>
+</ng-template>
+
+<!-- LIKE, DISLIKE AND PIN TEMPLATE -->
+<ng-template
+  #pinTemplate
+  [appCtrlTemplate]="'pinTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="reveiw">
+    <app-truckassist-reveiw
+      [componentName]="scope.isBroker ? scope.isBroker : 'Shop'"
+      [tabelStyle]="true"
+      [tableRowSelected]="row.isSelected"
+      [reveiwData]="row"
+    ></app-truckassist-reveiw>
+    <svg-icon
+      *ngIf="column.showPin"
+      [ngClass]="{ 'shop-pinned': row.pinned === 1, 'add-insta-animation': scope.shopPined === i }"
+      (click)="scope.onPin(true, row, i)"
+      class="pin"
+      src="../../../assets/img/svgs/star.svg"
+    ></svg-icon>
+  </div>
+</ng-template>
+
+<!-- DESCRIPTION TEMPLATE -->
+<ng-template
+  #descriptionTemplate
+  [appCtrlTemplate]="'descriptionTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span class="field-container description-field-panel" (click)="showDescription = i">
+    <span
+      class="description-panel"
+      [innerHtml]="row.description | taHighlight: scope.highlightingWords"
+      appSelectionColor
+      style="color: #919191;"
+    ></span>
+  </span>
+
+  <div
+    [@popup]
+    *ngIf="showDescription !== -1 && i === showDescription"
+    class="drop-down-description"
+    id="description-drop_{{ i }}"
+    (clickOutside)="hideDescription($event)"
+  >
+    <p
+      class="total-price"
+      [ngClass]="{
+        descriptionTotalFontOne: row.doc.items?.length > 4,
+        descriptionTotalFontTwo: row.doc.items?.length > 1 && row.doc.items.length <= 4
+      }"
+    >
+    {{ row.doc.total }} 
+    </p>
+    <div
+      class="item-wrapper"
+      [ngClass]="{
+        descriptionHightOne: row.doc.items?.length <= 15 && scope.showDescription === i,
+        descriptionHightTwo: row.doc.items?.length > 15 && scope.showDescription === i
+      }"
+    >
+      <div
+        class="description-itam"
+        *ngFor="let item of row.doc.items; let i = index; let last = last"
+        [ngClass]="{
+          descriptionItamTop: i === 0,
+          descriptionItamBottom: last,
+          'itam-description-hover': item.item?.length > 65
+        }"
+      >
+        <div class="itam-num">
+          <p>{{ i + 1 }}</p>
+        </div>
+        <div class="itam-description">
+          <p
+            [innerHtml]="item.item | taHighlight: scope.highlightingWords"
+          ></p>
+        </div>
+        <div class="itam-quantity">
+          <p>{{ item.quantity }}</p>
+        </div>
+        <div
+          class="itam-price"
+          [ngClass]="{
+            descriptionDropPriceTop: i === 0,
+            descriptionDropPriceBottom: last
+          }"
+        >
+          <p>{{ item.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- DELETE ACTION TEMPLATE -->
+<ng-template
+  #deleteActionTemplate
+  [appCtrlTemplate]="'deleteActionTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="delete-action-container">
+    <button
+      (click)="scope.showDeleteActionDialog = i"
+      appTaTooltip="Delete"
+      position="bottom-right"
+      tooltipBackground="#FF5D5D"
+    >
+      <svg-icon src="assets/img/svgs/table/trash.svg"></svg-icon>
+    </button>
+
+    <div
+      class="popup-delete-user"
+      [ngClass]="{
+        'animation-dropdown-dialog-delete': scope.showDeleteActionDialog === i
+      }"
+    >
+      <app-delete-dropdown-dialog
+        [dialog]="'Are you sure you want to delete?'"
+        (actionEvent)="scope.onDeleteAction($event, { type: 'delete', item: row })"
+      ></app-delete-dropdown-dialog>
+    </div>
+  </div>
+</ng-template>
+
+<!-- STATUS TEMPLATE  -->
+<ng-template
+  #statusTemplate
+  [appCtrlTemplate]="'statusTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="status-container status-col">
+    <div
+      *ngIf="row.statusId < 4 && !scope.loadingItems"
+      class="load-main-container status"
+      [innerHtml]="(scope.loadStatuses | loadStatus: row.statusId).name"
+      [ngStyle]="{ color: (scope.loadStatuses | loadStatus: row.statusId).color }"
+    >
+      Active
+    </div>
+    <div *ngIf="row.statusId > 3 && !scope.loadingItems">
+      <app-ta-status-select
+        [value]="row.statusId"
+        [searchable]="false"
+        [dataItems]="{ statusId: row.statusId }"
+        [dataType]="'load'"
+        [clearable]="false"
+        [additionalClass]="'load_table'"
+        [extraNewClass]="'new_load_table_hold'"
+        (changeVal)="scope.changeLoadStatus($event, row.id)"
+      >
+      </app-ta-status-select>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Status Text template (Pending, Complete, Declined statuses) -->
+<ng-template
+  #statusTextTemplate
+  [appCtrlTemplate]="'statusTextTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span class="field-status-text-container">
+    <span
+      [ngClass]="{
+        'status-text-complete': (row | valueByField: column.field).toLowerCase() === 'complete',
+        'status-text-pending': (row | valueByField: column.field).toLowerCase() === 'pending',
+        'status-text-declined':
+          (row | valueByField: column.field).toLowerCase() === 'declined' ||
+          (row | valueByField: column.field).toLowerCase() === 'incomplete'
+      }"
+      [innerHtml]="row | valueByField: column.field | taHighlight: scope.highlightingWords"
+      #statusDeclinedPopover="ngbPopover"
+      [ngbPopover]="declinedDialog"
+      (click)="onShowDeclinedPopover(statusDeclinedPopover, row['status'])"
+      triggers="manual"
+      [autoClose]="true"
+      [placement]="'bottom'"
+      [container]="'body'"
+      [popoverClass]="'popover-table-declined'"
+    >
+    </span>
+  </span>
+  <ng-template #declinedDialog let-data="data">
+    <span style="color: #919191;" appSelectionColor>{{ declinedPopoverText }}</span>
+  </ng-template>
+</ng-template>
+
+<!-- State Template (Finished, summary, schedule  2290 table) -->
+<ng-template
+  #statesTemplate
+  [appCtrlTemplate]="'statesTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <span class="field-states-container">
+    <span
+      [ngClass]="{
+        'state-finish': (row | valueByField: column.field).toLowerCase() === 'finish',
+        'state-summary': (row | valueByField: column.field).toLowerCase() === 'summary',
+        'state-schedule': (row | valueByField: column.field).toLowerCase() === 'schedule'
+      }"
+      [innerHtml]="row | valueByField: column.field | taHighlight: scope.highlightingWords"
+    >
+    </span>
+  </span>
+</ng-template>
+
+<!-- LABEL TEMPLATE -->
+<ng-template
+  #labelTemplate
+  [appCtrlTemplate]="'labelTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="label-container d-flex">
+    <a class="label-badge-container" *ngIf="scope.labels | labelFilter: row[column.field]">
+      <span
+        class="label-display"
+        [ngStyle]="{ background: (scope.labels | labelFilter: row[column.field])?.labelColor }"
+      ></span>
+    </a>
+    <a class="label-name-container" *ngIf="scope.labels | labelFilter: row[column.field]">
+      <span class="label-name">{{
+        (scope.labels | labelFilter: row[column.field])?.labelName
+      }}</span>
+    </a>
+  </div>
+</ng-template>
+
+<!-- PICKUP TEMPLATE -->
+<ng-template
+  #pickupTemplate
+  [appCtrlTemplate]="'pickupTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="pickup-delivery-container d-flex">
+    <a class="pickup-delivery-badge-container">
+      <span class="pickup-delivery-display pickup">
+        <svg-icon
+          *ngIf="row.pickupCount < 10"
+          src="assets/img/svg_numbers/svg_num_box_{{ row.pickupCount }}.svg"
+        ></svg-icon>
+        <svg-icon
+          *ngIf="row.pickupCount > 9"
+          src="assets/img/svg_numbers/svg_num_over.svg"
+        ></svg-icon>
+      </span>
+    </a>
+    <a class="pickup-delivery-name-container">
+      <span class="pickup-delivery-name" style="color: #919191;" appSelectionColor
+        >{{ row.pickupLocation.city }}, {{ row.pickupLocation.stateShortName }}</span
+      >
+    </a>
+  </div>
+</ng-template>
+
+<!-- DELIVERY TEMPLATE -->
+<ng-template
+  #deliveryTemplate
+  [appCtrlTemplate]="'deliveryTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="pickup-delivery-container delivery d-flex">
+    <a class="pickup-delivery-badge-container">
+      <span class="pickup-delivery-display delivery">
+        <svg-icon
+          *ngIf="row.deliveryCount < 10"
+          src="assets/img/svg_numbers/svg_num_box_{{ row.deliveryCount }}.svg"
+        ></svg-icon>
+        <svg-icon
+          *ngIf="row.deliveryCount > 9"
+          src="assets/img/svg_numbers/svg_num_over.svg"
+        ></svg-icon>
+      </span>
+    </a>
+    <a class="pickup-delivery-name-container">
+      <span class="pickup-delivery-name" style="color: #919191;" appSelectionColor
+        >{{ row.deliveryLocation.city }}, {{ row.deliveryLocation.stateShortName }}</span
+      >
+    </a>
+  </div>
+</ng-template>
+
+<!-- QTY TEMPLATE -->
+<ng-template
+  #qtyTemplate
+  [appCtrlTemplate]="'qtyTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="qty-container">
+    <span style="color: #919191;" appSelectionColor>{{ row[column.field] }} gal.</span>
+  </div>
+</ng-template>
+
+<!-- TOTAL TEMPLATE -->
+<ng-template
+  #totalTemplate
+  [appCtrlTemplate]="'totalTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="total-fuel">
+    <div class="total-amount" appSelectionColor>
+      {{ row[column.field] | currency }}
+    </div>
+
+    <div class="dropdown-fuel" *ngIf="row.fuelItems">
+      <div class="fuel-item" *ngFor="let fuel of row.fuelItems; let i = index">
+        <div
+          class="num-item"
+          [ngStyle]="{
+            'border-top-left-radius': i === 0 ? '3px' : '0px',
+            'border-bottom-left-radius': i === row.fuelItems.length - 1 ? '3px' : '0px'
+          }"
+        >
+          {{ i + 1 }}
+        </div>
+        <div class="fuel-type">{{ fuel.category }}</div>
+        <div class="fuel-galon">{{ fuel.qty }}</div>
+        <div class="fuel-total">{{ fuel.price | currency }}</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- VIOLATIONS COLUMN TEMPLATE -->
+<ng-template
+  #violationTemplate
+  [appCtrlTemplate]="'violationTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-j="j"
+  let-scope="scope"
+>
+  <div class="violation_col">
+    <span
+      class="violation_col_value"
+      [ngClass]="{
+        active: showViolationTooltip && i === violationRowIndex
+      }"
+      (click)="scope.showViolationTooltip(i, j)"
+    >
+      {{ row | valueByField: column.field | taHighlight: scope.highlightingWords }}
+    </span>
+  </div>
+  <div id="violation-{{ i }}-{{ j }}">
+    <app-violation-tooltip *ngIf="showViolationTooltip && i === violationRowIndex">
+    </app-violation-tooltip>
+  </div>
+</ng-template>
+
+<!-- CITATION COLUMN TEMPLATE -->
+<ng-template
+  #citationTemplate
+  [appCtrlTemplate]="'citationTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div
+    class="citation-ticket"
+    [ngbPopover]="citationContent"
+    popoverClass="citation-ticket_popover"
+    placement="bottom"
+  >
+    <svg-icon class="citation-ticket_svg" [src]="'assets/img/svgs/table/citation-ticket.svg'">
+    </svg-icon>
+    <span class="citation-ticket_value">
+      {{ row | valueByField: column.field | taHighlight: scope.highlightingWords }}
+    </span>
+  </div>
+  <ng-template #citationContent>
+    <div *ngFor="let item of row.citationData" class="citation-ticket_popover_body">
+      <span>
+        {{ item.title }}
+      </span>
+      <span>
+        {{ item.desc }}
+      </span>
+      <span>
+        {{ item.value }}
+      </span>
+    </div>
+    <div class="citation-ticket_popover_total">
+      <span>Total</span>
+      <span>{{ row.total }}</span>
+    </div>
+  </ng-template>
+</ng-template>
+
+<!-- DOWNLOAD ACTION TEMPLATE -->
+<ng-template
+  #downloadTemplate
+  [appCtrlTemplate]="'downloadTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="download-action" (click)="scope.downloadData()">
+    <svg-icon class="download-icon" src="assets/img/svgs/table/download.svg"></svg-icon>
+  </div>
+</ng-template>
+
+<!-- SUPER CHECKBOX TEMPLATE -->
+<ng-template
+  #superCheckboxTemplate
+  [appCtrlTemplate]="'superCheckboxTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="super-checkbox-container">
+    <svg-icon
+      *ngIf="row[column.field] === 10"
+      class="super-checkbox-blue-icon"
+      src="assets/img/svgs/table/check-box.svg"
+      [svgStyle]="{ 'width.px': '26', 'height.px': '26' }"
+    ></svg-icon>
+    <span *ngIf="!row[column.field] || row[column.field] < 10" class="super-levelbox-icon">
+      <span class="level-field">{{ row[column.field] }}</span>
+    </span>
+  </div>
+</ng-template>
+
+<!-- REV CHECKBOX TEMPLATE -->
+<ng-template
+  #revTemplate
+  [appCtrlTemplate]="'revTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <div class="super-checkbox-container">
+    <svg-icon
+      *ngIf="row[column.field]"
+      class="super-checkbox-icon"
+      src="assets/img/svgs/table/check-box.svg"
+      [svgStyle]="{ 'width.px': '26', 'height.px': '26' }"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="!row[column.field]"
+      class="super-closebox-icon"
+      src="assets/img/svgs/table/close-box.svg"
+      [svgStyle]="{ 'width.px': '26', 'height.px': '26' }"
+    ></svg-icon>
+  </div>
+</ng-template>
+
+<!--ACTION COLUMN-->
+<ng-template
+  #actionTemplate
+  [appCtrlTemplate]="'actionTemplate'"
+  let-row="row"
+  let-column="column"
+  let-i="i"
+  let-scope="scope"
+>
+  <app-truckassist-dropdown
+    (actionEvent)="scope.openAction($event, scope)"
+    [identificator]="row['id']"
+    [mainActions]="scope.options.mainActions"
+    [otherActions]="scope.options.otherActions"
+    [activateAction]="scope.options.activateAction"
+    [deleteAction]="scope.options.deleteAction"
+    [customerActions]="scope.options.customerActions"
+    [status]="row['status']"
+    [customerData]="{ dnu: row['dnu'], ban: row['ban'] }"
+    [category]="scope.options.deleteAction.type"
+    [rowData]="row"
+    [remuveAction]="stateName === 'fuels'"
+  ></app-truckassist-dropdown>
+</ng-template>

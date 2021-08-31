@@ -1,0 +1,228 @@
+<div class="main-container" *ngIf="visible">
+  <div class="background-overlay"></div>
+  <div *ngIf="data !== null && data.length > 0" class="content-container" #contentContainer>
+    <div class="image-container">
+      <div class="top-image-description" #topImageDescription>
+        <div class="top-side-description">
+          <p class="top-image-title">{{ getSelectedAttachmentContent().name }}</p>
+          <p class="top-date-time" *ngIf="data[selectedIndex] && data[selectedIndex].message">
+            {{
+              moment.parseZone(getSelectedAttachmentContent().createdAt).format('MM/DD/YY HH:MM')
+            }}
+          </p>
+        </div>
+        <div class="bottom-side-description" *ngIf="data[selectedIndex] && data[selectedIndex].message">
+          <p class="top-uploader-name">
+            Uploaded by: {{ getSelectedAttachmentContent().message.user.name }}
+          </p>
+          <p *ngIf="!isVideo(data[selectedIndex])" class="top-file-size">
+            {{ getAttachmentSize(getSelectedAttachmentContent(), 1024) }} kB
+          </p>
+          <p *ngIf="isVideo(data[selectedIndex])" class="top-file-size">
+            {{ getAttachmentSize(getSelectedAttachmentContent(), 1024 * 1024) }} MB
+          </p>
+        </div>
+      </div>
+      <div  *ngIf="getSelectedAttachmentContent()?.url" class="image-content-container">
+        <img
+          *ngIf="!isVideo(data[selectedIndex]) && data[selectedIndex].extension !== 'pdf'"
+          class="unselectable image"
+          [src]="getSelectedAttachmentContent().url"
+          [@inOutAnimation]="nameOfStateAnimatioN === 'forward' ? stateAnimation : 'out'"
+          [@outInAnimation]="nameOfStateAnimatioN === 'backward' ? stateAnimation : 'out'"
+          (@inOutAnimation.done)="onDoneAnimation($event)"
+          (@outInAnimation.done)="onDoneAnimation($event)"
+        />
+        <div *ngIf="isVideo(data[selectedIndex]) && data[selectedIndex].extension !== 'pdf'" class="unselectable video">
+          <app-chat-video-preview
+            [video_id]="getSelectedAttachmentContent().guid"
+            [displayVideo]="true"
+            [attachUrl]="getSelectedAttachmentContent().url"
+            [videoTime]="currentVideoTime"
+            [@inOutAnimation]="nameOfStateAnimatioN === 'forward' ? stateAnimation : 'out'"
+            [@outInAnimation]="nameOfStateAnimatioN === 'backward' ? stateAnimation : 'out'"
+            (@inOutAnimation.done)="onDoneAnimation($event)"
+            (@outInAnimation.done)="onDoneAnimation($event)"
+          >
+          </app-chat-video-preview>
+        </div>
+        <div class="pdf-viewer-container" *ngIf="data[selectedIndex].extension == 'pdf'">
+          <div class="thumbnails-wrapper">
+            <div
+              class="thumbnails-container{{ pages[data[selectedIndex].guid] == (i+1) ? ' active-thumb' : '' }}"
+              *ngFor="let item of [].constructor(totalPages[data[selectedIndex].guid]); let i = index"
+              (click)="navigateToPage(data[selectedIndex], (i+1))"
+            >
+              <pdf-viewer
+                [src]="data[selectedIndex].url"
+                [render-text]="true"
+                [stick-to-page]="true"
+                [fit-to-page]="true"
+                [page]="(i+1)"
+                style="display: block;"
+                [show-all]="false"
+                [autoresize]="true"
+              ></pdf-viewer>
+            </div>
+          </div>
+          <div class="pdf-absolute-container">
+            <pdf-viewer
+              [src]="data[selectedIndex].url"
+              [render-text]="true"
+              [stick-to-page]="true"
+              [fit-to-page]="true"
+              [page]="pages[data[selectedIndex].guid]"
+              style="display: block;"
+              [show-all]="false"
+              [autoresize]="true"
+            ></pdf-viewer>
+          </div>
+        </div>
+
+        <div class="number-picture">
+          <div class="number-content">{{ selectedIndex + 1 }} / {{ data.length }}</div>
+        </div>
+
+        <div class="pagination-switcher" *ngIf="data[selectedIndex].extension == 'pdf'">
+          <span class="pagination-down{{ (totalPages[data[selectedIndex].guid] == 1 || (pages[data[selectedIndex].guid] == 1) ) ? ' disabled' : '' }}" (click)="previousPage(data[selectedIndex])">
+            <svg-icon
+              class="icon-content-deleted"
+              src="assets/img/svgs/page-up.svg"
+            ></svg-icon>
+          </span>
+          <span class="pagination-up{{ totalPages[data[selectedIndex].guid] == 1 || (totalPages[data[selectedIndex].guid] == pages[data[selectedIndex].guid]) ? ' disabled' : '' }}" (click)="nextPage(data[selectedIndex])">
+            <svg-icon
+              class="icon-content-deleted"
+              src="assets/img/svgs/page-down.svg"
+            ></svg-icon>
+          </span>
+          <span class="pdf-page-number noselect">
+            {{ pages[data[selectedIndex].guid] }} / {{ totalPages[data[selectedIndex].guid] }}
+          </span>
+        </div>
+
+        <div class="icons-container">
+          <div
+            class="icon-content"
+            [appTaTooltip]="'Download'"
+            position="bottom-right"
+            zIndex="99999999999"
+            tooltipBackground="#FFFFFF"
+            tooltipColor="#000000"
+            (click)="downloadMedia()"
+          >
+            <svg-icon
+              class="icon-content-download"
+              src="assets/img/svgs/communicator/ic_download.svg"
+            ></svg-icon>
+          </div>
+          <div
+            class="icon-content"
+            [appTaTooltip]="'Delete'"
+            position="bottom-right"
+            zIndex="99999999999"
+            tooltipBackground="#FFFFFF"
+            tooltipColor="#000000"
+            (click)="deleteMedia()"
+          >
+            <svg-icon
+              class="icon-content-deleted"
+              src="assets/img/svgs/communicator/ic_trash.svg"
+            ></svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg-icon
+      *ngIf="data?.length > 0"
+      class="left-nav-arrow"
+      src="assets/img/svgs/communicator/ic_box_arrow.svg"
+      (click)="previousIndex()"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="data?.length > 0"
+      class="right-nav-arrow"
+      src="assets/img/svgs/communicator/ic_box_arrow.svg"
+      (click)="nextIndex()"
+    ></svg-icon>
+  </div>
+  <div id="boxContentContainer" *ngIf="data !== null && data.length > 0" class="box-content-container">
+    <div
+      *ngFor="let item of data; let i = index"
+      class="box-image-container"
+      [ngClass]="{ 'selected-box-image-container': i === selectedIndex }"
+      (click)="changeCurrentIndexMedia(i)"
+      (mouseenter)="hoverData = item"
+      (mouseleave)="hoverData = null"
+    >
+      <img
+        *ngIf="!isVideo(item) && item.extension !== 'pdf'"
+        class="thumbnail unselectable box-image"
+        [src]="item.url"
+      />
+     <div *ngIf="isVideo(item) && item.extension !== 'pdf'" class="thumbnail unselectable box-image">
+        <svg-icon
+          *ngIf="isVideo(item)"
+          class="media-playButton"
+          src="../../../assets/img/svgs/communicator/ic_chat-content-playButton.svg"
+        ></svg-icon>
+        <app-chat-video-preview
+          [video_id]="item.guid"
+          [displayVideo]="true"
+          [overlayPlay]="false"
+          [bufferPlay]="false"
+          [scrubBar]="false"
+          [play]="false"
+          [mute]="false"
+          [volume]="false"
+          [timeDisplay]="false"
+          [insideScrubBar]="false"
+          [fullScreen]="false"
+          [attachUrl]="item.url"
+        ></app-chat-video-preview>
+      </div>
+      <div *ngIf="selectedIndex !== i" class="box-image-overlay"></div>
+
+      <pdf-viewer
+        *ngIf="item.extension == 'pdf'"
+        [src]="item.url"
+        [render-text]="true"
+        [stick-to-page]="true"
+        [fit-to-page]="true"
+        [page]="1"
+        (after-load-complete)="afterLoadComplete($event, item)"
+        style="display: block;"
+        [show-all]="false"
+        [autoresize]="true"
+      ></pdf-viewer>
+    </div>
+  </div>
+  <!-- Hover container -->
+  <div class="bottom-image-description" #bottomImageDescription *ngIf="data && data[selectedIndex] && data[selectedIndex].message">
+    <div class="top-side-description" *ngIf="hoverData">
+      <p class="bottom-image-title">{{ hoverData.name }}</p>
+      <p class="bottom-date-time">
+        {{ moment.parseZone(hoverData.createdAt).format('MM/DD/YY |  HH:MM') }}
+      </p>
+    </div>
+    <div class="bottom-side-description" *ngIf="hoverData">
+      <p class="bottom-uploader-name">Uploaded by: {{ hoverData.message.user.name }}</p>
+      <p *ngIf="!isVideo(data[selectedIndex])" class="bottom-file-size">
+        {{ getAttachmentSize(hoverData, 1024) }} kB
+      </p>
+      <p *ngIf="isVideo(data[selectedIndex])" class="bottom-file-size">
+        {{ getAttachmentSize(getSelectedAttachmentContent(), 1024 * 1024) }} MB
+      </p>
+    </div>
+  </div>
+  <svg-icon
+    *ngIf="data === null"
+    class="spinner"
+    src="assets/img/svgs/communicator/ic_loading-spinner.svg"
+  ></svg-icon>
+  <svg-icon
+    class="close"
+    src="assets/img/svgs/communicator/ic_close.svg"
+    (click)="closeGallery()"
+  ></svg-icon>
+</div>

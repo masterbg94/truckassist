@@ -1,0 +1,244 @@
+<div id="mini-chat" class="mini-chat" *ngIf="!router.url.includes('/communicator')">
+  <div
+    id="mini-chat-toggle"
+    class="mini-chat-toggle"
+    [ngClass]="{
+      'mini-chat-toggle-unread-message':
+        hasUnreadMessages(driverDirects, 'direct', 'driver') ||
+        hasUnreadMessages(companyDirects, 'direct', 'company') ||
+        hasUnreadMessages(driverChannels, 'channel', 'driver') ||
+        hasUnreadMessages(companyChannels, 'channel', 'company')
+    }"
+    (click)="openSidebar()"
+  >
+    <svg-icon
+      class="toggle-mini-chat"
+      src="assets/img/svgs/communicator/ic_toggle-mini-chat-new.svg"
+    >
+    </svg-icon>
+  </div>
+  <div class="side-of-chat">
+    <div class="chat-column-container chat-column-container-left">
+      <div
+        class="chat-group-section-container"
+        [ngClass]="{
+          'chat-group-section-container-unread': hasUnreadMessages(
+            companyDirects,
+            'direct',
+            'company'
+          ),
+          'chat-group-section-container-opened':
+            isCompanyDirectOpened && !hasUnreadMessages(companyDirects, 'direct', 'company')
+        }"
+      >
+        <app-chat-search
+          [unreadMessage]="hasUnreadMessages(companyDirects, 'direct', 'company')"
+          (onChangeSearch)="filterCompanyDirect($event)"
+          [chatName]="'miniChat'"
+          (click)="onExpandChatSection('direct', 'company')"
+        >
+        </app-chat-search>
+        <div
+          class="chat-group-section-title-container chat-group-section-title-container-left"
+          [ngClass]="{
+            'unread-chat-group-section-title': hasUnreadMessages(
+              companyDirects,
+              'direct',
+              'company'
+            )
+          }"
+          (click)="onExpandChatSection('direct', 'company')"
+        >
+          <p class="unselectable chat-group-section-title">
+            <span
+              [ngClass]="
+                hasUnreadMessages(companyDirects, 'direct', 'company')
+                  ? 'chat-group-section-title-number-unread'
+                  : 'chat-group-section-title-number'
+              "
+              >{{ companyDirects.length }}</span
+            >
+            Company
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            [ngClass]="{ 'top-icon-arrow': isCompanyDirectOpened }"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+          >
+          </svg-icon>
+        </div>
+      </div>
+      <div class="chat-items-section-container">
+        <app-direct-item
+          *ngFor="let direct of getDirects()"
+          [direct]="direct"
+          [shortenName]="true"
+          [imageCircle]="isCompanyDirectOpened && !isDriverDirectOpened"
+          [isSelected]="selectedSubscriptionLeft?.id === direct.id"
+          [typing]="getIsTyping(direct)"
+          (click)="onSelectLeftChat(direct)"
+        >
+        </app-direct-item>
+      </div>
+      <div
+        class="chat-group-section-container"
+        [ngClass]="{
+          'chat-group-section-container-unread': hasUnreadMessages(
+            driverDirects,
+            'direct',
+            'driver'
+          ),
+          'chat-group-section-container-opened':
+            isDriverDirectOpened && !hasUnreadMessages(driverDirects, 'direct', 'driver')
+        }"
+      >
+        <app-chat-search
+          [unreadMessage]="hasUnreadMessages(driverDirects, 'direct', 'driver')"
+          (onChangeSearch)="filterDriverDirect($event)"
+          [chatName]="'miniChat'"
+          (click)="onExpandChatSection('direct', 'driver')"
+        >
+        </app-chat-search>
+        <div
+          class="chat-group-section-title-container"
+          [ngClass]="{
+            'unread-chat-group-section-title': hasUnreadMessages(driverDirects, 'direct', 'driver')
+          }"
+          (click)="onExpandChatSection('direct', 'driver')"
+        >
+          <p class="unselectable chat-group-section-title">
+            <span
+              [ngClass]="
+                hasUnreadMessages(driverDirects, 'direct', 'driver')
+                  ? 'chat-group-section-title-number-unread'
+                  : 'chat-group-section-title-number'
+              "
+              >{{ driverDirects.length }}</span
+            >
+            Driver
+          </p>
+
+          <svg-icon
+            class="icon-arrow"
+            [ngClass]="{ 'bottom-icon-arrow': isDriverDirectOpened }"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+          >
+          </svg-icon>
+        </div>
+      </div>
+    </div>
+    <div class="selected-chat-container left-selected-chat-container">
+      <app-chat-container [selectedChat]="selectedChatLeft"></app-chat-container>
+    </div>
+  </div>
+
+  <div class="side-of-chat">
+    <div class="selected-chat-container right-selected-chat-container">
+      <app-chat-container [selectedChat]="selectedChatRight"> </app-chat-container>
+    </div>
+    <div class="chat-column-container chat-column-container-right">
+      <div
+        class="chat-group-section-container"
+        [ngClass]="{
+          'chat-group-section-container-unread': hasUnreadMessages(
+            companyChannels,
+            'channel',
+            'company'
+          ),
+          'chat-group-section-container-opened':
+            isCompanyChannelOpened && !hasUnreadMessages(companyChannels, 'channel', 'company')
+        }"
+      >
+        <div
+          class="chat-group-section-title-container chat-group-section-title-container-channel-company"
+          [ngClass]="{
+            'unread-chat-group-section-title': hasUnreadMessages(
+              companyChannels,
+              'channel',
+              'company'
+            )
+          }"
+          (click)="onExpandChatSection('channel', 'company')"
+        >
+          <p class="unselectable chat-group-section-title">
+            <span
+              [ngClass]="
+                hasUnreadMessages(companyChannels, 'channel', 'company')
+                  ? 'chat-group-section-title-number-unread'
+                  : 'chat-group-section-title-number'
+              "
+              >{{ companyChannels.length }}</span
+            >
+            Company
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            [ngClass]="{ 'top-icon-arrow': isCompanyChannelOpened }"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+          >
+          </svg-icon>
+        </div>
+      </div>
+
+      <div class="chat-items-section-container">
+        <app-channel-item
+          *ngFor="let channel of getChannels()"
+          [channel]="channel"
+          [isSelected]="selectedSubscriptionRight?.id === channel.id"
+          (click)="onSelectRightChat(channel)"
+        >
+        </app-channel-item>
+      </div>
+
+      <div
+        class="chat-group-section-container"
+        [ngClass]="{
+          'chat-group-section-container-unread': hasUnreadMessages(
+            driverChannels,
+            'channel',
+            'driver'
+          ),
+          'chat-group-section-container-opened':
+            isDriverChannelOpened && !hasUnreadMessages(driverChannels, 'channel', 'driver')
+        }"
+      >
+        <app-chat-search
+          [unreadMessage]="hasUnreadMessages(driverChannels, 'channel', 'driver')"
+          (onChangeSearch)="filterDriverChannel($event)"
+          [chatName]="'miniChat'"
+          (click)="onExpandChatSection('channel', 'driver'); openSearch = !openSearch"
+        >
+        </app-chat-search>
+        <div
+          class="chat-group-section-title-container"
+          [ngClass]="{
+            'unread-chat-group-section-title': hasUnreadMessages(
+              driverChannels,
+              'channel',
+              'driver'
+            )
+          }"
+          (click)="onExpandChatSection('channel', 'driver')"
+        >
+          <p class="unselectable chat-group-section-title">
+            <span
+              [ngClass]="
+                hasUnreadMessages(driverChannels, 'channel', 'driver')
+                  ? 'chat-group-section-title-number-unread'
+                  : 'chat-group-section-title-number'
+              "
+              >{{ driverChannels.length }}</span
+            >
+            Truck
+          </p>
+          <svg-icon
+            class="icon-arrow"
+            [ngClass]="{ 'bottom-icon-arrow': isDriverChannelOpened }"
+            src="../../assets/img/svgs/communicator/ic_down.svg"
+          >
+          </svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

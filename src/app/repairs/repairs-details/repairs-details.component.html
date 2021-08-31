@@ -1,0 +1,360 @@
+<div class="repairs-details-conatiner">
+  <!-- Left Side -->
+  <div class="left-side" *ngIf="shop">
+    <!-- Switch Container -->
+    <div class="switch-container">
+      <div class="back-btn">
+        <app-back-btn [routeUrl]="'/repairs'"></app-back-btn>
+      </div>
+      <div class="switch-repairs">
+        <app-unit-switch
+          [options]="optionsSwitch"
+          [keywordPasted]="'name'"
+          [type]="'repairs'"
+        ></app-unit-switch>
+      </div>
+    </div>
+
+    <!-- Shop Contact Info -->
+    <div class="shop-contact-container">
+      <!-- Phone -->
+      <div class="phone">
+        <svg-icon src="../../../assets/img/svgs/repair/phone.svg"></svg-icon>
+        <div
+          class="copy-shop-info"
+          [ngClass]="{ 'copy-active': copyPhone }"
+          [ngStyle]="{ 'margin-left': '25px' }"
+        >
+          COPIED
+        </div>
+        <p (click)="onCopy(shop.doc.phone, 'phone')">
+          {{ shop.doc.phone | mask: '(000) 000-0000' }}
+        </p>
+      </div>
+      <!-- Mail -->
+      <div class="mail" *ngIf="shop.doc.email">
+        <svg-icon src="../../../assets/img/svgs/repair/mail.svg"></svg-icon>
+        <div
+          class="copy-shop-info"
+          [ngClass]="{ 'copy-active': copyMail }"
+          [ngStyle]="{ 'margin-left': '7px' }"
+        >
+          COPIED
+        </div>
+        <p (click)="onCopy(shop.doc.email, 'email')">{{ shop.doc.email }}</p>
+      </div>
+      <!-- Location -->
+      <div class="location">
+        <svg-icon src="../../../assets/img/svgs/repair/location.svg"></svg-icon>
+        <div class="location-info-container" (click)="onCopy(shop.doc.address.address, 'address')">
+          <div
+            class="copy-shop-info"
+            [ngClass]="{ 'copy-active-location': copyAddress }"
+            [ngStyle]="{ position: 'absolute' }"
+          >
+            <p>COPIED</p>
+          </div>
+          <p>{{ address.street }}</p>
+          <p>{{ address.state }}, {{ address.zip }}</p>
+          <p>{{ address.country }}</p>
+        </div>
+      </div>
+
+      <svg-icon
+        tooltipBackground="#6C6C6C"
+        tooltipColor="#FFFFFF"
+        appTaTooltip="Edit Shop"
+        position="bottom-right"
+        class="edit-container"
+        src="../../../assets/img/svgs/repair/edit.svg"
+        (click)="onEditShop()"
+      ></svg-icon>
+    </div>
+
+    <!-- Shop Types -->
+    <div class="types-container">
+      <div class="types">
+        <div class="type" *ngFor="let type of types" [ngClass]="{ 'active-type': type.active }">
+          {{ type.name }}
+        </div>
+      </div>
+      <div class="shop-date-data">
+        <div class="created-on">
+          <p class="title">Created On</p>
+          <p class="date">12/05/19</p>
+        </div>
+        <div class="last-used">
+          <p class="date">{{ truckAndTrailerRepair[0]?.updatedAt | date: 'shortDate' }}</p>
+          <p class="title">Last Used</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-container">
+      <div class="action" *ngFor="let action of actions" (click)="onAction(action.action)">
+        <svg-icon
+          [ngClass]="{
+            addAnimationPin: action.action === 'pin' && animatePin,
+            'shop-not-pined': action.action === 'pin' && !shop.pinned,
+            'actions-pin': action.action === 'pin',
+            'actions-print': action.action === 'print',
+            'actions-mail': action.action === 'mail'
+          }"
+          src="{{ action.icon }}"
+        ></svg-icon>
+      </div>
+    </div>
+
+    <!-- Most Repaired Vehicles -->
+    <div class="search-title">
+      <app-custom-search (click)="searchSeleced(1)"></app-custom-search>
+      <div class="most-title">
+        <div class="title">
+          Most repaired vehicles
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicles -->
+    <div class="vehicles-data-container" *ngIf="mostRepairedTruckAndTrailer.length">
+      <div
+        class="vehicle-container"
+        [ngClass]="{ 'vehicle-margin': i !== 0, 'focus-vehicle-container': truckAndTrailer.focus }"
+        [ngStyle]="{ display: !truckAndTrailer.show ? 'none' : 'block' }"
+        *ngFor="let truckAndTrailer of mostRepairedTruckAndTrailer; let i = index"
+        (click)="onFocusMostRepaired(truckAndTrailer)"
+      >
+        <div
+          class="count"
+          tooltipBackground="#6C6C6C"
+          tooltipColor="#FFFFFF"
+          appTaTooltip="Repair Count"
+          position="bottom-right"
+        >
+          {{ truckAndTrailer.count }}
+        </div>
+        <div class="vehicle-icon">
+          <svg-icon
+            *ngIf="truckAndTrailer.category === 'truck'"
+            src="../../../assets/img/svgs/truck/semi-truck.svg"
+          ></svg-icon>
+          <svg-icon
+            *ngIf="truckAndTrailer.category === 'trailer'"
+            src="../../../assets/img/svgs/trailer/dry-van.svg"
+          ></svg-icon>
+        </div>
+        <div
+          class="vehicle-number"
+          [innerHtml]="truckAndTrailer.unit | taHighlight: highlightingUnit"
+        >
+          #{{ truckAndTrailer.unit }}
+        </div>
+        <div class="cost-repair">{{ truckAndTrailer.total }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Center Side -->
+  <div class="center" *ngIf="shop">
+    <!-- Title Bar -->
+    <div class="shop-orders-info">
+      <app-custom-search (click)="searchSeleced(2)"></app-custom-search>
+      <div class="orders-title">
+        <div class="orders-count">
+          <div class="count">{{ shop.repairCount }}</div>
+          Orders
+        </div>
+        <div class="total-amount">{{ amount }}</div>
+      </div>
+    </div>
+
+    <!-- Truck And Trailer Repair Data -->
+    <div class="truck-trailer-data-scroll" *ngIf="truckAndTrailerRepair.length">
+      <div
+        class="truck-trailer-data-container"
+        *ngFor="let truckAndTrailer of truckAndTrailerRepair; let i = index"
+        [ngStyle]="{
+          display: truckAndTrailer.show ? 'block' : 'none',
+          'margin-bottom': i !== truckAndTrailerRepair.length - 1 ? '12px' : '0px'
+        }"
+      >
+        <div class="truck-trailer-title">
+          <div class="truck-trailer-icon">
+            <svg-icon
+              *ngIf="truckAndTrailer.category === 'truck'"
+              src="../../../assets/img/svgs/truck/semi-truck.svg"
+            ></svg-icon>
+            <svg-icon
+              *ngIf="truckAndTrailer.category === 'trailer'"
+              src="../../../assets/img/svgs/trailer/dry-van.svg"
+            ></svg-icon>
+          </div>
+          <div
+            class="truck-trailer-unit"
+            [innerHtml]="truckAndTrailer.truckTrailerUnit | taHighlight: highlightingTruckTrailer"
+          >
+            Unit #{{ truckAndTrailer.truckTrailerUnit }}
+          </div>
+          <div class="repair-date">{{ truckAndTrailer.createdAt | date: 'short' }}</div>
+        </div>
+        <div class="truck-trailer-repair-description">
+          <p class="total-amount" *ngIf="truckAndTrailer.doc.items.length >= 2">
+            {{ truckAndTrailer.total }}
+          </p>
+          <div
+            class="description"
+            [ngClass]="{ 'description-margin': j !== 0 }"
+            *ngFor="let item of truckAndTrailer.doc.items; let j = index"
+          >
+            <div class="num">{{ j + 1 }}</div>
+            <div class="repair">{{ item.item }}</div>
+            <div class="num-of-parts">{{ item.quantity }}</div>
+            <div class="amount">{{ item.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <div class="right-side" *ngIf="shop">
+    <!-- Tool Bar -->
+    <div class="comment-title-bar" [ngClass]="{ 'user-has-comment': userWroteComment }">
+      <div class="comment-conatiner">
+        <div class="title">Rate</div>
+        <div class="comment">
+          <app-truckassist-reveiw
+            [componentName]="'Shop'"
+            [reveiwData]="shop"
+            [repairDetails]="true"
+            [id]="shop.id"
+          ></app-truckassist-reveiw>
+        </div>
+      </div>
+      <div class="add-btn" (click)="addComment()">
+        <svg-icon src="../../../assets/img/svgs/repair/add-btn.svg"></svg-icon>
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="comment-container" *ngIf="shopReview.length">
+      <div class="comment" *ngFor="let review of shopReview">
+        <div class="user-avatar">
+          <img
+            src="{{
+              review.userAvatar
+                ? review.userAvatar
+                : '../../../assets/img/svgs/reveiw/no-avatar.svg'
+            }}"
+            alt=""
+          />
+        </div>
+        <div class="comment-data">
+          <div class="comment-time">
+            <div class="date">{{ review.createdAt | date: 'shortDate' }}</div>
+            <div class="time">{{ review.createdAt | date: 'shortTime' }}</div>
+            <div class="edit-delete" *ngIf="review.canEditDelete && !review.newComment">
+              <!-- Edit Or Delete Old Comment -->
+              <svg-icon
+                (click)="editShopComment(review)"
+                tooltipBackground="#6C6C6C"
+                tooltipColor="#FFFFFF"
+                appTaTooltip="Edit"
+                position="bottom-right"
+                class="edit"
+                src="../../../assets/img/svgs/repair/Edit - Circle.svg"
+              ></svg-icon>
+              <svg-icon
+                (click)="deleteShopComment(review)"
+                tooltipBackground="#FF5D5D"
+                tooltipColor="#FFFFFF"
+                appTaTooltip="Delete"
+                position="bottom-right"
+                class="delete"
+                src="../../../assets/img/svgs/repair/Delete - Circle.svg"
+              ></svg-icon>
+            </div>
+
+            <!-- Save Or Cancel New Comment -->
+            <div class="save-or-cancel-new-comment" *ngIf="review.newComment">
+              <svg-icon
+                (click)="!review.editingExistingComment ? saveComment() : updateShopComment(review)"
+                tooltipBackground="#6C6C6C"
+                tooltipColor="#FFFFFF"
+                appTaTooltip="Save"
+                position="bottom-right"
+                class="edit"
+                src="../../../assets/img/svgs/repair/save.svg"
+              ></svg-icon>
+              <svg-icon
+                (click)="review.id === 0 ? cancelCreateComment() : cancelEditComment()"
+                tooltipBackground="#6C6C6C"
+                tooltipColor="#FFFFFF"
+                appTaTooltip="Cancel"
+                position="bottom-right"
+                class="delete"
+                src="../../../assets/img/svgs/repair/cancel.svg"
+              ></svg-icon>
+            </div>
+          </div>
+          <div *ngIf="!review.newComment" class="comment-text">{{ review.comment }}</div>
+          <div *ngIf="review.newComment" class="comment-write">
+            <p>
+              <span
+                id="createComment"
+                class="textarea"
+                role="textbox"
+                (keydown)="onEnter($event, review)"
+                [innerHTML]="comment"
+                maxlength="20"
+                contenteditable
+              ></span>
+            </p>
+            <!-- <textarea
+              maxlength="60"
+              id="createComment"
+              (keydown)="onEnter($event, review)"
+              [(ngModel)]="comment"
+              cols="1"
+              rows="1"
+            ></textarea> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-container">
+      <agm-map
+        style="height: 100%; width: 100%;"
+        [streetViewControl]="false"
+        [latitude]="mapOptions.latitude"
+        [longitude]="mapOptions.longitude"
+        [clickableIcons]="false"
+        [controlSize]="1"
+        [zoom]="1"
+        [minZoom]="4"
+        [maxZoom]="16"
+        [styles]="styles"
+        (mapReady)="mapReady($event, shop)"
+      >
+        <agm-marker
+          *ngIf="shop"
+          [latitude]="shop.latitude"
+          [longitude]="shop.longitude"
+          [agmFitBounds]="true"
+          [opacity]="1"
+          [iconUrl]="{
+            url: markerIcon,
+            scaledSize: {
+              width: 26,
+              height: 32
+            }
+          }"
+        >
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

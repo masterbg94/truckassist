@@ -1,0 +1,105 @@
+<div class="{{ files.length == 0 ? ' dropzone-empty' : ''}}{{ ' app-upload-' + component + '-' + files.length }}">
+  <div *ngIf="commentsVisible"
+    class="custom-dropzone{{ files.length == 0 ? ' files-empty' : ''}} {{ component }} files-count-{{ (files.length <= 3) ? files.length : 4 }}"
+    ngx-dropzone [accept]="'*'" [multiple]="multiple" (change)="onSelect($event)"
+    [disabled]="!multiple && files.length == 1">
+    <ngx-dropzone-label>
+      <div class="attachment-pic" *ngIf="component == 'load'">
+        <svg-icon *ngIf="files.length == 0"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-1.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-2.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-3.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length >= 4"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-4.svg">
+        </svg-icon>
+      </div>
+      <div class="attachment-pic" *ngIf="component !== 'load' && component !== 'repair'">
+        <svg-icon *ngIf="files.length == 0" src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-1.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-2.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-3.svg"></svg-icon>
+        <svg-icon *ngIf="files.length >= 4"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-4.svg"></svg-icon>
+      </div>
+      <div class="attachment-pic" *ngIf="component == 'repair'">
+        <svg-icon *ngIf="files.length == 0" src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-1.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-2.svg"></svg-icon>
+        <svg-icon *ngIf="files.length >= 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-3.svg"></svg-icon>
+      </div>
+    </ngx-dropzone-label>
+  </div>
+  <div
+    class="dropzone-preview-carousel new-owl-carousel{{ (!multiple && files.length == 1) ? ' single-carousel-item' : '' }} {{ component }} files-count-{{ (files.length <= 3) ? files.length : 4 }}">
+    <owl-carousel-o [options]="customOptions" #owlCar>
+      <ng-template carouselSlide *ngFor="let file of files; let i = index;">
+        <app-files-upload-wrapper [clearFiles]="clearFiles" [file]="file" [slideIndex]="i"
+          (fileRemoved)="onRemove($event)" (click)="openGallery(i, $event)" (removeFile)="removePdf($event)">
+        </app-files-upload-wrapper>
+      </ng-template>
+    </owl-carousel-o>
+  </div>
+  <div *ngIf="!commentsVisible"
+    class="custom-dropzone{{ files.length == 0 ? ' files-empty' : ''}} {{ component }} files-count-{{ (files.length <= 3) ? files.length : 4 }}"
+    ngx-dropzone [accept]="'*'" [multiple]="multiple" (change)="onSelect($event)"
+    [disabled]="!multiple && files.length == 1">
+    <ngx-dropzone-label>
+      <div class="attachment-pic" *ngIf="component == 'load'">
+        <svg-icon *ngIf="files.length == 0"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-1.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-2.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-3.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length >= 4"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ commentsVisible ? 'comments-on' : 'comments-off' }}/{{ component }}-attachment-4.svg">
+        </svg-icon>
+      </div>
+      <div class="attachment-pic" *ngIf="component !== 'load' && component !== 'repair'">
+        <svg-icon *ngIf="files.length == 0" src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-1.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-2.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-3.svg"></svg-icon>
+        <svg-icon *ngIf="files.length >= 4"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-4.svg"></svg-icon>
+      </div>
+      <div class="attachment-pic" *ngIf="component == 'repair'">
+        <svg-icon *ngIf="files.length == 0" src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-default.svg">
+        </svg-icon>
+        <svg-icon *ngIf="files.length == 1"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-1.svg"></svg-icon>
+        <svg-icon *ngIf="files.length == 2"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-2.svg"></svg-icon>
+        <svg-icon *ngIf="files.length >= 3"
+          src="assets/img/svgs/drop-zone/{{ component }}/{{ component }}-attachment-3.svg"></svg-icon>
+      </div>
+    </ngx-dropzone-label>
+  </div>
+  <div class="clearfix"></div>
+</div>

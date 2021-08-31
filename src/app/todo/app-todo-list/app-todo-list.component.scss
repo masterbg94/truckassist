@@ -1,0 +1,241 @@
+@import 'src/assets/scss/components/variables';
+
+.actions {
+  i {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: gray;
+  border-radius: 50%;
+}
+
+.comment-wrapper {
+  background-color: #afafaf;
+  color: #fff;
+  border-radius: 0 0 8px 8px;
+}
+
+kendo-sortable .card {
+  margin-bottom: 0;
+}
+
+kendo-sortable .card-single {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tags {
+  .tag {
+    background-color: #4173ff;
+  }
+}
+
+.modal-header .close {
+  margin-left: 0;
+}
+
+app-app-todo-list-card {
+  width: 100%;
+}
+
+.field-placeholder {
+  background: white;
+  padding: 2px;
+  border-radius: 3px;
+  //height: 156px !important;
+  opacity: 1;
+  margin-bottom: 8px;
+  transition: transform 550ms cubic-bezier(0, 0, 0.2, 1) !important;
+  box-shadow: 0 0 4px rgb(0 0 0 / 15%) inset;
+
+  &-border {
+    border: 2px dashed white;
+    height: 100%;
+    border-radius: 3px;
+  }
+}
+
+.box-list {
+  height: 100%;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 350ms cubic-bezier(0, 0, 0.2, 1) !important;
+}
+
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1) !important;
+}
+
+.box-list.cdk-drop-list-dragging .todo-item:not(.cdk-drag-placeholder) {
+  transition: transform 500ms ease;
+}
+
+/*
+* Novi stil
+*/
+
+.content-wrapper {
+  .row {
+    .col-4 {
+      padding-right: 7.5px;
+      padding-left: 7.5px;
+    }
+
+    .submenu {
+      //background: white;
+      border-radius: 3px;
+      margin-bottom: 12px;
+      height: 32px;
+
+      .submenu-heading-button {
+        width: 100%;
+      }
+
+      .search-field-wrapper {
+        height: 100%;
+        margin-right: 6px;
+
+        .search-field {
+          width: 100%;
+
+          ::ng-deep {
+            app-custom-search {
+              .search-btn {
+                svg-icon svg path {
+                  fill: $light-blue;
+                }
+              }
+            }
+          }
+
+        }
+      }
+
+      .submenu-heading-button {
+        height: 100%;
+
+        .task-status-name {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          height: 100%;
+          background: white;
+          border-radius: 3px;
+
+          p {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+            padding-left: 6px;
+            color: $bw5;
+          }
+        }
+
+        button.btn-transparent.open_load {
+          margin-left: 6px;
+          border-radius: 3px;
+        }
+
+
+        // svg-icon.icon-hover-blue-28 {
+        //   svg {
+        //     height: 22px;
+        //     width: 22px;
+
+        //     path {
+        //       opacity: 0.6 !important;
+        //     }
+        //   }
+
+        //   &:hover {
+        //     svg path {
+        //       opacity: 1 !important;
+        //     }
+        //   }
+        // }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .cdk-drag.todo-item.cdk-drag-preview {
+    //max-height: 156px !important;
+    height: auto !important;
+  }
+
+  .cdk-drag-preview {
+    opacity: 0.8;
+
+    .card-wrapper {
+      .collapse, .hyperlink, .attachments {
+        display: none !important;
+      }
+    }
+
+    /* Za marginu dole */
+    .progress-bar {
+      .progress-panel {
+        .progress-text {
+          padding: 0 !important;
+
+          span {
+            margin: 0 11px !important;
+          }
+        }
+
+        .progress-date {
+          right: 0 !important;
+          padding: 0;
+
+          span {
+            margin: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// button za add
+button.btn-transparent {
+  width: 32px;
+  height: 32px;
+
+  &.open_load {
+    width: 32px;
+    height: 32px;
+    border-radius: 0 5px 5px 0;
+    background-color: #F7F7F7;
+
+    svg-icon {
+      path {
+        fill: #5673AA;
+      }
+    }
+
+    &:hover {
+      background-color: #5673AA;
+
+      svg-icon {
+        path {
+          fill: #FFFFFF;
+        }
+      }
+    }
+  }
+
+  display: flex;
+  align-items: center;
+
+  svg-icon {
+    margin: auto !important;
+  }
+}

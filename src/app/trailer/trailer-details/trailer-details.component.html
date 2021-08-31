@@ -1,0 +1,449 @@
+<div
+  class="container trailer-details-container"
+  *ngIf="!loading && trailerTabData && { trailersLoading: trailersLoading$ | async } as observables"
+  [class]="{ 'trailer-details-muted': !trailer?.status }"
+>
+  <div class="row d-flex justify-content-between" *ngIf="trailer.doc.additionalData">
+    <div class="column-1">
+      <app-unit-switch
+        [options]="options"
+        [keywordPasted]="keyword"
+        [type]="'trailers'"
+      ></app-unit-switch>
+      <div class="details-card mt-3">
+        <div class="item-card d-flex flex-row">
+          <div class="my-flex-item card-flex-item">
+            <div class="card-img-container">
+              <svg-icon
+                src="assets/img/svgs/trailer/{{ trailer.doc.additionalData.type.file }}"
+                class="card-img"
+                [svgStyle]="{ 'width.px': '89', 'height.px': '49' }"
+              >
+              </svg-icon>
+            </div>
+            <div class="card-img-container mt-2">
+              <svg-icon
+                src="assets/img/svgs/trailer/makers/{{ trailer.doc.additionalData.make.file }}"
+                class="card-img"
+                [svgStyle]="{ 'width.px': '89', 'height.px': '14' }"
+              >
+              </svg-icon>
+            </div>
+          </div>
+          <div class="my-flex-item">
+            <div class="d-flex flex-row justify-content-start mb-2">
+              <div class="my-flex-item mr-2">
+                <span class="card-label font-12" style="color: #919191;" appSelectionColor
+                  >Year</span
+                >
+                <span class="card-value font-12" style="color: #919191;" appSelectionColor>{{
+                  trailer.doc.additionalData.year
+                }}</span>
+              </div>
+              <div
+                [ngClass]="{
+                  'd-flex my-flex-item position-relative flex-row justify-content-start align-items-center':
+                    trailer.doc.additionalData.color,
+                  'd-none': !trailer.doc.additionalData.color
+                }"
+              >
+                <span class="card-label font-12" style="color: #919191;" appSelectionColor
+                  >Color</span
+                >
+                <div class="sti-container">
+                  <button
+                    class="btn"
+                    [ngClass]="{
+                      'white-color': trailer.doc.additionalData.color?.key === 'White'
+                    }"
+                    [style.backgroundColor]="
+                      trailer.doc.additionalData.color?.value
+                        ? trailer.doc.additionalData.color.value
+                        : '#dee2e6'
+                    "
+                  >
+                    <span class="btn-text" style="color: #919191;" appSelectionColor>{{
+                      trailer.doc.additionalData.color?.key
+                    }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-row justify-content-start mb-2">
+              <div class="my-flex-item mr-2">
+                <span class="card-label font-12" style="color: #919191;" appSelectionColor
+                  >VIN</span
+                >
+                <span
+                  class="card-value font-12 custom-font"
+                  style="color: #919191;"
+                  appSelectionColor
+                  >{{ trailer.vin }}</span
+                >
+              </div>
+            </div>
+            <div class="d-flex flex-row justify-content-start">
+              <div class="my-flex-item mr-2">
+                <span class="card-label font-12" style="color: #919191;" appSelectionColor
+                  >Model</span
+                >
+                <span class="card-value font-12" style="color: #919191;" appSelectionColor>{{
+                  trailer.doc.additionalData.model
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-container">
+            <app-truckassist-dropdown
+              *ngIf="trailer.status"
+              (actionEvent)="openAction($event)"
+              [identificator]="id"
+              [mainActions]="dropdownOptions.mainActions"
+              [otherActions]="dropdownOptions.otherActions"
+              [deleteAction]="dropdownOptions.deleteAction"
+              [category]="'trailer'"
+            ></app-truckassist-dropdown>
+          </div>
+        </div>
+
+        <div class="tools-group">
+          <div class="details-card-header top-header p-0 d-flex justify-content-between">
+            <div class="tool-panel d-flex justify-content-start align-items-left">
+              <button
+                [appTaTooltip]="trailer.status ? 'Deactivate Selected' : 'Activate Selected'"
+                position="bottom-right"
+                class="switch-btn"
+                [ngClass]="trailer.status ? 'active-btn' : 'inactive-btn'"
+                aria-hidden="true"
+                [disabled]="statusLoading"
+                (click)="changeStatus(trailer.id)"
+              >
+                <svg-icon
+                  [src]="'assets/img/svgs/table/activate.svg'"
+                  [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                ></svg-icon>
+              </button>
+              <button
+                class="print-btn"
+                (click)="printProfile()"
+                [appTaTooltip]="'Print'"
+                position="bottom-right"
+              >
+                <svg-icon
+                  [src]="'assets/img/svgs/table/print.svg'"
+                  [svgStyle]="{ 'width.px': '18', 'height.px': '17' }"
+                ></svg-icon>
+              </button>
+              <button
+                class="email-btn"
+                (click)="printProfile()"
+                [appTaTooltip]="'Email'"
+                position="bottom-right"
+              >
+                <svg-icon
+                  [src]="'assets/img/svgs/table/email.svg'"
+                  [svgStyle]="{ 'width.px': '18', 'height.px': '14' }"
+                ></svg-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-group" id="accordion">
+          <!--Owner-->
+          <div class="panel panel-default">
+            <div
+              class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              data-target="#collapseTwo"
+              aria-expanded="true"
+            >
+              <span class="panel-title">
+                Owner
+              </span>
+              <span class="panel-arrow">
+                <svg-icon
+                  class="arrow-down-up"
+                  [src]="'assets/img/svgs/down.svg'"
+                  [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                ></svg-icon>
+              </span>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse show">
+              <div class="panel-body">
+                <!--Business Name-->
+                <div class="d-flex flex-row justify-content-between">
+                  <div class="my-flex-item">
+                    <span class="card-label font-12" style="color: #919191;" appSelectionColor>{{
+                      owner ? owner.businessName : userCompany?.name
+                    }}</span>
+                  </div>
+                </div>
+                <!--Phone/Email-->
+                <div
+                  class="d-flex align-items-start mt-2"
+                  *ngIf="owner && owner.doc?.additionalData"
+                >
+                  <span class="card-label font-12">
+                    <svg-icon
+                      [src]="'assets/img/svgs/phone.svg'"
+                      [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                    ></svg-icon>
+                  </span>
+                  <span class="card-value font-12" style="color: #919191;" appSelectionColor>{{
+                    owner.doc.additionalData.phone
+                  }}</span>
+                </div>
+
+                <div
+                  class="d-flex align-items-start mt-2"
+                  *ngIf="owner && owner.doc?.additionalData"
+                >
+                  <span class="card-label font-12">
+                    <svg-icon
+                      [src]="'assets/img/svgs/email-filled.svg'"
+                      [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                    ></svg-icon>
+                  </span>
+                  <span class="card-value font-12" style="color: #919191;" appSelectionColor>{{
+                    owner.doc.additionalData.email
+                  }}</span>
+                </div>
+                <!--Pin-->
+                <div
+                  class="d-flex align-items-start mt-2"
+                  *ngIf="owner && owner.doc?.additionalData"
+                >
+                  <span class="card-label font-12">
+                    <svg-icon
+                      [src]="'assets/img/svgs/pin.svg'"
+                      [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+                    ></svg-icon>
+                  </span>
+                  <span class="card-value font-12">
+                    <p class="d-block m-0" style="color: #919191;" appSelectionColor>
+                      {{
+                        formatAddress(
+                          owner.doc.additionalData.address.address,
+                          owner.doc.additionalData.address.addressUnit,
+                          0
+                        )
+                      }}
+                    </p>
+                    <p class="d-block m-0" style="color: #919191;" appSelectionColor>
+                      {{
+                        formatAddress(
+                          owner.doc.additionalData.address.address,
+                          owner.doc.additionalData.address.addressUnit,
+                          1
+                        ) +
+                          ', ' +
+                          formatAddress(
+                            owner.doc.additionalData.address.address,
+                            owner.doc.additionalData.address.addressUnit,
+                            2
+                          )
+                      }}
+                    </p>
+                    <!-- <p class="d-block m-0">
+                      {{
+                        formatAddress(
+                          owner.doc.additionalData.address.address,
+                          owner.doc.additionalData.address.addressUnit,
+                          3
+                        )
+                      }}
+                    </p> -->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Owner History-->
+          <div class="panel panel-default" *ngIf="trailer.doc.activityHistory?.length">
+            <div
+              class="panel-heading accordion-toggle collapsed d-flex align-items-center justify-content-between"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              data-target="#collapseThree"
+              aria-expanded="false"
+            >
+              <span class="panel-title">
+                Owner History
+              </span>
+              <span class="panel-arrow">
+                <svg-icon
+                  class="arrow-down-up"
+                  [src]="'assets/img/svgs/down.svg'"
+                  [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                ></svg-icon>
+              </span>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+              <div class="panel-body pr-0">
+                <div class="d-flex flex-column">
+                  <!-- Activity History -->
+                  <app-truckassist-history-data
+                    [data]="activityHistory"
+                    [status]="trailer.status"
+                    (actionEvent)="saveHistoryData($event)"
+                    (removeEvent)="removeHistoryData($event)"
+                  ></app-truckassist-history-data>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Note-->
+          <div
+            class="panel panel-default"
+            *ngIf="trailer.doc.additionalData && trailer.doc.additionalData.note"
+          >
+            <div
+              class="panel-heading accordion-toggle collapsed d-flex align-items-center justify-content-between"
+              data-toggle="collapse"
+              data-parent="#accordion"
+              data-target="#collapseFour"
+              aria-expanded="false"
+            >
+              <span class="panel-title">
+                Note
+              </span>
+              <span class="panel-arrow">
+                <svg-icon
+                  class="arrow-down-up"
+                  [src]="'assets/img/svgs/down.svg'"
+                  [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                ></svg-icon>
+              </span>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+              <div class="panel-body">
+                <div
+                  class="example-full-width note-input{{
+                    showNote ? ' note-visible' : ' note-hidden'
+                  }}"
+                >
+                  <textarea
+                    cdkTextareaAutosize
+                    #note
+                    cdkAutosizeMinRows="2"
+                    cdkAutosizeMaxRows="5"
+                    [formControl]="noteControl"
+                    class="input-custom-textarea form-textarea"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Registration Column-->
+    <div class="column-2">
+      <div class="d-flex justify-content-between">
+        <div
+          class="details-card-header long-header d-flex justify-content-start align-items-center"
+          [ngClass]="{ 'full-header': !trailer?.status }"
+        >
+          <span
+            class="header-title d-flex justify-content-around align-items-center"
+            style="color: #919191;"
+            appSelectionColor
+            >Registration</span
+          >
+        </div>
+        <button
+          class="plus-svg-container"
+          (click)="addNewLicence()"
+          appTaTooltip="Add Registration"
+          position="bottom-right"
+          *ngIf="trailer?.status"
+        >
+          <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+        </button>
+      </div>
+      <app-trailer-license-card [trailer]="trailer"></app-trailer-license-card>
+    </div>
+    <!--Inspection Column-->
+    <div class="column-3">
+      <div class="d-flex justify-content-between">
+        <div
+          class="details-card-header short-header d-flex justify-content-start align-items-center"
+          [ngClass]="{ 'full-header': !trailer?.status }"
+        >
+          <span
+            class="header-title d-flex justify-content-around align-items-center"
+            style="color: #919191;"
+            appSelectionColor
+            >Inspection</span
+          >
+        </div>
+        <button
+          class="plus-svg-container"
+          (click)="addNewInspection()"
+          appTaTooltip="Add Inspection"
+          position="bottom-right"
+          *ngIf="trailer?.status"
+        >
+          <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+        </button>
+      </div>
+      <app-trailer-inspection-card [trailer]="trailer"></app-trailer-inspection-card>
+    </div>
+    <!--Title Column-->
+    <div class="column-4">
+      <div class="d-flex justify-content-between">
+        <div
+          class="details-card-header short-header d-flex justify-content-start align-items-center"
+          [ngClass]="{ 'full-header': !trailer?.status }"
+        >
+          <span
+            class="header-title d-flex justify-content-around align-items-center"
+            style="color: #919191;"
+            appSelectionColor
+            >Title</span
+          >
+        </div>
+        <button
+          class="plus-svg-container"
+          (click)="newTrailerTitle()"
+          appTaTooltip="Add Title"
+          position="bottom-right"
+          *ngIf="trailer?.status"
+        >
+          <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+        </button>
+      </div>
+      <app-trailer-title-card [trailer]="trailer"></app-trailer-title-card>
+    </div>
+    <!--Lease - Purchase Column-->
+    <div class="column-5">
+      <div class="d-flex justify-content-between">
+        <div
+          class="details-card-header short-header d-flex justify-content-start align-items-center"
+          [ngClass]="{ 'full-header': !trailer?.status }"
+        >
+          <span
+            class="header-title d-flex justify-content-around align-items-center"
+            style="color: #919191;"
+            appSelectionColor
+            >Lease - Purchase</span
+          >
+        </div>
+        <button
+          class="plus-svg-container"
+          (click)="newTrailerLease()"
+          appTaTooltip="Add Lease - purchase"
+          position="bottom-right"
+          *ngIf="trailer?.status"
+        >
+          <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+        </button>
+      </div>
+      <app-trailer-lease-purchase-card [trailer]="trailer"></app-trailer-lease-purchase-card>
+    </div>
+  </div>
+</div>

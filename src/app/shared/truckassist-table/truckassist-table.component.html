@@ -1,0 +1,772 @@
+<div class="truckassist-toolbar" *ngIf="stateName">
+  <div class="container toolbar-container">
+    <div class="row">
+      <!--Active User counter-->
+      <div
+        class="counter-container active-user-counter col-auto p-0"
+        [ngClass]="{ 'd-none': options.toolbarActions.hideSelectNumber }"
+      >
+        <span
+          class="counter-badge"
+          [ngClass]="{
+            'empty-badge': !activeItems.length,
+            'large-badge': activeItems.length > 99,
+            'simple-badge': activeItems.length && activeItems.length < 10
+          }"
+          ><span class="badge-value">{{
+            mySelection.length > 999 ? '999' : activeItems.length ? activeItems.length : 0
+          }}</span>
+        </span>
+      </div>
+
+      <div class="col-auto p-0 switch-container" *ngIf="showUnitSwitch">
+        <app-unit-switch
+          [options]="switchUnitData"
+          [type]="type"
+          [keywordPasted]="keywordForSwich"
+          [addTabelStyle]="true"
+        ></app-unit-switch>
+      </div>
+
+      <!-- Tools Title Table -->
+      <div class="col-auto p-0" *ngIf="toolsTableTitle">
+        <div class="tools-table-title">
+          <p class="tools-table-title-text">{{ toolsTableTitle }}</p>
+        </div>
+      </div>
+
+      <!--Button Group-->
+      <div
+        class="tab-container button-group-container col-auto p-0"
+        [ngClass]="{ 'd-none': options.toolbarActions.hideTabs }"
+      >
+        <app-truckassist-buttongroup
+          [items]="tableData"
+          [loading]="loadingItems"
+          [selectedTab]="selectedTab"
+          (switch)="switchTab($event)"
+        ></app-truckassist-buttongroup>
+      </div>
+
+      <div
+        class="tab-container col-auto p-0"
+        [ngClass]="{ 'd-none': !options.toolbarActions.hideTabs && !switchItems?.length }"
+      >
+        <app-truckassist-buttongroup
+          [items]="switchItems"
+          [loading]="loadingItems"
+          [selectedTab]="selectedSubTab"
+          (switch)="subItemsSwitchService.dataSource.next($event)"
+        ></app-truckassist-buttongroup>
+      </div>
+
+      <!--Total counter badge-->
+      <div
+        class="total-counter-container col-auto p-0"
+        *ngIf="options.toolbarActions.showTotalCounter && viewMode !== 'MapView'"
+      >
+        <span
+          class="counter-badge"
+          [ngClass]="{
+            'counter-badge-empty': !total,
+            'counter-badge-unselected':
+              !mySelection.length && !dateFilter.length && !this.highlightingWords.length
+          }"
+          [innerHtml]="total | nFormatter"
+        ></span>
+      </div>
+
+      <div *ngIf="options.toolbarActions.showCustomerFilter" class="customerFilters d-flex">
+        <div
+          tooltipBackground="#FF5D5D"
+          appTaTooltip="Do not use list"
+          position="bottom-right"
+          class="cust_filter dnu_filter"
+          [class.active]="filterByCustomer == 'dnu'"
+          (click)="filterCustomerBy('dnu')"
+        >
+          <svg-icon
+            src="../../../assets/img/svgs/circle_minus.svg"
+            [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+          ></svg-icon>
+        </div>
+        <div
+          tooltipBackground="#707070"
+          appTaTooltip="Banned from broker"
+          position="bottom-right"
+          class="cust_filter ban_filter"
+          [class.active]="filterByCustomer == 'ban'"
+          (click)="filterCustomerBy('ban')"
+        >
+          <svg-icon
+            src="../../../assets/img/svgs/circle_minus.svg"
+            [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+          ></svg-icon>
+        </div>
+      </div>
+
+      <!-- Repair PM Switch -->
+      <div
+        class="col-auto p-0"
+        *ngIf="
+          stateName === 'repair_trucks' ||
+          stateName === 'repair_trailers' ||
+          stateName === 'repair_trucks_pm' ||
+          stateName === 'repair_trailers_pm'
+        "
+      >
+        <app-repair-pm-switcher
+          (optionSelected)="switchRepairTabelView.emit($event)"
+          [isPmActive]="stateName === 'repair_trucks_pm' || stateName === 'repair_trailers_pm'"
+        ></app-repair-pm-switcher>
+      </div>
+
+      <!-- Switch View -->
+      <div *ngIf="!options.toolbarActions.hideSwitchView && stateName !== 'violations_summary'" class="col-auto p-0">
+        <app-table-view-switcher
+          [viewMode]="viewMode"
+          [stateName]="stateName"
+          [options]="options"
+          (viewModeEvent)="switchViewMode($event)"
+        ></app-table-view-switcher>
+      </div>
+
+      <div *ngIf="stateName === 'violations_summary'">
+        <app-violation-summary-filter-group> </app-violation-summary-filter-group>
+      </div>
+
+      <!-- PM Filter -->
+      <div
+        class="col-auto p-0"
+        *ngIf="
+          stateName === 'repair_trucks' ||
+          stateName === 'repair_trailers' ||
+          stateName === 'repair_trucks_pm' ||
+          stateName === 'repair_trailers_pm'
+        "
+      >
+        <app-pm-add-or-filter [isFilter]="true"></app-pm-add-or-filter>
+      </div>
+
+      <!-- Custom Search -->
+      <div
+        class="col-auto search-container"
+        [ngClass]="{
+          'col-auto': options.toolbarActions.hideShopType || showUnitSwitch
+        }"
+      >
+        <app-custom-search
+          [dontShowChips]="false"
+          [stateName]="stateName"
+          [tableTitle]="tableTitle"
+          [gridNameTitle]="gridNameTitle"
+          [recordsLength]="viewData.length"
+          [truckAndTrailerStyle]="showUnitSwitch ? true : false"
+        ></app-custom-search>
+      </div>
+
+      <div class="shop-type-filter-container" *ngIf="stateName === 'repair_shops'">
+        <div
+          class="type"
+          [ngClass]="{ 'type-active': type.active }"
+          *ngFor="let type of types; let i = index"
+          (click)="onTypeSelected(i)"
+        >
+          {{ type.option }}
+        </div>
+      </div>
+
+      <!-- Date Filter -->
+      <div
+        class="col-auto date-filter-container p-0"
+        *ngIf="
+          options.toolbarActions.showDateFilter &&
+          viewMode !== 'MapView' &&
+          stateName !== 'violations_summary'
+        "
+      >
+        <app-truckassist-date-filter
+          [loading]="loadingItems"
+          [stateName]="stateName"
+          *ngIf="options.toolbarActions.showDateFilter"
+          [field]="options.config.dateFilterField"
+        ></app-truckassist-date-filter>
+      </div>
+
+      <!-- Load Status Filter -->
+      <div
+        class="col-auto date-filter-container p-0"
+        *ngIf="options.toolbarActions.showLabelStatusFilter"
+      >
+        <app-load-status-filter [tableTitle]="tableTitle"></app-load-status-filter>
+      </div>
+
+      <!-- Label Filter -->
+      <div class="cards-filter" *ngIf="!options.toolbarActions.hideLabel">
+        <!-- Toggle Label-->
+        <app-label-button
+          [createdLabels]="labels"
+          [availableColors]="availableColors"
+          [type]="options.type"
+          [noLabelCount]="noCount"
+        ></app-label-button>
+      </div>
+
+      <!-- Filter Shops By Types -->
+      <div class="col-auto type-container" *ngIf="options.toolbarActions.hideShopType">
+        <div
+          class="types"
+          *ngFor="let type of types; let i = index"
+          [ngClass]="{ addBackActiveT: type.active }"
+          (click)="onTypeSelected(i)"
+        >
+          <p>{{ type.option }}</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div
+        class="col action-container d-flex align-items-center justify-content-end"
+        [ngClass]="{
+          actionStyle: showUnitSwitch
+        }"
+      >
+        <!-- Violation Button Group Filters -->
+        <div
+          class="action-container_violation-filter"
+          *ngIf="
+            options.toolbarActions.showViolationFilterButtonGroup &&
+            stateName !== 'violations_summary'
+          "
+        >
+          <app-violation-group-filter></app-violation-group-filter>
+        </div>
+        <!--Delete-->
+        <button
+          *ngIf="!options.toolbarActions.hideDeleteMultiple"
+          [style.display]="mySelection.length ? 'inline-block' : 'none'"
+          class="toolbar-btn delete-btn"
+          container="body"
+          (click)="toggleDeleteDialog()"
+          tooltipBackground="#FF5D5D"
+          appTaTooltip="Delete Selected"
+          aria-hidden="true"
+          [disabled]="loadingItems"
+          position="bottom-right"
+        >
+          <svg-icon
+            [src]="'assets/img/svgs/table/trash.svg'"
+            [svgStyle]="{ 'width.px': '15.76', 'height.px': '18' }"
+          ></svg-icon>
+        </button>
+
+        <button
+          *ngIf="!options.toolbarActions.hideSwitch"
+          [style.display]="selectedTab !== null && mySelection.length ? '' : 'none'"
+          appTaTooltip="{{ selectedTab === 'active' ? 'Deactivate' : 'Activate' }} {{
+            mySelection.length > 1 ? 'items' : 'item'
+          }}"
+          container="body"
+          class="toolbar-btn switch-btn"
+          [ngClass]="checked ? 'active-btn' : 'inactive-btn'"
+          aria-hidden="true"
+          [disabled]="loadingItems"
+          (click)="changeStatuses()"
+          position="bottom-right"
+        >
+          <svg-icon
+            [src]="'assets/img/svgs/table/activate.svg'"
+            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+          ></svg-icon>
+        </button>
+
+        <!--Print-->
+        <button
+          *ngIf="!options.toolbarActions.hidePrint"
+          [style.display]="mySelection.length ? 'inline-block' : 'none'"
+          position="bottom-right"
+          appTaTooltip="{{ printPlaceholder }}"
+          container="body"
+          class="toolbar-btn print-btn"
+          aria-hidden="true"
+          [disabled]="loadingItems"
+        >
+          <svg-icon
+            [src]="'../../../assets/img/svgs/table/print.svg'"
+            [svgStyle]="{ 'width.px': '18', 'height.px': '17' }"
+          ></svg-icon>
+        </button>
+
+        <!--Compress/expand-->
+        <button
+          *ngIf="
+            !options.toolbarActions.hideCompress &&
+            viewMode !== 'CardView' &&
+            viewMode !== 'MapView'
+          "
+          class="toolbar-btn compress-btn"
+          id="expend"
+          [appTaTooltip]="expanded ? 'Collapse table' : 'Expand table'"
+          container="body"
+          position="bottom-right"
+          (click)="onCompress()"
+          [disabled]="loadingItems"
+        >
+          <svg-icon
+            [src]="
+              expanded
+                ? '../../../assets/img/svgs/table/collapse.svg'
+                : '../../../assets/img/svgs/table/expand.svg'
+            "
+            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+          ></svg-icon>
+        </button>
+
+        <!-- Action Stack -->
+        <app-truckassist-action-stack
+          *ngIf="
+            !this.compressTouch &&
+            (this.extendedGridColumns?.length || this.gridCoumns?.length) &&
+            viewMode !== 'MapView'
+          "
+          [stateName]="stateName"
+          [viewMode]="viewMode"
+          [options]="options"
+          [tableData]="tableData"
+          [viewData]="viewData"
+          [loadingItems]="loadingItems"
+          [columns]="this.expanded ? this.extendedGridColumns : this.gridCoumns"
+          [expanded]="this.expanded"
+          [truckassistTable]="this.truckassistTable"
+          [mySelection]="mySelection"
+          [selectedTab]="selectedTab"
+          [locked]="locked"
+          [touched]="touched"
+          [showResetConfirmation]="showResetConfirmation"
+          [extendedTableTouched]="extendedTableTouched"
+          (actionEvent)="callAction($event)"
+          (resetColumnEvent)="resetColumnState($event)"
+          (hideColumnsEvent)="hideColumn($event)"
+        ></app-truckassist-action-stack>
+      </div>
+
+      <div class="col-auto add-btn-container text-right d-flex align-items-center">
+        <!--Add new item-->
+        <button
+          class="toolbar-btn add-btn"
+          appTaTooltip="{{
+            options.config?.title ? 'Add ' + options.config.title : 'Add new item'
+          }}"
+          container="body"
+          position="bottom-right"
+          (click)="openInsertModal()"
+          [disabled]="loadingItems"
+          *ngIf="!options.toolbarActions.hideAddNew"
+        >
+          <svg-icon
+            [src]="'assets/img/svgs/table/add.svg'"
+            [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+          ></svg-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table
+  class="truckassist-table"
+  *ngIf="viewMode === 'ListView'"
+  #truckassistTable
+  resizeObserver
+  (resize)="onResize('check')"
+  id="exportTruckassistTable"
+>
+  <thead>
+    <tr
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      class="table-header"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <th
+        scope="col"
+        cdkDragBoundary=".table-header"
+        cdkDrag
+        [cdkDragDisabled]="locked || pressed"
+        *ngFor="let column of columns; let i = index"
+        (click)="sortHeaderClick(column)"
+        [class]="'mat-column-' + column.field"
+        [ngClass]="{
+          'th-checkbox': column.isSelectColumn,
+          'th-action': column.isActionColumn,
+          'th-grab': !locked && column.draggable,
+          'th-last':
+            (i < columns.length - 1 && !columns[i + 1].resizable) ||
+            i === columns.length - 1 ||
+            (i === columns.length - 1 && columns[i].resizable && !columns[i - 1].resizable),
+          test: column.field === 'priceTotal' && stateName === 'fuels'
+        }"
+      >
+        <div class="counter-container" *ngIf="column.isSelectColumn && !column.showUserCheckbox">
+          <span
+            class="counter-badge"
+            [ngClass]="{
+              'empty-badge': !mySelection.length,
+              'large-badge': mySelection.length > 99,
+              'simple-badge': mySelection.length && mySelection.length < 10
+            }"
+            (click)="selectItemsDropdown.open()"
+            ><span class="badge-value">{{
+              mySelection.length > 999 ? '999' : mySelection.length ? mySelection.length : ''
+            }}</span>
+          </span>
+        </div>
+
+        <div
+          ngbDropdown
+          #selectItemsDropdown="ngbDropdown"
+          class="select-dropdown d-flex"
+          [autoClose]="'outside'"
+          [hidden]="!column.isSelectColumn"
+        >
+          <div ngbDropdownMenu class="animate slideIn">
+            <form class="select-container">
+              <div class="row">
+                <div class="col-12">
+                  <a
+                    class="dropdown-item"
+                    *ngIf="mySelection.length"
+                    (click)="onDeselectSelected()"
+                  >
+                    <span class="mr-2">Deselect Selected</span>
+                    <span>({{ mySelection.length }})</span>
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    (click)="onSelectVisibleItems()"
+                    *ngIf="mySelection.length && mySelection.length !== viewData.length"
+                  >
+                    <span class="mr-2">{{ 'Select Remaining' }}</span>
+                    <span>({{ viewData.length - mySelection.length }})</span>
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    (click)="onSelectVisibleItems()"
+                    *ngIf="!mySelection.length"
+                  >
+                    <span class="mr-2">{{ 'Select Visible' }}</span>
+                    <span>({{ viewData.length }})</span>
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <span class="field-value">
+          <span
+            *ngIf="!column.colorTemplate"
+            [ngClass]="column.addClassToTitle ? column.addClassToTitle : ''"
+            >{{ column.title }}</span
+          >
+          <span *ngIf="column.colorTemplate">
+            <svg-icon
+              src="assets/img/svgs/table/table-color.svg"
+              [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+            ></svg-icon>
+          </span>
+          <!-- Violations Icons -->
+          <span
+            appSelectionColor
+            class="violation_head"
+            *ngIf="
+              column.name === 'vl1' ||
+              column.name === 'vl2' ||
+              column.name === 'vl3' ||
+              column.name === 'vl4' ||
+              column.name === 'vl5' ||
+              column.name === 'vl6' ||
+              column.name === 'vl7'
+            "
+            ><svg-icon
+              src="assets/img/svgs/table/violation-{{ column.name }}.svg"
+              [svgStyle]="{ 'width.px': '17', 'height.px': '21' }"
+            ></svg-icon>
+          </span>
+          <span
+            class="note_head d-flex justify-content-center align-items-center"
+            [class.active]="switchOpenNotes"
+            *ngIf="column.name == 'Note'"
+          >
+            <button class="custom-rounded-btn" (click)="openAllNotes()">
+              <svg-icon
+                class="all-expanded-icon"
+                *ngIf="switchOpenNotes"
+                [src]="'assets/img/svgs/table/note_all_expanded.svg'"
+                [svgStyle]="{ 'width.px': '16', 'height.px': '18' }"
+              ></svg-icon>
+              <svg-icon
+                class="normal-icon"
+                *ngIf="!switchOpenNotes"
+                [src]="'assets/img/svgs/note.svg'"
+                [svgStyle]="{ 'width.px': '16', 'height.px': '18' }"
+              ></svg-icon>
+            </button>
+          </span>
+          <span
+            class="note_head comment_head d-flex justify-content-center align-items-center"
+            [class.active]="switchOpenNotes"
+            *ngIf="column.name == 'Comments'"
+          >
+            <button class="custom-rounded-btn" (click)="openAllNotes()">
+              <svg-icon
+                class="normal-icon"
+                [src]="'assets/img/svgs/table/table-comment.svg'"
+                [svgStyle]="{ 'width.px': '18', 'height.px': '16' }"
+              ></svg-icon>
+            </button>
+          </span>
+        </span>
+
+        <span
+          class="truckassist-bar"
+          [ngClass]="{
+            'd-none': !column.resizable || locked
+          }"
+          (mousedown)="onResizeColumn($event, i)"
+        ></span>
+
+        <span
+          *ngIf="!column.isNumeric && column.sortable && locked && viewData.length > 1"
+          [ngClass]="{
+            'sorting-asc-arrow':
+              options.config.sortBy === column.field && options.config.sortDirection === 'asc',
+            'sorting-desc-arrow':
+              options.config.sortBy === column.field && options.config.sortDirection === 'desc'
+          }"
+        ></span>
+        <span
+          *ngIf="column.isNumeric && column.sortable && locked && viewData.length > 1"
+          [ngClass]="{
+            'sorting-asc-arrow':
+              options.config.sortBy === column.field && options.config.sortDirection === 'asc',
+            'sorting-desc-arrow':
+              options.config.sortBy === column.field && options.config.sortDirection === 'desc'
+          }"
+        ></span>
+      </th>
+    </tr>
+  </thead>
+
+  <app-no-results *ngIf="!viewData.length && this.tableData.length"></app-no-results>
+  <app-no-empty-status *ngIf="!this.tableData.length"></app-no-empty-status>
+
+  <tbody class="truckassist-tbody" *ngIf="viewData.length">
+    <ng-container *ngFor="let row of viewData; let i = index; trackBy: trackByFn">
+      <tr
+        [ngClass]="{
+          'selected-row': row.isSelected && !options.toolbarActions.userTabelStyle,
+          'muted-row':
+            !row['status'] &&
+            !options.disabledMutedStyle &&
+            !options.toolbarActions.userTabelStyle &&
+            stateName !== 'applicants',
+          'user-enabled':
+            options.toolbarActions.userTabelStyle &&
+            row?.status === 1 &&
+            row?.dateFlag !== 'registered',
+          'user-disabled':
+            options.toolbarActions.userTabelStyle && row?.status === 0 && row?.userType !== 'Owner',
+          'user-owner':
+            options.toolbarActions.userTabelStyle &&
+            row?.userType === 'Owner' &&
+            row?.dateFlag !== 'registered',
+          'user-no-verified':
+            options.toolbarActions.userTabelStyle &&
+            row?.dateFlag === 'registered' &&
+            row?.userType !== 'Owner' &&
+            row?.status !== 0,
+          'new-item': row?.animationType === 'new-item',
+          'new-active': row?.animationType === 'new-active',
+          'delete-item': row?.animationType === 'delete-item',
+          'delete-active': row?.animationType === 'delete-active',
+          'update-item': row?.animationType === 'update-item',
+          'update-active': row?.animationType === 'update-active',
+          'update-inactive': row?.animationType === 'update-inactive',
+          violation_summary_row: stateName === 'violations_summary',
+          expanded_violation_summary: row['expandedRow'] && stateName === 'violations_summary'
+        }"
+        (click)="rowClicked(row, i)"
+      >
+        <!-- (click)="onEditUser(i, row, false, j)"  -->
+        <td
+          *ngFor="let column of columns; let j = index"
+          (click)="columnClicked(row, i, j)"
+          [ngClass]="{
+            'td-checkbox': column.isSelectColumn,
+            'td-action': column.isActionColumn,
+            'td-progress': column.progress,
+            'td-opacity': column.opacityIgnore,
+            addTypeFont: column.addFontToTableText,
+            'td-user-owner': j !== 0 && options.toolbarActions.userTabelStyle,
+            'td-no-overflow': column.svg
+          }"
+          [class]="'mat-column-' + column.field + ' ' + column.class"
+        >
+          <div class="td-content">
+            <ng-container
+              [ngTemplateOutlet]="getTemplate(column.ngTemplate)"
+              [ngTemplateOutletContext]="getContext(row, column, i, j)"
+            ></ng-container>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Expanded Row -->
+      <ng-container *ngIf="showExpandedContainer !== -1">
+        <tr
+          class="table-expanded-container"
+          [ngClass]="{
+            collapsed: !row['expandedRow'],
+            'violation-expanded-file-tooltip': stateName === 'violations'
+          }"
+          [@expandContainerCollapse]="row['expandedRow'] ? 'open' : 'close'"
+        >
+          <td
+            class="expanded-container-panel"
+            [@expandCollapse]="row['expandedRow'] ? 'open' : 'close'"
+            colspan="100%"
+          >
+            <div *ngIf="row['expandedRow'] && stateName === 'drivers'"></div>
+            <!-- Violation Summary Expanded Row -->
+            <app-violation-summary
+              class="violation_summary_inner"
+              *ngIf="row['expandedRow'] && stateName === 'violations_summary'"
+              [rowData]="row"
+              [rowIndex]="i"
+            ></app-violation-summary>
+            <!-- Violation Summary Expanded Row -->
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</table>
+
+<!-- Cell Templates -->
+<app-cell-templates [stateName]="stateName" #cellTemplates id="cellTemplates"></app-cell-templates>
+
+<!-- CARD VIEW -->
+<div
+  class="card-view"
+  *ngIf="viewMode === 'CardView'"
+  [ngClass]="{ 'card-view_violations': stateName === 'violations' }"
+>
+  <app-truckassist-card
+    [class]="{
+      'd-none': stateName === 'owners' || stateName === 'accounts' || stateName === 'contacts',
+      'card-view_violations_cards': stateName === 'violations'
+    }"
+    *ngFor="let cardItem of viewData; trackBy: identify; let i = index"
+    [inputItem]="cardItem"
+    [stateName]="stateName"
+    [cardIdentificator]="cardItem.id"
+    [selectedTab]="selectedTab"
+  ></app-truckassist-card>
+  <app-card
+    [class]="{
+      'd-none': stateName !== 'owners' && stateName !== 'accounts' && stateName !== 'contacts'
+    }"
+    [ngClass]="options.class"
+    *ngFor="let cardItem of viewData; trackBy: identify; let i = index"
+    [type]="options.type"
+    [data]="cardItem"
+    [index]="i"
+    [highlightingWords]="highlightingWords"
+    [labels]="labels"
+    [availableColors]="availableColors"
+  ></app-card>
+</div>
+
+<!-- MAP VIEW SHOP -->
+<div
+  class="row map-view d-flex flex-row flex-wrap"
+  *ngIf="viewMode === 'MapView' && stateName === 'repair_shops'"
+>
+  <app-shop-map [tableShopData]="viewData"></app-shop-map>
+</div>
+
+<!-- MAP VIEW VIOLATIONS -->
+<div
+  class="row map-view d-flex flex-row flex-wrap"
+  *ngIf="viewMode === 'MapView' && stateName === 'violations'"
+>
+  <app-violation-map [tableShopData]="viewData"></app-violation-map>
+</div>
+
+<!-- MAP VIEW ACCIDENT -->
+<div
+  class="row map-view d-flex flex-row flex-wrap"
+  *ngIf="
+    viewMode === 'MapView' &&
+    (stateName === 'accidents' || stateName === 'accidents_non-reportable')
+  "
+>
+  <app-accident-map [tableShopData]="viewData"></app-accident-map>
+</div>
+
+<!-- TABLE FOOTER -->
+<div
+  class="container show-more-container p-0 show-more pb-2"
+  *ngIf="!loadingItems && viewMode !== 'MapView' && viewData.length"
+>
+  <div class="row">
+    <div class="col-sm-8 showing-container">
+      <!-- For Animation Count -->
+      <div class="showing-now">
+        <span> {{ viewData.length }} of </span>
+      </div>
+      <div class="all-data" id="data-animate">
+        <span>{{ digit === -1 ? filteredData.length : digit }}</span>
+      </div>
+      <div class="data-title">
+        <span>Showing </span>
+      </div>
+    </div>
+    <div class="col-sm-4 text-right">
+      <span class="show-more" (click)="showMore()" *ngIf="viewData.length < filteredData.length">
+        Show More
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- EXPANDED TABLE FOOTER -->
+<div
+  class="expanded-footer d-flex justify-content-center align-items-center flex-column"
+  *ngIf="expanded && showSubtitle"
+>
+  <div class="progress-border">
+    <div class="progress-footer" [style.width.%]="subtitleProgress"></div>
+  </div>
+  <span class="swim-footer d-flex justify-content-center align-items-center"
+    >To exit, please press the ESC button or click on
+    <span class="ml-2 mr-2">
+      <svg-icon
+        [src]="'../../../assets/img/svgs/table/collapse.svg'"
+        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+      ></svg-icon
+    ></span>
+    icon</span
+  >
+</div>
+
+<!-- Files Popup Tooltip -->
+<!-- <ng-template #fileTooltip let-note="data">
+  <div class="d-flex flex-column">
+    <div>
+      <span>Files placeholder</span>
+      <i class="fad fa-copy cursor-pointer fs-18 ml-2" (click)="copy($event)"> </i>
+    </div>
+  </div>
+</ng-template> -->

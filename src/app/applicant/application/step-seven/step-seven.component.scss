@@ -1,0 +1,240 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slideShow {
+  &__date {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+  }
+  &__city {
+    position: absolute;
+    top: 4px;
+    left: 286px;
+  }
+  &__firstrow {
+    position: absolute;
+    top: 55px;
+    left: 595px;
+  }
+  &__secondrow {
+    position: absolute;
+    top: 5px;
+    left: 492px;
+  }
+  &__thirdrow {
+    position: absolute;
+    top: 16px;
+    left: 496px;
+  }
+  &__fourthrow {
+    position: absolute;
+    top: 6px;
+    left: 496px;
+  }
+  &__fifhrow {
+    position: absolute;
+    left: 496px;
+  }
+  &__sixthrow {
+    position: absolute;
+    top: 4px;
+    left: 496px;
+  }
+}
+
+.reuqiredText {
+  color: #ff5d5d;
+  @media only screen and (max-width: 376px) {
+    position: relative;
+    top: -20px;
+    left: 175px;
+  }
+}
+
+.step7 {
+  position: relative;
+  margin-bottom: 35px;
+
+  @media only screen and (max-width: 414px) {
+    margin-left: -91px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media only screen and (max-width: 376px) {
+    margin-left: -85px;
+  }
+
+  &_defaultColor {
+    background: rgba(255, 93, 93, 1) !important;
+    color: #eeeeee !important;
+    border-right: 3px solid rgba(255, 93, 93, 1) !important;
+  }
+
+  // Days 1-7
+  &_2 {
+    margin-left: 2px;
+  }
+
+  &_4 {
+    margin-right: 6px;
+  }
+
+  &_5 {
+    margin-left: -7px;
+  }
+
+  &_7 {
+    margin-right: 3px;
+  }
+
+  &_day {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    width: 502px;
+    height: 18px;
+    font-weight: bold;
+    margin: 0 auto 0 131px;
+    color: $color-gray-light;
+
+    &_dayCaracter {
+      position: absolute;
+      left: -39px;
+      top: -2px;
+    }
+  }
+
+  &_date {
+    color: $color-gray-light;
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 9px 0 auto 153px;
+    width: 455px;
+
+    &_date {
+      font-size: 14px;
+      position: absolute;
+      left: -61px;
+      top: -2px;
+    }
+  }
+
+  &_inp {
+    display: flex;
+    width: 445px;
+    margin: 6px auto 0 165px;
+    position: relative;
+
+    &-days {
+      margin-right: 14px;
+      width: 100px;
+
+      & > input {
+        padding-left: 0 !important;
+        text-align: center;
+      }
+    }
+  }
+
+  &_HOS {
+    position: absolute;
+    top: 3px;
+    left: -73px;
+    font-weight: bold;
+    color: $color-gray-normal;
+  }
+
+  &_totalHours {
+    position: absolute;
+    top: 84px;
+    left: 91px;
+    font-weight: bold;
+    color: $color-blue-normal;
+  }
+}
+
+.CheckParagraf {
+  font-weight: bold;
+  margin-top: 0px !important;
+  font-size: 12px !important;
+}
+
+.herebyCheck {
+  font-weight: bold;
+  font-size: 12px;
+  margin-top: -1px !important;
+}
+.explainRowContent {
+  padding-right: 4px !important;
+}
+
+.explainContent {
+  margin-bottom: 10px !important;
+  width: 476px !important;
+
+  @media only screen and(max-width: 414px) {
+    margin-left: -40px !important;
+    width: 377px !important;
+    margin-bottom: -11px !important;
+    margin-top: 22px;
+    &-2 {
+      margin-top: 1px !important;
+      margin-bottom: 3px !important;
+    }
+  }
+  @media only screen and(max-width: 376px) {
+    margin-left: -20px !important;
+    width: 341px !important;
+  }
+  @media only screen and(max-width: 360px) {
+    &-2 {
+      width: 342px !important;
+    }
+  }
+}
+
+// Mobile screen
+@media only screen and(max-width: 414px) {
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .btn_mobile {
+    margin-left: -277px;
+  }
+  .centerContent {
+    margin-left: 25px;
+  }
+  .yesno {
+    top: 44px;
+    &_1 {
+      top: 52px;
+    }
+  }
+}
+
+@media only screen and(max-width: 376px) {
+  .btn_mobile {
+    margin-left: -324px;
+  }
+  .centerContent {
+    margin-left: 1px;
+  }
+  .cityMobile {
+    width: 223px;
+  }
+  .centerContent2 {
+    margin-bottom: 5px;
+  }
+}

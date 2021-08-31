@@ -1,0 +1,208 @@
+.main-container {
+  width: 360px;
+  overflow: hidden;
+  margin-bottom: 3px;
+
+  p {
+    margin: 0;
+  }
+
+  div {
+    .name {
+      font-size: 12px;
+      color: #b7b7b7;
+      margin-bottom: 3px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .image {
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  }
+
+  .sender-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    .name {
+      text-align: right;
+      user-select: none;
+    }
+
+    .media-playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999999;
+      cursor: pointer;
+      svg {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    .overlay-video {
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: 99;
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+
+  .content-video {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+    .name {
+      text-align: right;
+      user-select: none;
+    }
+
+    .media-playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999999;
+      cursor: pointer;
+      svg {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        top: 5px;
+      }
+    }
+  }
+
+  .sent-file-content-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .file-container {
+    width: 183px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    border-radius: 3px;
+    background: transparent;
+    overflow: hidden;
+    cursor: pointer;
+    margin-top: 3px;
+    position: relative;
+    transition: all .2s ease-in;
+
+    .size {
+      position: absolute;
+      top: 4px;
+      left: 38px;
+      font-size: 10px;
+      display: none;
+      transition: all .2s ease-in;
+    }
+    
+    .time {
+      position: absolute;
+      right: 51px;
+      top: 4px;
+      font-size: 10px;
+      display: none;
+      transition: all .2s ease-in;
+    }
+
+    .date {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      display: none;
+      transition: all .2s ease-in;
+    }
+
+    .name {
+      margin: 0;
+      margin-left: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 114px;
+      font-weight: bold;
+      font-size: 10px;
+      user-select: none;
+      position: absolute;
+      top: 19px;
+      left: 33px;
+      color: #6C6C6C;
+    }
+
+    &:hover {
+      background: #f3f3f3;
+      .size {
+        display: inline-block;
+      }
+      .date {
+        display: inline-block;
+      }
+      .time {
+        display: inline-block;
+      }
+    }
+  }
+
+  // Override player video
+  ::ng-deep vg-play-pause {
+    margin-left: -10px !important;
+  }
+
+  ::ng-deep .media-playButton {
+    display: none !important;
+  }
+
+  ::ng-deep vg-overlay-play .vg-overlay-play {
+    width: 23% !important;
+    height: 32% !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -66%) !important;
+  }
+
+  ::ng-deep vg-time-display {
+    display: none !important;
+  }
+
+  ::ng-deep .line-separation-time {
+    display: none !important;
+  }
+
+  ::ng-deep vg-scrub-bar {
+    margin: 0 auto !important;
+    margin-left: -11px !important;
+  }
+
+  ::ng-deep .video-player vg-scrub-bar .scrubBar {
+    margin-left: 0px !important;
+  }
+
+  ::ng-deep vg-mute {
+    width: 30px !important;
+  }
+
+  ::ng-deep vg-volume {
+    width: 79px !important;
+  }
+
+  ::ng-deep vg-fullscreen {
+    width: 32px !important;
+  }
+}

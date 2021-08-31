@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="login-container container-fluid d-flex justify-content-center">
+      <div class="d-flex flex-column align-items-center">
+        <div class="login-logo">
+          <svg-icon src="assets/img/svgs/truck-assist-logo-icon.svg"></svg-icon>
+        </div>
+        <div class="login-text d-flex flex-column align-items-center">
+          <p>Welcome to Truck Assist</p>
+          <p>To log in please enter your email and password</p>
+        </div>
+        <form [formGroup]="loginForm" id="login" class="d-flex flex-column align-items-center" tabindex="500">
+
+          <div class="pt-3 register-form">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(loginForm.controls.email) }}">
+                    <input id="email"
+                      appInputFocus
+                      class="form-control input-control required"
+                      placeholder="Email" formControlName="email" appAutoFocus>
+                    <label class="required-label" for="email">Email</label>
+                    <app-required-label [control]="loginForm.controls.email"></app-required-label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-label-group">
+                    <input id="password"
+                      class="form-control input-control required"
+                      type="{{ passwordType }}" placeholder="Password" formControlName="password">
+                    <label class="required-label" for="password">Password</label>
+                    <app-required-label [control]="loginForm.controls.password"></app-required-label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p id="forgot-password" routerLink="/login/forgot-password">Forgot Password?</p>
+          <button type="submit" (click)="userLogin($event)">
+            <p>Log in</p>
+          </button>
+          <p id="login-sign-up">Don't have an account?<a routerLink="/register">Sign Up</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="copyright">
+      <p>Copyright © TruckAssist 2021.</p>
+    </div>
+  </div>
+</div>

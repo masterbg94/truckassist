@@ -1,0 +1,76 @@
+<div class="dashboard_history_holder ml-0">
+    <div class="dashboar_hist_header weather_holder load_holder_dash">
+        <div class="custom_search">
+            <app-custom-search 
+                [stateName]="''"
+                [gridNameTitle]="''"
+                (sendChangeStyle)="setExpanded($event)"    
+            >
+            </app-custom-search> 
+        </div>
+        <div @shrinkItem class="dashb_white_part" *ngIf="!searchExpanded">
+            <span
+                style="color: #919191b3;"
+                appSelectionColor
+            >Fuel Account</span>
+        </div>
+        <div class="chart_select_holder">
+            <ng-select
+             [items]="truckList"
+             bindLabel="truckId"
+             [searchable]="false"
+             [(ngModel)]="selectedTruckId"
+             bindValue="id"
+            ></ng-select>
+        </div>
+        <button
+              class="plus-svg-container"
+              appTaTooltip="Add Fuel"
+              position="bottom-right"
+              tooltipBackground="#707070"
+          >
+              <svg-icon src="../../../../assets/img/svgs/table/add.svg"> </svg-icon>
+        </button>
+    </div>
+    <div class="dashboard_fuel_list">
+        <div class="flex-grow-1">
+            <table width="100%">
+                <tbody>
+                    <tr *ngFor="let fuel of fuelData">
+                        <td
+                            style="color: #919191;"
+                            appSelectionColor
+                        >{{fuel.transactionDate | date : 'MM/dd/yy'}}</td>
+                        <td 
+                            style="color: #919191;"
+                            appSelectionColor
+                            width="15%"
+                        >{{fuel.truckId}}</td>
+                        <td 
+                            style="color: #919191;"
+                            appSelectionColor
+                            width="40%"
+                        >{{fuel.location}}</td>
+                        <td 
+                            style="color: #919191;"
+                            appSelectionColor
+                            width="20%"
+                        >{{fuel.fuelTotal | currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="balance_holder d-flex justify-content-between">
+            <div 
+                class="balance_title"
+                style="color: #fff;"
+                appSelectionColor
+            >Balance</div>
+            <div 
+                class="balance_money"
+                style="color: #fff;"
+                appSelectionColor
+            >{{fuelTotal | currency}}</div>
+        </div>
+    </div>
+</div>

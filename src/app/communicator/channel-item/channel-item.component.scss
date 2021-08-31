@@ -1,0 +1,237 @@
+.channel-item {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  transition: 0.2s;
+  cursor: pointer;
+
+  p {
+    margin: 0;
+  }
+
+  .unselectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .user-image-container {
+    margin-left: 6px;
+    transition: all 0.2s ease;
+
+    .inactive-user-image {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      transition: all 0.2s ease;
+
+      svg {
+        width: 18px;
+        height: 18px;
+
+        path {
+          &:first-child {
+            fill: #919191 !important;
+          }
+
+          &:last-child {
+            fill: #ffffff !important;
+          }
+        }
+      }
+    }
+
+    .selected-inactive-user-image {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      transition: all 0.2s ease-in;
+
+      svg {
+        width: 18px;
+        height: 18px;
+
+        #Path_11167 {
+          fill: #ffffff !important;
+        }
+        #Path_11168 {
+          fill: #919191 !important;
+        }
+      }
+    }
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  .channel-name {
+    flex: 1;
+    font-size: 14px;
+    color: #919191;
+    margin: 0 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      color: #6c6c6c;
+    }
+  }
+
+  .inactive-channel-name {
+    color: #dadada;
+  }
+
+  .unread-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 18px;
+    height: 18px;
+    background: #cf4a4a;
+    margin-right: 6px;
+    border-radius: 2px;
+
+    .unread-text {
+      display: inline;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+      margin: 0 4px;
+    }
+  }
+
+  .unread-box-9plus {
+    -webkit-animation: unreadBoxAnimation-9plus 0.3s ease-out;
+    animation: unreadBoxAnimation-9plus 0.3s ease-out;
+  }
+
+  .close-unread-box {
+    -webkit-animation: closeUnreadBoxAnimation reverse 0.3s ease-out;
+    animation: closeUnreadBoxAnimation reverse 0.3s ease-out;
+  }
+
+  &:hover {
+    transition: 0.2s;
+    background: #f9f9f9;
+
+    .channel-name {
+      color: #6c6c6c;
+    }
+  }
+
+  .bolded-font {
+    font-weight: bold !important;
+  }
+}
+
+.selected-chat {
+  transition: 0.2s;
+  background: rgba($color: #b7b7b7, $alpha: 0.7) !important;
+
+  .channel-name {
+    transition: 0.2s;
+    color: #ffffff !important;
+  }
+}
+@-webkit-keyframes closeUnreadBoxAnimation {
+  0% {
+    opacity: 1;
+    transform: scale(1.05);
+    background: #cf4a4a;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9);
+    background: #cf4a4a;
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7);
+    background: #cf4a4a;
+  }
+}
+@keyframes closeUnreadBoxAnimation {
+  0% {
+    opacity: 1;
+    transform: scale(1.05);
+    background: #cf4a4a;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+    background: #cf4a4a;
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7);
+    background: #cf4a4a;
+  }
+}
+
+@-webkit-keyframes unreadBoxAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+    background: #cf4a4a;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+    background: #cf4a4a;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+}
+
+@keyframes unreadBoxAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+    background: #cf4a4a;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+    background: #cf4a4a;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+}
+@-webkit-keyframes unreadBoxAnimation-9plus {
+  0% {
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+  50% {
+    transform: scale(1.05);
+    background: #cf4a4a;
+  }
+  100% {
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+}
+@keyframes unreadBoxAnimation-9plus {
+  0% {
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+  50% {
+    transform: scale(1.05);
+    background: #cf4a4a;
+  }
+  100% {
+    transform: scale(1);
+    background: #cf4a4a;
+  }
+}

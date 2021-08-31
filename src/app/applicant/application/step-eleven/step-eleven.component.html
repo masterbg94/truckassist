@@ -1,0 +1,122 @@
+<form [formGroup]="authorization" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>Authorization</h1>
+    <app-truckassist-checkbox
+      id="authorizeCompany"
+      formControlName="authorizeCompany"
+      [checked]="authorizeComp"
+      (change)="(authorizeComp != authorizeComp)"
+    >
+    </app-truckassist-checkbox>
+    <span class="positionText">
+      I hereby authorize this company to release all records of employment, including assessments of
+      my job previous ability, and fitness (including dates of any and all alcohol or drug tests,
+      those confirmed results and/or my refusing to any alcohol or drug tests and any rehabilitation
+      completion under direction of SAP/MRO) to each and every company (their authorized agents)
+      which may request such information in connection with my application for employment company. I
+      hereby release this company, and it's employees, officers, directors, and agents from any and
+      all liable type as a result of providing the following information to the below mentioned
+      person and/or company.</span
+    >
+    <p style="font-weight: bold;">Must be read and signed by the applicant</p>
+    <div class="checkText">
+      <app-truckassist-checkbox
+        id="authorizeCarrier"
+        formControlName="authorizeCarrier"
+        [checked]="authorizeCarr"
+        (change)="(authorizeCarr != authorizeCarr)"
+      >
+      </app-truckassist-checkbox>
+      <span class="positionText">
+        I authorize the carrier to make such inquiries and investigations of my personal,
+        employment, driving, financial or medical history and other related matters as may be
+        necessary in arriving at an employment decision. (Generally, inquiries regarding medical
+        history will be made only if and after a conditional offer of employment has been extended.)
+        I hereby release employer, schools health care providers and other persons from all
+        liability in responding to inquiries and releasing information in connection with my
+        application.
+      </span>
+    </div>
+    <div class="checkText">
+      <app-truckassist-checkbox
+        id="eventEmployment"
+        formControlName="eventEmployment"
+        [checked]="eventEmploy"
+        (change)="(eventEmploy != eventEmploy)"
+      >
+      </app-truckassist-checkbox>
+      <span class="positionText">
+        In the event of employment, I understand that false or misleading information given in my
+        application or interview(s) may result in discharge. I agree to abide by the rules and
+        regulations of the carrier as well as the Federal Motor Carrier Safety Regulations. I also
+        agree and understand that if I am selected to drive for the carrier that I will be on a
+        probationary period during which time I may be discharge without recourse.
+      </span>
+    </div>
+    <div class="checkText">
+      <app-truckassist-checkbox
+        id="certificies"
+        formControlName="certificies"
+        [checked]="certif"
+        (change)="(certif != certif)"
+      >
+      </app-truckassist-checkbox>
+      <span class="positionText">
+        This certifies that I completed this application, and that all entries on it and information
+        in it are true and completed to the best of my knowledge.</span
+      >
+      <div class="empty-box"></div>
+    </div>
+    <div class="pad" style="position: relative;">
+      <div *ngIf="!showSignature">
+        <canvas></canvas>
+        <signature-pad
+          #signaturePad
+          [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()"
+          (onEndEvent)="drawComplete()"
+        ></signature-pad>
+      </div>
+      <div *ngIf="showSignature" class="pad_signature">
+        <img [attr.src]="photoUrl()" alt="slika" style="background-color: #6c6c6c;" />
+        <a
+          appTaTooltip="Edit"
+          tooltipColor="#FFFFFF"
+          tooltipBackground="#5673aa"
+          position="bottom-right"
+          class="pad_signature_edit"
+          (click)="editSinature()"
+        >
+          <svg-icon src="../../assets/img/applicants/Pen.svg"></svg-icon>
+        </a>
+      </div>
+      <div class="signature">
+        <div class="signature_blok">
+          <a class="signature_link signature_link_clear" (click)="clear()">&#10006; Clear</a>
+          <a class="signature_link signature_link_undo" (click)="undo()">&#8634; Undo</a>
+        </div>
+        <p class="signature_text">PLEASE USE YOUR MOUSE TO SIGN ABOVE</p>
+      </div>
+    </div>
+    <!-- Review Company -->
+    <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+      <app-reviewCheckButton
+        [reviewItem]="companyReview[0]"
+        (feedbackReviewItem)="feedbackReview($event)"
+      ></app-reviewCheckButton>
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview" type="submit" class="btns btns_next mx-2">Finish</button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

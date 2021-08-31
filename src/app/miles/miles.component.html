@@ -1,0 +1,309 @@
+<div
+  class="miles-tool-bar-wrapper"
+  [ngClass]="{ 'miles-tool-bar-wrapper-fullscreen': fullscreenActive }"
+>
+  <div class="miles-tool-bar-container">
+    <div class="miles-count-container">
+      <div class="count">{{ this.truckMilesData.length }}</div>
+      <div class="title">Miles</div>
+    </div>
+
+    <!-- Filter -->
+    <app-truckassist-date-filter
+      [loading]="loadingDateFilter"
+      [stateName]="'miles'"
+    ></app-truckassist-date-filter>
+
+    <!-- Search -->
+    <app-custom-search></app-custom-search>
+
+    <div class="map-tools">
+      <div class="legend-dropdown-container" [ngClass]="{ 'legend-dropdown-avtive': activeLegend }">
+        <svg-icon
+          *ngIf="!activeLegend"
+          (click)="activeLegend = !activeLegend"
+          class="legend-svg"
+          appTaTooltip="Legend"
+          position="bottom-right"
+          src="../../assets/img/svgs/miles/legend-svg.svg"
+        ></svg-icon>
+        <svg-icon
+          *ngIf="activeLegend"
+          (click)="activeLegend = !activeLegend"
+          class="legend-svg"
+          src="../../assets/img/svgs/miles/legend-svg.svg"
+        ></svg-icon>
+        <div class="legend-dropdown">
+          <div
+            [ngClass]="{ 'legend-items-margin': i !== 0 }"
+            class="legend-items"
+            *ngFor="let item of legendItems; let i = index"
+          >
+            <svg-icon
+              [ngClass]="{ 'loaded-legend-svg': i === 5, 'empty-legend-svg': i === 6 }"
+              src="{{ item.src }}"
+            ></svg-icon>
+            <p>{{ item.itemName }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="miles-map-container" [ngClass]="{ 'miles-map-fullscreen': fullscreenActive }">
+  <agm-map
+    id="map"
+    style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+    [restriction]="mapRestrictions"
+    [zoomControl]="false"
+    [controlSize]="1"
+    [clickableIcons]="false"
+    [zoom]="zoom"
+    [streetViewControl]="false"
+    [latitude]="mapOptions.latitude"
+    [longitude]="mapOptions.longitude"
+    [keyboardShortcuts]="false"
+    [styles]="styles"
+    (mapReady)="mapReady($event)"
+  >
+    <!-- Marker -->
+    <div *ngFor="let marker of markers; let i = index">
+      <agm-marker
+        *ngIf="
+          marker.lat !== undefined &&
+          marker.lng !== undefined &&
+          markers.length > 1 &&
+          markers.length &&
+          marker.active
+        "
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [agmFitBounds]="true"
+        [visible]="false"
+      >
+        <agm-snazzy-info-window
+          [latitude]="marker.lat"
+          [longitude]="marker.lng"
+          [openOnMarkerClick]="false"
+          [closeOnMapClick]="false"
+          [maxWidth]="26"
+          [maxHeight]="32"
+          [isOpen]="true"
+          [closeWhenOthersOpen]="false"
+          placement="bottom"
+        >
+          <ng-template class="marker-tool-tip">
+            <!-- Marker ToolTip -->
+            <div
+              *ngIf="stopDataSelected === i"
+              class="place-name"
+              [ngClass]="{
+                'show-tool-tip-on-marker': stopDataSelected === i
+              }"
+            >
+              <p [ngStyle]="{ color: marker.color }">{{ marker.location }}</p>
+            </div>
+
+            <!-- Marker -->
+            <svg
+              (click)="onFocusStopData(i)"
+              class="routing_marker"
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="39.385"
+              viewBox="0 0 25 39.385"
+            >
+              <g id="Group_32835" data-name="Group 32835" transform="translate(-738 -744.615)">
+                <g id="Group_32830" data-name="Group 32830" transform="translate(-382.5 440.615)">
+                  <circle
+                    id="Ellipse_3124"
+                    data-name="Ellipse 3124"
+                    cx="8"
+                    cy="8"
+                    r="8"
+                    transform="translate(1125 327.385)"
+                    [ngStyle]="{ fill: marker.color }"
+                    opacity="0.2"
+                  />
+                  <circle
+                    id="Ellipse_3125"
+                    data-name="Ellipse 3125"
+                    cx="7"
+                    cy="7"
+                    r="7"
+                    transform="translate(1126 328.385)"
+                    [ngStyle]="{ fill: marker.color }"
+                    opacity="0.2"
+                  />
+                  <g
+                    id="Ellipse_3126"
+                    data-name="Ellipse 3126"
+                    transform="translate(1130 332.385)"
+                    fill="#426b2c"
+                    stroke="#f9f9f9"
+                    stroke-width="2"
+                  >
+                    <circle cx="3" cy="3" r="3" [ngStyle]="{ fill: '#FFFFFF' }" stroke="none" />
+                    <circle
+                      cx="3"
+                      cy="3"
+                      r="4"
+                      fill="none"
+                      [ngStyle]="{
+                        stroke: marker.colorMarkerCircle
+                      }"
+                    />
+                  </g>
+                </g>
+                <g
+                  id="map_indicator"
+                  data-name="map indicator"
+                  transform="translate(-459.627 215.998)"
+                >
+                  <g id="Locator" transform="translate(1197.627 528.617)">
+                    <path
+                      id="Path_2805"
+                      data-name="Path 2805"
+                      d="M542.368,162.338a12.64,12.64,0,0,0-12.5,12.776,12.909,12.909,0,0,0,2.446,7.593c2.277,3.145,10.08,11.63,10.08,11.63s7.751-8.486,10.028-11.63a12.908,12.908,0,0,0,2.446-7.593A12.64,12.64,0,0,0,542.368,162.338Z"
+                      transform="translate(-529.868 -162.338)"
+                      [ngStyle]="{ fill: marker.color }"
+                    />
+                    <path
+                      id="Path_2808"
+                      data-name="Path 2808"
+                      d="M8.811,0A8.811,8.811,0,1,1,0,8.811,8.811,8.811,0,0,1,8.811,0Z"
+                      transform="translate(3.689 3.798)"
+                      fill="#fff"
+                    />
+                    <text
+                      id="_1"
+                      data-name="1"
+                      transform="translate(15 17.668)"
+                      [ngStyle]="{ fill: marker.color }"
+                      font-size="14"
+                      font-family="Montserrat"
+                      font-weight="Bold"
+                      startOffset="50%"
+                      text-anchor="middle"
+                      alignement-baseline="middle"
+                    >
+                      <tspan x="-2.744" y="0">{{ i + 1 }}</tspan>
+                    </text>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </ng-template>
+        </agm-snazzy-info-window>
+      </agm-marker>
+    </div>
+  </agm-map>
+
+  <div
+    class="truck-route-data-container"
+    [ngClass]="{ 'truck-route-data-fullscreen': fullscreenActive }"
+  >
+    <div (click)="activeRouteDataItems = !activeRouteDataItems" class="route-data-title-container">
+      <svg-icon
+        [ngClass]="{ 'rotate-svg': activeRouteDataItems }"
+        src="../../assets/img/svgs/miles/Down-Arrow.svg"
+      ></svg-icon>
+      <p>Unit #</p>
+      <p>Stops</p>
+      <p>Loads</p>
+      <p>MPG</p>
+      <p>Gal.</p>
+      <p class="set-right">Loaded</p>
+      <p class="set-right">Empty</p>
+      <p class="set-right">Miles</p>
+    </div>
+    <div
+      class="route-data-items-container"
+      [ngClass]="{
+        'route-data-items-active': activeRouteDataItems && !fullscreenActive,
+        'route-data-items-fullscreen': activeRouteDataItems && fullscreenActive
+      }"
+    >
+      <div *ngFor="let item of truckMilesData; let i = index">
+        <div
+          (click)="onFocusTruckMilesData(i)"
+          class="route-data-items"
+          [ngClass]="{
+            'route-data-items-focus': routeDataSelected === i,
+            'route-data-first-item': i === 0,
+            'route-data-last-item': i === truckMilesData.length - 1
+          }"
+          *ngIf="item && item.showInList"
+        >
+          <p class="number-of-item">{{ i + 1 }}</p>
+          <p [innerHtml]="item.unit | taHighlight: highlightingWords">{{ item.unit }}</p>
+          <p [innerHtml]="item.stops | taHighlight: highlightingWords">{{ item.stops }}</p>
+          <p [innerHtml]="item.loads | taHighlight: highlightingWords">{{ item.loads }}</p>
+          <p [innerHtml]="item.milesPerGallon | taHighlight: highlightingWords">
+            {{ item.milesPerGallon }}
+          </p>
+          <p [innerHtml]="item.gallons | taHighlight: highlightingWords">{{ item.gallons }}</p>
+          <p
+            [innerHtml]="item.loadedMiles | taHighlight: highlightingWords"
+            class="set-right loaded"
+          >
+            {{ item.loadedMiles }}
+          </p>
+          <p [innerHtml]="item.emptyMiles | taHighlight: highlightingWords" class="set-right empty">
+            {{ item.emptyMiles }}
+          </p>
+          <p [innerHtml]="item.miles | taHighlight: highlightingWords" class="set-right miles">
+            {{ item.miles }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="truckStops && truckStops.length"
+    class="truck-stop-data-container"
+    [ngClass]="{ 'truck-stop-data-fullscreen': fullscreenActive }"
+  >
+    <div (click)="activeStopDataItems = !activeStopDataItems" class="truck-stop-title-container">
+      <svg-icon
+        [ngClass]="{ 'rotate-svg': activeStopDataItems }"
+        src="../../assets/img/svgs/miles/Down-Arrow.svg"
+      ></svg-icon>
+      <p>Stops</p>
+      <p class="set-right">Leg</p>
+      <p class="set-right add-padding">Total</p>
+    </div>
+    <div
+      class="truck-stop-dropdown-container"
+      [ngClass]="{
+        'truck-stop-dropdown-active': activeStopDataItems && !fullscreenActive,
+        'truck-stop-dropdown-active-fullscreen': activeStopDataItems && fullscreenActive
+      }"
+    >
+      <div
+        class="truck-stop-item"
+        [ngStyle]="{
+          background: stopDataSelected === i ? item.color : ''
+        }"
+        [ngClass]="{ 'active-stop-item': stopDataSelected === i }"
+        (click)="onFocusStopData(i)"
+        *ngFor="let item of truckStops; let i = index"
+      >
+        <p class="number-of-item" [ngStyle]="{ color: item.color }">{{ i + 1 }}</p>
+        <p class="stop-place-name">{{ item.stopFormattedLocation }}</p>
+        <p class="set-right">{{ item.legMiles }}</p>
+        <p class="set-right add-padding">{{ item.totalMiles }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="map-control map-control-stop-data-inactive"
+    [ngClass]="{
+      'map-control-stop-data-inactive-fullscreen': fullscreenActive
+    }"
+  >
+    <app-map-control (mapMode)="onFullScreen($event)" (zoom)="onZoom($event)"></app-map-control>
+  </div>
+</div>

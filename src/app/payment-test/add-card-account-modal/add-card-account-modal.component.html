@@ -1,0 +1,221 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ headerFirst }}</h5>
+  <app-modal-close></app-modal-close>
+</div>
+
+<div class="d-flex justify-content-center payment-date">
+  <div>{{ markedTitle }} {{ markedData }}</div>
+</div>
+<div class="body">
+  <div class="d-flex justify-content-center">
+    <svg-icon
+      class="logo d-flex justify-content-center"
+      src="assets/img/svgs/cardlogo.svg"
+      [svgStyle]="{ 'width.px': 32, 'height.px': 32 }"
+    ></svg-icon>
+  </div>
+
+  <div class="d-flex flex-column">
+    <div class="d-flex justify-content-center under-text-bold">{{ textUnderlogoFirst }}</div>
+    <div class="d-flex justify-content-center under-text">{{ textUnderlogoSecond }}</div>
+  </div>
+
+  <form
+    [formGroup]="paymentDetailsForm"
+    class="form-container"
+    (keydown)="keyDownFunction($event)"
+  >
+    <div class="box-field">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between box-size-muted">
+          <svg-icon
+            class="circle-style"
+            src="assets/img/svgs/circle.svg"
+            [svgStyle]="{ 'width.px': 18, 'height.px': 18 }"
+          ></svg-icon>
+          <svg-icon
+            class="logo d-flex justify-content-center"
+            src="assets/img/svgs/bank_house.svg"
+            [svgStyle]="{ 'width.px': 32, 'height.px': 32 }"
+          ></svg-icon>
+          <div class="d-flex justify-content-left flex-column values">
+            <div class="values-box-bold"><span>Denis Rodman</span></div>
+            <div class="values-box">*******045</div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between box-size-muted">
+          <svg-icon
+            class="circle-style"
+            src="assets/img/svgs/circle.svg"
+            [svgStyle]="{ 'width.px': 18, 'height.px': 18 }"
+          ></svg-icon>
+          <svg-icon
+            class="logo d-flex justify-content-left"
+            src="assets/img/svgs/bank_house.svg"
+            [svgStyle]="{ 'width.px': 32, 'height.px': 32 }"
+          ></svg-icon>
+          <div class="d-flex flex-column justify-content-left values">
+            <div class="values-box-bold">Steve Kerr</div>
+            <div class="values-box">*******222</div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between box-size">
+          <svg-icon
+            class="circle-style"
+            src="assets/img/svgs/circle.svg"
+            [svgStyle]="{ 'width.px': 18, 'height.px': 18 }"
+          ></svg-icon>
+          <svg-icon
+            class="logo-card d-flex justify-content-left"
+            src="assets/img/svgs/cardlogo.svg"
+            [svgStyle]="{ 'width.px': 32, 'height.px': 22 }"
+          ></svg-icon>
+          <div class="d-flex flex-column values">
+            <div class="values-box-bold">Scottie Pippen</div>
+            <div class="values-box">**** **** *775</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between box-size">
+          <svg-icon
+            class="circle-style"
+            src="assets/img/svgs/circle.svg"
+            [svgStyle]="{ 'width.px': 18, 'height.px': 18 }"
+          ></svg-icon>
+          <svg-icon
+            class="logo-card d-flex justify-content-left"
+            src="assets/img/svgs/cardlogo.svg"
+            [svgStyle]="{ 'width.px': 32, 'height.px': 22 }"
+          ></svg-icon>
+          <div class="d-flex flex-column values">
+            <div class="values-box-bold">Michael Jordan</div>
+            <div class="values-box">**** **** *238</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="account-txt">Add New Account</span>
+    <span class="card-txt">Add New Card</span>
+
+    <div class="titles">
+      <div class="styles">{{ headerSecond }}</div>
+    </div>
+    <div class="input-field">
+      <div class="form-label-group label-control">
+        <input
+          id="name"
+          class="form-control input-control"
+          placeholder="name"
+          formControlName="name"
+          appInputrestriction="[A-Za-z]"
+          value="Denis Rodman"
+        />
+        <label class="required-label" for="name">Name</label>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div
+          class="d-flex justify-content-between form-label-group input-icon label-control input-icon address-field-wrapper"
+        >
+          <input
+            id="address"
+            class="form-control input-control style-address"
+            placeholder="Address, City, State Zip"
+            formControlName="address"
+            appInputFocus
+            ngx-google-places-autocomplete
+            [options]="options"
+            #placesRef="ngx-places"
+          />
+          <label for="address">Address, City, State Zip</label>
+          <span *ngIf="formSubmitted" class="required-notice">Required</span>
+        </div>
+
+        <div class="form-label-group label-control">
+          <input
+            id="addressUnit"
+            class="form-control input-control"
+            placeholder="Unite #"
+            formControlName="addressUnit"
+            value="3252"
+          />
+          <label for="addressUnit"><span>Unit#</span></label>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <div
+          class="d-flex justify-content-between form-label-group label-control input-icon card-field-wrapper"
+        >
+          <input
+            id="cardNumber"
+            class="form-control input-control style-card"
+            placeholder="cardNumber"
+            formControlName="cardNumber"
+            appInputFocus
+            mask="0000 0000 0000 0000"
+          />
+          <label for="cardNumber">Card Number</label>
+          <span *ngIf="formSubmitted" class="required-notice">Required</span>
+        </div>
+
+        <div class="form-label-group label-control">
+          <input
+            id="MMYY"
+            class="form-control input-control"
+            placeholder="cardNumber"
+            formControlName="MMYY"
+            appInputFocus
+            mask="00/00"
+          />
+          <label for="MMYY">MM/YY</label>
+          <span *ngIf="formSubmitted" class="required-notice">Required</span>
+        </div>
+
+        <div class="form-label-group label-control">
+          <input
+            id="CVC"
+            class="form-control input-control style-CVC"
+            placeholder="CVC"
+            formControlName="CVC"
+            appInputFocus
+            mask="000"
+          />
+          <label for="CVC">CVC</label>
+          <span *ngIf="formSubmitted" class="required-notice">Required</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="saveBillingInfo"
+        [text]="checkedFirst"
+        (change)="changeBillingInfo()"
+        [checked]="true"
+      >
+      </app-truckassist-checkbox>
+      <!-- checkedFirst -->
+    </div>
+    <div class="titles">
+      <div class="styles">{{ headerthird }}</div>
+    </div>
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="achConfirmation"
+        (change)="changeAchConfirmation()"
+        [text]="checkedSecond"
+        [checked]="false"
+      >
+      </app-truckassist-checkbox>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer d-flex justify-content-center button">
+  <a class="btn btn-control">{{ buttonText }}</a>
+</div>
+</div>

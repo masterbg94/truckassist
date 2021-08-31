@@ -1,0 +1,42 @@
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+  cursor: pointer;
+}
+.items {
+  list-style: none outside none;
+  margin-bottom: 20px;
+  padding: 0;
+  width: 480px;
+}
+.item {
+  background: $white;
+  border: 1px solid #ddd;
+  cursor: move;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 10px;
+  width: 480px;
+}
+.second-level {
+  margin-left: 20px;
+  width: 460px;
+}
+.dragHover {
+  border-color: blue;
+  color: blue;
+}
+.placeholder {
+  background: $white;
+  border: 1px dashed #ccc;
+  height: 50px;
+  width: 500px;
+}
+.placeholder-sub {
+  background: $white;
+  border: 1px dashed #ccc;
+  height: 50px;
+  width: 480px;
+  margin-left: 20px;
+}

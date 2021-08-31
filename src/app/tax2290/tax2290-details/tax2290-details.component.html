@@ -1,0 +1,214 @@
+<div class="details-2290">
+  <!-- First column -->
+  <div class="details-2290-firstColumn">
+    <!-- Switch container -->
+    <div class="switch-container">
+      <a
+        class="switch-container-back-btn"
+        [routerLink]="['/tools/2290']"
+        appTaTooltip="Back"
+        tooltipColor="#FFFFFF"
+        tooltipBackground="#6C6C6C90"
+        position="bottom-right"
+      >
+        <svg-icon
+          class="d-flex"
+          [src]="'assets/img/svgs/left.svg'"
+          [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+        ></svg-icon>
+      </a>
+
+      <app-unit-switch
+        [options]="allCompany"
+        [keywordPasted]="'id'"
+        [type]="'tools/2290'"
+      ></app-unit-switch>
+    </div>
+    <!-- Months autocomplete -->
+    <div
+      class="month-autocomplete"
+      [ngClass]="{
+        hovered: isHovered,
+        tabelColorsAutocomplite: true
+      }"
+      #arrow
+      (mouseover)="isHovered = true"
+      (mouseleave)="isHovered = false"
+    >
+      <ng-autocomplete
+        #autoComplete
+        [data]="dates"
+        [searchKeyword]="keyword"
+        (selected)="selectEvent($event)"
+        (closed)="closeAutocomplete(arrow)"
+        [formControl]="autocompleteControl"
+        [itemTemplate]="itemTemplate"
+        [notFoundTemplate]="notFoundTemplate"
+      >
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <span
+          class="option-item"
+          [ngClass]="{ 'option-item-inactive': item.status === 0 }"
+          [innerHTML]="item.name"
+        ></span>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+
+      <svg-icon
+        class="month-input-icon cursor-pointer"
+        [src]="'assets/img/svgs/down.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+        (click)="focus($event, arrow)"
+        [ngClass]="{ svgTabelStyle: true }"
+      ></svg-icon>
+    </div>
+    <div class="header-body">
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title">Tax Period:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.taxSeason }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title">First Used Date:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.firstUsedDate }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title">Ordered:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.ordered }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title">E-filed:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.eFilled }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12">
+          <p class="header-body-title">IRS Response:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.irsReasponse }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p class="header-body-title">Signed Using PIN:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileDates.signedUsingPin }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Second column -->
+  <div class="details-2290-secondColumn">
+    <div class="header-title">
+      <p class="header-title-text">File Informations</p>
+    </div>
+    <div class="header-body">
+      <div class="row">
+        <div class="col-7">
+          <p class="header-body-title">Bussines Name:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileInformation.company }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">EIN:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileInformation.ein }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p class="header-body-title">Address:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileInformation.address }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="header-body">
+      <div class="row row-custom">
+        <div class="col-7">
+          <p class="header-body-title">Signer's Name:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileInformation.signerName }}
+          </p>
+        </div>
+        <div class="col-5">
+          <p class="header-body-title">Title:</p>
+          <p class="header-body-text" style="color: #919191;" appSelectionColor>
+            {{ selectedCompany.fileInformation.title }}
+          </p>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <div class="col-12" style="color: #919191;" appSelectionColor>
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-contact.svg"></svg-icon>
+          {{ formatTelephone(selectedCompany.fileInformation.phone) }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12" style="color: #919191;" appSelectionColor>
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-email.svg"></svg-icon>
+          {{ selectedCompany.fileInformation.email }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Third column -->
+  <div class="details-2290-thirdColumn">
+    <div class="header-title header-title-thirdColumn">
+      <p class="header-title-text">
+        <span class="vehicles-number">{{
+          selectedCompany.vehicles ? selectedCompany.vehicles.length : '0'
+        }}</span>
+        Vehicles
+      </p>
+      <p>Total: {{ getTotalVehiclesTax(selectedCompany.vehicles) }}</p>
+    </div>
+    <div class="header-title-svg" (click)="downloadVehicleDetails()">
+      <svg-icon class="title-svg" src="assets/img/svgs/table/download.svg"></svg-icon>
+    </div>
+    <div class="header-title-schedule">
+      <p>Schedule</p>
+    </div>
+
+    <div class="custom-table">
+      <div class="custom-table-header">
+        <div class="custom-table-header-firstCol">VIN</div>
+        <div class="custom-table-header-secondCol">Gross Weight</div>
+        <div class="custom-table-header-thirdCol">Subventions</div>
+        <div class="custom-table-header-fourthCol">Description</div>
+        <div class="custom-table-header-fifthCol">Tax</div>
+      </div>
+      <app-tax2290-details-card [vehicles]="selectedCompany.vehicles"></app-tax2290-details-card>
+      <div class="custom-table-footer">
+        <div class="custom-table-footer-left">Total:</div>
+        <div class="custom-table-footer-right">
+          {{ getTotalVehiclesTax(selectedCompany.vehicles) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1008 @@
+//@import Variables;
+@import 'src/assets/scss/components/variables';
+:host ::ng-deep .company-tabs a.nav-link.active {
+  cursor: default !important;
+}
+
+:host ::ng-deep .active-side-nav a#tab {
+  cursor: default !important;
+}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+  // border-top-right-radius: 3px;
+  .company-info {
+    padding: 0 12px !important;
+    background: $bw1;
+    min-height: 32px;
+    align-items: center;
+    display: flex;
+    border-radius: 3px;
+    h5 {
+      font-size: 16px;
+      font-family: Montserrat, sans-serif;
+      margin-bottom: 0px;
+      color: $muted;
+      font-weight: bold;
+    }
+  }
+
+  .company-body {
+    padding: 0;
+
+    .row {
+      padding-top: 12px;
+    }
+
+    .company-body-holder {
+      .col-form-label {
+        padding-top: 0;
+
+        strong {
+          font-size: 16px;
+          font-weight: bold;
+          font-family: Montserrat, sans-serif;
+          margin-bottom: 0px;
+          color: $muted;
+        }
+      }
+
+      .card-value {
+        padding-top: 2px;
+        padding-bottom: 12px;
+        // font-size: 12px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 400;
+      }
+
+      .time-zone-info {
+        .col-4 {
+          padding-right: 0px !important;
+        }
+      }
+      .row {
+        .col-4,
+        .col-8,
+        .col-12 {
+          padding: 0 12px;
+        }
+        .company-phone {
+          display: flex;
+          margin-left: 12px;
+          svg-icon {
+            margin-right: 12px;
+            svg {
+              width: 16px;
+              height: 16px;
+              path {
+                fill: $muted;
+              }
+            }
+          }
+
+          a {
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            color: $muted;
+            font-weight: 400;
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+          &:hover {
+            a {
+              color: $bw6-2 !important;
+            }
+            svg {
+              cursor: pointer;
+              #BG {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+              #phone1 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+
+        .company-fax {
+          display: flex;
+          margin-left: 12px;
+          svg-icon {
+            margin-right: 12px;
+            svg {
+              width: 16px;
+              height: 16px;
+              path {
+                fill: $muted;
+              }
+            }
+          }
+
+          a {
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            color: $muted;
+            font-weight: 400;
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+          &:hover {
+            a {
+              color: $bw6-2 !important;
+            }
+            svg {
+              cursor: pointer;
+              #Path_1428 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+              #Path_1431 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+
+        .company-email {
+          display: flex;
+          margin-left: 12px;
+          svg-icon {
+            margin-right: 12px;
+          }
+
+          a {
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            color: $muted;
+            font-weight: 400;
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+          &:hover {
+            a {
+              color: $bw6-2 !important;
+            }
+            svg {
+              cursor: pointer;
+              #Path_1075 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+              #Path_1076 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+              #Path_1077 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+              #Path_1078 {
+                fill: $bw6-2 !important;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+
+        .company-address {
+          display: flex;
+          padding-top: 5px;
+
+          .card-label {
+            width: 16px;
+            display: flex;
+            justify-content: center;
+            margin-right: 12px;
+          }
+
+          a {
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            color: $muted;
+            font-weight: 400;
+          }
+          a:hover {
+            text-decoration: none;
+          }
+
+          svg-icon {
+            svg {
+              width: 12px;
+              height: 16px;
+
+              path {
+                fill: $muted;
+              }
+            }
+          }
+          &:hover {
+            a {
+              color: $bw6-2 !important;
+            }
+            svg-icon {
+              svg {
+                width: 12px;
+                height: 16px;
+                path {
+                  fill: $bw6-2;
+                }
+              }
+            }
+          }
+        }
+        .company-url {
+          cursor: pointer;
+          display: flex;
+          padding-bottom: 0px;
+          svg-icon {
+            margin-right: 12px;
+            path {
+              fill: $muted;
+            }
+          }
+          a {
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            color: $muted;
+            font-weight: 400;
+          }
+          a:hover {
+            text-decoration: none;
+          }
+          &:hover {
+            cursor: pointer;
+            a {
+              color: $light-blue !important;
+            }
+            svg {
+              cursor: pointer;
+              #Path_1566 {
+                fill: $light-blue !important;
+                transition: 0.3s ease-in-out;
+              }
+              #Path_1567 {
+                fill: $light-blue !important;
+                transition: 0.3s ease-in-out;
+              }
+            }
+          }
+        }
+      }
+      .dispatch-info {
+        padding-top: 0px;
+        .row {
+          display: flex;
+          width: 100%;
+          padding: 12px 0;
+          background: $white;
+          .col-3 {
+            padding-right: 0px !important;
+          }
+
+          .col-3,
+          .col-4,
+          .col-5 {
+            padding: 0px 12px;
+          }
+
+          .card-label {
+            font-family: Montserrat, sans-serif;
+            font-size: 16px;
+            color: $muted;
+            font-weight: 600;
+          }
+
+          .company-phone,
+          .company-email {
+            display: flex;
+            align-items: center;
+            .card-label {
+              svg-icon {
+                margin-right: 6px;
+              }
+            }
+            .card-value {
+              padding: 0px;
+            }
+          }
+        }
+      }
+      .bank-info {
+        display: flex;
+        width: 100%;
+        padding: 12px 0;
+        background: $bw1;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        .col-3 {
+          padding: 0 12px;
+        }
+        .card-label {
+          font-family: Montserrat, sans-serif;
+          font-size: 16px;
+          color: $muted;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .office-card {
+    .col-12 {
+      padding: 0px;
+      .card {
+        margin-bottom: 16px;
+        .card-body {
+          background: $bw2;
+          padding: 0px !important;
+          .office-heading {
+            padding-left: 12px;
+            // padding: 0 12px !important;
+            min-height: 32px;
+            align-items: center;
+            display: flex;
+            background: $bw1;
+            width: 324px;
+            border-radius: 3px;
+            .office-heading-info {
+              width: 324px;
+              padding: 0px !important;
+              h5 {
+                font-size: 16px;
+                font-family: Montserrat, sans-serif;
+                margin-bottom: 0px;
+                color: $muted;
+                font-weight: bold;
+              }
+            }
+            .add-office {
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              padding: 0;
+              z-index: 99999999999 !important;
+              border-top-right-radius: 3px;
+              border-bottom-right-radius: 3px;
+              svg-icon {
+                svg {
+                  width: 22px;
+                  height: 22px;
+
+                  path .a {
+                    fill: #606060;
+                    opacity: 0.6;
+                  }
+                }
+
+                &:hover {
+                  path {
+                    opacity: 1 !important;
+                  }
+                }
+              }
+            }
+          }
+
+          .office-info {
+            position: relative;
+            padding: 12px;
+            background: white;
+            width: 324px;
+            border-radius: 3px;
+            .card-label {
+              padding-top: 0px;
+              strong {
+                font-size: 16px;
+                font-weight: bold;
+                font-family: Montserrat, sans-serif;
+                margin-bottom: 0px;
+                color: $muted;
+              }
+            }
+
+            .card-value {
+              padding-top: 2px;
+              padding-bottom: 12px;
+              font-size: 12px;
+              font-family: Montserrat, sans-serif;
+              font-weight: 400;
+              a {
+                color: $muted;
+              }
+              a:hover {
+                text-decoration: none;
+                color: $bw6-2 !important;
+              }
+              .copy-address {
+                position: absolute;
+                // top: -4px;
+                width: 0px;
+                height: 100%;
+                // margin-left: 10px;
+                // padding: 10px 0 0 12px;
+                // padding-bottom: 4px;
+                .copy {
+                  // padding-top: 5px;
+                  width: 0px;
+                  visibility: hidden;
+                  height: 20px;
+                  background: $light-blue;
+                  color: $white;
+                  border-radius: 3px;
+                  padding: 5px 0 0 26.5px;
+                  font-size: 10px;
+                  font-weight: bold;
+                }
+                .addACopy {
+                  color: $white;
+                  width: 105px;
+                  visibility: visible !important;
+                  transition: 0.3s;
+                }
+                .copyEmail {
+                  // padding-top: 5px;
+                  width: 0px;
+                  visibility: hidden;
+                  height: 20px;
+                  background: $light-blue;
+                  color: $white;
+                  border-radius: 3px;
+                  padding: 4px 0 0 66.5px;
+                  font-size: 10px;
+                  font-weight: bold;
+                }
+                .addACopyEmail {
+                  color: $white;
+                  width: 185px;
+                  visibility: visible !important;
+                  transition: 0.3s;
+                }
+                .copyAddress {
+                  // padding-top: 5px;
+                  width: 0px;
+                  visibility: hidden;
+                  height: 30px;
+                  background: $light-blue;
+                  color: $white;
+                  border-radius: 3px;
+                  padding: 10px 0 0 86.5px;
+                  font-size: 10px;
+                  font-weight: bold;
+                }
+                .addACopyAddress {
+                  color: $white;
+                  width: 225px;
+                  // width: max($numbers: );
+                  visibility: visible !important;
+                  transition: 0.3s;
+                }
+              }
+            }
+
+            .address-info {
+              .card-value {
+                padding-bottom: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .factoring-card {
+    .col-12 {
+      padding: 0px;
+      .card {
+        margin-bottom: 16px;
+        .card-body {
+          background: $bw2;
+          padding: 0px !important;
+          .factoring-heading {
+            padding-left: 12px;
+            // padding: 0 12px !important;
+            min-height: 32px;
+            align-items: center;
+            display: flex;
+            background: $bw1;
+            border-radius: 3px;
+            .factoring-heading-info {
+              padding: 0;
+              h5 {
+                font-size: 16px;
+                font-family: Montserrat, sans-serif;
+                margin-bottom: 0px;
+                color: $muted;
+                font-weight: bold;
+              }
+            }
+          }
+          .add-factoring {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            svg-icon {
+              svg {
+                width: 22px;
+                height: 22px;
+
+                path .a {
+                  fill: #606060;
+                  opacity: 0.6;
+                }
+              }
+
+              &:hover {
+                path {
+                  opacity: 1 !important;
+                }
+              }
+            }
+          }
+        }
+
+        .factoring-info {
+          position: relative;
+          padding: 12px;
+          border-top-right-radius: 3px;
+          border-top-left-radius: 3px;
+          background: $white;
+          .card-label {
+            padding-top: 0px;
+            strong {
+              font-size: 16px;
+              font-weight: bold;
+              font-family: Montserrat, sans-serif;
+              margin-bottom: 0px;
+              color: $muted;
+            }
+          }
+
+          .card-value {
+            padding-top: 2px;
+            padding-bottom: 12px;
+            font-size: 12px;
+            font-family: Montserrat, sans-serif;
+            font-weight: 400;
+            a {
+              color: $muted;
+            }
+            a:hover {
+              text-decoration: none;
+              color: $bw6-2 !important;
+            }
+            .copy-address {
+              position: absolute;
+              // top: -4px;
+              width: 0px;
+              height: 100%;
+              // margin-left: 10px;
+              // padding: 10px 0 0 12px;
+              // padding-bottom: 4px;
+              .copy {
+                // padding-top: 5px;
+                width: 0px;
+                visibility: hidden;
+                height: 20px;
+                background: $light-blue;
+                color: $white;
+                border-radius: 3px;
+                padding: 5px 0 0 26.5px;
+                font-size: 10px;
+                font-weight: bold;
+              }
+              .addACopy {
+                color: $white;
+                width: 105px;
+                visibility: visible !important;
+                transition: 0.3s;
+              }
+              .copyEmail {
+                // padding-top: 5px;
+                width: 0px;
+                visibility: hidden;
+                height: 20px;
+                background: $light-blue;
+                color: $white;
+                border-radius: 3px;
+                padding: 5px 0 0 66.5px;
+                font-size: 10px;
+                font-weight: bold;
+              }
+              .addACopyEmail {
+                color: $white;
+                width: 185px;
+                visibility: visible !important;
+                transition: 0.3s;
+              }
+            }
+          }
+
+          .address-info {
+            .card-value {
+              padding-bottom: 4px;
+              .copy-address {
+                position: absolute;
+                // top: -4px;
+                width: 0px;
+                height: 100%;
+                // margin-left: 10px;
+                // padding: 10px 0 0 12px;
+                // padding-bottom: 4px;
+                .copy {
+                  // padding-top: 5px;
+                  width: 0px;
+                  visibility: hidden;
+                  height: 30px;
+                  background: $light-blue;
+                  color: $white;
+                  border-radius: 3px;
+                  padding: 10px 0 0 130px;
+                  font-size: 10px;
+                  font-weight: bold;
+                }
+                .addACopy {
+                  color: $white;
+                  width: 335px;
+                  visibility: visible !important;
+                  transition: 0.3s;
+                }
+              }
+            }
+          }
+        }
+
+        .notice-info {
+          .mat-expansion-panel:not([class*='mat-elevation-z']) {
+            box-shadow: none;
+
+            .mat-expansion-panel-header {
+              padding: 0 12px;
+              height: 40px !important;
+              span {
+                font-family: Montserrat, sans-serif;
+                font-size: 16px;
+                color: $bw6;
+                font-weight: 600;
+              }
+            }
+
+            ::ng-deep .mat-expansion-panel-body {
+              padding: 0 13px 16px !important;
+
+              .notice-holder {
+                max-width: 205px;
+
+                .notice-label {
+                  font-family: Montserrat, sans-serif;
+                  font-size: 10px;
+                  color: $light-blue;
+                  text-transform: uppercase;
+                  line-height: 13px;
+                  margin-bottom: 10px;
+                  font-weight: bold;
+
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    // margin-top: 2px;
+    margin-top: 0px;
+    margin-bottom: 0;
+    border: none;
+    height: 12px;
+    width: 100%;
+    background-color: $bw2;
+  }
+}
+.dark-pin {
+  fill: #606060;
+}
+.license-ellipsis-position {
+  svg-icon {
+    svg {
+      g {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      circle {
+        fill: $light-blue !important;
+      }
+    }
+  }
+}
+
+.add-new-tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 3px;
+  max-width: 183px;
+  width: 100%;
+  height: 32px;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+  text-decoration: none;
+  padding-left: 2px;
+  background-color: #ffffff !important;
+  
+  svg-icon {
+    position: relative;
+    width: 28px !important;
+    height: 28px !important;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 150ms;
+    svg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 28px !important;
+      height: 28px !important;
+      rect {
+        fill: #919191 !important;
+      }
+      path {
+        fill: #ffffff;
+      }
+    }
+  }
+
+  p {
+    font-size: 14px;
+    color: #919191;
+    font-family: Montserrat, sans-serif;
+    font-weight: bold;
+    margin: 0 0 0 10px;
+  }
+
+  /* &:hover {
+    width: 100%;
+    -webkit-transition: width 0.15s ease-in;
+    transition: width 0.15s ease-in;
+    p {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 150ms;
+    }
+    svg-icon {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.15s linear, opacity 0.15s linear;
+    }
+  } */
+}
+
+/* After Event  */
+
+.bank-box {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+  color: $muted;
+  font-weight: 600;
+}
+// .svg-muted {
+//   svg {
+//     path {
+//       fill: $muted;
+//     }
+//   }
+// }
+.time-zone-info {
+  background: $bw1;
+}
+.shift-left {
+  margin-left: -22px;
+  border-top-left-radius: 3px;
+}
+.factoring-size {
+  width: 380px;
+  margin-left: 37px;
+}
+.office-size {
+  // margin-left: 16px;
+  width: 324px;
+}
+.company-size {
+  width: 504px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.left-margin {
+  margin-left: 16px;
+  border-top-left-radius: 3px;
+}
+.notice {
+  color: $muted;
+}
+.bankInfo {
+  padding-left: 12px;
+  padding-top: 2px;
+  padding-right: 7.4px;
+}
+.acc {
+  // margin-right: 23.8px;
+  margin-right: auto;
+}
+.svg-blue:hover {
+  svg {
+    #Path_7714 {
+      fill: $white !important;
+      transition: 0.3s;
+    }
+    #Rectangle_4959 {
+      fill: $light-blue !important;
+      transition: 0.3s;
+    }
+  }
+}
+.phone-dark:hover {
+  svg {
+    #BG {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #phone1 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+  }
+}
+.mail-dark:hover {
+  svg {
+    #Path_1075 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1076 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1077 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1078 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+  }
+}
+// .pin-dark:hover {
+//   svg {
+//     .a,
+//     path {
+//       fill: $bw6-2 !important;
+//       transition: 0.3s;
+//     }
+//   }
+// }
+// .pin-dark:hover {
+//   svg {
+//     cursor:pointer;
+//     #Path_1566 {
+//       fill: $light-blue !important;
+//       transition: 0.3s ease-in-out;;
+//     }
+//     #Path_1567 {
+//       fill: $light-blue !important;
+//       transition: 0.3s ease-in-out;;
+//     }
+//   }
+// }
+.card-company {
+  background-color: $bw2;
+  border-width: 0;
+  border-color: 0;
+  position: relative;
+  margin-bottom: 30px;
+  border-radius: 3px;
+}
+.contact-info {
+  background: $white;
+}
+.contact-feild {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.dispatch:hover {
+  .company-email,
+  .company-phone {
+    a {
+      color: $bw6-2 !important;
+    }
+  }
+  .card-label {
+    color: $bw6-2 !important;
+  }
+  background: $bw1 !important;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  svg {
+    cursor: pointer;
+    #BG {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #phone1 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+  }
+  svg {
+    cursor: pointer;
+    #Path_1075 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1076 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1077 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+    #Path_1078 {
+      fill: $bw6-2 !important;
+      transition: 0.3s;
+    }
+  }
+}
+.time-zone {
+  margin-left: 12px;
+}
+.currency {
+  margin-left: 47px;
+}
+.notice {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background: $white;
+}
+.no_note {
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.bank-logo {
+  margin-left: 12px;
+  // padding-top: 8px !important;
+  margin-right: 12px;
+}
+.bank-wide {
+  width: 114px;
+}
+.acc-routing {
+  font-size: 10px;
+}
+.license-ellipsis-position1 {
+  position: absolute !important;
+  top: 72px;
+  right: 22px;
+}

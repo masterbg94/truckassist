@@ -1,0 +1,208 @@
+<div class="card-wrapper" [ngClass]="{ done: isDone }">
+  <div class="todo-card d-flex flex-column" #todoCard>
+    <div class="todo-card-top d-flex justify-content-between align-items-center">
+      <p class="todo-card-title" [innerHtml]="todo.name | taHighlight: highlightingWords">{{ todo.name }}</p>
+      <div class="d-flex h-100 align-items-center">
+        <svg-icon
+          class="todo-done-icon"
+          *ngIf="isDone"
+          src="/assets/img/svgs/todo-done-icon.svg"
+        >
+        </svg-icon>
+        <kendo-chip-list *ngIf="todo.category">
+          <kendo-chip [label]="todo.category"></kendo-chip>
+        </kendo-chip-list>
+        <app-truckassist-dropdown
+          (actionEvent)="openAction($event)"
+          [identificator]="todo.id"
+          [mainActions]="dropdownOptions.mainActions"
+          [otherActions]="dropdownOptions.otherActions"
+          [deleteAction]="dropdownOptions.deleteAction"
+          [category]="'todo'">
+        </app-truckassist-dropdown>
+      </div>
+    </div>
+    <div class="todo-card-bottom d-flex flex-column">
+      <div class="d-flex flex-grow-1">
+        <div class="bottom-details d-flex flex-column justify-content-between">
+          <div>
+            <div class="attached d-flex flex-row align-items-start"
+                 [ngClass]="(todo.doc && todo.doc.tags && todo.doc.tags.length > 0) ? 'justify-content-between' : 'justify-content-end'">
+              <kendo-chip-list *ngIf="todo.doc && todo.doc.tags && todo.doc.tags.length" [class.big-list]="todo?.doc?.tags?.length > 3">
+                <kendo-chip *ngFor="let tag of todo.doc.tags" [label]="tag.userFullName"></kendo-chip>
+              </kendo-chip-list>
+              <div class="bottom-icons d-flex flex-row align-items-end">
+                <svg-icon src="/assets/img/svgs/attachment-todo.svg" (click)="attachmentsVisible[index] = !attachmentsVisible[index]" *ngIf="todo.doc.attachments?.length > 0"></svg-icon>
+                <div
+                  class="comment-number d-flex justify-content-between align-items-center w-100"
+                  [ngClass]="{ 'comment-expanded': collapsed }"
+                  *ngIf="todoTaskComments"
+                >
+                  <a *ngIf="todoTaskComments; else commenticon" role="button" (click)="toggleCollapse()"
+                     class="comment-number-icon position-relative" style="height: 17px">
+<!--                    <p class="m-0 p-0 comment-number-count position-absolute">{{ todoTaskComments.length }}</p>-->
+                    <!--<svg-icon *ngIf="todoTaskComments?.length<=9"
+                              class="m-0"
+                              [src]="'/assets/img/svgs/comment-icon-'+todoTaskComments?.length+'.svg'"
+                              [class.blue-icon]="!isCollapse">
+                    </svg-icon>-->
+                    <img *ngIf="todoTaskComments?.length<=9"
+                         [src]="'/assets/img/svgs/comment-icon-'+todoTaskComments?.length+'.svg'"
+                         alt="">
+                    <svg-icon *ngIf="todoTaskComments?.length>9"
+                              class="m-0"
+                              src="/assets/img/svgs/comment-icon-9+.svg"
+                              [class.blue-icon]="!isCollapse">
+                    </svg-icon>
+                  </a>
+                  <ng-template #commenticon>
+                    <svg-icon class="done-comment m-0" src="/assets/img/svgs/comment.svg" [class.blue-icon]="!isCollapse"></svg-icon>
+                  </ng-template>
+                </div>
+                <svg-icon src="/assets/img/svgs/url-todo.svg" (click)="toggleUrl()" [class.blue-icon]="isUrlToggled" *ngIf="todo.url !== ''"></svg-icon>
+              </div>
+            </div>
+            <div class="description" *ngIf="todo.doc.description">
+              <p class="m-0 p-0">{{ todo.doc.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-card-preview
+        [attachments]="todo.doc.attachments"
+        [visible]="attachmentsVisible[index]"
+        [component]="'todo'"
+      ></app-card-preview>
+      <div class="expiration-date-col" [class.rounded-bottom]="isUrlToggled || isAttachmentToggled || !isCollapse">
+        <app-progress-expiration
+          *ngIf="starting"
+          [expireDate]="todo.deadLine | date: 'short'"
+          [isTodo]="true"
+        ></app-progress-expiration>
+      </div>
+    </div>
+  </div>
+  <div class="hyperlink" *ngIf="isUrlToggled" [@todoExpandAnimation]>
+    <a [@todoExpandAnimation] href="{{ todo.url }}">{{ todo.url }}</a>
+  </div>
+  <div
+    class="collapse"
+    *ngIf="!isCollapse"
+    [@todoExpandAnimation]
+    id="toggleComment{{ todo.title }}{{ todo.id }}"
+    [ngbCollapse]="isCollapse"
+  >
+    <div
+      class="comment-wrapper"
+      *ngIf="todoTaskComments"
+      [class.comment-wrapper-big]="todoTaskComments.length >= 5"
+    >
+      <!-- Comment list -->
+      <div *ngFor="let comment of todoTaskComments; let i = index" class="p-0 comment-body">
+        <div class="single-comment d-flex">
+          <div class="comment-text d-flex flex-column">
+            <div class="comment-info d-flex ">
+              <div class="comment-user d-flex">
+                <div class="comment-avatar">
+                  <img *ngIf="returnUserForComment(comment)?.doc?.avatar?.src; else commentAvatar"
+                       src="{{ returnUserForComment(comment)?.doc?.avatar?.src}}"
+                       alt=""
+                       class="img-fluid"/>
+                  <ng-template #commentAvatar>
+                    <svg-icon class="comment-avatar-default" src="assets/img/svgs/comment-avatar.svg"></svg-icon>
+                  </ng-template>
+                </div>
+                <p>{{returnUserForComment(comment)?.userFullName}}</p>
+              </div>
+              <div class="comment-date d-flex">
+                <p>{{ comment.createdAt | date: 'M/d/yyyy' }} {{ comment.createdAt | date: 'hh:mm' }}</p>
+              </div>
+            </div>
+            <div class="comment-desc">
+              <p *ngIf="!toggledEditComment[i]">{{ comment.commentText }}</p>
+              <div class="d-flex" *ngIf="toggledEditComment[i]">
+                <textarea
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="2"
+                  [(ngModel)]="comment.commentText"
+                  [formControl]="updateCommentControl"
+                  class="comment-textarea form-textarea"
+                  maxlength="100"
+                ></textarea>
+                <div class="d-flex create-comment-new-icons">
+                  <svg-icon
+                    src="/assets/img/svgs/checkmark-filled.svg"
+                    (click)="updateComment(comment)"
+                    [appTaTooltip]="'Save'"
+                    position="bottom-right"
+                    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                  >
+                  </svg-icon>
+                  <svg-icon
+                    src="/assets/img/svgs/close-filled.svg"
+                    (click)="toggleEditComment(i)"
+                    [appTaTooltip]="'Cancel'"
+                    [tooltipBackground]="'#6c6c6c'"
+                    position="bottom-right"
+                    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                  >
+                  </svg-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="comment-actions" *ngIf="returnUid(comment) && !toggledEditComment[i]">
+            <svg-icon
+              src="/assets/img/svgs/edit-comment.svg"
+              class="cursor-pointer"
+              (click)="toggleEditComment(i)"
+            >
+            </svg-icon>
+            <svg-icon
+              src="/assets/img/svgs/delete-comment.svg"
+              class="cursor-pointer"
+              (click)="deleteComment(comment.id)"
+            ></svg-icon>
+          </div>
+        </div>
+      </div>
+
+      <!-- Open comment form -->
+      <div
+        class="add-comment-text d-flex align-items-center"
+        *ngIf="!addNewComment">
+        <p (click)="createCommentToggle()">Add new comment</p>
+      </div>
+
+      <!-- New comment form -->
+      <div class="create-comment-new d-flex" *ngIf="addNewComment">
+        <div class="d-flex flex-grow-1 align-items-end">
+          <textarea
+            cdkTextareaAutosize
+            #commentar
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="2"
+            [formControl]="newCommentControl"
+            class="comment-textarea form-textarea"
+            maxlength="100"
+          ></textarea>
+          <div class="d-flex create-comment-new-icons">
+            <svg-icon
+              src="/assets/img/svgs/checkmark-filled.svg"
+              (click)="createComment()"
+              [svgStyle]="{ 'width.px': 20, 'height.px': 20, 'margin-left.px': 5 }"
+            >
+            </svg-icon>
+            <svg-icon
+              src="/assets/img/svgs/close-filled.svg"
+              (click)="createCommentToggle()"
+              [svgStyle]="{ 'width.px': 20, 'height.px': 20, 'margin-left.px': 5 }"
+            >
+            </svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

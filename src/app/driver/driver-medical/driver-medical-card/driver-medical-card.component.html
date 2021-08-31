@@ -1,0 +1,60 @@
+<div class="item-card mt-3" *ngFor="let medical of driver.doc.medicalData; let i = index">
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor>Issued</span>
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          medical.startDate | date: 'shortDate'
+        }}</span>
+      </div>
+    </div>
+    <div class="action-container d-flex justify-content-around align-items-center">
+      <app-truckassist-dropdown
+        (actionEvent)="openAction($event)"
+        [identificator]="medical.id"
+        [mainActions]="dropdownOptions.mainActions"
+        [otherActions]="dropdownOptions.otherActions"
+        [deleteAction]="dropdownOptions.deleteAction"
+        [category]="'driver medical'"
+      ></app-truckassist-dropdown>
+    </div>
+  </div>
+
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div
+      class="action-container second-icon-wrapper d-flex justify-content-around align-items-center p-0"
+    >
+      <button
+        class="custom-rounded-btn"
+        [ngClass]="{
+          'active-btn': attachmentsVisible[i],
+          'empty-icon': !attachmentsVisible[i]
+        }"
+        *ngIf="driver.status && medical.attachments?.length"
+        (click)="attachmentsVisible[i] = !attachmentsVisible[i]"
+      >
+        <svg-icon
+          class="empty-icon"
+          src="assets/img/svgs/table/attach.svg"
+          [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+        ></svg-icon>
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="medical.endDate"
+    class="mt-3 truckassist-progress-container{{ attachmentsVisible[i] ? ' attachment-visible' : '' }}"
+  >
+    <app-progress-expiration
+      [startDate]="medical.startDate | date: 'shortDate'"
+      [expireDate]="medical.endDate | date: 'shortDate'"
+      [status]="driver.status"
+    ></app-progress-expiration>
+  </div>
+
+  <app-card-preview
+    [attachments]="medical.attachments"
+    [visible]="attachmentsVisible[i]"
+  ></app-card-preview>
+</div>

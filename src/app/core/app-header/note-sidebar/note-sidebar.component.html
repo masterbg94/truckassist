@@ -1,0 +1,367 @@
+<div id="noteSidebar" class="note-sidebar" [ngStyle]="{ width: sidebarWidth + 'px' }">
+  <div class="note-resize" (mousedown)="registerMouseMove()" (mouseup)="unregisterMouseMove()">
+    <svg-icon src="../assets/img/svgs/note-holder-resize.svg"></svg-icon>
+  </div>
+  <div class="sidebar-toggle" (click)="openSidebar()">
+    <svg-icon src="../assets/img/svgs/right.svg"></svg-icon>
+  </div>
+  <div class="sidebar-overlay"></div>
+  <div class="note-sidebar-main d-flex">
+    <div class="note-sidebar-header d-flex">
+      <div class="note-side-title">Note</div>
+      <div class="note-side-new">
+        <div
+          class="plus-svg-container"
+          [class.innactive]="activeGroup == -1"
+          appTaTooltip="Add Note"
+          position="bottom-right"
+          (click)="addNoteToActiveFile()"
+        >
+          <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+        </div>
+      </div>
+    </div>
+    <div class="note-types d-flex">
+      <div class="note-types-items" [class.with_scroll]="showScrollButtons">
+        <div class="scroll-items" (click)="moveScroll('prev')" *ngIf="showScrollButtons">
+          <svg-icon src="assets/img/svgs/left.svg"></svg-icon>
+        </div>
+        <div
+          class="scroll-items right-scroll"
+          (click)="moveScroll('next')"
+          *ngIf="showScrollButtons"
+        >
+          <svg-icon src="assets/img/svgs/right.svg"></svg-icon>
+        </div>
+        <div class="type-main-holder">
+          <div
+            class="note-types-item"
+            [class.active]="activeGroup == indx"
+            *ngFor="let item of noteGroups; let indx = index"
+            (click)="setActiveItem(indx)"
+          >
+            <span class="main_title" *ngIf="noteGroupEditIndex != indx">{{ item.name }}</span>
+            <div class="save-opened-item" *ngIf="noteGroupEditIndex == indx">
+              <input
+                maxlength="8"
+                appAutoFocus
+                [autoFocusDelay]="100"
+                type="text"
+                [(ngModel)]="editedTextModel"
+                (keydown.enter)="saveEdit(indx)"
+                (blur)="saveEdit(indx)"
+              />
+              <span
+                class="input-buttons accept_changes"
+                *ngIf="editedTextModel"
+                (click)="saveEdit(indx)"
+              >
+                <svg-icon src="assets/img/svgs/table/check.svg"></svg-icon>
+              </span>
+              <span (click)="closeEdit()" class="input-buttons dismiss_changes">
+                <svg-icon src="assets/img/svgs/table/close.svg"></svg-icon>
+              </span>
+            </div>
+            <div
+              class="note-type-border"
+              [class.innactive]="noteGroupEditIndex == indx"
+              [ngClass]="'border_' + (indx + 1)"
+            >
+              <div
+                *ngIf="noteGroupEditIndex != indx"
+                class="note-types-menu"
+                (click)="openTooltip(t2, indx)"
+                [ngbPopover]="deleteContainer"
+                #t2="ngbPopover"
+                container="body"
+                (hidden)="hidePopover()"
+                triggers="manual"
+                autoClose="outside"
+                [placement]="['bottom-left', 'top']"
+                [popoverClass]="'note-delete-popover'"
+              >
+                <svg-icon src="assets/img/svgs/table/points.svg"></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="add-note-type"
+        [class.innactive]="noteGroups.length == 15"
+        (click)="addNewGroup()"
+      >
+        <svg-icon
+          src="assets/img/svgs/table/add.svg"
+          appTaTooltip="Add group"
+          position="bottom-right"
+        ></svg-icon>
+      </div>
+    </div>
+    <div class="note-editor">
+      <app-custom-wysiwyg-editor
+        [selectedEditor]="selectedEditor"
+        [range]="range"
+        [sidebarWidth]="sidebarWidth"
+        [settings]="wysiwigSettings"
+      ></app-custom-wysiwyg-editor>
+    </div>
+    <div class="sidebar-notes">
+      <div
+        *ngIf="noteGroups.length > 0"
+        cdkDropList
+        #notesRightList="cdkDropList"
+        [cdkDropListData]="noteGroups[activeGroup]['notes']"
+        [cdkDropListConnectedTo]="[notesOutsideList]"
+        (cdkDropListDropped)="onDrop($event, 'truckData')"
+      >
+        <div *ngIf="activeGroup > -1">
+          <app-no-empty-status (createNote)="addNoteToActiveFile()" [isNote]="true" *ngIf="!noteGroups[activeGroup]['notes'].length"></app-no-empty-status>
+          <div
+            class="note-sidebar-item"
+            cdkDrag
+            cdkDragHandle
+            (cdkDropListEntered)="enterDropList($event)"
+            (cdkDragEnded)="dragEndedTest($event)"
+            [cdkDragPreviewClass]="'draggable-sidebar-note'"
+            *ngFor="let note of noteGroups[activeGroup]['notes']; let indx = index"
+          >
+            <div class="note-sidebar-header note-main-sidebar">
+              <span class="note-head-title" *ngIf="!note.edit">{{ note.name }}</span>
+              <div *ngIf="note.edit" class="save-opened-item">
+                <input
+                  maxlength="60"
+                  appAutoFocus
+                  [autoFocusDelay]="100"
+                  class="note-width"
+                  type="text"
+                  [(ngModel)]="editedTextModel"
+                  (keydown.enter)="saveNoteEdit(indx)"
+                  (blur)="saveNoteEdit(indx)"
+                />
+                <span
+                  class="input-buttons accept_changes"
+                  *ngIf="editedTextModel"
+                  (click)="saveNoteEdit(indx)"
+                >
+                  <svg-icon src="assets/img/svgs/table/check.svg"></svg-icon>
+                </span>
+                <span (click)="closeNoteEdit(indx)" class="input-buttons dismiss_changes">
+                  <svg-icon src="assets/img/svgs/table/close.svg"></svg-icon>
+                </span>
+              </div>
+              <div *ngIf="!note.edit" class="note-sidebar-dots">
+                <svg-icon
+                  [ngbPopover]="assignNote"
+                  #t3="ngbPopover"
+                  container="body"
+                  triggers="manual"
+                  autoClose="outside"
+                  (hidden)="hidePopover()"
+                  [placement]="['bottom-left', 'top']"
+                  (click)="openTooltip(t3, indx)"
+                  [popoverClass]="'note-delete-popover'"
+                  src="assets/img/svgs/table/points.svg"
+                ></svg-icon>
+              </div>
+            </div>
+            <app-note-sidebar-contents
+              [note]="note.note"
+              [index]="indx"
+              (updateNote)="updateNote($event)"
+              (onFocus)="onFocus($event)"
+              (onBlur)="prepareForTextRange($event)"
+              (onClick)="clickInsideContainer()"
+              [insideHeight]="note.insideHeight"
+            ></app-note-sidebar-contents>
+            <div
+              (mousedown)="registerNoteResize($event, indx)"
+              (mouseup)="unregisterNoteResize()"
+              class="cdk-drag-disabled resize_note"
+            ></div>
+          </div>
+        </div>
+        <!-- <div class="note-sidebar-item">
+            <div class="note-sidebar-header">Magna aliqua
+                <div class="note-sidebar-dots">
+                    <svg-icon src="assets/img/svgs/table/points.svg"></svg-icon>
+                </div>
+            </div>
+            <div class="note-sidebar-item-field" contenteditable placeholder="Jot something up..."></div>
+            <div class="resize_note"></div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="cdk_list"
+  cdkDropList
+  #notesOutsideList="cdkDropList"
+  [cdkDropListData]="noteGroupsTransfered"
+  (cdkDropListDropped)="drop($event)"
+  [cdkDropListEnterPredicate]="enterList"
+  [class.dont_show]="isDraggableStarted || outsideResize"
+  [ngStyle]="{ width: 'calc(100% - ' + sidebarWidth + 'px)', left: sidebarWidth + 'px' }"
+></div>
+<div class="note_drag_side" [ngStyle]="{ width: '100%', left: '0px' }">
+  <div
+    class="note-sidebar-item outside-note"
+    cdkDrag
+    cdkDragHandle
+    cdkDragBoundary=".note_drag_side"
+    [cdkDragFreeDragPosition]="note.dragPosition"
+    (cdkDropListEntered)="enterDropList($event)"
+    [cdkDragPreviewClass]="'draggable-sidebar-note'"
+    (cdkDragEnded)="dragEnded($event, indx)"
+    *ngFor="let note of noteGroupsTransfered; let indx = index"
+  >
+    <div
+      [ngStyle]="{ 'background-color': colorPalete[note['parentIndex']] }"
+      class="note-sidebar-header note-main-sidebar"
+    >
+      <svg-icon
+        (click)="removeFromOutside(note, indx)"
+        class="remove_outside"
+        src="assets/img/svgs/left.svg"
+      ></svg-icon>
+      <span class="note-head-title" *ngIf="!note.edit">{{ note.name }}</span>
+      <div *ngIf="note.edit" class="save-opened-item">
+        <input
+          maxlength="60"
+          appAutoFocus
+          [autoFocusDelay]="100"
+          class="note-width"
+          type="text"
+          [(ngModel)]="editedTextModel"
+          (keydown.enter)="saveNoteEdit(indx)"
+          (blur)="saveNoteEdit(indx)"
+        />
+        <span
+          class="input-buttons accept_changes"
+          *ngIf="editedTextModel"
+          (click)="saveNoteEdit(indx)"
+        >
+          <svg-icon src="assets/img/svgs/table/check.svg"></svg-icon>
+        </span>
+        <span (click)="closeNoteEdit(indx)" class="input-buttons dismiss_changes">
+          <svg-icon src="assets/img/svgs/table/close.svg"></svg-icon>
+        </span>
+      </div>
+      <div *ngIf="!note.edit" class="note-sidebar-dots">
+        <svg-icon
+          [ngbPopover]="assignNote"
+          #t3="ngbPopover"
+          container="body"
+          triggers="manual"
+          autoClose="outside"
+          (hidden)="hidePopover()"
+          [placement]="['bottom-left', 'top']"
+          (click)="openTooltip(t3, indx, true)"
+          [popoverClass]="'note-delete-popover'"
+          src="assets/img/svgs/table/points.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div
+        (mousedown)="$event.stopPropagation()"
+        class="note_inner_html"
+        [ngStyle]="{
+          width: note.outsideWidth ? note.outsideWidth + 'px' : '',
+          height: note.outsideHeight ? note.outsideHeight + 'px' : ''
+        }"
+      >
+        <span
+          [class.userUnselectable]="outsideResize || canResize"
+          [innerHTML]="note.note | safeHtml"
+        ></span>
+      </div>
+      <div class="right_corner_hold"></div>
+    </div>
+    <div class="bottom_corner_hold"></div>
+    <div
+      (mousedown)="registerOutsideMouseMove($event, indx)"
+      (mouseup)="unregisterOutsideMouseMove()"
+      class="cdk-drag-disabled resize_note"
+    ></div>
+  </div>
+</div>
+
+<ng-template #deleteContainer let-data="data">
+  <div *ngIf="!confirmDelete">
+    <div class="container-options d-flex" (click)="openEdit(data)">
+      <svg-icon [src]="'/assets/img/svgs/edit-pencil.svg'"></svg-icon>
+      <div>Rename</div>
+    </div>
+    <div class="container-options d-flex delete-item" (click)="openDeleteConfirm()">
+      <svg-icon [src]="'/assets/img/svgs/table/trash.svg'"></svg-icon>
+      <div>Delete</div>
+    </div>
+  </div>
+  <div *ngIf="confirmDelete" class="delete-dialog-container">
+    <div class="drop-down-delete-dialog">
+      <p>Are you sure you want to delete?</p>
+      <div class="yes-no">
+        <div class="no" (click)="rejectConfirm()">
+          <p>No</p>
+        </div>
+        <div class="yes" (click)="deleteItem(data)">
+          <p>Yes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #assignNote let-data="data">
+  <div class="assing-note-popup" *ngIf="!confirmDelete">
+    <div class="container-options d-flex" (click)="openEditNote(data)">
+      <svg-icon [src]="'/assets/img/svgs/edit-pencil.svg'"></svg-icon>
+      <div class="small_font">Rename</div>
+    </div>
+    <div
+      *ngIf="!outsideTooltip"
+      (mouseover)="openedItem = true"
+      (mouseleave)="openedItem = false"
+      [class.active]="openedItem"
+      class="container-options d-flex with-arrow"
+    >
+      <svg-icon class="tag-img" [src]="'/assets/img/svgs/icon-tag.svg'"></svg-icon>
+      <div class="group-name">{{ noteGroups[activeGroup]['name'] }}</div>
+    </div>
+    <div class="container-options d-flex delete-item" (click)="openDeleteConfirm()">
+      <svg-icon [src]="'/assets/img/svgs/table/trash.svg'"></svg-icon>
+      <div>Delete</div>
+    </div>
+    <div (mouseleave)="openedItem = false" (mouseover)="openedItem = true" class="group-dropdown">
+      <div
+        class="group-dropdown-item"
+        (click)="moveNoteToGroup(note, data)"
+        [ngClass]="
+          'group_item_' +
+          (indx + 1) +
+          ' ' +
+          (note.id == noteGroups[activeGroup]['id'] ? 'order_first' : 'new_order_flex')
+        "
+        *ngFor="let note of noteGroups; let indx = index"
+      >
+        <span class="group-count">{{ note.notes.length }}</span>
+        <span class="group-names">{{ note.name }}</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="confirmDelete" class="delete-dialog-container">
+    <div class="drop-down-delete-dialog">
+      <p>Are you sure you want to delete?</p>
+      <div class="yes-no">
+        <div class="no" (click)="rejectConfirm()">
+          <p>No</p>
+        </div>
+        <div class="yes" (click)="deleteNoteItem(data)">
+          <p>Yes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

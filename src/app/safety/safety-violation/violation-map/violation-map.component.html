@@ -1,0 +1,193 @@
+<!-- Map -->
+<div class="map-conteiner" [ngClass]="{ 'fullscreen-map-mode': fullScreenMode }">
+  <agm-map
+    style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+    [restriction]="mapRestrictions"
+    [streetViewControl]="false"
+    [latitude]="mapOptions.latitude"
+    [longitude]="mapOptions.longitude"
+    [clickableIcons]="false"
+    [controlSize]="1"
+    [zoom]="zoom"
+    [styles]="styles"
+    (mapReady)="mapReady($event)"
+  >
+    <agm-marker-cluster
+      [draggable]="true"
+      [zoomOnClick]="false"
+      [styles]="clusterStyles.styles"
+      [calculator]="clusterStyles.calculator"
+      averageCenter="true"
+      minimumClusterSize="2"
+    >
+      <!-- Markesrs For Shops -->
+      <agm-marker
+        [draggable]="true"
+        *ngFor="let shop of markerReiting; let i = index"
+        [latitude]="shop.latitude"
+        [longitude]="shop.longitude"
+        [label]="{ color: '#5673AA', text: '1', fontWeight: 'bold', fontSize: '16px' }"
+        [agmFitBounds]="true"
+        [animation]="shop.animation"
+        [opacity]="1"
+        [iconUrl]="{
+          url: shop.marker,
+          scaledSize: {
+            width: 36,
+            height: 36
+          }
+        }"
+        (markerClick)="clickedMarker(shop.markerNumber, shop)"
+      >
+      </agm-marker>
+    </agm-marker-cluster>
+    <!-- Info Shop -->
+    <agm-snazzy-info-window
+      #mainTooltip
+      [isOpen]="closeInfoWindow"
+      (isOpenChange)="snazzyInfoWindowIsToggled($event)"
+      [latitude]="+markerInfoData.latitude"
+      [longitude]="+markerInfoData.longitude"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      [maxWidth]="351"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="single_violation_map_tooltip">
+          <div class="single_violation_map_tooltip_header">
+            <span>{{ markerInfoData.report }}</span>
+            <span>{{ markerInfoData.eventDate }}</span>
+            <span>{{ markerInfoData.hm }}</span>
+          </div>
+          <div #violationCard class="single_violation_map_tooltip_body">
+            <div class="single_violation_map_tooltip_body_header">
+              <span appSelectionColor class="single_violation_map_tooltip_body_header_name">{{
+                markerInfoData.driverFullName
+              }}</span>
+
+              <span appSelectionColor class="single_violation_map_tooltip_body_header_right">{{
+                markerInfoData.truckNumber
+              }}</span>
+              <span appSelectionColor class="single_violation_map_tooltip_body_header_title"
+                >Truck</span
+              >
+            </div>
+            <div class="single_violation_map_tooltip_body_header">
+              <span appSelectionColor>{{ markerInfoData.state }}</span>
+
+              <span appSelectionColor class="single_violation_map_tooltip_body_header_right">{{
+                markerInfoData.trailerNumber
+              }}</span>
+              <span appSelectionColor class="single_violation_map_tooltip_body_header_title"
+                >Trailer</span
+              >
+            </div>
+            <div class="single_violation_map_tooltip_body_body">
+              <div
+                class="single_violation_map_tooltip_body_body_box"
+                *ngFor="let box of violationIconData"
+              >
+                <div
+                  class="single_violation_map_tooltip_body_body_box_icon"
+                  [ngClass]="{
+                    'single_violation_map_tooltip_body_body_box_icon-active': +box.weight > 0
+                  }"
+                >
+                  <svg-icon
+                    src="assets/img/svgs/table/violation-{{ box.iconUrl }}.svg"
+                    [svgStyle]="{ 'width.px': '19', 'height.px': '21' }"
+                  ></svg-icon>
+                </div>
+                <div
+                  class="single_violation_map_tooltip_body_body_box_value"
+                  [ngClass]="{
+                    'single_violation_map_tooltip_body_body_box_value-active': box.weight !== '0'
+                  }"
+                >
+                  <span appSelectionColor>
+                    {{ box.weight }}
+                  </span>
+                </div>
+              </div>
+              <div class="single_violation_map_tooltip_body_body_citation">
+                <svg-icon
+                  class="single_violation_map_tooltip_body_body_citation_off"
+                  *ngIf="markerInfoData.citationNumber === '0'; else citation"
+                  src="assets/img/svgs/table/citation-ticket.svg"
+                  [svgStyle]="{ 'width.px': '30', 'height.px': '20' }"
+                ></svg-icon>
+                <ng-template #citation>
+                  <svg-icon
+                    class="single_violation_map_tooltip_body_body_citation_on"
+                    src="assets/img/svgs/table/citation-ticket-on.svg"
+                    [svgStyle]="{ 'width.px': '50', 'height.px': '20' }"
+                  ></svg-icon>
+                </ng-template>
+                <span appSelectionColor> {{ markerInfoData.citationNumber }} </span>
+                <span
+                  appSelectionColor
+                  [ngClass]="{
+                    single_violation_map_tooltip_body_body_citation_regular:
+                      markerInfoData.citationNumber === '0'
+                  }"
+                >
+                  {{ markerInfoData.citationNumber === '0' ? '$0' : markerInfoData.total }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+    <agm-snazzy-info-window
+      [isOpen]="openClusterDropdown"
+      (isOpenChange)="snazzyInfoMainWindowIsToggled($event)"
+      [maxWidth]="240"
+      [latitude]="clusterLocation.lat"
+      [longitude]="clusterLocation.long"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="grup-of-shops">
+          <div class="shop-count" [ngClass]="{ 'cluster-shop-count': clusterDropdownData.length }">
+            <p>{{ clusterDropdownData.length }} Violations</p>
+          </div>
+          <div class="violation-map-tooltip">
+            <div
+              class="shop-names"
+              [ngClass]="{ 'cluster-last-element': i === clusterDropdownData.length - 1 }"
+              *ngFor="let shop of clusterDropdownData; let i = index"
+              (click)="clickedMarker(shop.markerNumber, shop)"
+            >
+              <p style="font-weight: bold;">{{ shop.report }}</p>
+              <p>{{ shop.eventDate }}</p>
+              <p>{{ shop.hm }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+  </agm-map>
+
+  <!-- Shop List -->
+  <div class="shop-list-container" [ngClass]="{ 'fullscreen-list-mode': fullScreenMode }">
+    <!-- Favorite Shop List -->
+    <app-violation-map-list
+      [titleOfList]="'Violation List'"
+      [shopList]="tableShopData"
+      (shopDelete)="onDeleteShop($event)"
+    ></app-violation-map-list>
+  </div>
+
+  <!-- Fullscreen And Zoom -->
+  <div class="map-control">
+    <app-map-control (mapMode)="onFullScreen($event)" (zoom)="onZoom($event)"></app-map-control>
+  </div>
+
+  <div class="fullscreen-truckassist-logo" *ngIf="fullScreenMode">
+    <svg-icon src="../../../assets/img/svgs/shop-map/Logo.svg"></svg-icon>
+  </div>
+</div>

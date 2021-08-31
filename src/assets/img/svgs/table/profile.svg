@@ -1,0 +1,7 @@
+<svg id="Group_3157" data-name="Group 3157" xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24">
+  <g id="Group_3156" data-name="Group 3156">
+    <path id="Path_1788" class="path-element" data-name="Path 1788" d="M5.418,15.992A11.009,11.009,0,0,0,0,21.41V23a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V21.41A11,11,0,0,0,5.418,15.992Z" fill="#d8d8d8"/>
+    <path id="Path_1589" class="path-element" data-name="Path 1589" d="M9.832,4.216a5,5,0,1,1-5,5A5,5,0,0,1,9.832,4.216Z" fill="#d8d8d8"/>
+  </g>
+  <path id="Path_1789" class="path-background" data-name="Path 1789" d="M19,0H1A1,1,0,0,0,0,1V21.41a11,11,0,0,1,20,0V1A1,1,0,0,0,19,0ZM9.832,14.216a5,5,0,1,1,5-5A5,5,0,0,1,9.832,14.216Z" fill="#606060"/>
+</svg>

@@ -1,0 +1,302 @@
+@import '../../../assets/scss/components/variables.scss';
+
+::ng-deep.tab-select-dropdown-select {
+  .switch-btn {
+    background-color: #ffffff;
+    list-style: none;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 3px;
+    border: 0 !important;
+    cursor: pointer;
+    padding: 4px;
+    padding-right: 9px;
+    // width: 107px;
+    position: relative;
+    transition: $transition;
+    transition: width 2s;
+
+    .tab-select-close-btn {
+      visibility: hidden;
+      transition: $transition;
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      cursor: pointer;
+
+      svg {
+        .st1 {
+          fill: #ffffff !important;
+          opacity: 1;
+        }
+        .st2 {
+          fill: #b7b7b7 !important;
+          opacity: 1;
+        }
+        .st3 {
+          fill: #e7e7e7 !important;
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        .st1 {
+          fill: #ffffff !important;
+          opacity: 1;
+        }
+        .st2 {
+          fill: #919191 !important;
+          opacity: 1;
+        }
+        .st3 {
+          fill: #ffffff !important;
+          opacity: 1;
+        }
+      }
+      &.visible-tab {
+        visibility: visible;
+        transition: $transition;
+      }
+    }
+
+    .counter-badge {
+      background-color: #b7b7b730;
+      height: 24px;
+      min-width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      margin-right: 6px;
+      .badge-value {
+        color: #b7b7b7 !important;
+        opacity: 1;
+        padding: 4px;
+      }
+    }
+    .button-title {
+      color: #b7b7b7 !important;
+      font-size: 14px;
+      opacity: 1;
+      font-weight: 600 !important;
+    }
+    &:hover {
+      .counter-badge {
+        background-color: #b7b7b730;
+        .badge-value {
+          color: #919191 !important;
+          opacity: 1;
+        }
+      }
+      .button-title,
+      .counter-badge {
+        color: #919191 !important;
+        opacity: 1;
+      }
+    }
+
+    // EXTRA BTN
+    &.extra-btn {
+      .counter-badge {
+        background-color: #5673aa30;
+        .badge-value {
+          color: #ffffff !important;
+          opacity: 1;
+        }
+      }
+      .button-title {
+        color: #5673aa !important;
+        opacity: 0.7;
+      }
+
+      &:hover {
+        .counter-badge {
+          background-color: #5673aa;
+          .badge-value {
+            color: #ffffff !important;
+            opacity: 1;
+          }
+        }
+        .button-title {
+          color: #5673aa !important;
+          opacity: 1;
+        }
+      }
+
+      &.active-btn {
+        background-color: #5673aa;
+        opacity: 1;
+        cursor: default;
+        .counter-badge {
+          background-color: #ffffff70;
+          .badge-value {
+            color: #ffffff !important;
+          }
+        }
+        .button-title {
+          color: #ffffff !important;
+          opacity: 1;
+        }
+
+        &:hover {
+          .counter-badge {
+            background-color: #ffffff70;
+            .badge-value {
+              color: #ffffff !important;
+              opacity: 1;
+            }
+          }
+          .button-title {
+            color: #ffffff !important;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    // ACTIVE-BTN
+    &.active-btn {
+      background-color: #5673aa70;
+      opacity: 1;
+      cursor: default;
+      .counter-badge {
+        background-color: #ffffff70;
+        .badge-value {
+          color: #ffffff !important;
+        }
+      }
+      .button-title {
+        color: #ffffff !important;
+      }
+      &:hover {
+        background-color: #5673aa;
+      }
+    }
+
+    &.full-btn {
+      background-color: #34456690;
+      &:hover {
+        background-color: #344566;
+      }
+    }
+  }
+
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+
+  &.show {
+    .active-btn {
+      background-color: #b7b7b7 !important;
+    }
+    .panel-arrow {
+      transform: rotate(-180deg);
+      transition: all 0.1s ease-in-out;
+    }
+
+    .panel-text-container {
+      display: none !important;
+    }
+
+    .panel-input-container {
+      display: block !important;
+      .panel-input {
+        width: 75px;
+        border: 0 !important;
+        background: transparent;
+        color: #ffffff;
+        &:focus {
+          outline: none !important;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .panel-text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 9px;
+  }
+
+  .panel-input-container {
+    display: none !important;
+    margin-right: 9px;
+  }
+
+  .panel-arrow {
+    cursor: pointer;
+    float: right;
+    transform: rotate(0deg);
+    transition: all 0.1s ease-in-out;
+    svg {
+      path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+      }
+    }
+  }
+
+  .select-dropdown-menu {
+    max-height: 130px;
+    overflow: auto;
+    position: absolute;
+    z-index: 3;
+    width: 107px;
+    box-shadow: 0 0 4px 0 rgb(0 0 0 / 15%);
+    border-radius: 3px;
+    margin-top: 4px;
+    background-color: #ffffff;
+
+    .select-dropdown-item {
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 6px;
+      cursor: pointer;
+      background-color: #ffffff;
+      margin-bottom: 2px;
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      span {
+        color: #919191;
+        font-size: 14px;
+      }
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      &.selected-item {
+        background-color: #b7b7b7;
+        opacity: 1;
+        &:hover {
+          background-color: #b7b7b7;
+          opacity: 0.7;
+        }
+        span {
+          color: #ffffff !important;
+          font-size: 14px;
+        }
+      }
+
+      &.approved-item {
+        background-color: #5673aa;
+        opacity: 1;
+        &:hover {
+          background-color: #5673aa;
+          opacity: 0.7;
+        }
+        span {
+          color: #ffffff !important;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

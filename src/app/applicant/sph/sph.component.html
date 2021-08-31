@@ -1,0 +1,130 @@
+<form [formGroup]="sphForm" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow slideShow-nomodal my-5 safety">
+    <h1 class="safety_header">Safety Performance History</h1>
+
+    <div class="centerContent">
+      <div class="centerContent user_block" style="margin-top: 32px; margin-bottom: -20px;">
+        <div *ngIf="user != null" class="row user">
+          <div class="col-12 col-md-6">
+            <input
+              id="applicantName"
+              placeholder="{{ user.firstName + ' ' + user.lastName }}"
+              disabled
+              class="form-control input-control user_input user_input_applicantName"
+            />
+            <label class="user_label user_label_applicantName" for="applicantName"
+              >APPLICANT NAME</label
+            >
+          </div>
+          <div class="col-6 col-md-3">
+            <input
+              id="applicantSSN"
+              placeholder="{{ user.ssn }}"
+              disabled
+              class="form-control input-control user_input user_input_applicantSSN"
+            />
+            <label class="user_label user_label_applicantSSN" for="applicantSSN">SSN</label>
+          </div>
+          <div class="col-6 col-md-3">
+            <input
+              id="applicantBirthday"
+              placeholder="{{ user.birthday }}"
+              disabled
+              class="form-control input-control user_input user_input_applicantBirthday"
+            />
+            <label class="user_label user_label_applicantBirthday" for="applicantBirthday"
+              >DOB</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="safety_dotTesting">
+      <app-truckassist-checkbox
+        id="isAuthPreviousEmployer"
+        formControlName="isAuthPreviousEmployer"
+        [checked]="isAuthPreviousEmployer"
+        (change)="(isAuthPreviousEmployer != isAuthPreviousEmployer)"
+        [(ngModel)]="isAuthPreviousEmployer"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkBox" style="top: 1.5px !important;">
+        Hereby authorize my previous employer to release and forward the information requested below
+        concerning my Alcohol and Controlled Substance Testing records within the previous 3 years
+        from the date of my employment application.
+      </span>
+    </div>
+
+    <a class="safety_reviewSection" (click)="openModal()">Review other sections of this form </a>
+
+    <!-- Modal review -->
+    <app-sph-reviewer (modalDeactivate)="onModalDeactivate($event)" [modalActive]="modalActive"></app-sph-reviewer>
+
+    <div class="pad">
+      <div *ngIf="!showSignature">
+        <canvas></canvas>
+        <signature-pad
+          #signaturePad
+          [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()"
+          (onEndEvent)="drawComplete()"
+        ></signature-pad>
+      </div>
+      <div *ngIf="showSignature" class="pad_signature">
+        <img
+          [attr.src]="photoUrl()"
+          alt="slika"
+          width="660"
+          height="200"
+          style="background-color: #6c6c6c;"
+        />
+        <a
+          appTaTooltip="Edit"
+          tooltipColor="#FFFFFF"
+          tooltipBackground="#5673aa"
+          position="bottom-right"
+          class="pad_signature_edit"
+          (click)="editSignature()"
+        >
+          <svg-icon src="../../assets/img/applicants/Pen.svg"></svg-icon>
+        </a>
+      </div>
+      <div class="signature">
+        <div class="signature_blok">
+          <a class="signature_link signature_link_clear" (click)="clear()">&#10006; Clear</a>
+          <a class="signature_link signature_link_undo" (click)="undo()">&#8634; Undo</a>
+        </div>
+        <p class="signature_text">PLEASE USE YOUR MOUSE TO SIGN ABOVE</p>
+      </div>
+    </div>
+    <div class="safety_dotTesting">
+      <app-truckassist-checkbox
+        id="isReadAndUnderstood"
+        formControlName="isReadAndUnderstood"
+        [checked]="isReadAndUnderstood"
+        (change)="(isReadAndUnderstood != isReadAndUnderstood)"
+        [(ngModel)]="isReadAndUnderstood"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkBox" style="top: 1.5px !important;">
+        Please confirm that you have read and understood the content of this notice</span
+      >
+    </div>
+    <button
+      *ngIf="!isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+      style="margin-left: 41px;"
+    >
+      Next
+    </button>
+    <button *ngIf="isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

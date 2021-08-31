@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  width: 84px;
+  height: 26px;
+  justify-content: space-between;
+  align-items: center;
+
+  .yesno {
+    color: rgba(130, 128, 128, 0.7);
+    font-size: 12px;
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+
+    &_label1,
+    &_label2 {
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+    }
+
+    &_label1 {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      margin-right: 2px;
+      svg {
+        path {
+          fill: #24c1a1;
+        }
+        #Rectangle_9389 {
+          fill: #fff;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #fff;
+          }
+          #Rectangle_9389 {
+            fill: rgb(36, 193, 161, 0.85);
+          }
+        }
+      }
+    }
+
+    &_label2 {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      svg {
+        path {
+          fill: rgba(255, 93, 93, 1);
+        }
+        #Rectangle_9404 {
+          fill: #fff;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #fff;
+          }
+          #Rectangle_9404 {
+            fill: rgba(255, 93, 93, 0.85);
+          }
+        }
+      }
+    }
+
+    &_options {
+      display: flex;
+      height: 26px;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+  }
+
+  input[type='radio'] {
+    display: none;
+  }
+  input:checked + .yesno_label1 {
+    svg {
+      path {
+        fill: #fff;
+      }
+      #Rectangle_9389 {
+        fill: rgb(36, 193, 161, 1);
+      }
+    }
+    transition: all 0.2s ease;
+  }
+ 
+  input:checked + .yesno_label2 {
+    svg {
+      path {
+        fill: #fff;
+      }
+      #Rectangle_9404 {
+        fill: #ff5d5d;
+      }
+    }
+    transition: all 0.2s ease;
+  }
+
+}

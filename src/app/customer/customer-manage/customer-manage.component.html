@@ -1,0 +1,292 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <i
+    class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+    (click)="closeCustomerEdit()"
+  ></i>
+</div>
+<div class="modal-body add-customer-modal static-element">
+  <app-loading-modal class='large' *ngIf="!loaded"></app-loading-modal>
+  <form class="form-container" [formGroup]="customerForm" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-label-group">
+          <input
+            id="name"
+            class="form-control input-control required"
+            placeholder="Customer name"
+            formControlName="name"
+            (paste)="onPaste($event, 'name')"
+            (keypress)="onNameTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            appInputFocus
+            appAutoFocus
+            [modalType]="inputData.data.type"
+          >
+          <label class="required-label" for="name">Business name</label>
+          <app-required-label [control]="customerForm.controls.name"></app-required-label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <div class="form-label-group">
+          <input
+            id="DBA"
+            class="form-control input-control"
+            placeholder="DBA name"
+            formControlName="dbaName"
+            (paste)="onPaste($event, 'DBA')"
+            (keypress)="onNameTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            appInputFocus
+          >
+          <!-- Dodati na lable ako je potrebano da se unosi DBA -->
+          <!-- class="required-label" -->
+          <label for="DBA">DBA name</label>
+        </div>
+      </div>
+      <div class="col-3" *ngIf="mcVisible">
+        <div class="form-label-group">
+          <input
+            id="mcNumber"
+            class="form-control input-control"
+            placeholder="MC/FF#"
+            oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+            (keypress)="onNameTyping($event)"
+            (paste)="onPaste($event, 'mcNumber', 8)"
+            (keydown)="onCheckBackSpace($event)"
+            formControlName="mcNumber"
+            maxlength="8"
+            >
+          <label for="mcNumber">MC/FF#</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(customerForm.controls.phone) }}">
+          <input
+            id="phone"
+            class="form-control input-control"
+            placeholder="Phone"
+            appInputFocus
+            formControlName="phone"
+            mask="(000) 000-0000"
+          >
+          <label for="phone">Phone</label>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(customerForm.controls.email) }}">
+          <input
+            id="email"
+            appInputFocus
+            oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+            (keypress)="onEmailTyping($event)"
+            (paste)="onPaste($event, 'email')"
+            (keydown)="onCheckBackSpace($event)"
+            class="form-control input-control"
+            placeholder="Email"
+            formControlName="email"
+          >
+          <label for="email">Email</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <app-ta-switch [data]="customerSwitchOptions[0].data" (switchClicked)="tabChange($event)"></app-ta-switch>
+      </div>
+    </div>
+    <div class="row pt-4">
+      <!-- PO box input -->
+      <div [ngClass]="{'col-4': addressTab !== 'Physical Address'}" *ngIf="addressTab !== 'Physical Address'">
+        <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(customerForm.controls.poBox) }}">
+          <input
+            id="poBox"
+            class="form-control input-control required"
+            placeholder="PO Box"
+            oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+            (paste)="onPaste($event, 'poBox')"
+            (keypress)="onPoBoxBillingTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            formControlName="poBox"
+          >
+          <label class="required-label" for="poBox">PO Box</label>
+          <app-required-label [control]="customerForm.controls.poBox"></app-required-label>
+        </div>
+      </div>
+      <div [ngClass]="{'col-8': addressTab !== 'Physical Address', 'col-10': addressTab === 'Physical Address'}">
+        <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(customerForm.controls.address) }}">
+          <input
+            id="address"
+            class="form-control input-control required"
+            placeholder="{{addressPlaceHolder}}"
+            formControlName="address"
+            appInputFocus
+            ngx-google-places-autocomplete
+            [options]="addressTab === 'Physical Address' ? options : optionsPoBox"
+            #placesRef="ngx-places"
+            (keydown)="addressKeyDown($event)"
+            (onAddressChange)="handleAddressChange($event)"
+          >
+          <label class="required-label" for="address">{{addressPlaceHolder}}</label>
+          <app-required-label [control]="customerForm.controls.address"></app-required-label>
+        </div>
+      </div>
+      <div class="col-2" *ngIf="addressTab === 'Physical Address'">
+        <div class="form-label-group">
+          <input
+            id="addressUnit"
+            class="form-control input-control"
+            placeholder="Unit#"
+            oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+            (keypress)="onNameTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            formControlName="addressUnit"
+            maxlength="6"
+          >
+          <label for="addressUnit">Unit#</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="btn-group btn-group-toggle">
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="checkbox" ngbButton [checked]="false" formControlName="billingContactCheck" (change)="billingAddress(customerForm.controls.billingContactCheck.value)">
+            Billing address is same as main address
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-4" *ngIf="openBillingAddress">
+      <div class="col-12">
+        <app-ta-switch [data]="customerSwitchOptions[1].data" (switchClicked)="tabChange($event)"></app-ta-switch>
+      </div>
+    </div>
+    <!-- Biling Address -->
+    <div class="row mt-4 biling-address" *ngIf="openBillingAddress">
+      <div class="col-4" *ngIf="bilingAddressTab !== 'Physical Address'">
+        <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(customerForm.controls.poBoxBilling) }}">
+          <input
+            id="poBoxBilling"
+            class="form-control input-control required"
+            placeholder="PO Box"
+            oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+            (paste)="onPaste($event, 'poBoxBilling')"
+            (keypress)="onPoBoxBillingTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            formControlName="poBoxBilling"
+          >
+          <label class="required-label" for="poBoxBilling">PO Box</label>
+          <app-required-label [control]="customerForm.controls.poBoxBilling"></app-required-label>
+        </div>
+      </div>
+      <div [ngClass]="{'col-8': bilingAddressTab !== 'Physical Address', 'col' : bilingAddressTab === 'Physical Address'}">
+        <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(customerForm.controls.billingAddress) }}">
+          <input
+            id="billingAddress"
+            class="form-control input-control required"
+            placeholder="{{billingPlaceHolder}}"
+            formControlName="billingAddress"
+            appInputFocus
+            ngx-google-places-autocomplete
+            [options]="bilingAddressTab === 'Physical Address' ? options : optionsPoBox"
+            #placesRef="ngx-places"
+            (onAddressChange)="handleBillingAddressChange($event)"
+          >
+          <label class="required-label" for="billingAddress">{{billingPlaceHolder}}</label>
+          <app-required-label [control]="customerForm.controls.billingAddress"></app-required-label>
+        </div>
+      </div>
+      <div class="col-2" *ngIf="bilingAddressTab === 'Physical Address'">
+        <div class="form-label-group">
+          <input
+            id="billingAddressUnit"
+            class="form-control input-control"
+            placeholder="Unit#"
+            formControlName="billingAddressUnit"
+            maxlength="6"
+          >
+          <label for="billingAddressUnit">Unit#</label>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="contactPersons">
+      <div *ngFor="let item of contactPersonsFormGroup.controls; let i = index">
+        <div [formGroupName]="i">
+          <div class="row">
+            <div class="col-12"><hr></div>
+            <div class="col-12">
+              <div class="form-label-group">
+                <input
+                  id="contactName{{i}}"
+                  class="form-control input-control"
+                  oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+                  (paste)="onPaste($event, 'contactName', undefined, i)"
+                  (keypress)="onContactNameTyping($event)"
+                  (keydown)="onCheckBackSpace($event)"
+                  placeholder="Contact name"
+                  formControlName="contactName"
+                >
+                <label for="contactName{{i}}">Contact name</label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group input-icon phone-field-wrapper no-padding-input {{ manageInputValidation(customerForm.controls.contactPersons['controls'][i].controls.contactPhone) }}">
+                <input
+                  id="contactPhone{{i}}"
+                  class="form-control input-control"
+                  mask="(000) 000-0000"
+                  placeholder="Phone"
+                  appInputFocus
+                  formControlName="contactPhone"
+                >
+                <label for="contactPhone{{i}}">Phone</label>
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="form-label-group input-icon email-field-wrapper no-padding-input contactEmail {{ manageInputValidation(customerForm.controls.contactPersons['controls'][i].controls.contactEmail) }}">
+                <input
+                  id="contactEmail{{i}}"
+                  class="form-control input-control contactEmail"
+                  placeholder="Email"
+                  appInputFocus
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                  (keypress)="onEmailTyping($event)"
+                  (paste)="onPaste($event, 'contactEmail', undefined,  i)"
+                  (keydown)="onCheckBackSpace($event)"
+                  formControlName="contactEmail"
+                >
+                <label for="contactEmail{{i}}">Email</label>
+              </div>
+            </div>
+            <div class="col-1">
+              <a class="text-black-50 removeItem" (click)="removeContact(i)">×</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <a *ngIf="contactPersonsFormGroup.controls.length < 2" href="javascript:void(0)" class="text-underline mt-2"
+      (click)="addNewContactPerson()">{{ contactPersonsList.controls.length === 0 ? 'Add contact' : 'Add additional contact' }}
+    </a>
+</form>
+</div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeCustomerEdit()">Cancel</button>
+    <button
+      type="button"
+      class="save-btn"
+      (click)="updateCustomer()"
+      ngbAutofocus
+    >
+      Save
+    </button>
+  </div>
+</div>

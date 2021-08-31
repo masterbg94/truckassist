@@ -1,0 +1,335 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slide {
+  // sigle buttons
+  &__firstname {
+    position: absolute;
+    top: 4px;
+    left: 121px;
+    z-index: 999999;
+  }
+  &__lastname {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__kendo {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    z-index: 999999;
+  }
+  &__phone {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__email {
+    position: absolute;
+    top: 4px;
+    left: 244px;
+    z-index: 999999;
+  }
+  &__address {
+    position: absolute;
+    top: 4px;
+    left: 327px;
+    z-index: 999999;
+  }
+  &__unit {
+    position: absolute;
+    top: 4px;
+    left: -1px;
+    z-index: 999999;
+  }
+  &__ssn {
+    position: absolute;
+    top: 4px;
+    left: 80px;
+    z-index: 999999;
+  }
+  &__bank {
+    position: absolute;
+    top: 4px;
+    left: 244px;
+    z-index: 999999;
+  }
+  &__accountnumber {
+    position: absolute;
+    top: 4px;
+    left: 244px;
+    z-index: 999999;
+  }
+  &__routingnumber {
+    position: absolute;
+    top: 4px;
+    left: 78px;
+    z-index: 999999;
+  }
+  &__oldAddress {
+    position: absolute;
+    top: 4px;
+    left: 286px;
+    z-index: 999999;
+  }
+  &__oldUnit {
+    position: absolute;
+    top: 4px;
+    left: -2px;
+    z-index: 999999;
+  }
+  // rows
+  &__firstrow {
+    position: absolute;
+    top: 12px;
+    left: 452px;
+  }
+  &__secondrow {
+    position: absolute;
+    top: 66px;
+    left: 452px;
+  }
+  &__thirdrow {
+    position: absolute;
+    top: 120px;
+    left: 452px;
+  }
+  &__fourthrow {
+    position: absolute;
+    top: 174px;
+    left: 452px;
+  }
+  &__fifthrow {
+    position: absolute;
+    top: 228px;
+    left: 452px;
+  }
+  &__sixthrow {
+    position: absolute;
+    top: 14px;
+    left: 452px;
+  }
+  &__seventhrow {
+    position: absolute;
+    top: 68px;
+    left: 452px;
+  }
+  &__eightrow {
+    position: absolute;
+    top: 107px;
+    left: 452px;
+  }
+  &__fourtheenrow {
+    position: absolute;
+    left: 466px;
+    top: 4px;
+    z-index: 999999;
+  }
+}
+
+.address-showhide {
+  text-decoration: none;
+  color: $color-gray-normal;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 auto;
+
+  &:hover {
+    color: rgba(86, 115, 170, 1);
+  }
+}
+
+.addAddressOld {
+  text-decoration: none;
+  color: rgba(86, 115, 170, 0.7);
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  top: -12px;
+  left: -11px;
+  margin: 0 auto;
+  @media only screen and(max-width:414px) {
+    left: -47px;
+  }
+
+  @media only screen and(max-width:376px) {
+    left: -244px;
+    top: 39px;
+  }
+  @media only screen and(max-width:361px) {
+    left: -245px !important;
+  }
+
+  &:hover {
+    color: $color-blue-normal;
+  }
+}
+
+.deleteAddressOld {
+  position: absolute;
+  top: 2px;
+  right: -8px;
+  display: none;
+  cursor: pointer;
+
+  &:hover {
+    display: inline-block;
+
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_mobileSvg {
+    display: none;
+  }
+  &_icon {
+    display: none;
+  }
+  @media only screen and(max-width:414px) {
+    display: inline-block;
+    right: 18px;
+    &_desktopSvg {
+      display: none;
+    }
+    &_mobileSvg {
+      display: inline-block;
+    }
+  }
+}
+
+.addAddressOld-disable {
+  pointer-events: none;
+  color: $color-gray-normal !important;
+  opacity: 0.5 !important;
+}
+
+.showDeleteAddress {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 492px;
+
+  &:hover .deleteAddressOld {
+    display: inline-block;
+  }
+
+  &_number {
+    margin-right: -2px !important;
+    margin-left: 2px !important;
+  }
+
+  @media only screen and(max-width:376px) {
+    width: 452px;
+    margin-left: -9px !important;
+  }
+  @media only screen and(max-width:361px) {
+    margin-left: -2px !important;
+  }
+}
+
+.numberOfAddress {
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  vertical-align: middle;
+  background: #b7b7b7;
+  color: $color-white-light;
+  border-radius: 3px;
+  padding-top: 3px;
+}
+
+.explanation-content {
+  padding-right: 4px !important;
+  @media only screen and(max-width:414px) {
+    margin-bottom: -25px;
+  }
+}
+
+.explanation-content-2 {
+  margin-bottom: 10px !important;
+  width: 477px;
+
+  @media only screen and(max-width:414px) {
+    width: 377px;
+    margin: 10px 0px -14px -41px;
+  }
+  @media only screen and(max-width:376px) {
+    width: 337px;
+    margin: 10px 0px -14px -19px;
+  }
+}
+
+//---------------------- Delete drop down
+.hide-dropdown-dialog {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: 0.2s;
+}
+
+.show-dropdown-dialog {
+  visibility: visible !important;
+  top: 28px !important;
+  opacity: 1 !important;
+  transition: 0.4s;
+}
+
+.dropdown-dialog {
+  &:after {
+    @include triangletop;
+    top: -6px;
+    left: 110px;
+    content: '';
+
+    @media only screen and(max-width:376px) {
+      left: 92px;
+    }
+  }
+
+  position: absolute;
+  top: 15px;
+  right: 118px;
+  z-index: 99;
+  visibility: hidden;
+  opacity: 0;
+  @media only screen and(max-width:376px) {
+    right: 122px;
+  }
+}
+
+//---------------------  Media Query for mobile screen
+@media only screen and(max-width:414px) {
+  .btns {
+    margin-left: -284px !important;
+  }
+  .dropdown-dialog {
+    .drop-down-delete-dialog {
+      left: -55px;
+    }
+    &::after {
+      left: 86px !important;
+    }
+  }
+}
+@media only screen and(max-width:376px) {
+  .col-5 {
+    max-width: 37.66%;
+  }
+  .col-6 {
+    max-width: 42%;
+  }
+  .col-12 {
+    max-width: 75%;
+  }
+
+  .btns {
+    margin-left: -319px !important;
+  }
+}
+@media only screen and(max-width:361px) {
+  .btns {
+    margin-left: -337px !important;
+  }
+}

@@ -1,0 +1,116 @@
+.main-container {
+  margin: 0 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  .image {
+    width: auto;
+    height: 48px;
+    border-radius: 3px;
+    opacity: 1;
+  }
+
+  .image-uploading {
+    opacity: 0.6;
+  }
+
+  .close-attachment {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    position: absolute;
+    top: -7px;
+    right: -8px;
+    z-index: 999;
+    visibility: hidden;
+    border: 8px solid #ffffff;
+    transition: all 0.3s ease-in-out;
+
+    .close-icon {
+      width: 16px !important;
+      height: 16px !important;
+
+      svg {
+        width: 16px !important;
+        height: 16px !important;
+        vertical-align: unset;
+        path {
+          fill: rgb(183, 183, 183, 0.7);
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: rgb(183, 183, 183, 1);
+          }
+        }
+      }
+    }
+
+    &:hover ~ .file-container {
+      background-color: #f3f3f3 !important;
+    }
+  }
+
+  .file-container {
+    display: flex;
+    align-items: flex-end;
+    padding: 5px 6px;
+    border-radius: 3px;
+    height: auto;
+    width: 143px;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+
+    svg-icon {
+      width: auto;
+      height: 40px;
+      svg {
+        width: auto;
+        height: 40px;
+      }
+    }
+    .attachment-name {
+      position: relative;
+      margin: 0;
+      margin-left: 4.5px;
+      font-weight: 600;
+      font-size: 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .loading-container {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: #ffffff;
+    position: absolute;
+    top: -9px;
+    right: -9px;
+
+    .loading-icon {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  &:hover {
+    .close-attachment {
+      visibility: visible;
+    }
+  }
+}

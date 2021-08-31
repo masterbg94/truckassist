@@ -1,0 +1,858 @@
+@import '../../../assets/scss/components/variables.scss';
+
+.truck-details-container {
+  &.truck-details-muted {
+    opacity: 0.7;
+  }
+
+  .column-1 {
+    width: 320px;
+  }
+
+  .column-2 {
+    width: 320px;
+  }
+  .column-3,
+  .column-4,
+  .column-5 {
+    width: 250px;
+  }
+
+  .details-card {
+    height: auto;
+    border-radius: 3px;
+    margin-top: 12px !important;
+
+    .truck-details-container {
+      background-color: $white;
+      border-radius: 3px;
+    }
+
+    .card-label {
+      font-weight: bold !important;
+      color: $bw5 !important;
+
+      svg {
+        .a,
+        path {
+          fill: $bw5 !important;
+          opacity: 0.7;
+        }
+      }
+
+      &:hover {
+        svg {
+          .a,
+          path {
+            fill: $bw5;
+            stroke: none !important;
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .card-value {
+      padding: 0 10px;
+    }
+
+    .panel {
+      margin-bottom: 0;
+      box-shadow: none;
+      border: 0;
+      .panel-heading {
+        padding: 6px;
+        height: 32px !important;
+        background-color: $bw1;
+        border: 0;
+        cursor: pointer;
+        user-select: none;
+        &.collapsed {
+          .panel-arrow {
+            transform: rotate(-90deg);
+            transition: all 0.1s ease-in-out;
+          }
+        }
+        .panel-title {
+          color: $bw5;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .panel-arrow {
+          transform: rotate(0deg);
+          transition: all 0.1s ease-in-out;
+          svg {
+            path {
+              fill: #919191 !important;
+              stroke: #919191 !important;
+            }
+          }
+        }
+      }
+
+      .panel-body {
+        padding: 6px;
+        background-color: $white;
+
+        .card-item-description {
+          padding: 0 10px;
+          color: $bw5;
+        }
+
+        .card-label {
+          font-weight: bold !important;
+
+          svg {
+            path {
+              fill: $bw5 !important;
+            }
+          }
+        }
+
+        .card-value {
+          padding: 0 10px;
+        }
+
+        .box {
+          background-color: $bw1;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          .box-item {
+            padding: 0 10px;
+            .box-header {
+              font-weight: bold;
+              font-size: 14px;
+              color: $bw5;
+            }
+            .box-label {
+              font-weight: bold;
+              font-size: 12px;
+              color: $bw5;
+            }
+
+            .box-value {
+              font-size: 12px;
+              color: $bw5;
+            }
+          }
+        }
+      }
+    }
+
+    .sti-container {
+      position: absolute;
+      padding: 0px 10px;
+      left: 32px;
+      z-index: 1;
+      .btn {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        outline: none;
+        border: 0;
+        vertical-align: middle;
+        text-decoration: none;
+        border-radius: 3px;
+        transition: $transition;
+        min-width: 20px;
+        height: 20px;
+        padding: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .btn-text {
+          max-width: 0;
+          display: inline-block;
+          -webkit-transition: color 0.25s 1.5s, max-width 2s;
+          transition: $transition;
+          vertical-align: top;
+          white-space: nowrap;
+          overflow: hidden;
+          color: $white !important;
+          &.btn-text-black {
+            color: $black;
+          }
+        }
+
+        &.white-color {
+          .btn-text {
+            color: $black !important;
+          }
+        }
+
+        &:hover {
+          .btn-text {
+            max-width: 110px;
+          }
+        }
+      }
+    }
+
+    .item-card {
+      height: auto;
+      background-color: $white;
+      border-radius: 3px;
+      padding: 12px;
+      position: relative;
+
+      .card-flex-item {
+        margin-right: 12px;
+      }
+
+      .card-img-container {
+        max-width: 90px !important;
+        .card-img {
+          svg {
+            path {
+              fill: #d1d1d1 !important;
+            }
+            .a {
+              fill: $bw3 !important;
+            }
+          }
+        }
+      }
+
+      .action-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 6px;
+      }
+    }
+  }
+
+  // .add-btn {
+  //   background-color: #f7f7f7 !important;
+  //   height: 32px;
+  //   width: 32px;
+  //   border-radius: 3px;
+  //   margin-left: 5px;
+  //   box-shadow: none;
+  //   border: 0 !important;
+  //   svg {
+  //     path {
+  //       fill: #5673aa;
+  //     }
+  //   }
+  //   &:hover {
+  //     background-color: #5673aa !important;
+  //     svg {
+  //       path {
+  //         fill: #ffffff;
+  //       }
+  //     }
+  //   }
+  // }
+
+  .details-card-header {
+    height: 32px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    padding: 0;
+    padding-left: 12px;
+
+    &.long-header {
+      width: 282px;
+    }
+
+    &.short-header {
+      width: 212px;
+    }
+
+    &.full-header {
+      width: 100%;
+    }
+
+    .data-panel {
+      .label-container {
+        padding: 10px;
+        .details-card-label {
+          font-weight: bold;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &.top-header {
+      background-color: transparent !important;
+    }
+
+    .tool-panel {
+      height: 32px;
+      width: 100%;
+      padding: 0 6px;
+      .switch-btn {
+        list-style: none;
+        border-radius: 3px;
+        transition: $transition;
+        cursor: pointer;
+        width: 32px !important;
+        box-shadow: none;
+        border: 0;
+        padding: 0;
+        font-size: 14px;
+        &.active-btn {
+          svg {
+            path {
+              fill: #5673aa;
+            }
+          }
+
+          &:hover {
+            svg {
+              path {
+                fill: #919191;
+              }
+            }
+          }
+        }
+
+        &.inactive-btn {
+          svg {
+            path {
+              fill: #919191;
+            }
+          }
+
+          &:hover {
+            svg {
+              path {
+                fill: #5673aa;
+              }
+            }
+          }
+        }
+      }
+
+      .print-btn {
+        border-radius: 3px;
+        transition: $transition;
+        cursor: pointer;
+        width: 32px !important;
+        box-shadow: none;
+        border: 0;
+        padding: 0;
+        svg {
+          path {
+            fill: #a9a9a9;
+            &.dobosh {
+              fill: #dadada;
+            }
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #344566;
+              &.dobosh {
+                fill: #5673aa;
+              }
+            }
+          }
+        }
+      }
+
+      .email-btn {
+        border-radius: 3px;
+        transition: $transition;
+        cursor: pointer;
+        width: 32px !important;
+        box-shadow: none;
+        border: 0;
+        padding: 0;
+        svg {
+          path {
+            fill: #a9a9a9;
+            &.dobosh {
+              fill: #dadada;
+            }
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #344566;
+              &.dobosh {
+                fill: #5673aa;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #919191 !important;
+    }
+
+    &.no-bg-color {
+      background-color: transparent;
+    }
+
+    // .switch-btn {
+    //   border-radius: 3px;
+    //   transition: $transition;
+    //   cursor: pointer;
+    //   width: 32px !important;
+    //   box-shadow: none;
+    //   border: 0;
+    //   padding: 0;
+
+    //   // svg {
+    //   //   path {
+    //   //     transition: $transition;
+    //   //     fill: #919191 !important;
+    //   //   }
+    //   // }
+    //   // &:hover {
+    //   //   background-color: $bw5 !important;
+    //   //   color: $white !important;
+    //   //   transition: $transition;
+    //   //   svg {
+    //   //     path {
+    //   //       fill: $white !important;
+    //   //     }
+    //   //   }
+    //   // }
+    // }
+
+    .item-select-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: row-reverse;
+      background: $white;
+      max-width: 220px;
+      width: 100%;
+      align-items: center;
+      font-size: 18px;
+      font-family: Montserrat, sans-serif;
+      font-weight: 700;
+      line-height: 1;
+      border-radius: 3px;
+
+      /*Autocomplete*/
+      ::ng-deep.autocomplete-container {
+        box-shadow: none !important;
+        border-radius: 3px;
+        height: 32px;
+
+        .input-container {
+          border-radius: 3px;
+          .x {
+            display: none;
+          }
+          input {
+            border-radius: 3px;
+            padding: 0 12px;
+            font-weight: bold;
+            color: #919191;
+            font-size: 18px;
+            white-space: nowrap;
+            width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 32px;
+          }
+          input:disabled {
+            background-color: transparent !important;
+          }
+        }
+
+        &.active {
+          .suggestions-container {
+            box-shadow: $box-shadow !important;
+            padding-top: 32px !important;
+            top: 0px !important;
+            z-index: -1;
+            height: auto;
+            ul {
+              max-height: 360px;
+              overflow: hidden;
+              overflow-y: auto;
+              transition: $transition;
+            }
+          }
+        }
+        .suggestions-container {
+          box-shadow: $box-shadow !important;
+          border-radius: 3px;
+          z-index: 1000;
+          height: 0;
+
+          ul {
+            overflow: hidden;
+            border-radius: 3px;
+            max-height: 0px;
+            transition: $transition;
+
+            li.item {
+              width: 220px !important;
+              height: 36px;
+              line-height: normal;
+              border: 0 !important;
+
+              .ng-star-inserted {
+                width: 220px !important;
+                height: 36px;
+                color: #606060;
+                display: inline-block;
+                vertical-align: middle;
+                line-height: normal;
+                span.option-item {
+                  line-height: 36px;
+                  left: 0;
+                  position: absolute;
+                  padding: 0 12px;
+                  font-size: 16px;
+                  font-weight: 500 !important;
+                  b {
+                    font-weight: 500 !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .truck-input-icon {
+        position: absolute;
+        right: 12px;
+        z-index: 1000;
+        transition: $transition;
+
+        svg {
+          path {
+            fill: #919191 !important;
+          }
+        }
+      }
+
+      &.hovered {
+        background-color: #919191 !important;
+        .truck-input-icon {
+          svg {
+            path {
+              fill: #ffffff !important;
+            }
+          }
+        }
+
+        ::ng-deep input {
+          color: #ffffff !important;
+        }
+      }
+
+      &.focused {
+        .truck-input-icon {
+          transform: rotate(180deg);
+          transition: $transition;
+          svg {
+            path {
+              fill: #919191 !important;
+            }
+          }
+        }
+
+        background-color: #ffffff !important;
+
+        ::ng-deep input {
+          color: #919191 !important;
+        }
+      }
+    }
+  }
+
+  .card-info-holder {
+    border-radius: 3px;
+
+    .custom-padding {
+      padding: 12px;
+      position: relative;
+      border-bottom: #ffff;
+      height: 103px;
+      padding: 12px;
+      position: relative;
+      border-bottom: #ffff;
+      height: 103px;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .upload-container {
+      width: 100%;
+      display: block;
+    }
+
+    .truck-data {
+      width: 100%;
+      margin-left: 12px;
+
+      * {
+        user-select: none;
+        line-height: 20px !important;
+        height: 20px !important;
+      }
+
+      .truck-data-icon {
+        width: 25px;
+        margin-right: 12px;
+
+        svg {
+          path {
+            fill: $bw5 !important;
+          }
+          g {
+            path {
+              fill: $bw5 !important;
+            }
+          }
+        }
+        &:hover {
+          svg {
+            path {
+              fill: #5673aa !important;
+            }
+            g {
+              path {
+                fill: #5673aa !important;
+              }
+            }
+          }
+        }
+      }
+
+      .email-field {
+        display: inline-block;
+      }
+
+      .cursor-pointer {
+        cursor: pointer;
+      }
+
+      .copy-text {
+        position: absolute;
+        width: 0px;
+        background-color: #5673aa;
+        color: $white;
+        border-radius: 3px;
+        overflow: hidden;
+        font-size: 10px;
+        font-weight: 500;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        transition: $transition;
+        height: 19px;
+        &.copy-enabled {
+          width: 100%;
+          transition: $transition;
+        }
+      }
+
+      span {
+        color: #919191;
+        &:hover {
+          color: #5673aa;
+          transition: $transition;
+        }
+      }
+
+      .icon-enabled {
+        svg {
+          path {
+            transition: $transition;
+            fill: $primary;
+          }
+        }
+      }
+
+      svg {
+        &:hover {
+          path {
+            transition: $transition;
+            fill: $primary;
+          }
+        }
+      }
+
+      .license-ellipsis-position {
+        top: 0 !important;
+        right: 0 !important;
+      }
+    }
+
+    .truck-info {
+      flex-direction: column;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .menu-holder {
+        display: flex;
+        justify-content: space-between;
+
+        .dropdown-custom-width.show {
+          max-width: 100px;
+          width: 100%;
+        }
+      }
+    }
+
+    .avatar-container {
+      .profile-icon {
+        position: relative;
+        display: inline-block;
+        height: 77px;
+        width: 65px;
+        opacity: 1 !important;
+        &.profile-muted {
+          opacity: 0.7 !important;
+        }
+        svg {
+          border-radius: 3px !important;
+        }
+
+        &:hover {
+          .avatar-edit-btn {
+            animation: scaleAnimation;
+            transition: $transition;
+            visibility: visible;
+          }
+        }
+
+        .avatar-edit-btn {
+          transform: scale(0.5) !important;
+          position: absolute;
+          right: -10px;
+          bottom: -10px;
+          opacity: 1 !important;
+          height: 30px;
+          width: 30px;
+          border-radius: 50%;
+          background-color: transparent !important;
+          box-shadow: none;
+          border: 0;
+          padding: 0;
+          line-height: 16px;
+          transform: scale(0.5) !important;
+          transition: $transition;
+          visibility: hidden;
+          &:hover {
+            transform: scale(1) !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.font-12 {
+  font-size: 12px !important;
+}
+
+.panel-group {
+  .panel-collapse {
+    border-radius: 0 !important;
+
+    textarea.input-custom-textarea {
+      font-size: 12px;
+      padding: 0;
+      margin-top: 6px;
+    }
+
+    // Note field scrollbar - custom style
+    ::-webkit-scrollbar {
+      width: 2px !important;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #28529f !important;
+    }
+  }
+  :first-child {
+    .panel-heading {
+      border-top-left-radius: 5px !important;
+      border-top-right-radius: 3px !important;
+    }
+  }
+  :last-child {
+    .panel-heading {
+      border-radius: 0 !important;
+      &.collapsed {
+        border-radius: 5px !important;
+      }
+    }
+    .panel-collapse {
+      border-bottom-left-radius: 3px !important;
+      border-bottom-right-radius: 3px !important;
+      &.show {
+        border-radius: 0 !important;
+        .panel-body {
+          border-bottom-left-radius: 3px !important;
+          border-bottom-right-radius: 3px !important;
+        }
+      }
+    }
+  }
+}
+
+.edit-image-wrapper {
+  background-color: $white !important;
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 3px !important;
+}
+
+.bank-info-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: bold;
+  font-size: 16px;
+  color: #919191;
+  opacity: 1 !important;
+  margin-right: 10px;
+}
+
+.bank-info {
+  .bank-img {
+    max-width: 130px;
+    height: auto;
+    display: flex;
+    width: 100%;
+    text-align: left;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .bank-info-holder {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 150px;
+    width: 100%;
+  }
+}
+
+.account-number {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 400;
+  font-size: 12px;
+  color: #606060;
+}
+
+::ng-deep.unit-switch-container {
+  padding-right: 38px !important;
+  .item-select-wrapper {
+    max-width: 167px !important;
+  }
+}

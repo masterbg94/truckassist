@@ -1,0 +1,54 @@
+<ngx-dropzone-image-preview
+  *ngIf="file.fileType == 'img'"
+  class="image-preview-link file-type-border file-type-{{ extension.toLocaleLowerCase() }}"
+  ngProjectAs="ngx-dropzone-preview"
+  [file]="file"
+  [removable]="true"
+  (removed)="onRemove(file)"
+>
+</ngx-dropzone-image-preview>
+<div class="file-filename filename-color-{{ extension.toLocaleLowerCase() }}" *ngIf="file.fileType !== 'pdf'">
+  {{ file.name }}
+</div>
+<svg-icon *ngIf="file.fileType == 'img'" class="download-pdf" src="assets/img/svgs/sidebar/ic_download.svg" (click)="downloadPdf(file)"></svg-icon>
+<div *ngIf="file.fileType == 'pdf'">
+  <div class="file-name">{{ file.name }}</div>
+  <svg-icon class="remove-pdf" src="assets/img/trash.svg" (click)="removePdf(file)"></svg-icon>
+
+  <div class="pagination-switcher" *ngIf="fileBase64 && file.fileType == 'pdf'">
+    <span class="pagination-down{{ (totalPages == 1 || page == 1) ? ' disabled' : '' }}" (click)="previousPage()">
+      <svg-icon
+        class="icon-content-deleted"
+        src="assets/img/svgs/page-down.svg"
+      ></svg-icon>
+    </span>
+    <span class="pagination-up{{ totalPages == 1 || (totalPages == page) ? ' disabled' : '' }}" (click)="nextPage()">
+      <svg-icon
+        class="icon-content-deleted"
+        src="assets/img/svgs/page-up.svg"
+      ></svg-icon>
+    </span>
+    <span class="pdf-page-number noselect">
+      {{ page }} / {{ totalPages }}
+    </span>
+  </div>
+
+  <div class="pdf-viewer-container" *ngIf="fileBase64 && file.fileType == 'pdf'">
+    <div class="pdf-absolute-container">
+      <pdf-viewer
+        [src]="fileBase64"
+        [render-text]="true"
+        [fit-to-page]="true"
+        [stick-to-page]="true"
+        style="display: block;"
+        [autoresize]="true"
+        [page]="page"
+        (after-load-complete)="afterLoadComplete($event)"
+        style="display: block;"
+        [show-all]="false"
+      ></pdf-viewer>
+    </div>
+  </div>
+
+  <svg-icon class="download-pdf" src="assets/img/svgs/sidebar/ic_download.svg" (click)="downloadPdf(file)"></svg-icon>
+</div>

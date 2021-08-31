@@ -1,0 +1,4 @@
+<div class="switch-container">
+    <div class="switch-option" (click)="onSwitch('pm')" [ngClass]="{'active-option': pmActive}">PM</div>
+    <div class="switch-option" (click)="onSwitch('regular')" [ngClass]="{'active-option': !pmActive}">Regular</div>
+</div>

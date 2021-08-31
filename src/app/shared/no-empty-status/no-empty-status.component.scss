@@ -1,0 +1,437 @@
+.container_empty_status {
+  width: 1440px;
+  height: 755px;
+  .table_empty_status_column_top {
+    width: 1440px;
+    height: 240px;
+    position: relative;
+  }
+  .empty_status_svg {
+    width: 471px;
+    height: 320px;
+    margin: auto;
+    position: relative;
+    top: -66px;
+  }
+  .empty_status_text {
+    width: 929px;
+    height: 52px;
+    margin: auto;
+    margin-top: -40px;
+    .text {
+      font-size: 42px !important;
+      font-weight: 900 !important;
+      color: #5673aa !important;
+      text-align: center;
+      position: relative;
+      background: none !important;
+    }
+  }
+  .empty_status_paragraph {
+    width: 656px;
+    height: 64px;
+    margin: auto;
+    position: relative;
+    top: 11px;
+    .text_paragraph {
+      font-size: 16px;
+      color: #919191;
+      font-weight: 500;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+  .empty_status_button {
+    width: auto;
+    max-width: 183px;
+    height: 36px;
+    margin: auto;
+    position: relative;
+    top: 14px;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #5673aa;
+    .btn_empty_status_text {
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 14px;
+      top: 3px;
+      left: 25px;
+      height: 100%;
+      text-align: center;
+      line-height: 32px;
+      width: auto;
+      max-width: 140px;
+      vertical-align: middle;
+    }
+    .svg_button_plus {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+  }
+  .table_empty_status_column_bottom {
+    width: 1440px;
+    height: 53px;
+    position: absolute;
+    bottom: 0;
+    .svg_bottom {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.empty_status_text ::selection {
+  color: rgb(86, 115, 170) !important;
+  background: rgb(86, 115, 170, 0.2) !important;
+}
+.empty_status_paragraph ::selection {
+  color: rgb(145, 145, 145) !important;
+  background: rgb(145, 145, 145, 0.2) !important;
+}
+
+
+/* FOR PAYROL */
+.container_payrol {
+  width: 1440px;
+  height: 755px;
+  position: relative;
+  top: -74px;
+  .top {
+    width: 956px;
+    height: 240px;
+    position: absolute;
+    right: 0;
+  }
+  .text_payrol {
+    width: 478px;
+    height: 233px;
+    position: absolute;
+    top: 283px;
+    .heding_payrol {
+      width: 444px;
+      height: 122px;
+      font-size: 42px;
+      color: #5673aa;
+      font-weight: 900;
+    }
+    .paragraph_payrol {
+      width: 478px;
+      height: 78px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #919191;
+    }
+    .btn_payrol {
+      width: 149px;
+      height: 36px;
+      position: absolute;
+      bottom: 0;
+      background-color: #5673aa;
+      border-radius: 3px;
+      padding: 2px;
+      .text_add {
+        width: 80px;
+        height: 32px;
+        font-size: 14;
+        color: #ffffff;
+        font-weight: 500;
+        vertical-align: middle;
+        line-height: 34px;
+        margin-left: 14px;
+      }
+
+      .btn_plus_payrol {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        right: 2px;
+        top: 2px;
+      }
+    }
+  }
+  .svg_payrol {
+    width: 370px;
+    height: 464px;
+    position: absolute;
+    right: 266px;
+    top: 136px;
+  }
+
+  .bottom_payrol {
+    width: 1440px;
+    height: 53px;
+    position: absolute;
+    bottom: 0;
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.heding ::selection {
+  color: rgb(86, 115, 170) !important;
+  background: rgb(86, 115, 170, 0.2) !important;
+}
+
+.lorem ::selection {
+  color: rgb(145, 145, 145) !important;
+  background: rgb(145, 145, 145, 0.2) !important;
+}
+
+/* IFTA */
+
+.container_empty_status_ifta {
+  width: 1277px;
+  height: 755px;
+  position: relative;
+  left: 164px;
+
+  .empty_status_svg_ifta {
+    width: 471px;
+    height: 320px;
+    margin: auto;
+    position: relative;
+    top: -66px;
+  }
+
+  .empty_status_text_ifta {
+    width: 929px;
+    height: 52px;
+    margin: auto;
+    margin-top: -40px;
+    .text_ifta {
+      font-size: 42px !important;
+      font-weight: 900 !important;
+      color: #5673aa !important;
+      text-align: center;
+      position: relative;
+      background: none !important;
+    }
+  }
+  .empty_status_paragraph_ifta {
+    width: 656px;
+    height: 64px;
+    margin: auto;
+    position: relative;
+    top: 11px;
+    .text_paragraph_ifta {
+      font-size: 16px;
+      color: #919191;
+      font-weight: 500;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+
+  .empty_status_button_ifta {
+    width: auto;
+    max-width: 183px;
+    height: 36px;
+    margin: auto;
+    position: relative;
+    top: 14px;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #5673aa;
+    .btn_empty_status_text_ifta {
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 14px;
+      top: 3px;
+      left: 25px;
+      height: 100%;
+      text-align: center;
+      line-height: 28px;
+      width: auto;
+      max-width: 170px;
+      vertical-align: middle;
+    }
+  }
+  .table_empty_status_column_bottom_ifta {
+    width: 1440px;
+    height: 53px;
+    position: absolute;
+    bottom: 0;
+    .svg_bottom_ifta {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.empty_status_text_ifta ::selection {
+  color: rgb(86, 115, 170) !important;
+  background: rgb(86, 115, 170, 0.2) !important;
+}
+
+.empty_status_paragraph_ifta ::selection {
+  color: rgb(145, 145, 145) !important;
+  background: rgb(145, 145, 145, 0.2) !important;
+}
+
+/* Note */
+.container_empty_status_note {
+  width: 100%;
+  height: 100%;
+  .empty_status_svg_note {
+    width: 178px;
+    height: 179px;
+    margin: auto;
+    position: relative;
+    top: 219px;
+  }
+  .empty_status_text_note {
+    width: 447px;
+    height: 59px;
+    margin: auto;
+    margin-top: 261px;
+    .text_note {
+      font-size: 38px !important;
+      font-weight: 900 !important;
+      color: #5673aa !important;
+      text-align: center;
+      position: relative;
+      background: none !important;
+    }
+  }
+  .empty_status_paragraph_note {
+    width: 487px;
+    height: 64px;
+    margin: auto;
+    position: relative;
+    top: 5px;
+    .text_paragraph_note {
+      font-size: 16px;
+      color: #919191;
+      font-weight: 500;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+
+  .empty_status_text_note ::selection {
+    color: rgb(86, 115, 170) !important;
+    background: rgb(86, 115, 170, 0.2) !important;
+  }
+
+  .empty_status_paragraph_note ::selection {
+    color: rgb(145, 145, 145) !important;
+    background: rgb(145, 145, 145, 0.2) !important;
+  }
+
+/* Assign Loads */
+  .empty_status_button_note {
+    width: auto;
+    max-width: 155px;
+    height: 36px;
+    margin: auto;
+    position: relative;
+    top: 9px;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #5673aa;
+    .btn_empty_status_text_note {
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 14px;
+      top: 3px;
+      left: 25px;
+      height: 100%;
+      text-align: center;
+      line-height: 32px;
+      width: auto;
+      max-width: 125px;
+      vertical-align: middle;
+    }
+    .svg_button_plus_note {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+  }
+}
+
+.container_empty_status_assign {
+  width: 100%;
+  height: 350px;
+  .empty_status_svg_assign {
+    width: 193px;
+    height: 146px;
+    margin: auto;
+    position: relative;
+    top: 40px;
+  }
+  .empty_status_text_assign {
+    width: 270px;
+    height: 32px;
+    margin: auto;
+    margin-top: 40px;
+    .text_assign {
+      font-size: 26px !important;
+      font-weight: 900 !important;
+      color: #5673aa !important;
+      text-align: center;
+      position: relative;
+      background: none !important;
+    }
+  }
+
+  .empty_status_paragraph_assign {
+    width: 391px;
+    height: 18px;
+    margin: auto;
+    position: relative;
+    top: 5px;
+    .text_paragraph_ifta {
+      font-size: 16px;
+      color: #919191;
+      font-weight: 500;
+      text-align: center;
+      line-height: 22px;
+    }
+  }
+  .empty_status_button_assign {
+    width: auto;
+    max-width: 142px;
+    height: 36px;
+    margin: auto;
+    position: relative;
+    top: 24px;
+    padding: 3px;
+    border-radius: 3px;
+    background-color: #5673aa;
+    .btn_empty_status_text_assign {
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 14px;
+      top: 3px;
+      left: 25px;
+      height: 100%;
+      text-align: center;
+      line-height: 32px;
+      width: auto;
+      max-width: 110px;
+      vertical-align: middle;
+    }
+    .svg_button_plus_assign {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+  }
+}
+
+
+.empty_status_text_assign ::selection {
+  color: rgb(86, 115, 170) !important;
+  background: rgb(86, 115, 170, 0.2) !important;
+}
+
+.empty_status_paragraph_assign ::selection {
+  color: rgb(145, 145, 145) !important;
+  background: rgb(145, 145, 145, 0.2) !important;
+}

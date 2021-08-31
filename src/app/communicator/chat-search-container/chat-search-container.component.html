@@ -1,0 +1,13 @@
+<div class="search-chat-container">
+  <input
+    (focus)="chatSearchFocus = true"
+    (focusout)="chatSearchFocus = false"
+    placeholder="Search"
+    type="text"
+    name="search"
+    id="search"
+    class="search-input"
+    [ngClass]="{ 'search-input-focused': chatSearchFocus }"
+  />
+  <svg-icon src="assets/img/svgs/communicator/ic_search.svg" class="search-input-icon" [ngClass]="{ 'search-input-icon-focused': chatSearchFocus }"></svg-icon>
+</div>

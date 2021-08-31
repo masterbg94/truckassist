@@ -1,0 +1,6 @@
+<app-truckassist-table
+  *ngIf="driverTabData && { driversLoading: driversLoading$ | async } as observables"
+  (deleteEvent)="callDelete($event)"
+  (actionEvent)="callAction($event)"
+  [options]="tableOptions"
+></app-truckassist-table>

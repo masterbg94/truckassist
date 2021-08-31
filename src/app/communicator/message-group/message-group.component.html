@@ -1,0 +1,43 @@
+<div
+  class="group-item-container"
+  *ngIf="user && messageGroup && messageGroup.data.length > 0"
+>
+  <div
+    class="group-header"
+    *ngIf="headerVisible"
+  >
+    <div class="marker"></div>
+    <p
+      class="header-description"
+      [ngClass]="{'new-header-description': messageGroup.isNew}"
+    >
+      {{ !messageGroup.isNew ? (messageGroup.date | dateformatter) : 'NEW'}}
+    </p>
+    <div class="marker"></div>
+  </div>
+
+  <div
+    *ngFor="let item of messageGroup.data"
+  >
+    <app-sender-message-list
+      *ngIf="item.sender.id === user.id"
+      [item]="item"
+      (onDeleteMessage)="deleteMessage($event)"
+      (onEditMessage)="editMessage($event)"
+      (onEditModeChange)="changeEditMode($event)"
+      [type]="type"
+      [userType]="userType"
+      [chatName]="chatName"
+      [chatId]="chatId"
+      [isChannel]="isChannel"
+    >
+    </app-sender-message-list>
+    <app-receiver-message-list
+      *ngIf="item.sender.id !== user.id"
+      [item]="item"
+      [isGroup]="isChannel"
+      [chatId]="chatId"
+    >
+    </app-receiver-message-list>
+  </div>
+</div>

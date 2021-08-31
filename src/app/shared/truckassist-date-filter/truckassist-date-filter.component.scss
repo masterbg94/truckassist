@@ -1,0 +1,232 @@
+@import '../../../assets/scss/components/variables.scss';
+
+.toolbar-btn {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  height: 32px;
+  width: 32px;
+  border-radius: 0;
+  background-color: transparent !important;
+  box-shadow: none;
+  border: 0;
+  padding: 0;
+  line-height: 16px;
+  z-index: 1000;
+
+  &.add-btn {
+    // background-color: #f7f7f7 !important;
+    background: #ffffff !important;
+    height: 32px;
+    width: 32px;
+    border-radius: 3px;
+    margin-left: 5px;
+    svg {
+      path {
+        fill: #5673aa;
+      }
+    }
+    &:hover {
+      background-color: #5673aa !important;
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+
+  svg {
+    &:hover {
+      .a {
+        fill: $primary !important;
+        stroke: none !important;
+      }
+    }
+    .a {
+      fill: $icons-bg;
+      stroke: none !important;
+    }
+  }
+
+  &.filter-btn {
+    background: #ffffff !important;
+    height: 32px;
+    width: 32px;
+    border-radius: 3px;
+    svg {
+      path {
+        fill: #aaaaaa;
+      }
+    }
+
+    &:hover {
+      background: #5673aa !important;
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+
+    &.selected-filter {
+      background: #5673aa !important;
+      &:hover {
+        background: #344566 !important;
+      }
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+.dropdown-menu {
+  width: 180px;
+  padding: 0 !important;
+
+  box-shadow: none;
+  padding: 0 !important;
+  background-color: transparent;
+  &.extended-dropdown {
+    width: auto;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  .dropdown-item {
+    cursor: pointer;
+    padding: 7px 10px;
+    color:#919191;
+
+    &:last-child {
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    &:first-child {
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+
+    &:hover {
+      background-color: #F7F7F7;
+    }
+    &.calendar-item {
+      text-decoration: none;
+      &:hover,
+      &:focus {
+        background-color: unset !important;
+      }
+    }
+    &.k-grid-pdf {
+      text-transform: none;
+    }
+    .icon {
+      margin-right: 5px !important;
+      padding: 0 !important;
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+      width: 20px;
+      text-align: center;
+    }
+  }
+
+  ::ng-deep .cbx {
+    span {
+      white-space: nowrap;
+      width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .date-filter-group {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+    background-color: $white;
+    margin-bottom: 2px;
+    border-radius: 3px;
+    &:hover {
+      border-radius: 3px;
+    }
+  }
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.date-chip {
+  background-color: $white;
+  height: 32px;
+  min-width: 32px;
+  margin-left: 6px;
+  border-radius: 3px;
+  position: relative;
+  z-index: 1;
+  padding: 0 6px;
+  cursor: pointer;
+  transition: $transition;
+}
+
+.badge-close-btn {
+  visibility: hidden;
+  transition: $transition;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  cursor: pointer;
+  &.visible-btn {
+    visibility: visible;
+    transition: $transition;
+  }
+
+  .chip-icon {
+    .st0 {
+      opacity: 1;
+      fill: #eeeeee;
+    }
+
+    .st1 {
+      opacity: 1;
+      fill: #6c6c6c;
+    }
+
+    .st2 {
+      opacity: 1;
+      fill: #ffffff;
+    }
+  }
+
+  &:hover {
+    .chip-icon {
+      .st0 {
+        opacity: 1;
+        fill: #eeeeee;
+      }
+
+      .st1 {
+        opacity: 1;
+        fill: #eeeeee;
+      }
+
+      .st2 {
+        opacity: 1;
+        fill: #6c6c6c;
+      }
+    }
+  }
+}
+
+.d-flex.justify-content-start.align-items-center{
+  ::ng-deep .k-calendar {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+    width: 471px !important;
+    padding: 8px;
+    border-radius: 3px;
+    border: 0;
+    .k-calendar-view {
+      min-height: unset !important;
+    }
+  }
+}

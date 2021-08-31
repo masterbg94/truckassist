@@ -1,0 +1,28 @@
+<svg-icon
+  *ngIf="link === null"
+  class="spinner"
+  src="assets/img/svgs/communicator/ic_loading-spinner.svg"
+></svg-icon>
+<!-- Native LInks -->
+<div *ngIf="!link.url.includes('youtube') && link" class="main-container-link" (click)="openPage()">
+  <img [src]="link.favicon" class="img-native" [alt]="link.title" />
+  <p *ngIf="!link.url.includes('youtube')" class="link-native" (click)="openPage()">{{ link.title }}</p>
+</div>
+<!-- Yt Links -->
+<div *ngIf="link.url.includes('youtube') && link" class="main-container-link main-container-yt">
+  <div class="yt-player-title">
+    <img [src]="link.favicon" alt="link.title" />
+    <p class="yt-player-textTitle">{{ getYoutubeLinkTitle(link.title) }}</p>
+  </div>
+  <div class="yt-player">
+    <youtube-player
+      [videoId]="ytVideoId"
+      suggestedQuality="highres"
+      [height]="300"
+      [width]="350"
+      [startSeconds]="4"
+      [endSeconds]="300"
+    >
+    </youtube-player>
+  </div>
+</div>

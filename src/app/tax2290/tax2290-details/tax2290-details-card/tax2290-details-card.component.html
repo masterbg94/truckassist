@@ -1,0 +1,11 @@
+<div class="vehicle-card" *ngFor="let vehicle of vehicles; let ind = index" [ngClass]="{'vehicle-card-radius': ind === 0}">
+  <div class="vehicle-item">{{ vehicle.vin }}</div>
+  <div class="vehicle-item">{{ vehicle.grossWeight }}</div>
+  <div class="vehicle-item">
+    <span class="mini-thumbs" [ngClass]="{ active: vehicle.forestry }">FOR</span>
+    <span class="mini-thumbs" [ngClass]="{ active: vehicle.farming }">FAR</span>
+    <span class="mini-thumbs" [ngClass]="{ active: vehicle.suspended }">SUS</span>
+  </div>
+  <div class="vehicle-item vehicle-item-description">{{ vehicle.description }}</div>
+  <div class="vehicle-item vehicle-item-tax" [ngClass]="{'vehicle-item-tax-radius': ind === 0}">{{ vehicle.tax }}</div>
+</div>

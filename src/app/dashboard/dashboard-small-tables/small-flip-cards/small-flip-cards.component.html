@@ -1,0 +1,522 @@
+<div class="flip_cards_holder mt-3" [ngSwitch]="true">
+    <div class="flip_card" [class.unactive]="prevFlipedIndex == indx" [class.active]="flipedIndex == indx" *ngFor="let items of data; let indx = index">
+        <div class="drivers_list" *ngSwitchCase="cardtType ===  'drivers'">
+            <div class="card_front">
+                <div class="driver_profile"></div>
+                <div class="item_info">
+                    <div 
+                    class="item_name"
+                    style="color: #919191;"
+                    appSelectionColor
+                    >{{items.driverName}}</div>
+                    <div class="item_numbr">
+                        <span 
+                            class="ein_span"
+                            appSelectionColor
+                            style="color: #919191;"
+                        >SSN</span>
+                        <span class="copy_holder">
+                            <span 
+                                (click)="copy($event)"
+                                appSelectionColor
+                                style="color: #919191;"
+                            >{{items.ssn}}</span>
+                            <div 
+                                class="flip-copy-text"
+                                appSelectionColor
+                                style="color: #fff;"
+                            >COPIED</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back" [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="items_email">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/mail/mail-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span
+                            appSelectionColor
+                            style="color: #919191;"
+                            (click)="copy($event)">{{items.email}}</span>
+                        <div 
+                            appSelectionColor
+                            style="color: #fff;"
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="items_phone d-flex">
+                        <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/phone/phone-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span 
+                            (click)="copy($event)"
+                            appSelectionColor
+                            style="color: #919191;"
+                        >{{items.phone}}</span>
+                        <div 
+                            class="flip-copy-text"
+                            appSelectionColor
+                            style="color: #fff;"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchCase="cardtType === 'account'">
+            <div class="card_front">
+                <div class="item_info">
+                    <div 
+                        class="item_name"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{items.name}}</div>
+                    <div 
+                        style="color: #919191;"
+                        appSelectionColor
+                        class="items_location link_location"
+                    >
+                        <svg-icon 
+                            src="../../../../assets/img/svgs/form-icons/link/link-default.svg"
+                            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                        ></svg-icon>{{items.link}}
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back"  [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchCase="cardtType === 'shop'">
+            <div class="card_front">
+                <div class="item_info">
+                    <div 
+                        class="item_name"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{items.shopName}}</div>
+                    <div class="items_location">
+                        <svg-icon 
+                            src="../../../../assets/img/svgs/form-icons/address/address-default.svg"
+                            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                        ></svg-icon>
+                        <span class="copy_holder">
+                            <span
+                                appSelectionColor
+                                style="color: #919191;" 
+                                (click)="copy($event)"
+                            >{{items.location}}</span>
+                            <div 
+                                class="flip-copy-text"
+                                appSelectionColor
+                                style="color: #fff;"
+                            >COPIED</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '15', 'height.px': '18' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back"  [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="shop_item_list">    
+                    <div class="shop_item" [class.active]="items.shopItems.includes(item)" *ngFor="let item of shopItemsList">{{item}}</div>
+                </div>
+                <div class="items_phone d-flex">
+                        <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/phone/phone-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span 
+                            appSelectionColor
+                            style="color: #919191;"
+                            (click)="copy($event)"
+                        >{{items.phone}}</span>
+                        <div 
+                            appSelectionColor
+                            style="color: #fff;"
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchCase="cardtType === 'shipper' || cardtType === 'broker'">
+            <div class="card_front">
+                <div class="item_info">
+                    <div 
+                        class="item_name"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{cardtType === 'shipper' ? items.shipperName : items.brokerName}}</div>
+                    <div class="items_location">
+                        <svg-icon 
+                            src="../../../../assets/img/svgs/form-icons/address/address-default.svg"
+                            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                        ></svg-icon>
+                        <span class="copy_holder">
+                            <span 
+                                appSelectionColor
+                                style="color: #919191;"
+                                (click)="copy($event)"
+                            >{{items.location}}</span>
+                            <div
+                                appSelectionColor
+                                style="color: #fff;" 
+                                class="flip-copy-text"
+                            >COPIED</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '15', 'height.px': '18' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back"  [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="items_email">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/mail/mail-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span 
+                            (click)="copy($event)"
+                            appSelectionColor
+                            style="color: #919191;"
+                        >{{items.email}}</span>
+                        <div 
+                            style="color: #fff;"
+                            appSelectionColor
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="items_phone d-flex">
+                        <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/phone/phone-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span 
+                            appSelectionColor
+                            style="color: #919191;"
+                            (click)="copy($event)"
+                        >{{items.phone}}</span>
+                        <div
+                            appSelectionColor
+                            style="color: #fff;"
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchCase="cardtType === 'owner'">
+            <div class="card_front">
+                <div class="item_info">
+                    <div 
+                        class="item_name"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{items.ownerName}}</div>
+                    <div class="item_numbr">
+                        <span 
+                            class="ein_span"
+                            appSelectionColor
+                            style="color: #919191;"
+                        >EIN</span>
+                        <span class="copy_holder">
+                            <span
+                                appSelectionColor
+                                style="color: #919191;"
+                                (click)="copy($event)"
+                            >{{items.ein}}</span>
+                            <div
+                                appSelectionColor
+                                style="color: #fff;"
+                                class="flip-copy-text"
+                            >COPIED</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back"  [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }"> 
+                <div class="d-flex">
+                    <div class="item_count">
+                        <div 
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="item_count_numb"
+                        >{{items.trucks}}</div>
+                        <div
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="item_count_name"
+                        >Truck</div>
+                    </div>
+                    <div class="item_count">
+                        <div
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="item_count_numb"
+                        >{{items.trailers}}</div>
+                        <div 
+                            style="color: #919191;"
+                            appSelectionColor    
+                            class="item_count_name"
+                        >Trailers</div>
+                    </div>
+                    <div class="item_gross">
+                        <div
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="item_gross_title"
+                        >Gross Revenue</div>
+                        <div
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="item_gross_value"
+                        >{{items.gross | currency}}</div>
+                    </div>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchCase="cardtType === 'trailers' || cardtType === 'trucks'">
+            <div class="card_front">
+                <div class="vehicle_images">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/{{cardtType == 'trucks' ? 'truck' : 'trailer'}}/{{items.doc.additionalData.type.file}}"
+                        [svgStyle]="{ 'width.px': '55', 'height.px': 30 }"
+                    ></svg-icon>
+                    <svg-icon 
+                        class="d-flex"
+                        src="../../../../assets/img/svgs/{{cardtType == 'trucks' ? 'truck' : 'trailer'}}/makers/{{items.doc.additionalData.make.file}}"
+                        [svgStyle]="{ 'width.px': '55', 'height.px': 12 }"
+                    ></svg-icon>
+                </div>
+                <div class="vehicle_info">
+                    <div
+                        style="color: #919191;"
+                        appSelectionColor 
+                        class="vehicle_unit"
+                    >Unit #{{cardtType == 'trucks' ? items.truckNumber : items.trailerNumber}}</div>
+                    <div class="vehicle_data">
+                        <span
+                            style="color: #919191;"
+                            appSelectionColor
+                        >Color</span>
+                        <span [style.background-color]="'#'+items.doc.additionalData.type.color" class="vehicle_color_box"></span></div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back" [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="vehicle_data">
+                    <span
+                        style="color: #919191;"
+                        appSelectionColor
+                        class="vehicle_info_span">VIN</span>
+                    <span class="copy_holder">
+                        <span
+                            appSelectionColor
+                            style="color: #919191;"
+                            (click)="copy($event)"
+                        >{{items.vin}}</span>
+                        <div
+                            appSelectionColor
+                            style="color: #fff;"
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="d-flex">
+                    <div
+                        style="color: #919191;"
+                        appSelectionColor 
+                        class="vehicle_data">
+                        <span
+                            style="color: #919191;"
+                            appSelectionColor 
+                            class="vehicle_info_span">Year</span> {{items.doc.additionalData.year}}
+                    </div>
+                    <div
+                        style="color: #919191;"
+                        appSelectionColor
+                        class="vehicle_data pl-2"
+                    >
+                        <span
+                            style="color: #919191;"
+                            appSelectionColor 
+                            class="vehicle_info_span"
+                        >Model</span> {{items.doc.additionalData.model}}
+                    </div>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+        <div class="drivers_list" *ngSwitchDefault>
+            <div class="card_front">
+                <div class="contact_profile">
+                    <span>{{ returnInitials(items.contactName) }}</span>
+                </div>
+                <div class="item_info">
+                    <div 
+                        class="item_name"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{items.contactName}}</div>
+                    <div class="items_phone front_phone d-flex">
+                        <svg-icon 
+                            src="../../../../assets/img/svgs/form-icons/phone/phone-default.svg"
+                            [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                        > </svg-icon>
+                        <span class="copy_holder">
+                            <span
+                            appSelectionColor
+                                style="color: #919191;" 
+                                (click)="copy($event)"
+                            >{{items.phone}}</span>
+                            <div 
+                                class="flip-copy-text" 
+                                appSelectionColor
+                                style="color: #919191;"
+                            >COPIED</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+            <div class="card_back" [ngClass]="{ 'top_back': flipedIndex == 0, 'bottom_back': flipedIndex == (data.length-1) }">
+                <div class="items_email">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/mail/mail-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    > </svg-icon>
+                    <span class="copy_holder">
+                        <span
+                            style="color: #919191;"
+                            appSelectionColor
+                            (click)="copy($event)"
+                        >{{items.email}}</span>
+                        <div 
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="items_location">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/form-icons/address/address-default.svg"
+                        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+                    ></svg-icon>
+                    <span class="copy_holder">
+                        <span
+                            style="color: #919191;"
+                            appSelectionColor
+                            (click)="copy($event)"
+                        >{{items.location}}</span>
+                        <div
+                            style="color: #919191;"
+                            appSelectionColor
+                            class="flip-copy-text"
+                        >COPIED</div>
+                    </span>
+                </div>
+                <div class="info_icon back_info_icon">
+                    <svg-icon 
+                        src="../../../../assets/img/svgs/Info1.svg"
+                        [svgStyle]="{ 'width.px': '17', 'height.px': '17' }"
+                        (click)="flipUnflip(indx)"
+                    ></svg-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

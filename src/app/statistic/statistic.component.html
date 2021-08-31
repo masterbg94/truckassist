@@ -1,0 +1,114 @@
+<div class="row statistic_main_screen">
+  <div class="col-12 first-row row pr-0">
+    <!-- Stat. Navigation -->
+    <div class="button_holder">
+      <app-truckassist-buttongroup
+        [items]="tableData"
+        [loading]="loadingItems"
+        [selectedTab]="selectedTab"
+        (switch)="switchTab($event)"
+      ></app-truckassist-buttongroup>
+    </div>
+    <!-- End Stat. Navigation -->
+    <div
+      class="col action-container d-flex align-items-center justify-content-end"
+      [ngClass]="{
+        actionStyle: true
+      }"
+    >
+      <!--Print-->
+      <button
+        position="bottom-right"
+        appTaTooltip="Print"
+        container="body"
+        class="toolbar-btn print-btn"
+        aria-hidden="true"
+        [disabled]="loadingItems"
+      >
+        <svg-icon
+          [src]="'../../../assets/img/svgs/table/print.svg'"
+          [svgStyle]="{ 'width.px': '18', 'height.px': '17' }"
+        ></svg-icon>
+      </button>
+      <!-- End Print -->
+      <!-- Export -->
+      <button
+        position="bottom-right"
+        appTaTooltip="Export"
+        container="body"
+        class="toolbar-btn export-btn"
+        aria-hidden="true"
+        [disabled]="loadingItems"
+      >
+        <svg-icon
+          [src]="'../../../assets/img/svgs/table/export.svg'"
+          [svgStyle]="{ 'width.px': '18', 'height.px': '17' }"
+        ></svg-icon>
+      </button>
+      <!-- End Export -->
+      <!--Compress/expand-->
+      <button
+        class="toolbar-btn compress-btn"
+        id="expend"
+        [appTaTooltip]="expanded ? 'Collapse table' : 'Expand table'"
+        container="body"
+        position="bottom-right"
+        (click)="onCompress()"
+        [disabled]="loadingItems"
+      >
+        <svg-icon
+          [src]="
+            expanded
+              ? '../../../assets/img/svgs/table/collapse.svg'
+              : '../../../assets/img/svgs/table/expand.svg'
+          "
+          [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+        ></svg-icon>
+      </button>
+      <!-- End Compress/expand -->
+    </div>
+    <app-ta-switch [data]="chartTypeData" (switchClicked)="switchType($event)"></app-ta-switch>
+    <!-- Select Dropdowns -->
+    <div class="chart_select_holder">
+      <ng-select
+        [items]="timeList"
+        bindLabel="name"
+        [searchable]="false"
+        [(ngModel)]="selectedTime"
+        bindValue="value"
+      ></ng-select>
+    </div>
+    <div class="chart_select_holder">
+      <ng-select
+        [items]="perdioList"
+        bindLabel="name"
+        [searchable]="false"
+        [(ngModel)]="selectedPeriod"
+        bindValue="value"
+      ></ng-select>
+    </div>
+    <!-- End Select Dropdowns -->
+  </div>
+  <div class="col-12 with_width">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!-- EXPANDED TABLE FOOTER -->
+<div
+  class="expanded-footer d-flex justify-content-center align-items-center flex-column"
+  *ngIf="expanded && showSubtitle"
+>
+  <div class="progress-border">
+    <div class="progress-footer" [style.width.%]="subtitleProgress"></div>
+  </div>
+  <span class="swim-footer d-flex justify-content-center align-items-center"
+    >To exit, please press the ESC button or click on
+    <span class="ml-2 mr-2">
+      <svg-icon
+        [src]="'../../../assets/img/svgs/table/collapse.svg'"
+        [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+      ></svg-icon
+    ></span>
+    icon</span
+  >
+</div>

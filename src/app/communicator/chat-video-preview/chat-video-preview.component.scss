@@ -1,0 +1,53 @@
+.video-player {
+  width: 100%;
+  height: 300px;
+
+  ::ng-deep vg-time-display {
+    font-weight: bold;
+    width: 45px;
+  }
+
+  vg-player {
+    border-radius: 3px !important;
+  }
+
+  // Override scrubar
+  ::ng-deep vg-controls vg-scrub-bar-current-time .background {
+    border: 1px solid #5673aa;
+  }
+  ::ng-deep vg-scrub-bar .scrubBar {
+    margin-left: 10px;
+  }
+  ::ng-deep vg-controls vg-scrub-bar-current-time {
+    background-color: rgb(255, 255, 255, 0.4);
+    border-radius: 5px;
+  }
+  ::ng-deep vg-scrub-bar-current-time .background {
+    background-color: #5673aa;
+  }
+  ::ng-deep vg-scrub-bar-buffering-time .background {
+    background: none;
+  }
+
+  // Override volume
+  ::ng-deep vg-volume .volumeBackground {
+    background-color: rgb(255, 255, 255, 0.4);
+  }
+  ::ng-deep vg-volume .volumeValue {
+    background-color: #5673aa !important;
+  }
+
+  // Override video buttons
+  ::ng-deep [class*=' vg-icon-'],
+  [class^='vg-icon-'] {
+    color: rgb(255, 255, 255, 1);
+  }
+
+  .line-separation-time {
+    font-size: 22px;
+    color: #fff;
+    font-weight: bold;
+    position: relative;
+    top: 6px;
+  }
+}

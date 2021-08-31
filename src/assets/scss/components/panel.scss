@@ -1,0 +1,87 @@
+.panel {
+  margin-bottom: 20px;
+  background-color: $white;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+}
+.panel-heading {
+  padding: .75rem 1.25rem;
+  border-bottom: 1px solid #e9f1f1;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.panel-footer {
+  padding: .75rem 1.25rem;
+  border-top: 1px solid #e9f1f1;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.panel-default {
+  border-color: #e9f1f1;
+  & > .panel-heading {
+    color: $dark;
+    background-color: #f0f0f5;
+    border-color: #e9f1f1;
+  }
+  & > .panel-footer {
+    color: $dark;
+    background-color: #f0f0f5;
+    border-color: #e9f1f1;
+  }
+}
+.panel-success {
+  border-color: $success;
+  & > .panel-heading {
+    color: $white;
+    background-color: $success;
+    border-color: $success;
+  }
+}
+.panel-info {
+  border-color: $info;
+  & > .panel-heading {
+    color: $white;
+    background-color: $info;
+    border-color: $info;
+  }
+}
+.panel-warning {
+  border-color: $warning;
+  & > .panel-heading {
+    color: $white;
+    background-color: $warning;
+    border-color: $warning;
+  }
+}
+.panel-danger {
+  border-color: $danger;
+  & > .panel-heading {
+    color: $white;
+    background-color: $danger;
+    border-color: $danger;
+  }
+}
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+}
+.panel-body {
+  padding: 15px;
+  &:after {
+    clear: both;
+  }
+}
+.panel-body:before, .panel-body:after {
+  display: table;
+  content: " ";
+}
+.panel-primary {
+  border-color: $primary;
+  & > .panel-heading {
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+  }
+}

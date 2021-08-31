@@ -1,0 +1,143 @@
+<div class="d-flex" style="height: 32px;align-items: center; user-select: none;">
+  <div
+    appTaTooltip="Edit labels"
+    position="bottom-right"
+    [tatooltipvisible]="!labelsToggled"
+    class="label-btn"
+    aria-hidden="true"
+    (click)="labelsToggled = !labelsToggled; $event.stopPropagation()"
+    style="background: white"
+  >
+    <svg-icon src="/assets/img/svgs/table/tag.svg" [svgStyle]="{ 'width.px': 18, 'height.px': 18 }">
+    </svg-icon>
+    <div
+      class="label-dropdown position-absolute"
+      #ddLabels
+      [ngStyle]="{ display: labelsToggled ? 'block' : 'none' }"
+    >
+      <div class="colored-triangle"></div>
+      <div class="labels-container">
+        <div class="all-labels" *ngIf="!createLabelVisible" (click)="$event.stopPropagation()">
+          <div
+            class="d-flex align-items-center cursor-pointer create-label-icon"
+            (click)="crateLabelForm(); $event.stopPropagation()"
+          >
+            <svg-icon src="assets/img/svgs/label-add-icon.svg"></svg-icon>
+            <span>Create Label</span>
+          </div>
+          <div
+            class="created-labels-overflow"
+            [ngStyle]="{ 'overflow-y': createdLabels?.length > 9 ? 'scroll' : 'unset' }"
+          >
+            <!-- no label-->
+            <div
+              class="d-flex justify-content-between align-items-center cursor-pointer created-labels"
+              [style.background-color]="noLabel.labelColor"
+              [class.disabled-filter]="returnIsDisabled(noLabel.labelId)"
+            >
+              <div class="d-flex flex-grow-1 align-items-center label-count-name"
+                   (click)="noLabelCount!=0 && !returnIsDisabled(noLabel.labelId) && addLabeltoFilter(noLabel)">
+                <div class="label-count-circle">
+                  <p class="m-0 p-0">{{ noLabelCount }}</p>
+                </div>
+                <p class="label-name cursor-pointer" >{{noLabel.labelName}}</p>
+              </div>
+            </div>
+            <!-- no label-->
+
+            <div
+              class="d-flex justify-content-between align-items-center cursor-pointer created-labels"
+              *ngFor="let l of createdLabels; let i = index"
+              [style.background-color]="l.labelColor"
+              [class.disabled-filter]="returnIsDisabled(l.labelId)"
+            >
+              <div class="d-flex flex-grow-1 align-items-center label-count-name"
+                   (click)="l.labelCount!=0 && !returnIsDisabled(l.labelId) && addLabeltoFilter(l)">
+                <div class="label-count-circle">
+                  <p class="m-0 p-0">{{ l?.labelCount }}</p>
+                </div>
+                <p class="label-name cursor-pointer">{{ l.labelName }}</p>
+              </div>
+              <div class="d-flex label-actions">
+                <svg-icon
+                  src="/assets/img/svgs/card-label-edit.svg"
+                  (click)="editLabel(l.labelId); $event.stopPropagation()"
+                >
+                </svg-icon>
+                <svg-icon
+                  src="/assets/img/svgs/card-label-delete.svg"
+                  class="ml-2"
+                  (click)="deleteLabel(l.labelId); $event.stopPropagation()"
+                  *ngIf="l.labelCount === 0"
+                ></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Create/Update label form-->
+        <div
+          *ngIf="createLabelVisible"
+          (click)="$event.stopPropagation()"
+          class="d-flex flex-column create-label"
+        >
+          <div class="label-input d-flex align-items-center">
+            <div class="create-label-color" [style.background-color]="createLabelColor"></div>
+            <input
+              type="text"
+              placeholder="Label Name"
+              [(ngModel)]="createLabelName"
+              (ngModelChange)="isAllowedSave($event)"
+              maxlength="17"
+            />
+            <div class="d-flex align-items-center create-label-actions">
+              <svg-icon
+                src="assets/img/svgs/label-create.svg"
+                *ngIf="allowSave"
+                (click)="createUpdateLabel(); $event.stopPropagation()"
+              >
+              </svg-icon>
+              <svg-icon
+                src="assets/img/svgs/label-cancel.svg"
+                (click)="cancelCreating(); $event.stopPropagation()"
+              >
+              </svg-icon>
+            </div>
+          </div>
+          <div class="label-colors w-100 d-flex flex-wrap justify-content-between">
+            <div
+              class="d-flex d-flex mb-1 label-single-color"
+              *ngFor="let c of colorPalette; let i = index"
+            >
+              <div
+                class="cursor-pointer"
+                [style.background-color]="returnUsedColor(c) ? c : '#EEEEEE'"
+                [style.border-color]="c"
+                [style.cursor]="returnUsedColor(c) ? 'pointer' : 'auto'"
+                (click)="returnUsedColor(c) && setLabelColor(c)"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="filters d-flex align-items-center ml-1" style="background: transparent"
+       *ngIf="storedFilters.length>0">
+    <div class="single-filter d-flex position-relative"
+         [@enterLeave]="'flyIn'"
+         *ngFor="let f of storedFilters; let i = index"
+         (mouseover)="returnFilterColor(f,i)"
+         (mouseleave)="returnFilterColor(null,-1)"
+         [style]="{'background' : hoveredFilterIndex === i ? hoveredFilterColor : '#B7B7B7'}"
+         (click)="removeLabelFilter(i)"
+    >
+      <div class="label-count-circle" *ngIf="f.labelCount">
+        <p class="m-0 p-0">{{ f.labelCount }}</p>
+      </div>
+      <div class="label-count-circle" *ngIf="f.labelName === 'No Label'">
+        <p class="m-0 p-0">{{ noLabelCount }}</p>
+      </div>
+      <p class="m-0 single-filter-name">{{f.labelName}}</p>
+    </div>
+  </div>
+</div>

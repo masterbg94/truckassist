@@ -1,0 +1,78 @@
+.container_no_results {
+  width: 1440px;
+  height: 755px;
+  transform: scale(0);
+  .table_empty_column_top {
+    width: 1440px;
+    height: 240px;
+    position: relative;
+  }
+  .table_empty_column_bottom {
+    width: 1440px;
+    height: 53px;
+    position: absolute;
+    bottom: 0;
+  }
+  .center_svg {
+    width: 456px;
+    height: 336px;
+    margin: auto;
+    position: relative;
+    top: -95px;
+  }
+  .text_container {
+    width: 584px;
+    height: 75px;
+    margin: auto;
+    font-size: 64px;
+      color: #5673aa;
+      text-align: center;
+      font-weight: 900;
+      position: relative;
+      bottom: 43px;
+      .text_info {
+        width: 584px;
+        height: 75px;
+        margin: auto;
+      }
+   
+  }
+  .text_parahraph {
+    width: 481px;
+    height: 56px;
+    margin: auto;
+    margin-top: -22px;
+    .text_no_results {
+      font-size: 20px;
+      color: #919191;
+      text-align: center;
+      margin-top: -17px;
+      font-style: italic;
+    }
+    .text_no_result_search {
+      font-size: 20px;
+      color: #919191;
+      text-align: center;
+      position: absolute;
+      left: 624px;
+      font-style: italic;
+    }
+  }
+}
+
+.text_container ::selection {
+  color: rgb(86, 115, 170) !important;
+  background: rgb(86, 115, 170, 0.2) !important;
+}
+
+.text_parahraph ::selection {
+  color: rgb(145, 145, 145) !important;
+  background: rgb(145, 145, 145, 0.2) !important;
+}
+
+
+/* NG CLASS */
+.add-scale{
+  transform: scale(1) !important;
+  transition: transform 0.25s !important;
+}

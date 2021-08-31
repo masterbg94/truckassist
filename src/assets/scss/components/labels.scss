@@ -1,0 +1,76 @@
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    line-height: 1;
+    color: $white;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 3px;
+}
+
+.label-pill {
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem;
+}
+
+.label-default {
+    background-color: #efefef;
+    color: #343a40;
+}
+
+.label-secondary {
+    background-color: #6c757d;
+}
+
+.label-pink {
+    background-color: $secondary;
+}
+
+.label-info {
+    background-color: $info;
+}
+
+.label-danger {
+    background-color: $danger;
+}
+
+.label-warning {
+    background-color: $warning;
+}
+
+.label-success {
+    background-color: $success;
+}
+
+.label-primary {
+    background-color: $primary;
+}
+
+.message {
+    height: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    padding: 5px;
+}
+
+.show {
+    overflow: visible;
+    height: auto;
+    display: block;
+}
+
+.btn-more {
+    padding: 0 5px 5px 5px;
+    cursor: pointer;
+}
+
+.border-note {
+    border: 1px solid #dddcde;
+    border-radius: 3px;
+    background: #f5f5f9;
+    padding-bottom: 5px;
+}

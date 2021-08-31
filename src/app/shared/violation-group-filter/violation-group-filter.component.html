@@ -1,0 +1,9 @@
+<div
+  appSelectionColor
+  *ngFor="let item of violationFilters; let i = index"
+  [ngStyle]="{ background: item.active ? '#5673AA' : '#b7b7b7' }"
+  (click)="useFilter(i)"
+>
+  <span appSelectionColor>{{ item.count }}</span
+  >{{ item.name }}
+</div>

@@ -1,0 +1,694 @@
+@import '../../../../../assets/scss/components/variables';
+
+.lists {
+  position: relative;
+  z-index: 100;
+  width: 360px;
+  transition: 0.3s !important;
+  margin-top: 0px;
+
+  .title {
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.7);
+    user-select: none;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 10px 0 0;
+    width: 100%;
+    height: 32px;
+    display: grid;
+    grid-template-columns: 1fr 16px;
+    transition: 0.6s;
+
+    .search {
+      height: 32px;
+    }
+
+    svg-icon {
+      margin-top: 5px;
+    }
+
+    span {
+      margin-top: 6px;
+      margin-left: 9px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    svg-icon {
+      svg {
+        height: 14px;
+        transform: rotate(0deg);
+        transition: 0.3s;
+      }
+    }
+  }
+
+  .remuveOverflow {
+    overflow: visible !important;
+  }
+  .out_of_service {
+    display: flex;
+    width: 92px;
+    justify-content: space-between;
+
+    span {
+      text-align: center;
+      font-weight: 800;
+      font-size: 16px;
+      width: 28px !important;
+      height: 28px;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+    }
+  }
+  .list-shops {
+    border-radius: 3px 3px 3px 3px;
+    background: rgb(255 255 255);
+    width: 360px;
+    transition: 0.2s;
+    overflow: hidden;
+    height: auto;
+    max-height: 700px;
+    padding: 0;
+    transition: max-height 0.25s, height 0.25s !important;
+    position: relative;
+    top: 4px;
+    &:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transition: 0.2s;
+    }
+
+    virtual-scroller {
+      display: block;
+      width: 360px;
+      height: calc(100vh - 335px);
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    .listFEmpty {
+      width: 100%;
+      visibility: hidden;
+      height: 42px;
+      padding: 10px 0 0 10px;
+
+      p {
+        font-size: 16px;
+        color: #28529f;
+        margin: 0;
+      }
+    }
+
+    .empty-Shop-List {
+      width: 100%;
+      height: 42px;
+      visibility: hidden;
+      display: flex;
+      padding: 8px 0 0 10px;
+      cursor: pointer;
+      opacity: 0.7;
+
+      &:hover {
+        opacity: 1;
+        transition: 0.3s;
+
+        p {
+          color: #28529f;
+        }
+
+        svg-icon {
+          svg {
+            path {
+              fill: #28529f;
+            }
+          }
+        }
+      }
+
+      svg-icon {
+        margin: 3px 10px 0 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      p {
+        position: relative;
+        top: 3px;
+        font-size: 16px;
+      }
+    }
+
+    .list {
+      cursor: pointer;
+      width: 360px;
+      height: 32px;
+      padding: 0 10px 0 10px;
+      transition: 0s;
+      display: grid;
+      grid-template-columns: 194px 70px 115px auto 62px;
+
+      &:hover {
+        background: #f9f9f9;
+        transition: 0s;
+
+        .shop-name,
+        .result {
+          opacity: 1 !important;
+        }
+      }
+
+      svg-icon {
+        opacity: 0.7;
+
+        &:hover {
+          opacity: 1 !important;
+          transition: 0.3s;
+        }
+      }
+      .body {
+        display: flex;
+        width: 485px;
+        align-items: center;
+        transition: $transition;
+        &_box {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          &_icon {
+            width: 27px;
+            height: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            margin-right: 3px;
+            svg-icon {
+              margin-top: 0px;
+              opacity: 1;
+              svg {
+                margin: auto;
+                margin-right: 0px !important;
+                path {
+                  fill: #91919166;
+                }
+              }
+            }
+          }
+          &_icon-active {
+            background: #5673aac0;
+            svg-icon {
+              margin-top: 0px;
+              opacity: 1;
+              svg {
+                margin: auto;
+                margin-right: 0px !important;
+                path {
+                  fill: white;
+                }
+              }
+            }
+          }
+          &_value {
+            color: #919191;
+            font-size: 14px;
+            margin-top: 0px;
+          }
+          &_value-active {
+            font-weight: bold;
+          }
+        }
+      }
+      .citation {
+        width: 48px;
+        display: flex;
+        position: relative;
+        align-items: center;
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 14px;
+          font-weight: 800;
+          color: white;
+          &:nth-of-type(2) {
+            top: 38px;
+            font-weight: bold;
+            color: #919191;
+          }
+        }
+        &_regular {
+          font-weight: 500 !important;
+        }
+        &_off {
+          margin-top: 0px;
+          opacity: 1;
+          svg {
+            margin: auto;
+            margin-right: 0px !important;
+            path {
+              fill: #d2d2d1c0;
+            }
+          }
+        }
+        &_on {
+          margin-top: 0px;
+          opacity: 1;
+          svg {
+            margin: auto;
+            margin-right: 0px !important;
+            path {
+              fill: #5673aac0;
+            }
+          }
+        }
+      }
+      .star {
+        margin-top: 4px;
+
+        svg {
+          width: 18px;
+          height: 18px;
+
+          &:hover {
+            path {
+              fill: #6c6c6c;
+              transition: 0.3s;
+            }
+          }
+        }
+      }
+
+      .shop-name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .shop-name {
+        margin-top: 6px;
+        opacity: 0.7;
+      }
+
+      .hidenInfo {
+        visibility: hidden;
+        display: flex;
+        height: 32px;
+        transition: 0.1s;
+
+        svg-icon {
+          svg {
+            margin-right: 10px;
+          }
+        }
+
+        .number {
+          display: flex !important;
+          align-items: center;
+          padding-top: 0px !important;
+        }
+
+        .meil {
+          display: flex !important;
+          align-items: center;
+          padding-top: 0px !important;
+          svg-icon {
+            svg {
+              width: 36px;
+              height: 20px;
+            }
+          }
+        }
+
+        .address {
+          svg-icon {
+            svg {
+              width: 54px;
+              height: 20px;
+            }
+          }
+        }
+
+        .meil,
+        .address {
+          svg-icon {
+            position: relative;
+            top: -1px;
+            z-index: 1000;
+          }
+        }
+
+        .number,
+        .meil,
+        .address {
+          user-select: none;
+          padding-top: 5px;
+        }
+
+        .number {
+          position: relative;
+          width: 210px;
+          height: 100%;
+          margin-left: 0px;
+          img {
+            max-width: 18px;
+            margin-right: 6px;
+          }
+        }
+
+        .copy-phone {
+          position: absolute;
+          top: -4px;
+          width: 145px;
+          height: 100%;
+          margin-left: 16px;
+          padding: 10px;
+
+          .copy {
+            width: 0px;
+            height: 20px;
+            visibility: hidden;
+            background: #5673aa;
+            color: white;
+            border-radius: 3px;
+            padding: 0;
+            font-size: 12px;
+            font-weight: bold;
+            overflow: hidden;
+            transition: 0.25s !important;
+
+            p {
+              width: 100%;
+              height: 100%;
+              margin: 0;
+              text-align: center;
+              line-height: 20px;
+            }
+          }
+
+          .addPCopy {
+            width: 110px;
+            visibility: visible !important;
+            transition: width 0.25s;
+          }
+        }
+
+        .meil {
+          width: 175px;
+          height: 100%;
+          position: relative;
+          display: block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          .copy-mail {
+            position: absolute;
+            top: -4px;
+            width: 220px;
+            height: 100%;
+            margin-left: 10px;
+            padding: 10px 0 0 20px;
+
+            .copy {
+              width: 0px;
+              visibility: hidden;
+              height: 20px;
+              border-radius: 3px;
+              padding: 0;
+              font-size: 12px;
+              font-weight: bold;
+              background: #5673aa;
+              color: white;
+              overflow: hidden;
+              transition: 0.25s !important;
+
+              p {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                text-align: center;
+                line-height: 20px;
+              }
+            }
+
+            .addMCopy {
+              width: 210px;
+              visibility: visible !important;
+              transition: width 0.25s;
+            }
+          }
+        }
+
+        .address {
+          position: relative;
+          width: 175px;
+          height: 100%;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          span {
+            display: block;
+            width: 325px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: right;
+          }
+        }
+      }
+
+      .pin {
+        position: relative;
+        top: -1px;
+      }
+
+      .star {
+        svg {
+          path {
+            fill: #d1d1d1;
+          }
+        }
+      }
+
+      .delete-edit {
+        opacity: 0;
+        width: 64px;
+        height: 32px;
+        border-radius: 3px;
+        background: transparent;
+        position: relative;
+        left: -8px;
+        display: flex;
+
+        button {
+          border: none;
+          background: none;
+          width: 32px;
+          height: 32px;
+        }
+
+        svg-icon {
+          opacity: 1;
+
+          svg {
+            opacity: 1;
+          }
+
+          position: relative;
+          left: -6px;
+          top: -1px;
+        }
+
+        .delete {
+          svg {
+            #Rectangle_5167 {
+              fill: rgba(255, 93, 93, 0.7) !important;
+              transition: 0.3s;
+
+              #Path_7317 {
+                fill: white !important;
+              }
+
+              #Path_7318 {
+                fill: white !important;
+              }
+            }
+          }
+
+          &:hover {
+            svg {
+              #Rectangle_5167 {
+                fill: rgba(255, 93, 93, 1) !important;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+
+        .edit-shop {
+          svg {
+            #Rectangle_3879 {
+              fill: white;
+            }
+
+            g {
+              path {
+                fill: rgba(108, 108, 108, 0.7) !important;
+              }
+            }
+          }
+
+          &:hover {
+            svg {
+              g {
+                path {
+                  fill: rgba(108, 108, 108, 1) !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Class to add after event */
+.dropdowna-active {
+  border-radius: 3px 3px 0px 0px !important;
+  background: #fff !important;
+  opacity: 1 !important;
+}
+
+.whenPined {
+  svg {
+    path {
+      fill: rgb(40, 82, 159) !important;
+    }
+  }
+}
+
+.whenUnPin {
+  svg {
+    path {
+      fill: #dadada !important;
+    }
+  }
+}
+
+.addAnimationPin {
+  svg {
+    transform: scale(1.5);
+    transition: 0.2s;
+  }
+}
+
+/* .chnageStyleOfList {
+    &:hover {
+      opacity: 1 !important;
+      transition: 0.2s;
+    }
+  } */
+
+.styleOfList {
+  &:hover {
+    background: #919191 !important;
+    color: white !important;
+    transition: 0.3s;
+
+    .arrow-down {
+      svg {
+        path {
+          fill: white !important;
+          transition: 0.3s;
+        }
+      }
+    }
+  }
+}
+
+.shopListsScrollStylingOnExpend {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.shopListsScrollStylingOnExpend::-webkit-scrollbar {
+  display: none;
+}
+
+.showListFEmpty {
+  visibility: visible !important;
+  transition: 0.1s;
+}
+
+.addIcons {
+  opacity: 1 !important;
+  transition: opacity 1s !important;
+}
+
+.addVisibleDelEdit {
+  opacity: 1 !important;
+  transition: opacity 1s !important;
+}
+
+.addPin {
+  svg {
+    path {
+      fill: rgb(40, 82, 159) !important;
+    }
+  }
+}
+
+.addExpendList {
+  height: auto !important;
+  transition: 0.3s;
+}
+
+.showInfoNoMail {
+  width: 985px !important;
+  background: #f3f3f3 !important;
+  color: #919191;
+  box-shadow: 0 0 4px 0 rgb(0 0 0 / 15%);
+  transition: 0.3s;
+}
+
+.addShowHInfo {
+  visibility: visible !important;
+  transition: visibility 0.1s;
+}
+
+.addList {
+  max-height: 0px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: max-height 0.25s !important;
+}
+
+.addVisibleList {
+  display: none !important;
+}
+
+.addRotation {
+  svg {
+    transform: rotate(-90deg) !important;
+    transition: 0.3s;
+  }
+}
+
+.expendShopList {
+  width: 1433px !important;
+  background: #f3f3f3 !important;
+  color: #919191;
+  padding-right: 0px !important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+  transition: 0.1s;
+  border-radius: 0px 5px 5px 0px;
+}

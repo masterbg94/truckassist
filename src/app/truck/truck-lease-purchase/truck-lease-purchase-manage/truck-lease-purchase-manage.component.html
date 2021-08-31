@@ -1,0 +1,132 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal class='small' *ngIf="!loaded"></app-loading-modal>
+    <form [formGroup]="truckLeaseForm" class="form-container" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-label-group">
+            <ng-select
+              [items]="leaseData"
+              formControlName="lessor"
+              bindLabel="name"
+              class="required-field"
+              placeholder="Lessor/Purchase"
+              class="required-field"
+              appAutoFocus
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.name }}</span>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="truckLeaseForm.controls.lessor"></app-required-label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-label-group">
+            <ng-select
+              [items]="sellerData"
+              formControlName="seller"
+              bindLabel="name"
+              class="required-field"
+              placeholder="Seller/Buyer"
+              class="required-field"
+              appendTo="body"
+            ></ng-select>
+            <app-required-label [control]="truckLeaseForm.controls.seller"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Lessor date"
+              class="required datepicker-label{{
+                truckLeaseForm.controls.date.value !== null &&
+                truckLeaseForm.controls.date.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                placeholder=""
+                formControlName="date"
+                [format]="format"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="truckLeaseForm.controls.date"></app-required-label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-label-group">
+            <input
+              id="paymentAmount"
+              class="form-control input-control required"
+              placeholder="Payment amount"
+              formControlName="paymentAmount"
+              (paste)="onPaste($event, 'paymentAmount')"
+              (keydown)="onCheckBackSpace($event)"
+              (keypress)="onInputTyping($event)"
+            />
+            <label class="required-label" for="paymentAmount">Payment amount</label>
+            <app-required-label
+              [control]="truckLeaseForm.controls.paymentAmount"
+            ></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-label-group">
+            <input
+              id="numberOfPayments"
+              class="form-control input-control required"
+              placeholder="Number of payments"
+              formControlName="numberOfPayments"
+              (paste)="onPaste($event, 'numberOfPayments')"
+              (keydown)="onCheckBackSpace($event)"
+              (keypress)="onInputTyping($event)"
+            />
+            <label class="required-label" for="numberOfPayments">Number of payments</label>
+            <app-required-label
+              [control]="truckLeaseForm.controls.numberOfPayments"
+            ></app-required-label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-label-group">
+            <input
+              id="downPayment"
+              class="form-control input-control required"
+              placeholder="Down payment"
+              formControlName="downPayment"
+              (paste)="onPaste($event, 'downPayment')"
+              (keydown)="onCheckBackSpace($event)"
+              (keypress)="onInputTyping($event)"
+            />
+            <label class="required-label" for="downPayment">Down payment</label>
+            <app-required-label
+              [control]="truckLeaseForm.controls.downPayment"
+            ></app-required-label>
+          </div>
+        </div>
+      </div>
+      <app-attachments page='truck' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveLease(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

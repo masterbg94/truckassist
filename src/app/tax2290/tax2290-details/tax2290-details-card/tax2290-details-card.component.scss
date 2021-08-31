@@ -1,0 +1,68 @@
+.vehicle-card-radius {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.vehicle-card {
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #919191;
+  padding: 4px 6px;
+  display: grid;
+  grid-template-columns: 196px 211px 148px 177px 126px;
+
+  .vehicle-item-description,
+  .vehicle-item-tax {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .vehicle-item-tax-radius {
+    border-top-right-radius: 3px;
+  }
+  .vehicle-item-tax {
+    font-weight: 600;
+    text-align: right;
+    height: 30px;
+    position: relative;
+    bottom: 4px;
+    padding: 4px;
+    padding-right: 10px;
+    background-color: rgb(218, 218, 218, 0.7);
+  }
+
+  .vehicle-item {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .mini-thumbs {
+      background-color: rgb(145, 145, 145, 0.2);
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ffffff;
+      padding: 4px 6px;
+      padding-bottom: 3px;
+      margin-left: -13px;
+      margin-right: 19px;
+      position: relative;
+      bottom: 1.5px;
+    }
+
+    .mini-thumbs.active {
+      background-color: #919191;
+    }
+  }
+
+  &:hover {
+    background-color: #f9f9f9 !important;
+    color: #6c6c6c !important;
+
+    .vehicle-item-tax {
+      background-color: rgb(218, 218, 218, 1) !important;
+    }
+  }
+}

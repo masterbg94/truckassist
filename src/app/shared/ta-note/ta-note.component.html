@@ -1,0 +1,73 @@
+<button
+  class="custom-rounded-btn note-btn"
+  [ngbPopover]="notePopover"
+  #t2="ngbPopover"
+  triggers="manual"
+  [autoClose]="false"
+  [placement]="'left-top'"
+  (click)="toggleNote(t2, note)"
+  popoverClass="my-note-popover"
+>
+  <svg-icon
+    *ngIf="note && !openedAll"
+    class="normal-icon"
+    [src]="'assets/img/svgs/table/note.svg'"
+    [svgStyle]="{ 'width.px': '16', 'height.px': '18' }"
+  ></svg-icon>
+  <svg-icon
+    *ngIf="!note && !openedAll"
+    class="empty-icon"
+    [src]="'assets/img/svgs/table/note-empty.svg'"
+    [svgStyle]="{ 'width.px': '16', 'height.px': '18' }"
+  ></svg-icon>
+  <svg-icon
+    *ngIf="openedAll"
+    class="all-expanded-icon"
+    [src]="'assets/img/svgs/table/note_all_expanded.svg'"
+    [svgStyle]="{ 'width.px': '16', 'height.px': '18' }"
+  ></svg-icon>
+</button>
+<!-- Popover for Note -->
+<ng-template #notePopover let-data="data">
+  <div class="kendo-editor-note-wrapper">
+    <div class="k-widget k-editor custom_editor custom_editor" [class.expanded]="isExpanded">
+      <div
+        @noteLongAnimation
+        id="main_editor"
+        class="editor"
+        [class.openedAll]="openedAll"
+        [class.not_expanded]="!isExpanded"
+        (focus)="checkFocus($event)"
+        (blur)="prepareForTextRange()"
+        (input)="valueChange($event.target.innerHTML)"
+        contenteditable="true"
+        [innerHTML]="note | safeHtml"
+      ></div>
+      <app-ta-note-container
+        [value]="value"
+        [range]="range"
+        [selectionTaken]="selectionTaken"
+        [isExpanded]="isExpanded"
+      ></app-ta-note-container>
+    </div>
+    <span
+      *ngIf="buttonsExpanded"
+      (click)="saveNote()"
+      class="save-note-check"
+      appTaTooltip="Save"
+      position="bottom-right"
+    >
+      <svg-icon [svgStyle]="{ 'width.px': '15', 'height.px': '12' }" name="note-check"></svg-icon>
+    </span>
+    <span
+      *ngIf="buttonsExpanded"
+      (click)="closeNote()"
+      class="save-note-check close_note"
+      tooltipBackground="#707070"
+      appTaTooltip="Cancel"
+      position="bottom-right"
+    >
+      <svg-icon [svgStyle]="{ 'width.px': '12', 'height.px': '12' }" name="note-close"> </svg-icon>
+    </span>
+  </div>
+</ng-template>

@@ -1,0 +1,68 @@
+<div class="switch-container" [ngClass]="{ 'switch-container-detail': selectedTab !== 'detail' }">
+  <div class="switcher-go-back-container d-flex flex-column">
+    <a
+      class="go-back-btn-new"
+      [routerLink]="['/trailers']"
+      appTaTooltip="Back"
+      tooltipColor="#FFFFFF"
+      tooltipBackground="#6C6C6C90"
+      position="bottom-right"
+    >
+      <svg-icon
+        class="d-flex"
+        [src]="'assets/img/svgs/left.svg'"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+    </a>
+  </div>
+  <div class="switch-header d-flex flex-column">
+    <div class="d-flex" *ngIf="selectedTab !== 'detail'">
+      <button
+        class="details-btn d-flex justify-content-center align-items-center"
+        appTaTooltip="Info"
+        tooltipColor="#FFFFFF"
+        tooltipBackground="#5673AA"
+        position="bottom-right"
+        (click)="resetSelection()"
+      >
+        <svg-icon
+          class="d-flex"
+          [src]="'assets/img/svgs/table/details.svg'"
+          [svgStyle]="{ 'width.px': '22', 'height.px': '22' }"
+        ></svg-icon>
+      </button>
+    </div>
+    <div class="switch-dropdown d-flex" ngbDropdown #tabListDrop="ngbDropdown" *ngIf="selectedTab === 'detail'">
+      <button
+        class="switch-btn table-view-btn d-flex justify-content-center align-items-center"
+        id="dropdownManual"
+        ngbDropdownAnchor
+        ngbDropdownToggle
+      >
+        <svg-icon
+          class="d-flex"
+          [src]="'assets/img/svgs/table/table-view.svg'"
+          [svgStyle]="{ 'width.px': '20.59', 'height.px': '18' }"
+        ></svg-icon>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownManual" class="tabs-dropdown-menu">
+        <a
+          *ngFor="let item of items; let i = index"
+          ngbDropdownItem
+          id="switchBtn{{ i }}"
+          [ngClass]="{ 'active-btn': item.selected, 'd-none': item.selected }"
+          (click)="selectItem(i)"
+          [routerLink]="['/trailers/edit/' + id + item.path]"
+          [disabled]="item.disabled"
+        >
+          <span class="item-badge">{{ item.data.length }}</span>
+          <span class="item-title">{{ item.title }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="switch-body">
+    <app-trailer-details *ngIf="selectedTab === 'detail'"></app-trailer-details>
+    <app-trailer-repair  [items]="items" *ngIf="selectedTab === 'repair'"></app-trailer-repair>
+  </div>
+</div>

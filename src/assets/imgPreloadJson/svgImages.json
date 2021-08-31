@@ -1,0 +1,50 @@
+{
+	"iconImageFiles": [
+		{
+			"iconName": "cloud-moon",
+			"iconPath": "/assets/img/svgs/weather/cloud-moon.svg"
+		},
+        {
+			"iconName": "moon-stars",
+			"iconPath": "/assets/img/svgs/weather/moon-stars.svg"
+		},
+        {
+			"iconName": "cloudy",
+			"iconPath": "/assets/img/svgs/weather/cloudy.svg"
+		},
+        {
+			"iconName": "part_cloudy",
+			"iconPath": "/assets/img/svgs/weather/part_cloudy.svg"
+		},
+        {
+			"iconName": "cloud-drizzle",
+			"iconPath": "/assets/img/svgs/weather/cloud-drizzle.svg"
+		},
+        {
+			"iconName": "wind",
+			"iconPath": "/assets/img/svgs/weather/wind.svg"
+		},
+        {
+			"iconName": "thunderstorm",
+			"iconPath": "/assets/img/svgs/weather/thunderstorm.svg"
+		},
+        {
+			"iconName": "sun",
+			"iconPath": "/assets/img/svgs/weather/sun.svg"
+		},
+        {
+			"iconName": "cloud-rain",
+			"iconPath": "/assets/img/svgs/weather/cloud-rain.svg"
+		},
+        {
+			"iconName": "note-close",
+			"iconPath": "/assets/img/note_small_close.svg"
+		},
+        {
+			"iconName": "note-check",
+			"iconPath": "/assets/img/note_small_check.svg"
+		}
+	],
+    "customIcons": [
+	]
+}

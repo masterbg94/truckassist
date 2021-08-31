@@ -1,0 +1,660 @@
+<form [formGroup]="education" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>Education</h1>
+    <p class="firstParagraf" style="font-weight: bold;">
+      Please select the highest grade completed:
+    </p>
+    <div *ngIf="!gradeMobile" class="grade" style="position: relative;">
+      <label
+        *ngFor="let control of gradesArray.controls; let i = index"
+        for="{{ 'checkGrade' + i }}"
+        [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+      >
+        <input
+          id="{{ 'checkGrade' + i }}"
+          type="checkbox"
+          [disabled]="true"
+          (change)="onCheckedGrade(i, $event.target.checked)"
+          [formControl]="control"
+        />
+        <span>{{ grade[i] }}</span>
+      </label>
+      <!-- Review Company -->
+      <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[0]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+    </div>
+    <div *ngIf="gradeMobile">
+      <div class="grade grade_mobile-one">
+        <label
+          *ngFor="let control of gradesArray.controls; let i = index"
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+        >
+          <label for="{{ 'checkMobile' + i }}" *ngIf="i < 8">
+            <input
+              id="{{ 'checkMobile' + i }}"
+              type="checkbox"
+              [disabled]="true"
+              (change)="onCheckedGrade(i, $event.target.checked)"
+              [formControl]="control"
+            />
+            <span>{{ grade[i] }}</span>
+          </label>
+        </label>
+      </div>
+      <div class="grade grade_mobile-two">
+        <label
+          *ngFor="let control of gradesArray.controls; let i = index"
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+        >
+          <label for="{{ 'checkMobile' + i }}" *ngIf="i >= 8">
+            <input
+              id="{{ 'checkMobile' + i }}"
+              type="checkbox"
+              [disabled]="true"
+              (change)="onCheckedGrade(i, $event.target.checked)"
+              [formControl]="control"
+            />
+            <span>{{ grade[i] }}</span>
+          </label>
+        </label>
+      </div>
+    </div>
+
+    <p class="firstParagraf firstParagraf_college">COLLEGE:</p>
+    <div class="grade college">
+      <label
+        *ngFor="let control of collegeArray.controls; let i = index"
+        for="{{ 'checkCollege' + i }}"
+        [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+      >
+        <input
+          [formControl]="control"
+          id="{{ 'checkCollege' + i }}"
+          (change)="onCheckedCollege(i, $event.target.checked)"
+          type="checkbox"
+        />
+        <span>{{ college[i] }}</span>
+      </label>
+    </div>
+    <div class="centerContent">
+      <div class="centerContent3">
+        <div class="row mt-4 row_special">
+          <div class="col-8">
+            <p class="yesno_paragraf received-paragraf-review">
+              Have you received any safety awards or special training?
+              <span class="requiredStar">*</span>
+            </p>
+            <div class="specialRequired-mobile">
+              <app-required-yes-no
+                [control]="education.controls.specialTraining"
+              ></app-required-yes-no>
+            </div>
+          </div>
+          <div class="col-1" style="position: relative;">
+            <div
+              class="yesno yesno_special"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            >
+              <input
+                formControlName="specialTraining"
+                type="radio"
+                id="opt51"
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'specialTraining',
+                    'explainSPTraining'
+                  )
+                "
+                value="yes"
+              />
+              <label for="opt51" class="yesno_label1 yesno_label1_special">
+                <span class="yesno_options">Yes</span>
+              </label>
+              <input
+                formControlName="specialTraining"
+                type="radio"
+                id="opt52"
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'specialTraining',
+                    'explainSPTraining'
+                  )
+                "
+                value="no"
+              />
+              <label for="opt52" class="yesno_label2 yesno_label2_special">
+                <span class="yesno_options">No</span>
+              </label>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[1]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="isSpecialTraining"
+        class="row"
+        style="margin-bottom: 5px !important; position: relative;"
+      >
+        <div class="col-12">
+          <div class="form-label-group explainMobile">
+            <input
+              id="explainSPTraining"
+              placeholder="Please explain"
+              class="form-control input-control required"
+              formControlName="explainSPTraining"
+              (keypress)="onDescriptionTyping($event)"
+              appInputFocus
+              appAutoFocus
+              [dontDoFocus]="
+                education.get('explainSPTraining').value === null && !isCompanyReview
+                  ? 'false'
+                  : 'true'
+              "
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="explainSPTraining">Please explain</label>
+            <app-required-label
+              [control]="education.controls.explainSPTraining"
+            ></app-required-label>
+          </div>
+          <!-- Review Company -->
+          <div class="reviewer-slideShow__thirdrow" *ngIf="isCompanyReview && isSpecialTraining">
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[2]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <div class="centerContent3">
+        <div class="row mt-2 row_other" style="position: relative;">
+          <div class="col-8">
+            <p class="yesno_paragraf otherTraining">
+              Other training? <span class="requiredStar">*</span>
+            </p>
+            <div class="otherRequired-mobile">
+              <app-required-yes-no
+                [control]="education.controls.otherTraining"
+              ></app-required-yes-no>
+            </div>
+          </div>
+          <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+            <div class="yesno yesno_other">
+              <input
+                formControlName="otherTraining"
+                type="radio"
+                id="r1"
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'otherTraining',
+                    'explainOTHTraining'
+                  )
+                "
+                value="yes"
+              />
+              <label for="r1" class="yesno_label1 yesno_label1_other">
+                <span class="yesno_options">Yes</span>
+              </label>
+              <input
+                formControlName="otherTraining"
+                type="radio"
+                id="r2"
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'otherTraining',
+                    'explainOTHTraining'
+                  )
+                "
+                value="no"
+              />
+              <label for="r2" class="yesno_label2 yesno_label2_other">
+                <span class="yesno_options">No</span>
+              </label>
+            </div>
+          </div>
+          <!-- Review Company -->
+          <div class="reviewer-slideShow__fourthrow" *ngIf="isCompanyReview">
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[3]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isOtherTraining" class="row mb-2" style="text-align: left;">
+        <div class="col-12">
+          <div class="form-label-group explainMobile">
+            <input
+              id="explainOTHTraining"
+              placeholder="Please explain"
+              class="form-control input-control required"
+              formControlName="explainOTHTraining"
+              (keypress)="onDescriptionTyping($event)"
+              appInputFocus
+              appAutoFocus
+              [dontDoFocus]="
+                education.get('explainOTHTraining').value === null && !isCompanyReview
+                  ? 'false'
+                  : 'true'
+              "
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="explainOTHTraining">Please explain</label>
+            <app-required-label
+              [control]="education.controls.explainOTHTraining"
+            ></app-required-label>
+          </div>
+          <!-- Review Company -->
+          <div class="reviewer-slideShow__fifthrow" *ngIf="isCompanyReview && isOtherTraining">
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[4]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <div class="centerContent3">
+        <div class="row mt-4 row_knowledge" style="position: relative;">
+          <div class="col-8">
+            <p class="yesno_paragraf" style="margin-top: -14px !important;">
+              Do you have full knowledge of the federal moto carrier safety regulations?<span
+                class="requiredStar"
+                >*</span
+              >
+            </p>
+            <app-required-yes-no
+              [control]="education.controls.fullKnowledgeFederalMotoCarrier"
+            ></app-required-yes-no>
+          </div>
+          <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+            <div class="yesno yesno_knowledge">
+              <input
+                formControlName="fullKnowledgeFederalMotoCarrier"
+                type="radio"
+                id="op58"
+                value="yes"
+              />
+              <label for="op58" class="yesno_label1 yesno_label1_knowledge">
+                <span class="yesno_options">Yes</span>
+              </label>
+              <input
+                formControlName="fullKnowledgeFederalMotoCarrier"
+                type="radio"
+                id="op59"
+                value="no"
+              />
+              <label for="op59" class="yesno_label2 yesno_label2_knowledge">
+                <span class="yesno_options">No</span>
+              </label>
+            </div>
+          </div>
+          <!-- Review Company -->
+          <div class="reviewer-slideShow__sixthrow" *ngIf="isCompanyReview">
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[5]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <h1 class="general_header">General</h1>
+      <div class="row row_driverBefore" style="position: relative;">
+        <div [ngClass]="driveBefore ? 'col-7' : 'col-10'">
+          <p class="yesno_paragraf yesno_paragraf-modifier1">
+            Have you been a driver for this company before?
+            <span class="requiredStar requiredStar2_2">*</span>
+          </p>
+          <div class="driverBeforeRequired-mobile">
+            <app-required-yes-no [control]="education.controls.driveBefore"></app-required-yes-no>
+          </div>
+        </div>
+        <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+          <div class="yesno yesno_driverBefore">
+            <input
+              formControlName="driveBefore"
+              type="radio"
+              (change)="questionsWithExplanation($event.target.value, 'driveBefore', 'whenDate')"
+              id="op60"
+              value="yes"
+            />
+            <label for="op60" class="yesno_label1 yesno_label1_driverBefore">
+              <span class="yesno_options">Yes</span>
+            </label>
+            <input
+              formControlName="driveBefore"
+              type="radio"
+              (change)="questionsWithExplanation($event.target.value, 'driveBefore', 'whenDate')"
+              id="op63"
+              value="no"
+            />
+            <label for="op63" class="yesno_label2 yesno_label2_driverBefore">
+              <span class="yesno_options">No</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-3 kendoDate" *ngIf="driveBefore">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="When?"
+              class="required datepicker-label{{
+                education.controls.whenDate.value !== null &&
+                education.controls.whenDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            >
+              <kendo-datepicker
+                [format]="format"
+                placeholder=""
+                [max]="maxDate"
+                formControlName="whenDate"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="education.controls.whenDate"></app-required-label>
+          </div>
+        </div>
+        <!-- Review Company -->
+        <div class="reviewer-slideShow__seventhrow" *ngIf="isCompanyReview">
+          <app-reviewCheckButton
+            [reviewItem]="companyReview[6]"
+            (feedbackReviewItem)="feedbackReview($event)"
+          ></app-reviewCheckButton>
+        </div>
+      </div>
+      <div class="centerContent3">
+        <div class="row row_unablePerform" style="position: relative;">
+          <div class="col-8">
+            <p class="yesno_paragraf">
+              Is there any reason you might be unable to preform the functions of the job for which
+              you have applied?
+              <span class="requiredStar2 requiredStar2_1">*</span>
+            </p>
+            <app-required-yes-no
+              [control]="education.controls.reasonUnablePerform"
+            ></app-required-yes-no>
+          </div>
+          <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+            <div class="yesno yesno_unableReason">
+              <input
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'reasonUnablePerform',
+                    'explainReason'
+                  )
+                "
+                formControlName="reasonUnablePerform"
+                type="radio"
+                id="op1"
+                value="yes"
+              />
+              <label for="op1" class="yesno_label1 yesno_label1_unablePerform">
+                <span class="yesno_options">Yes</span>
+              </label>
+              <input
+                (change)="
+                  questionsWithExplanation(
+                    $event.target.value,
+                    'reasonUnablePerform',
+                    'explainReason'
+                  )
+                "
+                formControlName="reasonUnablePerform"
+                type="radio"
+                id="op2"
+                value="no"
+              />
+              <label for="op2" class="yesno_label2 yesno_label2_unablePerform">
+                <span class="yesno_options">No</span>
+              </label>
+            </div>
+          </div>
+          <!-- Review Company -->
+          <div class="reviewer-slideShow__eightrow" *ngIf="isCompanyReview">
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[7]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+        <div
+          *ngIf="isUnablePerformFunction"
+          class="row"
+          style="margin-bottom: 5px !important; position: relative;"
+        >
+          <div class="col-12" style="height: 23px;">
+            <div class="form-label-group unableReason explainMobile">
+              <input
+                id="explainReason"
+                placeholder="Please explain"
+                class="form-control input-control required"
+                formControlName="explainReason"
+                (keypress)="onDescriptionTyping($event)"
+                (paste)="onPaste($event, 'explainReason')"
+                appInputFocus
+                appAutoFocus
+                [dontDoFocus]="
+                  education.get('explainReason').value === null && !isCompanyReview
+                    ? 'false'
+                    : 'true'
+                "
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              />
+              <label class="required-label" for="explainReason">Please explain</label>
+              <app-required-label [control]="education.controls.explainReason"></app-required-label>
+            </div>
+          </div>
+          <!-- Review Company -->
+          <div
+            class="reviewer-slideShow__ninthrow"
+            *ngIf="isCompanyReview && isUnablePerformFunction"
+          >
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[8]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <p class="firstParagraf firstParagraf-emergency" style="font-weight: bold;">
+        In case of emergency, contact:
+      </p>
+      <div class="row" formArrayName="emergency" style="position: relative;">
+        <div
+          class="col-12"
+          *ngFor="let emerg of getEmergency.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <div class="row emergencyRow" style="position: relative;">
+            <div class="col-6 col-md-4 emergencyCol">
+              <div class="form-label-group input-control required">
+                <input
+                  id="{{ 'emergencyName' + i }}"
+                  placeholder="First Name"
+                  class="form-control input-control required"
+                  formControlName="emergencyName"
+                  (paste)="onPaste($event, 'emergencyName', '', i)"
+                  appAppTitleCase
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="emergencyName">Name</label>
+                <app-required-label [control]="emerg.get('emergencyName')"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[9].isTrue && companyReview[9].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__emergencyName"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[9].emergencyName"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-5 col-md-4 emergencyCol">
+              <div
+                class="form-label-group input-icon phone-field-wrapper {{
+                  manageInputValidation(emerg.get('emergencyPhone'))
+                }}"
+              >
+                <input
+                  id="emergencyPhone"
+                  class="form-control input-control required"
+                  placeholder="Phone"
+                  formControlName="emergencyPhone"
+                  mask="(000) 000-0000"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="emergencyPhone">Phone</label>
+                <app-required-label [control]="emerg.get('emergencyPhone')"></app-required-label>
+              </div>
+              <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[9].isTrue && companyReview[9].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__emergencyPhone"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[9].emergencyPhone"
+              ></app-reviewSingleCheckButton>
+            </div>
+            </div>
+            <div class="col-12 col-md-4 emergencyCol">
+              <div class="form-label-group input-control required">
+                <input
+                  id="{{ 'relationship' + i }}"
+                  placeholder="Relationship"
+                  class="form-control input-control required"
+                  formControlName="relationship"
+                  (paste)="onPaste($event, 'relationship', '', i)"
+                  appInputFocus
+                  appAppTitleCase
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="relationship">Relationship</label>
+                <app-required-label [control]="emerg.get('relationship')"></app-required-label>
+              </div>
+              <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[9].isTrue && companyReview[9].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__emergencyRelationship"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[9].emergencyRelation"
+              ></app-reviewSingleCheckButton>
+            </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__tenrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[9]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+            <a
+              appTaTooltip="Delete"
+              tooltipColor="#FFFFFF"
+              tooltipBackground="#FF5D5D"
+              position="bottom-right"
+              class="emergencyRow_delete"
+              (click)="isDeleteActiveEmergency(i)"
+              *ngIf="!isCompanyReview"
+            >
+              <svg-icon
+                class="emergencyRow_delete-desktop"
+                src="../../../../assets/img/applicants/delete.svg"
+              ></svg-icon>
+              <svg-icon
+                class="emergencyRow_delete-mobile"
+                src="../../../../assets/img/applicants/delete_mobile.svg"
+              ></svg-icon>
+            </a>
+            <div
+              class="dropdown-dialog"
+              [ngClass]="{
+                'show-dropdown-dialog': openDropDeleteDialogEmmergency[i].value,
+                'hide-dropdown-dialog': !openDropDeleteDialogEmmergency[i].value
+              }"
+            >
+              <div class="delete-dialog-container">
+                <div class="drop-down-delete-dialog">
+                  <p>Are you sure you want to delete?</p>
+                  <div class="yes-no">
+                    <div class="no" (click)="onSelectOptionEmergency(false, i)">
+                      <p>No</p>
+                    </div>
+                    <div class="yes" (click)="onSelectOptionEmergency(true, i)">
+                      <p>Yes</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          *ngIf="emergencyCounter < 2"
+          class="emergencyRow_add"
+          (click)="addEmergency()"
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+        >
+          Add {{ emergencyContact[emergencyCounter] }} emergency contact</a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="btnBackNext btn_mobile" [ngClass]="{ reviewButtons: isCompanyReview }">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2 btns_reviewConfirm"
+    >
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

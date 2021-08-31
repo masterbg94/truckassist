@@ -1,0 +1,270 @@
+<div class="statistic_miles_main_screen">
+  <div class="statistic_miles_main_screen_filters z-i">
+    <app-truckassist-buttongroup
+      [items]="tableData"
+      [loading]="loadingItems"
+      [selectedTab]="selectedTab"
+    ></app-truckassist-buttongroup>
+    <button (click)="clearAllFilters()" class="clear-btn">
+      Clear All
+    </button>
+  </div>
+  <div class="statistic_miles_main_screen_widgets z-i">
+    <div
+      (click)="onClickShowHideDataset(i, item.indexId, item.active)"
+      *ngFor="let item of widgetsData; let i = index"
+      class="statistic_miles_main_screen_widgets_w"
+      [ngClass]="{ statistic_miles_main_screen_widgets_hidden: !item.active }"
+    >
+      <svg-icon
+        [ngStyle]="{ opacity: item.active ? '0' : '1' }"
+        class="active"
+        src="assets/fontawesome/svgs/solid/eye.svg"
+      ></svg-icon>
+      <svg-icon
+        *ngIf="item.active && i > 0"
+        class="hover"
+        src="assets/fontawesome/svgs/solid/eye-slash.svg"
+      ></svg-icon>
+      <p>{{ item.num }}</p>
+      <span>{{ item.title }}</span>
+    </div>
+  </div>
+  <div class="statistic_miles_main_screen_min-max z-i">
+    <div *ngFor="let item of minMaxData" class="statistic_miles_main_screen_min-max_w">
+      <p>{{ item.title }}</p>
+      <span>H</span>
+      <span>{{ item.countHigh }}</span>
+      <span>{{ item.dateHigh }}</span>
+      <br />
+      <span>L</span>
+      <span>{{ item.countLow }}</span>
+      <span>{{ item.dateLow }}</span>
+    </div>
+  </div>
+  <div  id="chart-group-miles-statistics" class="chart_main_holder chart_bar d-flex">
+    <chart
+      [ngStyle]="{
+        height: '290px',
+        position: 'relative',
+        top: '60px',
+        'z-index': '1'
+      }"
+      [ngClass]="{ 'chart_bar-crop': cropChart }"
+      #chartBar
+      [type]="'bar'"
+      [data]="dataBar"
+      [options]="optionsBar"
+    ></chart>
+  </div>
+  <div class="chart_main_holder chart_line d-flex">
+    <chart
+      [ngStyle]="{ height: '50px', opacity: !chartTypeData[0].checked ? '1' : '0' }"
+      #chartLine
+      [type]="'line'"
+      [data]="dataLine"
+      [options]="optionsLine"
+    ></chart>
+    <div class="chart_line_min-max">
+      <p>JAN 2019</p>
+      <p>SEP 2019</p>
+    </div>
+  </div>
+  <div class="row mx-0 statistic_miles_main_screen_bottom">
+    <div class="statistic_miles_main_screen_bottom_half">
+      <div class="statistic_miles_main_screen_bottom_half_one">
+        <div class="chart_select_holder">
+          <ng-select
+            [items]="doughnutChartDataTypes"
+            bindLabel="name"
+            [searchable]="false"
+            [(ngModel)]="selectedDoughnutChartType"
+            bindValue="value"
+            (ngModelChange)="changeDoughChartData($event, true)"
+          ></ng-select>
+        </div>
+        <div class="data">
+          <div
+            (mouseleave)="removeFilters(chartDoug)"
+            [ngStyle]="{ position: 'relative' }"
+            *ngFor="let item of driverList; let i = index"
+          >
+            <div
+              [ngClass]="{ 'data_row-active': item.active }"
+              class="data_row"
+              (mouseenter)="showDriverTooltip(item.driverId, i, chartDoug)"
+            >
+              <p class="data_row_number">{{ i + 1 }}</p>
+              <p class="data_row_name">{{ item.name }}</p>
+              <p class="data_row_miles">{{ item.miles }}</p>
+              <p class="data_row_loaded">{{ item.loaded }}</p>
+              <p class="data_row_empty">{{ item.empty }}</p>
+              <p class="data_row_stops">{{ item.stops }}</p>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="statistic_miles_main_screen_bottom_half_two">
+        <app-custom-range-datepicker (dateParameters)="filterDoughnutChart($event, true)">
+        </app-custom-range-datepicker>
+        <div class="chart_main_holder doug-chart">
+          <div class="hovered"></div>
+          <div id="chart-doughnut-one-miles-statistics" class="chart_top_hold">
+            <chart #chartDoug [type]="type" [data]="data" [options]="options"></chart>
+            <div class="inside_chart" [ngStyle]="{ left: tooltipFinishedDriver ? '50%' : '61%' }">
+              <div class="titles">
+                <div appSelectionColor class="inside_title">
+                  Miles
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Loaded
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Empty
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Stops
+                </div>
+              </div>
+              <div class="values" [ngStyle]="{ opacity: tooltipFinishedDriver ? '1' : '0' }">
+                <div class="inside_value">
+                  <span>
+                    $32.4K
+                  </span>
+                  <span>
+                    9.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $23.7K
+                  </span>
+                  <span>
+                    12.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $43.2K
+                  </span>
+                  <span>
+                    25.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $1.322
+                  </span>
+                  <span>
+                    96.31%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="statistic_miles_main_screen_bottom_half">
+      <div class="statistic_miles_main_screen_bottom_half_one">
+        <div class="chart_select_holder">
+          <ng-select
+            [items]="doughnutChartDataTypes"
+            bindLabel="name"
+            [searchable]="false"
+            [(ngModel)]="selectedDoughnutChartTypeTwo"
+            bindValue="value"
+            (ngModelChange)="changeDoughChartData($event, false)"
+          ></ng-select>
+        </div>
+        <div class="data">
+          <div
+            (mouseleave)="removeFilters(chartDougBroker)"
+            [ngStyle]="{ position: 'relative' }"
+            *ngFor="let item of brokerList; let i = index"
+          >
+            <div
+              [ngClass]="{ 'data_row-active': item.active }"
+              class="data_row"
+              (mouseenter)="showDriverTooltip(item.driverId, i, chartDougBroker)"
+            >
+              <p class="data_row_number">{{ i + 1 }}</p>
+              <p class="data_row_name">{{ item.name }}</p>
+              <p class="data_row_miles">{{ item.miles }}</p>
+              <p class="data_row_loaded">{{ item.loaded }}</p>
+              <p class="data_row_empty">{{ item.empty }}</p>
+              <p class="data_row_stops">{{ item.stops }}</p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="statistic_miles_main_screen_bottom_half_two">
+        <app-custom-range-datepicker (dateParameters)="filterDoughnutChart($event, false)">
+        </app-custom-range-datepicker>
+        <div class="chart_main_holder doug-chart">
+          <div class="hovered"></div>
+          <div id="chart-doughnut-two-miles-statistics" class="chart_top_hold">
+            <chart
+              #chartDougBroker
+              [type]="typeBroker"
+              [data]="dataBroker"
+              [options]="optionsBroker"
+            ></chart>
+            <div class="inside_chart" [ngStyle]="{ left: tooltipFinishedBroker ? '50%' : '61%' }">
+              <div class="titles">
+                <div appSelectionColor class="inside_title">
+                  Miles
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Loaded
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Empty
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Stops
+                </div>
+              </div>
+              <div class="values" [ngStyle]="{ opacity: tooltipFinishedBroker ? '1' : '0' }">
+                <div class="inside_value">
+                  <span>
+                    $32.4K
+                  </span>
+                  <span>
+                    9.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $23.7K
+                  </span>
+                  <span>
+                    12.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $43.2K
+                  </span>
+                  <span>
+                    25.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $1.322
+                  </span>
+                  <span>
+                    96.31%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+.bg-primary {
+  background-color: $primary!important;
+  color: $white !important;
+}
+.bg-yellow {
+  background-color: #CCCC00;
+}
+
+.text-yellow {
+  color: #CCCC00;
+}
+
+.bg-gradient {
+  background: linear-gradient(#3d4192,$primary) !important;
+}
+.bg-gray {
+  background-color: $gray !important;
+}
+.bg-secondary {
+  background-color: $secondary !important;
+  color: $white !important;
+}
+.bg-success {
+  background-color: $success !important;
+  color: $white !important;
+}
+.bg-danger {
+  background-color: $danger !important;
+  color: $white !important;
+}
+.bg-info {
+  background-color: $info !important;
+  color: $white !important;
+}
+.bg-warning {
+  background-color: $warning !important;
+  color: $white !important;
+}
+.bg-pink {
+  background-color: $pink !important;
+  color: $white !important;
+}
+.bg-orange {
+  background-color: $orange !important;
+  color: $white !important;
+}
+.bg-cyan {
+  background-color: $cyan !important;
+  color: $white !important;
+}
+.bg-purple {
+  background-color: $purple !important;
+  color: $white !important;
+}
+.bg-blue {
+  background-color: $blue !important;
+  color: $white !important;
+}
+.bg-lime {
+  background-color: #00FF00 !important;
+  color: $white !important;
+}
+.bg-maroon {
+  background-color: #800000 !important;
+  color: $white !important;
+}
+.bg-black {
+  background-color: $black !important;
+  color: $white !important;
+}
+.bg-brown {
+  background-color: $brown !important;
+  color: $white !important;
+}
+.bg-sliver {
+  background-color: $silver !important;
+  color: $white !important;
+}
+.bg-olive {
+  background-color: $olive !important;
+  color: $white !important;
+}
+.bg-green {
+  background-color: $green !important;
+  color: $white !important;
+}
+.bg-muted {
+  background-color: $muted !important;
+  color: $white !important;
+}
+.bg-red-gradient {
+  background: linear-gradient(to right, #ff416c, #ff4b2b) !important;
+}
+.bg-orange-gradient {
+  background: linear-gradient(to right, #fc4a1a, #f7b733) !important;
+}
+.bg-yellow-gradient {
+  background: linear-gradient(to right, #ffe000, #799f0c) !important;
+}
+.bg-green-gradient {
+  background: linear-gradient(to right, #11998e, #38ef7d) !important;
+}
+.bg-blue-gradient {
+  background: linear-gradient(to right, #0575e6, #021b79) !important;
+}
+.bg-pink-gradient {
+  background: linear-gradient(to right, #bc4e9c, #f80759) !important;
+}
+.bg-secondary-gradient {
+  background: linear-gradient(to right, $secondary, #f76b42) !important;
+}
+.bg-success-transparent {
+  background-color: rgba(0,230,130, 0.1);
+}
+.bg-secondary-transparent {
+  background-color: rgba(255, 134, 69, 0.1);
+}
+.bg-primary-transparent {
+  background-color: rgb(126, 110, 230,0.1);
+}
+.bg-info-transparent {
+  background-color: rgba(0,214,230, 0.1);
+}
+.bg-warning-transparent {
+  background-color: rgba(255,162,43, 0.1);
+}
+.bg-danger-transparent {
+  background-color: rgba(255,56,43, 0.1);
+}
+.bg-pink-transparent {
+  background-color: rgba(255,43,136, 0.1);
+}
+.bg-purple-transparent {
+  background-color: rgba(96,77,216, 0.1);
+}
+.bg-dark-transparent {
+  background-color: rgba(55,66,84, 0.1);
+}
+.box-shadow-none {
+  box-shadow: none;
+}

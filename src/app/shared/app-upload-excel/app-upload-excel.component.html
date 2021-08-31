@@ -1,0 +1,27 @@
+<div class="row row-16{{ files.length == 0 ? ' dropzone-empty' : '' }}">
+  <div
+    class="custom-dropzone col-md-3 float-left{{ files.length == 0 ? ' files-empty' : '' }}"
+    ngx-dropzone
+    [accept]="'.xlsx'"
+    (change)="onSelect($event)"
+  >
+    <ngx-dropzone-label></ngx-dropzone-label>
+  </div>
+  <div class="col-md-9">
+    <ul class="uploaded-files-container">
+      <li class="uploaded-file d-flex mb-2" *ngFor="let file of files">
+        <div class="mr-auto file-label">{{ file.name + ' - ' + formatBytes(file.size, 0) }}</div>
+        <div>
+          <button
+            kendoButton
+            class="remove-btn ml-2"
+            [iconClass]="'fal fa-times fs-18'"
+            aria-hidden="true"
+            (click)="onRemove(file)"
+          ></button>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix"></div>
+</div>

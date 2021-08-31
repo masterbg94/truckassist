@@ -1,0 +1,45 @@
+<div class="dashboard_history_holder ml-0 weather_main_holder mt-0">
+    <div class="dashboar_hist_header weather_holder custom_weather_city_info">
+        <div class="custom_search city_search">
+            <!-- (sendChangeStyle)="setExpanded($event)" -->
+            <app-custom-search 
+                [stateName]="''"
+                [gridNameTitle]="''"
+                (handleAddress)="handleAddress($event)" 
+                (sendChangeStyle)="setExpanded($event)"
+                [googleClass]="'timezone_pac_container'" 
+                [googleSearch]="true" 
+            ></app-custom-search> 
+        </div>
+        <div @shrinkItem  class="dashb_white_part" *ngIf="!searchExpanded">
+            <span
+                style="color: #919191;"
+                appSelectionColor
+            >Current time</span>
+        </div>
+    </div>
+    <div class="favorite_city_list mtop15">
+        <div class="favorite_city_item" *ngFor="let item of cityData; let indx = index">
+            <div class="favorite_city_info">
+                <div 
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="fav_city_location city_timezone"
+                >{{item.cityLocation}}</div>
+                <div class="fav_city_sm_info d-flex flex-column">
+                    <div 
+                        class="city_temp_time"
+                        style="color: #919191;"
+                        appSelectionColor
+                    >{{item.date | date : 'H:mm aaa'}}</div>
+                    <div 
+                        style="color: #919191;"
+                        appSelectionColor
+                        class="city_time_zone"
+                    >{{item.timeZoneName}} (UTC{{item.utcOffset}})</div>
+                </div>
+            </div>
+            <svg-icon class="city_star" (click)="removeFromTimezoneCities(indx)" src="assets/img/svgs/weather/star.svg"></svg-icon>
+        </div>
+    </div>
+</div>

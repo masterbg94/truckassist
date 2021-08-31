@@ -1,0 +1,50 @@
+::ng-deep {
+
+  .mat-progress-bar.mat-warn .mat-progress-bar-buffer {
+    background-color: transparent !important;
+  }
+
+  .mat-progress-bar.mat-warn .mat-progress-bar-fill::after {
+    background-color: red !important;
+  }
+
+  .mat-progress-bar.mat-accent .mat-progress-bar-buffer {
+    background-color: transparent !important;
+  }
+
+  .mat-progress-bar.mat-accent .mat-progress-bar-fill::after {
+    background-color: orange !important;
+  }
+
+  .mat-progress-bar.mat-primary .mat-progress-bar-buffer {
+    background-color: transparent !important;
+  }
+
+  .mat-progress-bar.mat-primary .mat-progress-bar-fill::after {
+    background-color: green !important;
+  }
+
+  .mat-progress-bar-background.mat-progress-bar-element {
+    fill: none !important;
+  }
+
+  .mat-progress-bar-primary.mat-progress-bar-fill.mat-progress-bar-element {
+    height: 2px !important;
+  }
+}
+
+.password-field {
+  .password-icon {
+    bottom: 8px;
+    right: 5px;
+    left: unset !important;
+
+    &:first-of-type {
+      right: 20px;
+    }
+  }
+
+  mat-password-strength {
+    z-index: 1;
+  }
+}

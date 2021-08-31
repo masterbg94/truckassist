@@ -1,0 +1,467 @@
+@import '../../../assets/scss/components/variables.scss';
+.statistic_payroll_main_screen {
+  .doug-chart {
+    width: 100%;
+    margin-top: 6px;
+    height: 326px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 20px 10px 5px 10px;
+    .hovered {
+      width: 100%;
+      height: 350px;
+      position: absolute;
+      z-index: 5;
+      background: transparent;
+    }
+  }
+  .chart_line {
+    height: 70px;
+    margin-top: 0px;
+    padding-bottom: 15px;
+    padding-top: 0px;
+    position: relative;
+    &_min-max {
+      position: absolute;
+      width: 1170px;
+      left: 20px;
+      bottom: -15px;
+      color: #adadad;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  #barChart {
+    height: 240px !important;
+  }
+  .clear-btn {
+    background: #ff5d5d6e;
+    color: white;
+    border-radius: 3px;
+    padding: 5px 10px;
+    border: 0px;
+    width: 84px;
+    font-size: 14px;
+    height: 32px;
+    font-weight: 600;
+  }
+  &_bottom {
+    margin-top: 10px;
+    width: 1440px;
+    &_half {
+      display: flex;
+      width: 100%;
+      &_one {
+        width: 770px;
+        .chart_select_holder {
+          height: 32px;
+          margin-left: 0px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .data {
+          background: white;
+          padding: 6px;
+          margin-top: 6px;
+          border-radius: 3px;
+          height: 326px;
+          overflow: auto;
+          .relative {
+            position: relative;
+          }
+
+          .data_row-active {
+            background: #f7f7f7;
+            .data_row_total_payroll {
+              color: #a16caf;
+            }
+            .data_row_salary {
+              color: #5673aa;
+            }
+            .data_row_bonus {
+              color: #fca12c;
+            }
+            .data_row_credit {
+              color: #24c1a1;
+            }
+            .data_row_deduction {
+              color: #ff5d5d;
+            }
+            .data_row_miles {
+              color: #6c6c6c;
+            }
+            .data_row_loaded {
+              color: #919191;
+            }
+            .data_row_empty {
+              color: #b7b7b7;
+              z-index: 2;
+            }
+            .data_row_number {
+              color: #b7b7b7;
+            }
+          }
+          &_row {
+            display: flex;
+            position: relative;
+            margin: 0px auto 6px;
+            padding: 3px;
+            width: 758px;
+            &:hover {
+              background: #f7f7f7;
+              cursor: pointer;
+            }
+            p {
+              font-weight: 700;
+              margin-bottom: 0px;
+              font-size: 13px;
+            }
+            &_number {
+              color: #b7b7b7c9;
+              background: #b7b7b741;
+              height: 20px;
+              width: 20px;
+              text-align: center;
+              margin-right: 3px;
+              font-weight: 700;
+              border-radius: 3px;
+            }
+            &_name {
+              color: #919191;
+              font-weight: 500 !important;
+            }
+            &_total_payroll {
+              color: #a16cafc6;
+              width: 70px;
+              position: absolute;
+              right: 514px;
+              text-align: center;
+            }
+            &_salary {
+              color: #5673aac6;
+              width: 70px;
+              position: absolute;
+              right: 426px;
+              text-align: center;
+            }
+            &_bonus {
+              color: #fca12cc6;
+              width: 70px;
+              position: absolute;
+              right: 342px;
+              text-align: center;
+            }
+            &_credit {
+              color: #24c1a1c6;
+              width: 70px;
+              position: absolute;
+              right: 262px;
+              text-align: center;
+            }
+            &_deduction {
+              color: #ff5d5dc6;
+              width: 70px;
+              position: absolute;
+              right: 188px;
+              text-align: center;
+            }
+            &_miles {
+              color: #6c6c6cc6;
+              width: 70px;
+              position: absolute;
+              right: 125px;
+              text-align: center;
+            }
+            &_loaded {
+              color: #919191c6;
+              width: 70px;
+              position: absolute;
+              right: 70px;
+              text-align: center;
+            }
+            &_empty {
+              color: #b7b7b7c6;
+              width: 70px;
+              position: absolute;
+              right: 10px;
+              text-align: center;
+              z-index: 2;
+            }
+          }
+        }
+      }
+      &_two {
+        width: 658px;
+        margin-left: 12px;
+        .chart_select_holder {
+          min-width: 106px;
+          height: 32px;
+          margin-left: 0px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  &_min-max {
+    position: relative;
+    top: -2px;
+    &_w {
+      margin-right: 0px;
+      text-align: left;
+      margin-bottom: 7px;
+      height: 62px;
+      p {
+        padding: 1px 3px;
+        margin-bottom: 0px;
+        font-weight: 600;
+        font-size: 14px;
+        height: 21px;
+      }
+      span {
+        padding: 1px 3px;
+      }
+      span:nth-of-type(1),
+      span:nth-of-type(4) {
+        color: #919191cb;
+        font-weight: 800;
+      }
+      span:nth-of-type(2),
+      span:nth-of-type(5) {
+        color: #919191cb;
+        font-weight: 500;
+      }
+      span:nth-of-type(3),
+      span:nth-of-type(6) {
+        color: white;
+        font-weight: 800;
+        font-size: 10px;
+        background-color: #dadada;
+      }
+    }
+    &_w:nth-of-type(1) {
+      p {
+        color: #a16cafd4;
+      }
+    }
+    &_w:nth-of-type(2) {
+      p {
+        color: #5673aad4;
+      }
+    }
+    &_w:nth-of-type(3) {
+      p {
+        color: #ffad43d4;
+      }
+    }
+    &_w:nth-of-type(4) {
+      p {
+        color: #24c1a1d4;
+      }
+    }
+    &_w:nth-of-type(5) {
+      p {
+        color: #ff5d5dd4;
+      }
+    }
+    &_w:nth-of-type(6) {
+      p {
+        color: #6c6c6cd4;
+      }
+    }
+    &_w:nth-of-type(7) {
+      p {
+        color: #919191d4;
+      }
+    }
+    &_w:nth-of-type(8) {
+      p {
+        color: #b7b7b7d4;
+      }
+    }
+  }
+  &_widgets {
+    &_w {
+      width: 70px;
+      height: 62px;
+      border-radius: 2px;
+      padding: 0px;
+      text-align: center;
+      color: white;
+      margin-right: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 6px;
+      p {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+        position: relative;
+        top: 8px;
+      }
+      &_desc {
+        display: grid;
+        top: 9px;
+        position: relative;
+        span {
+          font-size: 11px;
+        }
+      }
+      .hover {
+        transition: $transition;
+        opacity: 0;
+        fill: white;
+        padding: 2px;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+        svg {
+          height: 13px;
+          width: 21px;
+        }
+      }
+      .active {
+        fill: white;
+        background: #8398c0;
+        padding: 5px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: $transition;
+        z-index: 5;
+        svg {
+          height: 20px;
+          width: 20px;
+        }
+      }
+      &:hover {
+        .hover {
+          opacity: 1;
+        }
+      }
+    }
+    &_w:nth-of-type(1) {
+      background: #a16cafaa;
+      .hover {
+        background: #a16cafaa;
+      }
+      &:hover {
+        background: #a16caf88;
+      }
+    }
+    &_w:nth-of-type(2) {
+      background: #5673aaaa;
+      .hover {
+        background: #5673aaaa;
+      }
+      &:hover {
+        background: #5673aa88;
+      }
+    }
+    &_w:nth-of-type(3) {
+      background: #ffad43aa;
+      .hover {
+        background: #ffad43aa;
+      }
+      &:hover {
+        background: #ffad4388;
+      }
+    }
+    &_w:nth-of-type(4) {
+      background: #24c1a1aa;
+      .hover {
+        background: #24c1a1aa;
+      }
+      &:hover {
+        background: #24c1a188;
+      }
+    }
+    &_w:nth-of-type(5) {
+      margin-bottom: 12px;
+      background: #ff5d5daa;
+      .hover {
+        background: #ff5d5daa;
+      }
+      &:hover {
+        background: #ff5d5d88;
+      }
+    }
+    &_w:nth-of-type(6) {
+      background: #6c6c6caa;
+      .hover {
+        background: #6c6c6caa;
+      }
+      &:hover {
+        background: #6c6c6c88;
+      }
+    }
+    &_w:nth-of-type(7) {
+      background: #919191aa;
+      .hover {
+        background: #919191aa;
+      }
+      &:hover {
+        background: #91919188;
+      }
+    }
+    &_w:nth-of-type(8) {
+      background: #b7b7b7aa;
+      .hover {
+        background: #b7b7b7aa;
+      }
+      &:hover {
+        background: #b7b7b788;
+      }
+    }
+    &_hidden:nth-of-type(1) {
+      background: #a16caf3d;
+    }
+    &_hidden:nth-of-type(2) {
+      background: #5673aa3d;
+    }
+    &_hidden:nth-of-type(3) {
+      background: #ffad433d;
+    }
+    &_hidden:nth-of-type(4) {
+      background: #24c1a13d;
+    }
+    &_hidden:nth-of-type(5) {
+      background: #ff5d5d3d;
+    }
+    &_hidden:nth-of-type(6) {
+      background: #6c6c6c3d;
+    }
+    &_hidden:nth-of-type(7) {
+      background: #9191913d;
+    }
+    &_hidden:nth-of-type(8) {
+      background: #b7b7b73d;
+    }
+  }
+  .statistic_payroll_main_screen-new-screen {
+    display: flex;
+    width: 228px;
+    margin-right: 6px;
+    background: white;
+    padding: 11px;
+    height: 568px;
+    border-radius: 2px;
+    margin-top: 15px;
+  }
+}

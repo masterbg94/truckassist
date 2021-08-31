@@ -1,0 +1,48 @@
+<div [ngClass]="{'company-info-form': !hideCompanyInfo, 'company-info-general-inactive': hideCompanyInfo}" *ngIf="company && company.doc && company.doc.additional">
+  <ngb-tabset
+    class="company-tabs"
+    [ngClass]="{ 'active-side-nav': tabSelected !== '' && tabSelected !== 'documents'  }"
+    [destroyOnHide]="false"
+    #tabSet="ngbTabset"
+    (tabChange)="onTabChange($event)"
+  >
+    <ngb-tab
+      title="{{ company !== undefined && company.name !== null ? company.name : 'Company' }}"
+      id="tab-0"
+    >
+      <ng-template ngbTabContent *ngIf="!hideCompanyInfo">
+        <app-edit-company-info [company]="company"></app-edit-company-info>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab
+      title="{{ divisionCompany.name !== null ? divisionCompany.name : 'Division company' }}"
+      *ngFor="let divisionCompany of divisionCompanies; let i = index"
+      id="tab-{{ i + 1 }}"
+    >
+      <ng-template ngbTabContent *ngIf="!hideCompanyInfo">
+        <app-edit-company-info [company]="divisionCompany"></app-edit-company-info>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab id="add-new">
+      <ng-template ngbTabTitle>
+        <div class="add-new-tab" (click)="openFactoringCompanyModal()">
+          <svg-icon
+            src="../../../assets/img/svgs/settings-company/add-company.svg"
+            [svgStyle]="{ 'width.px': 32, 'height.px': 32 }"
+          ></svg-icon>
+          <p>Division Company</p>
+        </div>
+      </ng-template>
+      <ng-template ngbTabContent></ng-template>
+    </ngb-tab>
+
+    <ngb-tab id="company-side-nav">
+      <ng-template ngbTabTitle>
+        <app-app-company-side-nav (pageChange)="onPageChange($event)"></app-app-company-side-nav>
+      </ng-template>
+      <ng-template ngbTabContent></ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

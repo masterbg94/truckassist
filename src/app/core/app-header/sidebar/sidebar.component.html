@@ -1,0 +1,307 @@
+<div id="mySidebar" class="sidebar">
+  <div class="sidebar-toggle" (click)="openSidebar()">
+    <svg-icon src="../assets/img/svgs/left.svg"></svg-icon>
+  </div>
+  <div class="sidebar-overlay">
+    <div class="info-type">
+      <div
+        class="option"
+        [ngClass]="{ 'inactive-option-hover': selected__nav_option !== 2 }"
+        [ngClass]="{ active: selected__nav_option == 2 }"
+        (click)="onNavOptionSelect(1)"
+      >
+        <div
+          class="option-background-overlay"
+          >General Info</div>
+      </div>
+
+      <div
+        class="option"
+        [ngClass]="{ 'inactive-option-hover': selected__nav_option !== 1 }"
+        [ngClass]="{ active: selected__nav_option == 1 }"
+        (click)="onNavOptionSelect(2)"
+      >
+        <div
+          class="option-background-overlay"
+          >Documents
+        </div>
+      </div>
+    </div>
+
+    <!-- End of ACTIVITY LOG -->
+
+    <!-- GENERAL INFO -->
+    <div class="selected-nav-container sidebar-content-container" *ngIf="selected__nav_option == 1">
+      <div class="dropdown">
+        <div class="general-info" *ngFor="let company of companies; let indx = index">
+          <p class="dropDown-main-title companyTitle" (click)="showCompanyInfo(indx)" [ngClass]="{ changeColor: indx == openedItem }">
+            <span class="companyTitle">{{ company?.name }}</span>
+            <svg-icon
+              class="downArrow"
+              [ngClass]="{ openDrop: indx == openedItem }"
+              [src]="'assets/img/svgs/down-arrow.svg'"
+            ></svg-icon>
+          </p>
+          <div @triggerList class="dropdown-content" *ngIf="indx == openedItem">
+            <div class="info-item-container">
+              <!--<p class="sub-title">{{ company?.name }}</p>-->
+              <div class="row-item grid-three-columns-container">
+                <div class="column-item" *ngIf="company?.doc.additional.mcNumber">
+                  <p class="item-title">MC</p>
+                  <p class="item-text">{{ company?.doc.additional.mcNumber }}</p>
+                </div>
+                <div class="column-item" *ngIf="company?.doc.additional.scacNumber">
+                  <p class="item-title">SCAC</p>
+                  <p class="item-text">{{ company?.doc.additional.scacNumber }}</p>
+                </div>
+                <div class="column-item" *ngIf="company?.doc.additional.irpNumber">
+                  <p class="item-title">IRP</p>
+                  <p class="item-text">{{ company?.doc.additional.irpNumber }}</p>
+                </div>
+                <div class="column-item" *ngIf="company?.doc.additional.usDotNumber">
+                  <p class="item-title">DOT</p>
+                  <p class="item-text">{{ company?.doc.additional.usDotNumber }}</p>
+                </div>
+                <div class="column-item" *ngIf="company?.doc.taxNumber">
+                  <p class="item-title">EIN</p>
+                  <p class="item-text">{{ company?.doc.taxNumber | mask: ' 00-0000000' }}</p>
+                </div>
+                <div class="column-item" *ngIf="company?.doc.additional.iftaNumber">
+                  <p class="item-title">IFTA</p>
+                  <p class="item-text">{{ company?.doc.additional.iftaNumber }}</p>
+                </div>
+              </div>
+            </div>
+            <p class="main-title">Insurance</p>
+            <div class="info-item-container">
+              <div class="row-item grid-one-columns-container">
+                <div class="column-item">
+                  <p class="item-title">Liability</p>
+                  <p class="item-text">CHL 01-03985-20</p>
+                </div>
+                <div class="column-item columSpace">
+                  <p class="item-title">Cargo</p>
+                  <p class="item-text">BMO (21) 61138343</p>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                company?.doc.additional.emailDispatch ||
+                company?.doc.additional.phoneDispatch ||
+                company?.doc.additional.emailAccounting ||
+                company?.doc.additional.phoneAccounting ||
+                company?.doc.additional.emailSafety ||
+                company?.doc.additional.phoneSafety
+              "
+            >
+              <p class="main-title">Contact</p>
+              <div class="info-item-container">
+                <div class="row-item grid-one-columns-container">
+                  <div
+                    class="column-item"
+                    *ngIf="
+                      company?.doc.additional.emailDispatch || company?.doc.additional.phoneDispatch
+                    "
+                  >
+                    <p class="item-title item-title-bigger">Dispatch</p>
+                    <p class="item-text">{{ company?.doc.additional.emailDispatch }}</p>
+                    <p class="item-text itemSpace">
+                      {{ company?.doc.additional.phoneDispatch | mask: ' (000) 000-0000' }}
+                    </p>
+                  </div>
+                  <div
+                    class="column-item"
+                    *ngIf="
+                      company?.doc.additional.emailAccounting ||
+                      company?.doc.additional.phoneAccounting
+                    "
+                  >
+                    <p class="item-title item-title-bigger columSpace">Accounting</p>
+                    <p class="item-text">{{ company?.doc.additional.emailAccounting }}</p>
+                    <p class="item-text itemSpace">
+                      {{ company?.doc.additional.phoneAccounting | mask: ' (000) 000-0000' }}
+                    </p>
+                  </div>
+                  <div
+                    class="column-item"
+                    *ngIf="company?.doc.additional.emailSafety || company?.doc.additional.phoneSafety"
+                  >
+                    <p class="item-title item-title-bigger columSpace">Safety</p>
+                    <p class="item-text">{{ company?.doc.additional.emailSafety }}</p>
+                    <p class="item-text itemSpace">
+                      {{ company?.doc.additional.phoneSafety | mask: ' (000) 000-0000' }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="main-title">Address</p>
+            <div class="info-item-container">
+              <div class="row-item">
+                <div class="column-item">
+                  <p class="item-text" *ngIf="company?.doc.additional.address">
+                    {{
+                      company?.doc.additional.addressUnit +
+                        ' ' +
+                        company?.doc.additional.address.address
+                    }}
+                  </p>
+                  <!--<svg-icon src="../../../assets/img/svgs/add-plus-icon.svg"></svg-icon>-->
+                  <a routerLink="" class="AddAddress itemSpace">Add New Address</a>
+                </div>
+              </div>
+            </div>
+
+            <!--SWITCH-->
+            <div>
+              <app-ta-switch [sideBarStyle]="true" [data]="tabs" (switchClicked)="tabChange($event)"></app-ta-switch>
+            </div>
+
+            <div *ngIf="selectedTab === 1">
+              <div >
+                <div class="rowTrucks"
+                  *ngFor="let trucks of company.truckStatByType"
+                  [ngClass]="trucks.mainClass"
+                >
+                  <span class="trucksNumber">{{ trucks.count }}</span>
+                  <p class="txtTrucks">
+                    {{trucks.category}}
+                  </p>
+                  <svg-icon
+                    class="svgTrucks"
+                    [src]="'assets/img/svgs/truck/'+ trucks.mainImage"
+                  ></svg-icon>
+                </div>
+              </div>
+              <!--[ngStyle]="{'background': {{truck.doc.additionalData.color.value}}}"-->
+              <!--
+              [src]="{{truck.doc.additionalData.make.file}}"
+            --></div>
+
+            <!-- TRAILERS -->
+            <div *ngIf="selectedTab === 2">
+
+              <div class="rowReefer"
+                *ngFor="let trailers of company.trailerStatByType"
+                [ngClass]="trailers.mainClass"
+              >
+                <span class="trailerReefer">{{ trailers.count }}</span>
+                <p class="txtReefer">
+                  {{trailers.category}}
+                </p>
+                <svg-icon class="svgReefer"
+                [src]="'assets/img/svgs/trailer/'+ trailers.mainImage"
+                ></svg-icon>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of GENERAL INFO -->
+
+    <!-- DOCS -->
+    <div class="selected-nav-container" *ngIf="selected__nav_option == 2">
+      <div class="docs">
+        <div class="header">
+          <p class="header-title" *ngIf="docViewType === 1">Type</p>
+          <p class="header-title" *ngIf="docViewType === 1">Name</p>
+          <div class="option-icons">
+            <svg-icon
+              class="option-icon"
+              [ngClass]="{ 'change-option-icon-color': docViewType === 1 }"
+              src="assets/img/svgs/sidebar/ic_list.svg"
+              (click)="onChangeDocViewType(1)"
+            >
+            </svg-icon>
+            <svg-icon
+              class="option-icon"
+              [ngClass]="{ 'change-option-icon-color': docViewType === 2 }"
+              src="assets/img/svgs/sidebar/ic_four_grids.svg"
+              (click)="onChangeDocViewType(2)"
+            >
+            </svg-icon>
+            <svg-icon
+              class="option-icon"
+              [ngClass]="{ 'change-option-icon-color': docViewType === 3 }"
+              src="assets/img/svgs/sidebar/ic_one_grid.svg"
+              (click)="onChangeDocViewType(3)"
+            >
+            </svg-icon>
+          </div>
+        </div>
+        <div class="sidebar-content-container doc-list-container" *ngIf="docViewType === 1">
+          <div
+            class="doc-list-item"
+            *ngFor="let file of files; let i = index"
+            [@listItem]="isOpen ? (i % 2 === 0 ? 'left-item' : 'right-item') : 'void'"
+            (click)="emitImagePreview($event, i)"
+          >
+            <div class="doc-svg-icon-container" [ngSwitch]="file.name.split('.')[1].toUpperCase()">
+              <svg-icon
+                class="doc-list-icon"
+                *ngSwitchCase="'DOC'"
+                src="assets/img/svgs/sidebar/ic_doc.svg"
+              >
+              </svg-icon>
+              <svg-icon
+                class="xls-list-icon"
+                *ngSwitchCase="'XLS'"
+                src="assets/img/svgs/sidebar/ic_xls.svg"
+              >
+              </svg-icon>
+              <svg-icon
+                class="pdf-list-icon"
+                *ngSwitchCase="'PDF'"
+                src="assets/img/svgs/sidebar/ic_pdf.svg"
+              >
+              </svg-icon>
+              <svg-icon
+                class="png-list-icon"
+                *ngSwitchCase="'PNG'"
+                src="assets/img/svgs/sidebar/ic_png.svg"
+              >
+              </svg-icon>
+              <svg-icon
+                class="jpg-list-icon"
+                *ngSwitchCase="'JPG'"
+                src="assets/img/svgs/sidebar/ic_jpg.svg"
+              >
+              </svg-icon>
+            </div>
+
+            <p class="doc-list-name">{{ file.name }}</p>
+            <svg-icon
+              class="doc-icon-download"
+              src="assets/img/svgs/sidebar/ic_download.svg"
+              (click)="downloadFile(file)"
+            >
+            </svg-icon>
+          </div>
+        </div>
+        <div class="sidebar-content-container doc-two-grids-container" *ngIf="docViewType === 2">
+          <div class="documents-container dropzone-preview-carousel" *ngIf="documents?.length > 0">
+            <app-document
+              *ngFor="let file of files; let i = index"
+              [i]="i"
+              [file]="file"
+            >
+            </app-document>
+          </div>
+        </div>
+        <div class="sidebar-content-container doc-one-grids-container" *ngIf="docViewType === 3">
+          <div class="documents-container dropzone-preview-carousel" *ngIf="documents?.length > 0">
+            <app-document
+              *ngFor="let file of files; let i = index"
+              [i]="i"
+              [file]="file"
+            >
+            </app-document>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

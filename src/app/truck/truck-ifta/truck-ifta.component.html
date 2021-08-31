@@ -1,0 +1,9 @@
+<app-truckassist-table
+  (deleteEvent)="deleteMultipleTruckRepair($event)"
+  (actionEvent)="callAction($event)"
+  [options]="tableOptions"
+  [loadingItems]="true"
+></app-truckassist-table>
+<app-accounting-ifta
+[options]="iftaTableOptions"
+></app-accounting-ifta>

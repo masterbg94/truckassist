@@ -1,0 +1,105 @@
+<div class="d-flex justify-content-start align-items-center">
+  <div
+    class="search-panel"
+    [class.expanded]="expanded"
+    [class.focused]="focused"
+    [ngClass]="{
+      repairStyle: repairStyle && !addShopMapStyle,
+      repairStyleListExpend: repairStyle && addShopMapStyle,
+      addRepairHover: repairStyle && !expanded
+    }"
+  >
+    <div class="col input-group mb-3 p-0">
+      <div class="input-group-prepend">
+        <span class="search-btn" (click)="autoFocus()">
+          <svg-icon
+            src="assets/img/svgs/table/search.svg"
+            [svgStyle]="{ 'width.px': '16', 'height.px': '16' }"
+          ></svg-icon>
+        </span>
+      </div>
+      <input
+        type="text"
+        [class.hidden]="googleSearch"
+        #searchTerm
+        (keyup)="applyFilter($event)"
+        placeholder="{{ 'Search ' + gridNameTitle }}"
+        (keydown.enter)="enterSearch(searchTerm)"
+        (focus)="focused = true"
+        (focusout)="focused = false"
+        class="form-control search-input"
+      />
+
+      <input
+        type="text"
+        [class.hidden]="!googleSearch"
+        #searchAddress
+        class="form-control search-input"
+        placeholder="Search"
+        (focus)="showPacContainer($event)"
+        (blur)="removePacClass($event)"
+        appInputFocus
+        ngx-google-places-autocomplete
+        [options]="addressOption"
+        #placesRef="ngx-places" 
+        (onAddressChange)="handleAddressChange($event)"
+        />
+      <div
+        class="input-group-append search-actions d-flex align-items-center"
+        [class.focused-actions]="(searchTerm.value || searchAddress.value) && focused"
+      >
+        <span
+          *ngIf="!dontShowChips"
+          class="custom-btn check-btn align-items-center justify-content-center ml-2"
+          [style.display]="searchTerm.value && canAddFilter() ? 'flex' : 'none'"
+          (click)="onAdd(searchTerm.value)"
+        >
+          <svg-icon
+            src="assets/img/svgs/table/check.svg"
+            [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+          ></svg-icon>
+        </span>
+        <span
+          class="custom-btn close-btn align-items-center justify-content-center ml-2"
+          [style.display]="searchTerm.value || searchAddress.value ? 'flex' : 'none'"
+          (click)="resetSearchFiled()"
+        >
+          <svg-icon
+            src="assets/img/svgs/table/close.svg"
+            [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+          ></svg-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="col-auto custom-search-container d-flex align-items-center"
+    [ngClass]="{
+      repairStyle: repairStyle && !addShopMapStyle,
+      repairStyleListExpend: repairStyle && addShopMapStyle,
+      addRepairHover: repairStyle && !expanded,
+      truckAndTrailerStyle: truckAndTrailerStyle
+    }"
+  >
+    <span
+      *ngFor="let chip of chipses; let i = index"
+      [@enterLeave]="'flyIn'"
+      [class]="
+        'truckassist-badge d-flex justify-content-center align-items-center highlight-bgc-' +
+        chip.index
+      "
+      [ngClass]="{ 'extended-badge': chip.label.length > 7 && chip.extended }"
+      (mouseover)="chip.hovered = true" (mouseout)="chip.hovered = false" (click)="chip.extended = !chip.extended"
+    >
+      <span class="chip-content">{{ chip.label }}</span>
+      <a class="badge-close-btn" [ngClass]="{'visible-btn': chip.hovered }" (click)="onRemove(i)">
+        <svg-icon
+          class="chip-icon d-flex flex-column justify-content-center align-items-center"
+          src="assets/img/svgs/table/badge-close.svg"
+          [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+        ></svg-icon>
+      </a>
+    </span>
+  </div>
+</div>

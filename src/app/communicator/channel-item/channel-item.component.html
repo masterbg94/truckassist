@@ -1,0 +1,35 @@
+<div
+  class="channel-item"
+  *ngIf="channel"
+  [ngClass]="{'selected-chat': isSelected}"
+>
+  <div
+    class="user-image-container"
+    *ngIf="!isActive()"
+  >
+    <svg-icon
+      [ngClass]="isSelected ? 'selected-inactive-user-image' : 'inactive-user-image' "
+      src="../../../assets/img/svgs/communicator/ic_inactive_user.svg"
+    >
+    </svg-icon>
+  </div>
+  <p
+    class="unselectable channel-name"
+    [ngClass]="{
+      'bolded-font': getNumberOfUnreadMessages() > 0,
+      'inactive-channel-name': !isActive()
+    }"
+  >
+    {{ addPrefix && channel.userType === 'company' ? '#' : '' }}{{ channel.name }}
+  </p>
+  <!-- <div
+  [ngClass]="{ 'unread-box-9plus': channel.unreadMessages > 9, 'close-unread-box': isSelected }"
+    class="unread-box"
+    *ngIf="visibleNumberOfMessages && channel.unreadMessages"
+    [appTaTooltip]="getNumberOfUnreadMessages() | numberOfMessages: true"
+    position="bottom-right"
+    tooltipBackground="#CF4A4A"
+  >
+    <p class="unselectable unread-text">{{ getNumberOfUnreadMessages() | numberOfMessages }}</p>
+  </div> -->
+</div>

@@ -1,0 +1,157 @@
+<div class="billing-conteiner">
+  <div class="title">
+    <p>Billing</p>
+  </div>
+  <div class="plans">
+    <p class="title-plans">My Plans</p>
+    <div class="plans-iner-text">
+      <p class="blue">Base Monthly Plan</p>
+      <p class="date">Next payment due date - 07.4.2020</p>
+      <p class="right">Change Plan</p>
+    </div>
+  </div>
+  <div class="bank-payment">
+    <div class="logo">
+      <svg-icon src="../../../assets/img/svgs/Bank.svg"></svg-icon>
+      <p>Bank payment method - 1/4</p>
+      <svg-icon class="ok" src="../../../assets/img/check.svg"></svg-icon>
+    </div>
+    <div class="account-info">
+      <p class="ac-num">Account Number: ********045</p>
+      <p class="rg-num">Routing Number: 061000227</p>
+      <p class="right">Change Payment</p>
+    </div>
+  </div>
+  <div class="additional">
+    <div class="charges">
+      <p>Additional charges - for period through 06/30/20</p>
+    </div>
+    <div class="description">
+      <p>Description</p>
+      <p>Unite Price</p>
+      <p>Qty</p>
+      <p>Amount</p>
+    </div>
+    <div class="type-charge" *ngFor="let item of charges">
+      <p>Trucks</p>
+      <p class="right">$15.00</p>
+      <p class="right">179</p>
+      <p class="right">$711.00</p>
+    </div>
+    <div class="total-charges">
+      <p>Total</p>
+      <p class="right">$840.10</p>
+    </div>
+  </div>
+  <div class="invoice">
+    <div class="tl">
+      <p>Invoices</p>
+    </div>
+    <div class="description">
+      <p>Date</p>
+      <p>Total</p>
+      <p>Paid</p>
+      <p>DUE</p>
+      <p>Status</p>
+    </div>
+    <div
+      class="invoice-info"
+      *ngFor="let item of invoices; let i = index"
+      [ngClass]="{ addBackgroun: i % 2 == 1 }"
+    >
+      <div class="left-div" [ngClass]="{ addBorderBack: i % 2 == 1 }"></div>
+      <div class="info">
+        <p>06/06/20</p>
+        <p class="right">$99.99</p>
+        <p class="right">$99.99</p>
+        <p class="right">$0.00</p>
+        <div class="paid-or">
+          <p>Pending</p>
+        </div>
+        <button appTaTooltip="Preview" position="bottom-right">
+          <svg-icon src="../../../assets/img/svgs/visible.svg"></svg-icon>
+        </button>
+        <button appTaTooltip="Download" position="bottom-right">
+          <svg-icon src="../../../assets/img/download-svg.svg"></svg-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="Showing">
+      <p>5 of 10 Showing</p>
+      <p class="show">Show More</p>
+      <p class="right">Show All</p>
+    </div>
+  </div>
+</div>
+<div class="invoice-conteiner">
+  <div class="invoice-date">
+    <p>Invoice Date: 05/31/20</p>
+    <svg-icon src="../../../assets/img/New_X.svg"></svg-icon>
+    <div class="paid-or-not">
+      Paid
+    </div>
+  </div>
+  <div class="logo">
+    <svg-icon class="logo-truck" src="../../../assets/img/Logo.svg"></svg-icon>
+    <button class="print" appTaTooltip="Print Invoice" position="bottom-right">
+      <svg-icon  src="../../../assets/img/Print.svg"></svg-icon>
+    </button>
+    <button class="download" appTaTooltip="Download" position="bottom-right">
+      <svg-icon src="../../../assets/img/Download.svg"></svg-icon>
+    </button>
+  </div>
+
+  <div class="info">
+    <div class="left-info">
+      <div class="address">
+        <p>Truck Assist LTD America,
+          7843 W 98th St, Oak Lawn, IL 60457, USA</p>
+      </div>
+      <div class="invoice">
+        <p>Invoice Number - 01/20</p>
+        <p>Invoice Date: 05/31/20</p>
+        <p>Billing Date: 06/01/20</p>
+      </div>
+    </div>
+    <div class="right-info">
+      <p class="customer">Customer:</p>
+      <p>TRIUMPH BUSINESS CAPITAL DALLAS,
+        P.O. BOX 610028, DALLAS TX  75261-0028, 
+        USA
+        </p>
+    </div>
+  </div>
+
+  <div class="base-m-plan">
+    <div class="base-title">
+      <p>Base Monthly Plan</p>
+    </div>
+    <div class="base-des">
+      <div class="info-info">
+        <p>Description</p>
+        <p class="right">Amount</p>
+        <p class="right">Qty</p>
+        <p class="right">Unite Price</p>
+      </div>
+      <div class="amount">
+        <div class="amounts">
+          <p>Monthly Subscription</p>
+          <p class="right">$99.00</p>
+          <p class="right">1</p>
+          <p class="right more">$99.00</p>
+        </div>
+      </div>
+    </div>
+    <div class="base-total">
+      <p>Total</p>
+      <p class="right">$99.00</p>
+    </div>
+  </div>
+
+  <div class="some-text">
+    <p class="text-title">Issues with this transaction?</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est sint ullam aliquid eum, ipsum laboriosam nam repellendus at, numquam debitis fuga asperiores delectus, voluptas magni magnam ipsam aut ratione accusantium?</p>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam sit similique distinctio aperiam ex temporibus. At culpa, amet enim dolorem vero accusantium veniam esse quidem nostrum excepturi, totam exercitationem qui.</p>
+  </div>
+</div>

@@ -1,0 +1,325 @@
+<div
+  class="main-container"
+  *ngIf="selectedChat"
+  [style.height.px]="
+    dynamicContainerHeight !== 0 && dynamicContainerHeight !== 743 ? dynamicContainerHeight : auto
+  "
+>
+  <div class="header-container">
+    <div
+      class="user-image-container"
+      *ngIf="
+        selectedChat?.status === 'active' &&
+        (selectedChat.type === 'direct' ||
+          (selectedChat.type === 'channel' && selectedChat.userType === 'driver'))
+      "
+    >
+      <img
+        class="unselectable user-image"
+        [ngClass]="{
+          'user-image-square': selectedChat.userType === 'driver'
+        }"
+        src="{{
+          getUserImage(selectedChat) ||
+            '../../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+        }}"
+      />
+      <div
+        class="user-status"
+        *ngIf="getUserStatus(selectedChat)"
+        [ngClass]="{
+          'status-active': getUserStatus(selectedChat) === 'active',
+          'status-online': getUserStatus(selectedChat) === 'online',
+          'status-away': getUserStatus(selectedChat) === 'away',
+          'status-offline': getUserStatus(selectedChat) === 'offline',
+          'status-busy': getUserStatus(selectedChat) === 'busy'
+        }"
+      ></div>
+    </div>
+    <div
+      class="user-image-container"
+      *ngIf="
+        selectedChat?.status === 'archived' &&
+        (selectedChat?.type === 'direct' ||
+          (selectedChat?.type === 'channel' && selectedChat?.userType === 'driver'))
+      "
+    >
+      <svg-icon src="../../../assets/img/svgs/communicator/ic_inactive_user.svg"> </svg-icon>
+    </div>
+    <p (click)="openInfoBox()" class="unselectable chat-title" *ngIf="selectedChat">
+      {{ getChatName() }}
+    </p>
+    <div
+      id="headerUserContainer"
+      class="unselectable header-users-container expanded-header-user"
+      *ngIf="selectedChat?.type === 'channel'"
+    >
+      <div
+        (click)="onExpandUser()"
+        #headerUsers
+        class="user-count-container"
+        appTaTooltip="View all {{ getSubscriptions().length }} members"
+        tooltipBackground="#919191"
+        position="bottom-right"
+      >
+        <p class="user-count-text">{{ getSubscriptions().length }}</p>
+      </div>
+      <div
+        class="user-images-container"
+        [style.width.px]="!expandHeaderUser ? '54' : getReceiverUserLength()"
+      >
+        <div *ngFor="let subscription of getSubscriptions(); let i = index">
+          <img
+            class="user-header-image"
+            *ngIf="!expandHeaderUser ? i < 3 : true"
+            [style.right.px]="!expandHeaderUser ? 16 * i : 19 * i"
+            [alt]="subscription.user.name"
+            [appTaTooltip]="subscription.user.name"
+            tooltipBackground="#919191"
+            position="bottom-right"
+            [src]="
+              !subscription.user.active
+                ? '../../assets/img/svgs/communicator/ic_inactive_user.svg'
+                : subscription.user.image
+                ? subscription.user.image
+                : '../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+            "
+          />
+        </div>
+      </div>
+      <div *ngIf="dropDownHeaderUser && !expandHeaderUser" class="dropdown-user-images-container">
+        <div
+          class="dropdown-users-items"
+          *ngFor="let subscription of getSubscriptions(); let i = index"
+        >
+          <img
+            class="user-image"
+            [alt]="subscription.user.name"
+            [appTaTooltip]="subscription.user.name"
+            tooltipBackground="#919191"
+            position="bottom-right"
+            [src]="
+              !subscription.user.active
+                ? '../../assets/img/svgs/communicator/ic_inactive_user.svg'
+                : subscription.user.image
+                ? subscription.user.image
+                : '../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+            "
+          />
+          <p class="user-name">{{ subscription.user.name }}</p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="chat-option-container"
+      *ngIf="selectedChat?.userType === 'driver' && selectedChat?.type === 'channel'"
+    >
+      <p
+        *ngFor="let subchat of selectedChat.subchats; let i = index"
+        class="unselectable chat-option"
+        [ngClass]="{
+          'active-chat-option': activeChatOption === i,
+          'unread-chat-option': getUnreadMessagesForSubchat(i),
+          'active-unsubscribed-chat-option': !isJoinedInChat(subchat)
+        }"
+        (click)="setActiveChatOption(i)"
+      >
+        {{ subchat.name }}
+      </p>
+    </div>
+    <div class="dropdown-container" *ngIf="isDriverChannel()">
+      <button
+        #dropdown
+        class="dropdown-button"
+        (click)="dropDownChannel = !dropDownChannel"
+        [ngClass]="{ 'dropdown-button-focus': dropDownChannel }"
+      >
+        <svg-icon
+          class="dropdown-fullstops"
+          src="../../../assets/img/svgs/communicator/ic_dropdown-channel.svg"
+        ></svg-icon>
+      </button>
+
+      <app-chat-channel-actions
+        *ngIf="dropDownChannel"
+        [chats]="selectedChat.subchats"
+        (closeDropDown)="closeDropDown($event)"
+      >
+      </app-chat-channel-actions>
+    </div>
+  </div>
+  <!-- Chat container search -->
+  <div class="search-chat">
+    <app-chat-search-container></app-chat-search-container>
+  </div>
+  <div
+    id="chat-container"
+    class="chat-container"
+    [class.is-scrollable]="isScrollable"
+    (mouseenter)="enable()"
+    (mouseleave)="disable()"
+    infiniteScroll
+    [infiniteScrollUpDistance]="scrollUpDistance"
+    [infiniteScrollThrottle]="throttle"
+    [infiniteScrollDisabled]="!enablePaging"
+    [scrollWindow]="false"
+    (scrolledUp)="onScrollUp()"
+    appScrollFix
+    #scrollMe
+    [ngClass]="{ 'joined-chat-container': isJoined() }"
+  >
+    <div
+      id="messages-container"
+      class="messages-container wrapper"
+      [ngClass]="{ 'messages-container-blockScroll': focusInputMessage }"
+      *ngIf="selectedChat"
+    >
+      <app-message-group
+        *ngFor="let messageGroup of messageGroups; let i = index"
+        [headerVisible]="!(i === 0)"
+        [messageGroup]="messageGroup"
+        [isChannel]="selectedChat?.type === 'channel'"
+        (onDeleteMessage)="deleteMessage($event)"
+        (onEditMessage)="editMessage($event)"
+        (onEditModeChange)="changeEditMode($event)"
+        [type]="selectedChat.type"
+        [userType]="selectedChat.userType"
+        [chatName]="selectedChat.name"
+        [chatId]="selectedChat.id"
+      >
+      </app-message-group>
+    </div>
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner-container" *ngIf="scrollSpinner">
+      <svg-icon
+        class="loading-spinner"
+        src="assets/img/svgs/communicator/ic_loading-spinner.svg"
+      ></svg-icon>
+    </div>
+
+    <!-- Archivired channel -->
+    <div class="archived-text-container" *ngIf="selectedChat?.status === 'archived'">
+      <p class="unselectable archived-text archived-date-text">
+        {{ moment.parseZone(selectedChat?.updatedAt).format('MM/DD/YY') }}
+      </p>
+      <span class="unselectable archived-text">Conversation <b>#archived</b></span>
+      <p class="unselectable archived-text archived-days-text">
+        Chat will be removed in
+        <b>{{ 60 - moment().diff(moment.parseZone(selectedChat?.updatedAt), 'days') }} days</b>
+      </p>
+    </div>
+    <p
+      class="typing-container"
+      *ngIf="selectedChat && selectedChat.status === 'active' && getIsTyping(selectedChat)"
+    >
+      <span class="typing-container-name">{{ getChatName() }}</span> is typing
+      <svg-icon
+        class="typing-container-loading"
+        src="assets/img/svgs/communicator/ic_tappingMessage.svg"
+      ></svg-icon>
+    </p>
+  </div>
+
+  <!-- Latest message -->
+  <button
+    *ngIf="scroll && scroll.nativeElement.scrollTop + scroll.nativeElement.offsetHeight + 20 < scroll.nativeElement.scrollHeight"
+    class="latest-message"
+    (click)="goToLatestMessage()"
+  >
+    <svg-icon
+      class="latest-message-arrow"
+      src="assets/img/svgs/communicator/ic_down.svg"
+    ></svg-icon>
+    Go to the latest message
+  </button>
+
+  <!-- Join channel -->
+  <div class="join-channel" *ngIf="selectedChat && selectedChat.type === 'channel' && !isJoined()">
+    <p class="join-channel-text">
+      You are viewing
+      <span class="join-channel-dynamicText">{{
+        selectedChat.subchats[activeChatOption].name
+      }}</span>
+    </p>
+    <button class="join-channel-button" (click)="onClickJoin()">Join Channel</button>
+  </div>
+
+  <div
+    class="input-container"
+    [ngClass]="{ 'input-container-focused': focusInputMessage }"
+    *ngIf="selectedChat && selectedChat.status === 'active' && isJoined()"
+  >
+    <div class="attachments-container" *ngIf="files?.length > 0">
+      <app-message-attachment-thumb
+        *ngFor="let file of files; let i = index"
+        [attachment]="file"
+        (delete)="onDeleteFile($event)"
+      ></app-message-attachment-thumb>
+    </div>
+    <div (resized)="onResizedInputContainer($event)" class="input-message-container">
+      <div
+        id="inputMessage"
+        [ngClass]="{ 'input-message-resize': resizeInputContainer > 50 }"
+        class="input-message"
+        contenteditable="true"
+        data-text="Type your message here"
+        (input)="followChangingMessage(inputMessage.innerText)"
+        (focus)="changeFocusInput(true)"
+        (focusout)="changeFocusInput(false)"
+        (keydown)="onKeyboardEvent($event)"
+        (keyup)="isUserStillTyping()"
+        (paste)="onPaste($event)"
+        #inputMessage
+      ></div>
+      <div
+        [ngClass]="
+          resizeInputContainer > 50 ? 'input-options-container-resize' : 'input-options-container'
+        "
+      >
+        <span class="chat-emoji">
+          <app-chat-emoji
+            [visibilityEmoji]="showHideEmoji"
+            [typeOfTriangle]="'down'"
+            (selectedEmoji)="addEmoji($event)"
+            (mouseleave)="leaveEmoji()"
+            (mouseenter)="stayOnEmoji()"
+          ></app-chat-emoji>
+        </span>
+        <svg-icon
+          (click)="showHideEmoji = !showHideEmoji"
+          class="input-option"
+          [ngClass]="{ 'input-option-emoji': showHideEmoji }"
+          src="../../assets/img/svgs/communicator/ic_emoji-message.svg"
+        >
+        </svg-icon>
+        <label for="image" class="input-option-attachment">
+          <input
+            hidden
+            type="file"
+            name="image"
+            multiple="multiple"
+            id="image"
+            #fileInput
+            (change)="addAttachments($event.target.files)"
+            (click)="$event.target.value = null"
+            tabindex="1"
+          />
+          <svg-icon
+            tabindex="1"
+            class="input-option"
+            src="../../assets/img/svgs/communicator/ic_attach.svg"
+          >
+          </svg-icon>
+        </label>
+        <svg-icon
+          class="input-option"
+          [ngClass]="{ 'active-input-option': message?.trim() || attachments.length > 0 }"
+          src="../../assets/img/svgs/communicator/ic_send.svg"
+          (click)="sendMessage()"
+        >
+        </svg-icon>
+      </div>
+    </div>
+  </div>
+</div>

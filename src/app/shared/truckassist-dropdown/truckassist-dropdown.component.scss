@@ -1,0 +1,350 @@
+@import '../../../assets/scss/components/variables.scss';
+
+.dropdown,
+.dropup {
+  .dropdown-toggle {
+    &::after {
+      display: none;
+    }
+  }
+
+  .dropdown-menu {
+    top: 0px !important;
+    left: 0px !important;
+    margin: 0;
+    margin-top: 2px;
+    width: auto;
+    min-width: 80px;
+    padding: 0;
+    box-shadow: $box-shadow;
+
+    &[x-placement^='top-left'],
+    &[x-placement^='left-top'] {
+      top: -5px !important;
+      left: -15px !important;
+      // &:after {
+      //   content: '';
+      //   width: 0;
+      //   height: 0;
+      //   border-style: solid;
+      //   border-width: 6px 10px 0 10px;
+      //   border-color: #f9f9f9 transparent transparent transparent;
+      //   left: 15px;
+      //   bottom: -6px;
+      //   position: absolute;
+      //   -webkit-filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+      //   filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+      //   z-index: -1;
+      // }
+
+      // &.delete-hovered {
+      //   // &:after {
+      //   //   border-color: #ff5d5d transparent transparent transparent !important;
+      //   // }
+      // }
+    }
+
+    &[x-placement^='top-right'],
+    &[x-placement^='right-top'] {
+      top: -5px !important;
+      left: 10px !important;
+      // &:after {
+      //   content: '';
+      //   width: 0;
+      //   height: 0;
+      //   border-style: solid;
+      //   border-width: 6px 10px 0 10px;
+      //   border-color: #f9f9f9 transparent transparent transparent;
+      //   left: unset;
+      //   bottom: -6px;
+      //   right: 10px;
+      //   position: absolute;
+      //   -webkit-filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+      //   filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+      //   z-index: -1;
+      // }
+
+      // &.delete-hovered {
+      //   // &:after {
+      //   //   border-color: #ff5d5d transparent transparent transparent !important;
+      //   // }
+      // }
+    }
+
+    // &[x-placement^='bottom-left'],
+    // &[x-placement^='left-bottom'] {
+    //   // &:after {
+    //   //   content: '';
+    //   //   width: 0;
+    //   //   height: 0;
+    //   //   border-style: solid;
+    //   //   border-width: 0 10px 6px 10px;
+    //   //   border-color: transparent transparent #f9f9f9 transparent;
+    //   //   left: 10px;
+    //   //   bottom: -6px;
+    //   //   top: -6px;
+    //   //   position: absolute;
+    //   //   -webkit-filter: drop-shadow(0px -1px 1px rgba(0, 0, 0, 0.1));
+    //   //   filter: drop-shadow(0px -1px 1px rgba(0, 0, 0, 0.1));
+    //   //   z-index: -1;
+    //   // }
+
+    //   // &.edit-hovered {
+    //   //   &:after {
+    //   //     border-color: transparent transparent #eeeeee transparent !important;
+    //   //   }
+    //   // }
+    // }
+
+    &[x-placement^='bottom-right'],
+    &[x-placement^='right-bottom'] {
+      left: 10px !important;
+      // &:after {
+      //   content: '';
+      //   width: 0;
+      //   height: 0;
+      //   border-style: solid;
+      //   border-width: 0 10px 6px 10px;
+      //   border-color: transparent transparent #f9f9f9 transparent;
+      //   bottom: unset;
+      //   left: unset;
+      //   top: -6px;
+      //   right: 10px;
+      //   position: absolute;
+      //   -webkit-filter: drop-shadow(0px -1px 1px rgba(0, 0, 0, 0.1));
+      //   filter: drop-shadow(0px -1px 1px rgba(0, 0, 0, 0.1));
+      //   z-index: -1;
+      // }
+
+      // &.edit-hovered {
+      //   &:after {
+      //     border-color: transparent transparent #eeeeee transparent !important;
+      //   }
+      // }
+    }
+
+    .dropdown-divider {
+      margin: 0;
+    }
+    a.dropdown-item {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      line-height: 16px;
+      padding: 6px;
+      opacity: 1;
+      background-color: #ffffff;
+      color: #919191;
+      user-select: none;
+      padding-right: 6px !important;
+
+      &.add-item {
+        svg {
+          path {
+            &.b {
+              fill: #ffffff !important;
+            }
+          }
+        }
+      }
+
+      svg-icon {
+        display: flex;
+        align-items: center;
+        margin-right: 6px;
+      }
+
+      .print-svg {
+        svg {
+          #Path_7738 {
+            fill: #d2d2d1 !important;
+          }
+        }
+      }
+
+      svg {
+        path {
+          fill: #919191 !important;
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        background-color: #f9f9f9 !important;
+        color: #6c6c6c !important;
+        svg {
+          // transform: translateX(2px) scaleX(1.03);
+          // width: 16px !important;
+          // height: 16px !important;
+          path {
+            fill: #6c6c6c !important;
+            opacity: 1;
+          }
+        }
+      }
+
+      &.main-field {
+        border-top-left-radius: 3px !important;
+        border-top-right-radius: 3px !important;
+        background-color: #f9f9f9 !important;
+        &:hover {
+          background-color: #eeeeee !important;
+          color: #6c6c6c !important;
+          svg {
+            path {
+              fill: #6c6c6c !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &.active-field {
+        &:hover {
+          background-color: #5673aa !important;
+          color: #ffffff !important;
+          svg {
+            path {
+              fill: #ffffff !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &.inactive-field {
+        &:hover {
+          background-color: #919191 !important;
+          color: #ffffff !important;
+          svg {
+            path {
+              fill: #ffffff !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &.delete-field {
+        border-bottom-left-radius: 3px !important;
+        border-bottom-right-radius: 3px !important;
+        background-color: #f9f9f9 !important;
+        color: #ff5d5d !important;
+        svg {
+          path {
+            fill: #ff5d5d !important;
+            opacity: 1;
+          }
+        }
+        &:hover {
+          background-color: #ff5d5d !important;
+          color: #ffffff !important;
+          svg {
+            path {
+              fill: #ffffff !important;
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &.customer_list{
+        background-color: #f9f9f9;
+        svg {
+          path:first-child {
+            fill: #919191 !important;
+            opacity: 1;
+          }
+          path:last-child{
+            fill: #fff !important;
+          }
+        }
+
+        &:hover{
+          background-color: #eee !important;
+        }
+        &.dnu-field{
+          background-color: #f9f9f9;
+          color: #919191;
+
+          svg {
+            path:first-child {
+              fill: #ff5d5d !important;
+              opacity: 1;
+            }
+            path:last-child{
+              fill: #ffffff !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .dropdown-dialog{
+    // &:after {
+    //   @include triangletop;
+    //   top: -6px;
+    //   left: 110px;
+    //   content: '';
+    // }
+    position: absolute;
+    top: 15px;
+    left: -110px;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+/* NG CLASS */
+.routing-style{
+  width: 23px !important;
+  height: 18px !important;
+  &:hover{
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+  &:focus{
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+}
+
+.print-action-radius{
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px
+}
+
+.hide-dropdown-dialog{
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: 0.2s;
+}
+
+.show-dropdown-dialog{
+  visibility: visible !important;
+  top: 26px !important;
+  opacity: 1 !important;
+  transition: 0.4s;
+}
+
+.modifyPointsScss {
+  svg {
+    .a {
+      fill: white !important;
+    }
+  }
+  &:hover {
+    svg {
+      .a {
+        fill: white !important;
+      }
+    }
+  }
+  &:focus {
+    svg {
+      .a {
+        fill: white !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,253 @@
+.userprofile {
+  width: 100%;
+  float: left;
+  clear: both;
+  .userpic {
+    height: 100px;
+    width: 100px;
+    clear: both;
+    margin: 0 auto;
+    display: block;
+    border-radius: 100%;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    -ms-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    position: relative;
+    .userpicimg {
+      height: auto;
+      width: 100%;
+      border-radius: 100%;
+    }
+  }
+  &.small {
+    width: auto;
+    clear: both;
+    margin: 0 auto;
+    .userpic {
+      height: 40px;
+      width: 40px;
+      margin: 0 10px 0 0;
+      display: block;
+      border-radius: 100%;
+      box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+      -webkit-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+      -ms-box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+      position: relative;
+      float: left;
+      .userpicimg {
+        min-height: 100%;
+        width: 100%;
+        border-radius: 100%;
+      }
+    }
+    .textcontainer {
+      float: left;
+      max-width: 100px;
+      padding: 0;
+    }
+    .username {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 21px;
+      color: $black;
+      margin: 0;
+      float: left;
+      width: 100%;
+      p {
+        color: $white;
+        font-size: 13px;
+        float: left;
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
+  &.social {
+    .username {
+      color: $dark;
+      font-size: 22px;
+      & + p {
+        color: #888a8a;
+        opacity: 0.8;
+      }
+    }
+  }
+}
+.username {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 20px;
+  color: $black;
+  margin-top: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  p {
+    color: $white;
+    font-size: 13px;
+    line-height: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+.settingbtn {
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  line-height: 30px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  -ms-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+}
+.userprofile1transparent {
+  content: '';
+}
+.nav {
+  .nav-pills {
+    & > li {
+      & > a {
+        border-radius: 3px;
+        text-align: left;
+      }
+    }
+  }
+  & > li {
+    & > a {
+      position: relative;
+      display: block;
+      margin-right: 15px;
+    }
+  }
+}
+.media-body {
+  color: $dark;
+  overflow: visible;
+  margin-left: 15px;
+  h4 {
+    font-size: 16px;
+    color: $dark;
+  }
+  p {
+    font-size: 13px !important;
+  }
+  .nav-pills {
+    li {
+      a {
+        color: #7a7d7d;
+        &:hover {
+          text-decoration: none;
+          color: #888a8a;
+        }
+      }
+    }
+  }
+}
+.media-object {
+  max-width: 50px;
+  border-radius: 50px;
+  display: block;
+}
+.media {
+  &:first-child {
+    margin-top: 15px;
+  }
+}
+.commentsblock {
+  background: #f0f0f5;
+  border: 1px solid #e9f1f1!important;
+}
+.tags {
+  a {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 8px 14px;
+    color: #888a8a;
+    font-weight: 400;
+    border: 1px solid #e9f1f1;
+  }
+  li {
+    a {
+      &:hover {
+        color: $white!important;
+        text-decoration: none;
+      }
+    }
+  }
+}
+.memberblock {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin-bottom: 15px;
+}
+.member {
+  width: 100%;
+  float: left;
+  background: $white;
+  border: 1px solid #e9f1f1;
+  padding: 3px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none !important;
+  &:hover {
+    .memmbername {
+      bottom: 0;
+    }
+  }
+  img {
+    width: 100%;
+  }
+}
+.memmbername {
+  bottom: -30px;
+  background: rgba(0, 0, 0, 0.9);
+  color: $white;
+  line-height: 30px;
+  padding: 0 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  font-size: 11px;
+}
+.countlist {
+  h4 {
+    margin: 0;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  li {
+    padding: 0 30px 0 0;
+    font-size: 14px;
+    text-align: left;
+    small {
+      font-size: 12px;
+      margin: 0;
+    }
+  }
+}
+.followbtn {
+  margin: 10px;
+}
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.428571429;
+}

@@ -1,0 +1,182 @@
+<div class="modal-container" cdkDrag>
+    <div class="modal-header flex_header" cdkDragHandle>
+        <h5 class="modal-title">Add
+            <span [ngSwitch]="inputData.data.title">
+                <span *ngSwitchCase="'Deductions'">Deduction</span>
+                <span *ngSwitchCase="'Bonuses'">Bonus</span>
+                <span *ngSwitchCase="'Credits'">Credit</span>
+            </span>
+        </h5>
+        <div class="switcher_hold" *ngIf="this.inputData.data.title == 'Deductions' || this.inputData.data.title == 'Credits'">
+            <app-ta-switch [data]="switchData" (switchClicked)="switchType($event)"></app-ta-switch>
+        </div>
+        <app-modal-close></app-modal-close>
+    </div>
+    <div
+        class="modal-body trailer-detail-edit static-element"
+    >
+        <form [formGroup]="payrollForm">
+            <div class="position-relative">
+                <div class="col-12">
+                    <div class="row pt-2">
+                        <div class="col-8">
+                            <div class="form-label-group">
+                                <ng-select
+                                  [items]="driverList"
+                                  formControlName="driverId"
+                                  bindLabel="id"
+                                  bindValue="id"
+                                  placeholder="Driver"
+                                  class="required-field"
+                                  appendTo="body"
+                                >
+                                <ng-template ng-label-tmp let-item="item">
+                                    <div class="dropdown-item-wrapper">
+                                      <span class="ta-dropdown-item">{{ item.firstName }} {{ item.lastName }}</span>
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                    <div class="dropdown-item-wrapper ta-list-items">
+                                        <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{ item.firstName }} {{ item.lastName }}</span>
+                                    </div>
+                                </ng-template>
+                                </ng-select>
+                                <app-required-label [control]="payrollForm.controls.driverId"></app-required-label>
+                            </div>
+                        </div>
+                        <div class="col-4 new_picker_date_label">
+                            <kendo-floatinglabel text="" class="datepicker-label required">
+                                <kendo-datepicker [formatPlaceholder]="{
+                                    year: 'yy',
+                                    month: 'mm',
+                                    day: 'dd'
+                                  }"
+                                  [format]="'MM/dd/yy'"
+                                  [popupSettings]="{ popupClass: 'custom-datepick' }"
+                                  placeholder="MM/DD/YY"
+                                  formControlName="itemDate"
+                                  (valueChange)="pickupDateDateChange($event)"
+                                  [class]="'datePick'"></kendo-datepicker>
+                            </kendo-floatinglabel>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="form-label-group">
+                                <input
+                                  class="form-control input-control required"
+                                  placeholder="Description"
+                                  formControlName="description"
+                                  appInputFocus
+                                >
+                                <label class="required-label" for="address">Description</label>
+                                <app-required-label [control]="payrollForm.controls.description"></app-required-label>
+                              </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-label-group">
+                                <input
+                                  class="form-control input-control required"
+                                  placeholder="Amount"
+                                  formControlName="amount"
+                                  type="number"
+                                  appInputFocus
+                                  (blur)="calculatePayment()"
+                                >
+                                <label class="required-label" for="address">Amount</label>
+                                <app-required-label [control]="payrollForm.controls.amount"></app-required-label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="this.inputData.data.title == 'Deductions'">
+                        <div class="col-12">
+                            <div class="row no-padd-margin">
+                                <div class="col-5 no-padd-margin">
+                                    <div class="form-label-group">
+                                        <ng-select
+                                          [items]="deductionType"
+                                          formControlName="type"
+                                          bindLabel="id"
+                                          bindValue="id"
+                                          (change)="deducationTypeChanged($event)"
+                                          placeholder="Type"
+                                          appendTo="body"
+                                        >
+                                        <ng-template ng-label-tmp let-item="item">
+                                            <div class="dropdown-item-wrapper">
+                                              <span class="ta-dropdown-item"> {{ item.name }} </span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                            <div class="dropdown-item-wrapper ta-list-items">
+                                                <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{ item.name }}</span>
+                                              </div>
+                                        </ng-template>
+                                        </ng-select>
+                                        <app-required-label [control]="payrollForm.controls.driverId"></app-required-label>
+                                    </div>
+                                </div>
+                                <div class="col-7 marLeft" *ngIf="payrollForm.get('type').value == '2'">
+                                    <app-ta-switch
+                                    [data]="eventRepeater"
+                                    (switchClicked)="changeRepeater(eventRepeater)"
+                                    class="eventSwitcher"
+                                    ></app-ta-switch>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 d-flex">
+                            <app-truckassist-checkbox
+                                id="1"
+                                *ngIf="payrollForm.get('type').value == '2'"
+                                [checked]="deducationDisabled"
+                                (change)="checkCheckbox($event)"
+                                [text]="'Limited'"
+                            >
+                            </app-truckassist-checkbox>
+                            <div *ngIf="deducationDisabled" class="paymentsCount">
+                                <input
+                                    type="number"
+                                    class="limitNumber"
+                                    min="1"
+                                    formControlName="limitNumber"
+                                    required
+                                />
+                                <div class="increase_holder">
+                                    <svg-icon
+                                    src="../../../assets/img/calendarUpArrow.svg"
+                                    class="svgArrowInput"
+                                    (click)="changeCount('up')"
+                                    ></svg-icon>
+                                    <svg-icon
+                                    src="../../../assets/img/calendarDownArrow.svg"
+                                    class="svgArrowInput2"
+                                    (click)="changeCount('down')"
+                                    ></svg-icon>
+                                </div>
+                                <span class="monthlyDayText"># Payments</span>
+                            </div>
+                        </div>
+                        <div class="col-4 limited_hold">
+                            <div class="form-label-group text-right" *ngIf="payrollForm.get('type').value == '2'">
+                                <input
+                                  class="form-control input-control disabled_item"
+                                  placeholder="Payment"
+                                  formControlName="payment"
+                                  (blur)="transformAmount($event)"
+                                  [(ngModel)]="payrollForm.get('payment').value"
+                                  disabled="true"
+                                >
+                                <label for="payment">Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+        <button type="button" class="save-btn" (click)="saveAccountingItem()" ngbAutofocus>Save</button>
+    </div>
+</div>

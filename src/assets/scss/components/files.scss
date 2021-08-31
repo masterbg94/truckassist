@@ -1,0 +1,130 @@
+.files {
+  position: relative;
+
+  input {
+    outline: 2px dashed #e9f1f1;
+    -webkit-transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+    transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+    padding: 120px 0 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+    cursor: pointer;
+
+    &:focus {
+      outline: 2px dashed #e9f1f1;
+      outline-offset: -10px;
+      -webkit-transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+      transition: outline-offset 0.15s ease-in-out, background-color 0.15s linear;
+      border: 1px solid #e9f1f1;
+    }
+  }
+
+  &:after {
+    pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 80px;
+    right: 0;
+    height: 60px;
+    content: '\f019';
+    font-family: fontawesome;
+    margin: -20px auto;
+    font-size: 3em;
+    background: #ececef;
+    text-align: center;
+    border-radius: 3px;
+    color: #9b9e9e;
+  }
+
+  &:before {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    right: 0;
+    height: 57px;
+    content: 'Choose File or drag it here. ';
+    display: block;
+    margin: 0 auto;
+    color: $muted;
+    text-transform: capitalize;
+    text-align: center;
+  }
+}
+
+.color {
+  input {
+    background-color: #f0f0f5;
+  }
+}
+
+.custom-dropzone {
+  background: transparent !important;
+  color: $white !important;
+  font-size: 20px !important;
+  border: none !important;
+  padding: 0 !important;
+  &.files-count-1,
+  &.files-count-2,
+  &.files-count-3,
+  &.files-count-4 {
+    height: 208px;
+    overflow: hidden;
+  }
+  &:hover {
+    background: transparent !important;
+  }
+}
+
+.custom-carousel {
+  background: #f5f5f9 !important;
+  color: $white !important;
+  font-size: 20px !important;
+  border-radius: 5px !important;
+  padding-top: 12px;
+  //border: 1px solid #aaa;
+}
+
+.license-item {
+  max-height: 100%;
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0;
+    &:hover {
+      background-color: #bbb;
+      transition: 0.3s;
+    }
+  }
+
+  &:hover {
+    span {
+      opacity: 1;
+    }
+  }
+}
+
+.one-item {
+  max-width: 40% !important;
+  position: relative !important;
+}
+
+.showPdfImage {
+  /*img {
+    content: '' //url('~assets/img/extension/pdf.png');
+  }*/
+}

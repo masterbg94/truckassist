@@ -1,0 +1,57 @@
+.rightmenu {
+  h5 {
+    padding: 10px 10px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(167, 180, 201, 0.2);
+  }
+}
+
+.sidebar {
+  background-color: $white;
+  height: 100%;
+  width: 446px;
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  right: -446px;
+  overflow-x: hidden;
+  transition: 0.15s;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+  a {
+    &:hover {
+      color: darken($primary, 20%);
+    }
+  }
+  &.sidebar-visible {
+    right: 0;
+    transition: 0.15s;
+  }
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  border: none;
+
+  .activity_popover{
+    &.open{
+      svg-icon{
+        svg{
+          path{
+            fill: #919191;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+}

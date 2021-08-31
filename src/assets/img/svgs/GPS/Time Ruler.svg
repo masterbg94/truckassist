@@ -1,0 +1,172 @@
+<svg id="Time_Ruler" data-name="Time Ruler" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1324" height="24.137" viewBox="0 0 1324 24.137">
+  <defs>
+    <clipPath id="clip">
+      <use xlink:href="#fill"/>
+    </clipPath>
+    <clipPath id="clip-2">
+      <use xlink:href="#fill-2"/>
+    </clipPath>
+    <clipPath id="clip-3">
+      <use xlink:href="#fill-3"/>
+    </clipPath>
+    <clipPath id="clip-4">
+      <use xlink:href="#fill-4"/>
+    </clipPath>
+    <clipPath id="clip-5">
+      <use xlink:href="#fill-5"/>
+    </clipPath>
+    <clipPath id="clip-6">
+      <use xlink:href="#fill-6"/>
+    </clipPath>
+    <clipPath id="clip-7">
+      <use xlink:href="#fill-7"/>
+    </clipPath>
+    <clipPath id="clip-8">
+      <use xlink:href="#fill-8"/>
+    </clipPath>
+    <clipPath id="clip-9">
+      <use xlink:href="#fill-9"/>
+    </clipPath>
+    <clipPath id="clip-10">
+      <use xlink:href="#fill-10"/>
+    </clipPath>
+    <clipPath id="clip-11">
+      <use xlink:href="#fill-11"/>
+    </clipPath>
+    <clipPath id="clip-12">
+      <use xlink:href="#fill-12"/>
+    </clipPath>
+    <clipPath id="clip-13">
+      <use xlink:href="#fill-13"/>
+    </clipPath>
+    <clipPath id="clip-14">
+      <use xlink:href="#fill-14"/>
+    </clipPath>
+    <clipPath id="clip-15">
+      <use xlink:href="#fill-15"/>
+    </clipPath>
+    <clipPath id="clip-16">
+      <use xlink:href="#fill-16"/>
+    </clipPath>
+    <clipPath id="clip-17">
+      <use xlink:href="#fill-17"/>
+    </clipPath>
+    <clipPath id="clip-18">
+      <use xlink:href="#fill-18"/>
+    </clipPath>
+    <clipPath id="clip-19">
+      <use xlink:href="#fill-19"/>
+    </clipPath>
+    <clipPath id="clip-20">
+      <use xlink:href="#fill-20"/>
+    </clipPath>
+    <clipPath id="clip-21">
+      <use xlink:href="#fill-21"/>
+    </clipPath>
+    <clipPath id="clip-22">
+      <use xlink:href="#fill-22"/>
+    </clipPath>
+  </defs>
+  <text id="_6" data-name="6" transform="translate(335.567 21.137)" fill="#919191" font-size="12" font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="-3.822" y="0">6</tspan></text>
+  <text id="_6-2" data-name="6" transform="translate(988.433 21.137)" fill="#919191" font-size="12" font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="-3.822" y="0">6</tspan></text>
+  <text id="N" transform="translate(661.455 21.137)" fill="#919191" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="-4.86" y="0">N</tspan></text>
+  <text id="M" transform="translate(1318 21.137)" fill="#919191" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="-5.73" y="0">M</tspan></text>
+  <text id="M-2" data-name="M" transform="translate(6 21.137)" fill="#919191" font-size="12" font-family="Montserrat-SemiBold, Montserrat" font-weight="600"><tspan x="-5.73" y="0">M</tspan></text>
+  <g id="Rectangle_1226" data-name="Rectangle 1226" transform="translate(4.664 0.02)" fill="#919191" stroke="#919191" stroke-width="1">
+    <rect width="1314.58" height="1" stroke="none"/>
+    <rect x="0.5" y="0.5" width="1313.58" fill="none"/>
+  </g>
+  <g id="Group_6205" data-name="Group 6205" transform="translate(4.664)">
+    <rect id="Rectangle_1227" data-name="Rectangle 1227" width="2.68" height="9" fill="#919191"/>
+    <g id="Rectangle_1247" data-name="Rectangle 1247" transform="translate(874.709 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip)"/>
+    </g>
+    <g id="Rectangle_3505" data-name="Rectangle 3505" transform="translate(1092.573 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-2" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-2)"/>
+    </g>
+    <g id="Rectangle_1238" data-name="Rectangle 1238" transform="translate(439.181 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-3" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-3)"/>
+    </g>
+    <g id="Rectangle_3501" data-name="Rectangle 3501" transform="translate(221.316 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-4" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-4)"/>
+    </g>
+    <rect id="Rectangle_1242" data-name="Rectangle 1242" width="2.68" height="9" transform="translate(655.946)" fill="#919191"/>
+    <rect id="Rectangle_1255" data-name="Rectangle 1255" width="2.68" height="9" transform="translate(1311.9)" fill="#919191"/>
+    <g id="Rectangle_1245" data-name="Rectangle 1245" transform="translate(765.827 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-5" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-5)"/>
+    </g>
+    <g id="Rectangle_1232" data-name="Rectangle 1232" transform="translate(330.299 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-6" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-6)"/>
+    </g>
+    <g id="Rectangle_3499" data-name="Rectangle 3499" transform="translate(112.434 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-7" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-7)"/>
+    </g>
+    <g id="Rectangle_1249" data-name="Rectangle 1249" transform="translate(983.592 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-8" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-8)"/>
+    </g>
+    <g id="Rectangle_3503" data-name="Rectangle 3503" transform="translate(1201.456 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-9" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-9)"/>
+    </g>
+    <g id="Rectangle_1236" data-name="Rectangle 1236" transform="translate(548.063 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-10" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-10)"/>
+    </g>
+    <g id="Rectangle_1244" data-name="Rectangle 1244" transform="translate(711.382 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-11" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-11)"/>
+    </g>
+    <g id="Rectangle_1233" data-name="Rectangle 1233" transform="translate(275.861 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-12" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-12)"/>
+    </g>
+    <g id="Rectangle_3498" data-name="Rectangle 3498" transform="translate(57.997 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-13" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-13)"/>
+    </g>
+    <g id="Rectangle_1248" data-name="Rectangle 1248" transform="translate(929.147 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-14" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-14)"/>
+    </g>
+    <g id="Rectangle_3504" data-name="Rectangle 3504" transform="translate(1147.011 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-15" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-15)"/>
+    </g>
+    <g id="Rectangle_1237" data-name="Rectangle 1237" transform="translate(493.626 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-16" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-16)"/>
+    </g>
+    <g id="Rectangle_1246" data-name="Rectangle 1246" transform="translate(820.265 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-17" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-17)"/>
+    </g>
+    <g id="Rectangle_1231" data-name="Rectangle 1231" transform="translate(384.743 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-18" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-18)"/>
+    </g>
+    <g id="Rectangle_3500" data-name="Rectangle 3500" transform="translate(166.879 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-19" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-19)"/>
+    </g>
+    <g id="Rectangle_1250" data-name="Rectangle 1250" transform="translate(1038.029 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-20" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-20)"/>
+    </g>
+    <g id="Rectangle_3502" data-name="Rectangle 3502" transform="translate(1255.893 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-21" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-21)"/>
+    </g>
+    <g id="Rectangle_1235" data-name="Rectangle 1235" transform="translate(602.508 1)" fill="#b7b7b7" stroke="#919191" stroke-width="1">
+      <rect id="fill-22" width="0.679" height="6" stroke="none"/>
+      <path d="M0,0.5h0.6790065169334412M0.5,0v6M0.6790065169334412,5.5h-0.6790065169334412M0.17900651693344116,6v-6" fill="none" clip-path="url(#clip-22)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,140 @@
+<div class="chat-icon" (click)="onSideBarChat()" *ngIf="this.router.url !== '/tools/routing/fullscreen'">
+  <svg-icon src="assets/img/svgs/chat-icon.svg" *ngIf="!show_side_chat"></svg-icon>
+</div>
+
+<div class="side_bar_chat" id="side_chat">
+  <div class="options">
+    <div class="border_options" *ngFor="let option of chatOptions; let i = index">
+      <p
+        (click)="onOptionSelcted(i)"
+        (mouseenter)="onChangeText(i, 'general option')"
+        (mouseleave)="onReturnText(i, 'general option')"
+        [ngClass]="{
+          add_options_position: sidebar_extended,
+          add_backgroun_CC_DD: i === 0 || i == 1,
+          add_option_background: i === 2 || i === 3,
+          active_option: i === activeOption
+        }"
+      >
+        {{ option.option }}
+      </p>
+    </div>
+    <div class="line" [ngClass]="{ moveLine: sidebar_extended }"></div>
+
+    <!-- If 1 option selected -->
+    <div
+      *ngIf="show_All_Drivers_Company"
+      class="driver_company_selected"
+      [ngClass]="{ add_company_select: show_All_Drivers_Company }"
+    >
+      <div class="image-holder" *ngFor="let driver of drivers; let i = index">
+        <span
+          class="num-msg"
+          *ngIf="userSelected !== i"
+          [ngClass]="{ moveNumMSG: sidebar_extended }"
+          >3</span
+        >
+        <div class="image-background" [ngClass]="{ onUserSelected: userSelected === i }">
+          <img
+            [ngClass]="{ onClick: userSelected === i, moveImg: sidebar_extended }"
+            (click)="onOpenChat(i)"
+            onError="this.src='../../assets/img/Driver_Empty.svg'"
+            src="{{ driver.driverImage }}"
+            alt=""
+          />
+        </div>
+        <div
+          class="status"
+          *ngIf="userSelected !== i && sidebar_extended"
+          [ngClass]="{ moveStatus: sidebar_extended }"
+        ></div>
+      </div>
+    </div>
+    <!-- If 3 option selected -->
+    <div *ngIf="activeOption === 2">
+      <div class="border_options" *ngFor="let companyChannel of chatOptionCC; let i = index">
+        <p
+          (click)="onCompanyChannel(i)"
+          (mouseenter)="onChangeText(i, 'cc option')"
+          (mouseleave)="onReturnText(i, 'cc option')"
+          style="background: #d1d1d1; color: #606060;"
+          [ngClass]="{
+            add_options_position: sidebar_extended,
+            active_option: i === activeOptionCC
+          }"
+        >
+          {{ companyChannel.option }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat_conteiner" *ngIf="sidebar_extended">
+    <div class="user_to_send">
+      <div class="photo">
+        <img onError="this.src='../../assets/img/Driver_Empty.svg'" src="{{ profileImg }}" alt="" />
+        <div class="status"></div>
+      </div>
+      <div class="user_name">
+        <p>{{ send_to }}</p>
+      </div>
+      <div class="close_chat">
+        <svg-icon src="../../../assets/img/New_X.svg" (click)="onCloseChat()"></svg-icon>
+      </div>
+    </div>
+
+    <div class="message">
+      <div class="emoji_conteiner" *ngIf="showEmoji">
+        <emoji-mart
+          class="emoji-mart"
+          (emojiSelect)="addEmoji($event)"
+          title="Pick emoji…"
+          [color]="{ color: '#28529f' }"
+          [emojiSize]="20"
+        ></emoji-mart>
+      </div>
+      <div *ngFor="let message of messages" class="messg_conteiner">
+        <div class="send_by" *ngIf="mesage_sent">
+          <div>
+            <p>Bojan Savic</p>
+          </div>
+          <div>
+            <svg-icon src="../../../assets/img/svgs/On_Text_hover.svg"></svg-icon>
+          </div>
+        </div>
+        <div class="text">
+          <p>{{ message.message }}</p>
+        </div>
+        <div class="time_sent">
+          <p>{{ message.time | date: 'short' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="send_mesage">
+      <div class="is_tuping">
+        <div>
+          <p><strong>Bojan Savic</strong> is typing</p>
+        </div>
+        <div class="animation-tiping">
+          <svg-icon src="../../../assets/img/svgs/TypingChatAnimation.svg"></svg-icon>
+        </div>
+      </div>
+      <div class="input_message">
+        <div class="send-message-holder">
+          <textarea
+            placeholder="Type your message here"
+            [(ngModel)]="mesage_to_send"
+            (keydown)="onEnter($event)"
+          ></textarea>
+
+          <div class="emoji-icons">
+            <svg-icon src="assets/img/emoji-icon.svg" (click)="onShowEmoju()"></svg-icon>
+            <svg-icon src="assets/img/svgs/attach.svg"></svg-icon>
+            <svg-icon src="assets/img/svgs/send-message-icon.svg" (click)="onSend()"></svg-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+@import '../applicant.component.scss';
+
+
+.reviewer-slideShow {
+  &__firstrow {
+    position: absolute;
+    top: 21px;
+    left: 460px;
+  }
+}
+
+.dropBox {
+  margin-bottom: 0px !important;
+}
+
+.reviewConfirmAll {
+  bottom: 110px;
+}
+
+.medical {
+  &_paragraf {
+    font-weight: bold;
+  }
+  &_row {
+    width: 400px;
+    margin: 0 auto 0 92px;
+  }
+  &_uploadFile {
+    padding-left: 40px;
+    width: 456px;
+    height: 177px;
+    margin: 0 auto;
+  }
+}
+
+// Mobile screen
+@media only screen and (max-width: 414px) {
+  .medical {
+    margin-left: 12px !important;
+    &_row {
+      margin-left: 61px !important;
+    }
+  }
+
+  .rowMobile {
+    margin-top: -27px !important;
+    margin-bottom: -27px !important;
+    .col-12 {
+      max-width: 72% !important;
+      margin-left: 8px;
+    }
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .medical {
+    margin-left: 12px !important;
+    &_row {
+      margin-left: 50px !important;
+    }
+  }
+}
+@media only screen and (max-width: 361px) {
+  .slideShow {
+    margin-left: 4px !important;
+  }
+}
+

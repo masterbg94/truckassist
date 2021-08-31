@@ -1,0 +1,620 @@
+
+$sidebarItems: "7040A1", "009E61", "FF5C50", "00ACF0", "FFAA00", "919191", "9842D8", "00C76E", "FF7B1D", "49CBFF", "50DC96", "D1D1D1", "FFD400", "31E5DD";
+
+
+.cdk_list{
+    position: fixed;
+    height: 100%;
+    top: 0;
+    pointer-events: none;
+    z-index: 999;
+    &.dont_show{
+        pointer-events: all;
+    }
+}
+
+.note_drag_side{
+    top: 0;
+    position: fixed;
+    height: 100%;
+    padding: 12px 12px 12px 35px;
+    pointer-events: none;
+    z-index: 99999999;
+
+    div{
+        pointer-events: all;
+    }
+}
+
+.right_corner_hold{
+    width: 14px;
+    background-color: #fff;
+}
+
+.bottom_corner_hold{
+    height: 14px;
+    background-color: #fff;
+    width: calc(100% - 14px);
+    border-bottom-left-radius: 3px;
+}
+
+.note_inner_html{
+    flex: 1;
+    padding: 12px 12px 0 12px;
+    min-height: 50px;
+    background-color: #fff;
+    transition: all 0.01s;
+    overflow: auto;
+
+    span.userUnselectable{
+        user-select: none;
+    }
+}
+
+.note-sidebar{
+    position: fixed;
+    top: 0;
+    height: 100vh;
+
+    background: #eeeeee;
+    z-index: 999999;
+    transform: translateX(calc(-100% - 50px));
+
+    transition: transform 0.3s ease-in-out;
+
+    &.active{
+        transform: translateX(-100%);
+    }
+    
+    .note-resize{
+        display: none;
+        position: absolute;
+        bottom: 90px;
+        justify-content: center;
+        align-items: center;
+        right: -16px;
+        width: 32px;
+        height: 32px;
+        z-index: 10;
+
+        &:hover{
+            cursor: grab;
+            svg{
+                circle{
+                    fill: #919191;
+                }
+                path{
+                    fill: #fff;
+                }
+            }
+        }
+
+        &:active{
+            cursor: grabbing;
+        }
+    }
+
+    .note-sidebar-main{
+        flex-direction: column;
+        height: 100%;
+        box-shadow: 0 0 4px 0 rgb(0 0 0 / 15%);
+
+        .sidebar-notes{
+            flex: 1;
+
+            background-color: #fff;
+            border-top-right-radius: 3px;
+
+            overflow: auto;
+        }
+    }
+    .sidebar-toggle{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 16px;
+        height: 56px;
+        right: -16px;
+        top: 50%;
+        transform: translateY(-50%);
+    
+        box-shadow: 1px 0 3px 0 rgb(0 0 0 / 15%);
+        background-color: #F9F9F9;
+        border-radius: 0px 3px 3px 0px;
+        z-index: 100;
+    
+        svg-icon{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+        svg{
+          width: 8px;
+          height: 14px;
+          transition: rotate 0.3s ease-in;
+          
+          path{
+            fill: #B7B7B7;
+          }
+        }
+    
+        &:hover{
+          background-color: #919191;
+          cursor: pointer;
+          svg{
+            path{
+              fill: #FFF;
+            }
+          }
+        }
+    }
+
+    &.opened{
+        transform: translateX(0);
+
+        .note-resize{
+            display: flex;
+        }
+    
+        .sidebar-toggle{
+          svg{
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+    .note-sidebar-header{
+        width: 100%;
+
+        .note-head-title{
+            user-select: none;
+        }
+
+        .plus-svg-container.innactive{
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        &.note-main-sidebar{
+            input.note-width, .save-opened-item{
+                width: 100%;
+                padding: 0;
+
+                color: #6C6C6C;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .accept_changes{
+                right: 14px;
+            }
+
+            .dismiss_changes{
+                right: -11px;
+            }
+        }
+
+        .note-side-title{
+            display: flex;
+            align-items: center;
+            flex: 1;
+            padding-left: 12px;
+
+            background-color: #fff;
+            border-radius: 3px;
+            
+            font-size: 16px;
+            color: #919191;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .plus-svg-container{
+            margin-left: 2px !important;
+        }
+    }
+
+    
+    .note-types{
+        background-color: #fff;
+        height: 30px;
+        margin: 2px 0;
+        border-radius: 0 3px 3px 0;
+        .note-types-items{
+            position: relative;
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+
+            line-height: 2px;
+            overflow: hidden;
+
+            .type-main-holder{
+                height: 30px;
+                display: flex;
+                width: 100%;
+                scroll-behavior: smooth;
+
+                overflow: hidden;
+            }
+
+            &.with_scroll{
+                padding: 0 30px;
+            }
+
+            .scroll-items{
+                position: absolute;
+                left: 15px;
+
+                &.right-scroll{
+                    left: auto;
+                    display: flex;
+                    right: 0px;
+                    height: 100%;
+                    width: 30px;
+
+                    justify-content: center;
+                    align-items: center;
+
+                    background-color: #fff;
+
+                    z-index: 100;
+                }
+
+                svg{
+                    width: 7px;
+                    height: 12px;
+                    path{
+                        fill: #DADADA;
+                    }
+                }
+
+                &:hover{
+                    cursor: pointer;
+                    svg{
+                        path{
+                            fill: #919191;
+                        }
+                    }
+                }
+            }
+
+            .note-types-item{
+                position: relative;
+                height: 100%;
+                min-width: 120px;
+                display: flex;
+                align-items: center;
+                margin-right: 2px;
+                padding-top: 3px;
+
+                color: #B7B7B7;
+                font-size: 12px;
+                font-weight: bold;
+
+                .note-type-border{
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    background-color: rgba(255, 229, 103, 0.7);
+                    height: 4px;
+                    border-radius: 3px 3px 0 0;
+                    z-index: 5;
+                    transition: height 0.1s;
+                    cursor: pointer;
+
+                    &.innactive{
+                        pointer-events: none;
+                        z-index: 10;
+                    }
+
+                    @for $i from 1 through 14{
+                        &.border_#{$i} {
+                            background-color: unquote('#' + nth($sidebarItems, $i)  + '40');
+                        }
+                    }
+
+                    .note-types-menu{
+                        display: none;
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
+
+                        svg-icon{
+                            padding-left: 10px;
+
+                            svg{
+                                path{
+                                    fill: rgba(255, 255, 255, 0.7)
+                                }
+                            }
+                        }
+
+                        &:hover{
+                            svg{
+                                path{
+                                    fill: rgba(255, 255, 255, 1)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                span{
+                    position: relative;
+                    padding-left: 5px;
+
+                    z-index: 10;
+
+                    &.main_title{
+                        padding-right: 45px;
+                        cursor: pointer;
+                        user-select: none;
+                    }
+                }
+
+                &.active{
+                    color: #fff;
+                    .note-type-border{
+                        height: 27px;
+
+                        @for $i from 1 through 14{
+                            &.border_#{$i} {
+                                background-color: unquote('#' + nth($sidebarItems, $i));
+                            }
+                        }
+
+                        .note-types-menu{
+                            display: block;
+                        }
+                    }
+                }
+
+                &:hover{
+                    color: #fff;
+                    .note-type-border{
+                        height: 27px;
+                        .note-types-menu{
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+
+        .add-note-type{
+            position: relative;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+            svg{
+                position: relative;
+                width: 12px;
+                height: 12px;
+                path{
+                    fill: #DADADA;
+                }
+            }
+
+            &.innactive{
+                pointer-events: none;
+
+                svg{
+                    path{
+                        fill: #f0eeee;
+                    }
+                }
+            }
+
+            &:hover{
+                cursor: pointer;
+                svg{
+                    path{
+                        fill: #919191;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.sidebar-notes{
+    padding: 12px;
+
+    &.started_resize{
+        ::ng-deep{
+            .note-sidebar-item-field{
+                pointer-events: none;
+                user-select: none;
+                span{
+                    user-select: none;
+                }
+            } 
+        }
+    }
+}
+
+.note-editor{
+    padding: 12px;
+    background-color: #fff;
+    margin-bottom: 2px;
+}
+
+.save-opened-item{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    z-index: 11;
+    input{
+        padding: 0 45px 0 5px;
+        border: none;
+        outline: none;
+        width: 120px;
+
+        background-color: transparent;
+
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    span.input-buttons{
+        position: absolute !important;
+        display: flex;
+        align-items: center;
+        width: 20px;
+        top: 0;
+        height: 100%;
+
+        padding-left: 0 !important;
+
+        &.accept_changes{
+            right: 20px;
+        }
+
+        &.dismiss_changes{
+            right: 0px;
+        }
+
+        svg{
+            path, rect{
+                fill: rgba(255, 255, 255, 0.7);
+                opacity: 1;
+            }
+        }
+
+        &:hover{
+            cursor: pointer;
+
+            svg{
+                path, rect{
+                    fill: rgba(255, 255, 255, 1)
+                }
+            }
+        }
+
+    }
+}
+
+// ::ng-deep{
+//     app-truckassist-dropdown{
+//         .dropdown-toggle{
+
+//             svg{
+//                 path{
+//                     fill: rgba(255, 255, 255, 0.7) !important;
+//                 }
+//             }
+
+//             &:hover, &[aria-expanded=true]{
+//                 cursor: pointer;
+
+//                 svg{
+//                     path{
+//                         fill: rgba(255, 255, 255, 1) !important;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+.hidden-overflow{
+    overflow: hidden;
+}
+
+
+.drop-down-delete-dialog{
+    position: relative !important;
+}
+
+.group-dropdown{
+    display: none;
+    //display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 158px;
+    right: 0;
+    top: 28px;
+    transform: translateX(100%);
+    background-color: #fff;
+    box-shadow: 0 0 4px 0 rgb(0 0 0 / 15%);
+    z-index: 10;
+    border-radius: 0px 3px 3px 3px;
+    overflow: hidden;
+    &:hover{
+        display: flex;
+    }
+
+    .group-dropdown-item{
+        display: flex;
+        align-items: center;
+        height: 28px;
+        padding: 2px;
+        margin-top: 2px;
+        
+        color: #fff;
+        cursor: pointer;
+        order: 2;
+
+        @for $i from 1 through 14{
+            &.group_item_#{$i} {
+                background-color: unquote('#' + nth($sidebarItems, $i)  + '70');
+                &.order_first{
+                    background-color: unquote('#' + nth($sidebarItems, $i)  + '30') !important;
+                }
+            }
+
+            &.group_item_#{$i}:hover {
+                background-color: unquote('#' + nth($sidebarItems, $i));
+            }
+        }
+
+        &.order_first{
+            order: 1;
+            pointer-events: none;
+            border-radius: 0 3px 0 0;
+            margin-top: 0px;
+        }
+
+        .group-names{
+            padding-left: 5px;
+            font-size: 12px;
+        }
+
+        .group-count{
+            width: 23px;
+            height: 23px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 3px;
+            text-align: center;
+
+            background-color: rgba(255, 255, 255, 0.3);
+
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+        }
+    }
+}
+
+.assing-note-popup{
+    position: relative;
+    .group-name{
+        position: relative;
+        z-index: 11;
+        
+        font-size: 12px;
+    }
+}

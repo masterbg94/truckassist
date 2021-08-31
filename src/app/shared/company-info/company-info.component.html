@@ -1,0 +1,1170 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+
+  <div *ngIf="this.modalTitle === 'Company Info'" class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <app-ta-tab-switch
+      (switchClicked)="tabChange($event)"
+      [tabs]="companyTabs"
+    ></app-ta-tab-switch>
+    <form
+      [formGroup]="companyForm"
+      (keydown)="keyDownFunction($event)"
+      class="form-container has-tabs tabs-3{{ ' tab-' + selectedTab }}"
+      *ngIf="loaded"
+    >
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group">
+              <input
+                id="name"
+                class="form-control input-control required"
+                placeholder="Company name"
+                maxlength="30"
+                formControlName="name"
+                (paste)="onPaste($event, 'name')"
+                (keypress)="onNameTyping($event)"
+                appInputFocus
+                appAutoFocus
+                [modalType]="inputData.createNew ? 'new' : 'edit'"
+              />
+              <label class="required-label" for="name">Company name</label>
+              <app-required-label [control]="companyForm.controls.name"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="mcNumber"
+                class="form-control input-control required"
+                placeholder="MC #"
+                formControlName="mcNumber"
+                (paste)="onPaste($event, 'mcNumber', 8)"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                maxlength="8"
+              />
+              <label class="required-label" for="mcNumber">MC #</label>
+              <app-required-label [control]="companyForm.controls.mcNumber"></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="usDotNumber"
+                class="form-control input-control required"
+                placeholder="USDOT #"
+                formControlName="usDotNumber"
+                (paste)="onPaste($event, 'usDotNumber', 9)"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                maxlength="8"
+              />
+              <label class="required-label" for="usDotNumber">USDOT #</label>
+              <app-required-label
+                [control]="companyForm.controls.usDotNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="taxNumber"
+                class="form-control input-control required"
+                placeholder="EIN"
+                formControlName="taxNumber"
+                mask="00-0000000"
+              />
+              <label class="required-label" for="taxNumber" appInputFocus>EIN</label>
+              <app-required-label [control]="companyForm.controls.taxNumber"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phone"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Phone"
+                formControlName="phone"
+                mask="(000) 000-0000"
+              />
+              <label class="required-label" for="phone">Phone</label>
+              <app-required-label [control]="companyForm.controls.phone"></app-required-label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="email"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Email"
+                formControlName="email"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'email')"
+              />
+              <label class="required-label" for="email">Email</label>
+              <app-required-label [control]="companyForm.controls.email"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <div
+              class="form-label-group input-icon address-field-wrapper {{
+                manageInputValidation(companyForm.controls.address)
+              }}"
+            >
+              <input
+                id="address"
+                class="form-control input-control required"
+                placeholder="Address, City, State Zip"
+                formControlName="address"
+                appInputFocus
+                ngx-google-places-autocomplete
+                [options]="options"
+                #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)"
+              />
+              <label class="required-label" for="address">Address, City, State Zip</label>
+              <app-required-label [control]="companyForm.controls.address"></app-required-label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <!--  appInputrestriction="[A-Za-z0-9-]" -->
+              <input
+                id="address_unit"
+                class="form-control input-control"
+                placeholder="Unit #"
+                formControlName="address_unit"
+                maxlength="6"
+                (keypress)="onUnitTyping($event)"
+                appInputFocus
+              />
+              <label for="address_unit">Unit #</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="upload-logo-preview" *ngIf="!editLogoActive && companyForm.controls.avatar">
+              <img
+                *ngIf="this.inputData.company.doc.additional.avatar"
+                [src]="companyForm.controls.avatar.value.src"
+              />
+              <div class="upload-action-buttons d-flex justify-content-between">
+                <p>Your logo will appear on invoices</p>
+                <div style="margin-top: -3px;">
+                  <svg-icon src="assets/img/svgs/edit-logo.svg" (click)="editLogo()"></svg-icon>
+                  <svg-icon src="assets/img/svgs/delete-logo.svg" (click)="deleteLogo()"></svg-icon>
+                </div>
+              </div>
+            </div>
+            <div
+              class="upload-logo-wrapper d-flex flex-row"
+              *ngIf="!showUploadZone && editLogoActive"
+            >
+            <app-logo-change
+            (saveAvatar)="callSaveAvatar($event)"
+            (cancel)="callCancel($event)"
+          ></app-logo-change>
+            </div>
+            <div class="upload-logo-zone d-flex flex-row" *ngIf="showUploadZone">
+              <app-upload-logo></app-upload-logo>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="row no-margin-row">
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="irpNumber"
+                    class="form-control input-control"
+                    placeholder="IRP #"
+                    formControlName="irpNumber"
+                    maxlength="10"
+                  />
+                  <label for="irpNumber">IRP #</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="iftaNumber"
+                    class="form-control input-control"
+                    placeholder="IFTA #"
+                    formControlName="iftaNumber"
+                    maxlength="14"
+                  />
+                  <label for="iftaNumber">IFTA #</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="scacNumber"
+                    class="form-control input-control"
+                    placeholder="SCAC #"
+                    formControlName="scacNumber"
+                    maxlength="6"
+                  />
+                  <label for="scacNumber">SCAC #</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="ipassEzpass"
+                class="form-control input-control"
+                placeholder="IPASS/EZPASS #"
+                formControlName="ipassEzpass"
+                maxlength="11"
+              />
+              <label for="ipassEzpass">IPASS/EZPASS #</label>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="!inputData.createNew && inputData.company.category == 'company'">
+          <div class="col-12">
+            <div class="form-label-group">
+              <ng-select
+                [items]="timeZones"
+                formControlName="timeZone"
+                bindLabel="name"
+                placeholder="Time zone"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3" *ngIf="!inputData.createNew && inputData.company.category == 'company'">
+            <div class="form-label-group">
+              <ng-select
+                [items]="currencies"
+                formControlName="currency"
+                bindLabel="name"
+                placeholder="Currency"
+                class="required-field"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label
+                [control]="companyForm.controls.currency"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="!inputData.createNew && inputData.company.category == 'company'">
+            <div class="form-label-group">
+              <input
+                id="startLoadNumber"
+                class="form-control input-control required"
+                placeholder="Load #"
+                formControlName="startLoadNumber"
+                maxlength="7"
+              />
+              <label class="required-label" for="startLoadNumber">Starting Load #</label>
+              <app-required-label
+                [control]="companyForm.controls.startLoadNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-5">
+            <app-truckassist-checkbox
+              id="checkbox-2"
+              [checked]="this.inputData.company.doc.additional.invoicing"
+              (change)="invoicingAuto($event)"
+              [text]="textTest"
+            >
+            </app-truckassist-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="form-label-group">
+              <input
+                id="webUrl"
+                class="form-control input-control"
+                placeholder="Web url"
+                formControlName="webUrl"
+                appInputFocus
+              />
+              <label for="webUrl">Web url</label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="fax"
+                class="form-control input-control"
+                placeholder="Fax"
+                formControlName="fax"
+                mask="(000) 000-0000"
+                appInputFocus
+              />
+              <label for="fax">Fax</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+            <div class="note-label-wrapper" (click)="openNote()">
+              <span class="note-label">Note</span>
+              <svg-icon
+                src="assets/img/svgs/down-arrow.svg"
+                class="down-icon"
+              ></svg-icon>
+            </div>
+            <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+                <textarea
+                  cdkTextareaAutosize
+                  #note
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5"
+                  formControlName="note"
+                  class="input-custom-textarea form-textarea"
+                ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group" *ngIf="!newBankVisible">
+              <ng-select
+                placeholder="Bank name"
+                [items]="bankData"
+                formControlName="bank"
+                bindLabel="bankName"
+                class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+                (search)="onSearch($event)"
+                (close)="onClose($event)"
+                (clear)="onClose($event)"
+                (change)="onBankChange($event)"
+                [searchFn]="customSearch"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                  <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+                </ng-template>
+
+                <ng-template ng-label-tmp let-item="item">
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                    {{ item.bankName }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+
+            <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+              <div class="form-label-group">
+                <input
+                  id="newBank"
+                  class="form-control input-control"
+                  placeholder="New bank"
+                  [(ngModel)]="newBank"
+                  [ngModelOptions]="{standalone: true}"
+                  (keypress)="onBankKeyPress($event)"
+                  appInputFocus
+                >
+                <label for="newBank">New bank</label>
+                <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+                </span>
+                <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <div class="form-label-group">
+              <input
+                id="accountNumber"
+                class="form-control input-control required"
+                placeholder="Account number"
+                formControlName="accountNumber"
+                minlength="4"
+                maxlength="17"
+                (paste)="onPaste($event, 'accountNumber', 17)"
+                type="number"
+                [required]="bankInfoRequired"
+              />
+              <label for="accountNumber">Account number</label>
+              <app-required-label
+                *ngIf="bankInfoRequired"
+                [control]="companyForm.controls.accountNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-label-group">
+              <input
+                id="routingNumber"
+                class="form-control input-control required"
+                placeholder="Routing number"
+                formControlName="routingNumber"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                mask="000000000"
+                appInputFocus
+                type="text"
+                [required]="bankInfoRequired"
+              />
+              <label for="routingNumber">Routing number</label>
+              <app-required-label
+                *ngIf="bankInfoRequired"
+                [control]="companyForm.controls.routingNumber"
+              ></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Dispatch</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneDispatch"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneDispatch"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneDispatch">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailDispatch"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailDispatch"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailDispatch')"
+              />
+              <label for="emailDispatch">Email</label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Accounting</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneAccounting"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneAccounting"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneAccounting">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailAccounting"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailAccounting"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailAccounting')"
+              />
+              <label for="emailAccounting">Email</label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Safety</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneSafety"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneSafety"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneSafety">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailSafety"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailSafety"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailSafety')"
+              />
+              <label for="emailSafety">Email</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-label-group">
+              <ng-select
+                [items]="payPeriods"
+                formControlName="payPeriod"
+                bindLabel="name"
+                placeholder="Pay period"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-label-group">
+              <ng-select
+                *ngIf="
+                  companyForm.controls.payPeriod.value !== undefined &&
+                  companyForm.controls.payPeriod.value !== null &&
+                  companyForm.controls.payPeriod.value.id !== 'monthly'
+                "
+                [items]="days"
+                formControlName="endingIn"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Ending in"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Default Pay</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-label-group">
+              <ng-select
+                placeholder="Driver"
+                [items]="paymentTypes"
+                formControlName="paymentType"
+                (change)="changePaymentType($event)"
+                bindLabel="name"
+                (click)="updatePaymentType()"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-6">
+            Owner
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3" *ngIf="this.inputData.company.doc.additional.paymentType.id == 'mile' && this.inputData.company.doc.additional.paymentType.id">
+            <div class="form-label-group">
+              <input
+                id="loadedMiles"
+                class="form-control input-control"
+                placeholder="Loaded"
+                formControlName="loadedMiles"
+              />
+              <label for="loadedMiles">Loaded</label>
+            </div>
+          </div>
+          <div class="col-3" *ngIf="this.inputData.company.doc.additional.paymentType.id == 'mile' && this.inputData.company.doc.additional.paymentType.id">
+            <div class="form-label-group">
+              <input
+                id="emptyMiles"
+                class="form-control input-control"
+                placeholder="Empty"
+                formControlName="emptyMiles"
+              />
+              <label for="emptyMiles">Empty Miles</label>
+            </div>
+          </div>
+          <div class="col-6" *ngIf="this.inputData.company.doc.additional.paymentType.id == 'commission' && this.inputData.company.doc.additional.paymentType.id">
+            <div class="slider-wrapper company-slider-wrapper">
+              <ngx-slider
+                formControlName="commissionDriver"
+                [options]="driverSliderOptions"
+              ></ngx-slider>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="company-slider-wrapper">
+              <ngx-slider formControlName="commission" [options]="sliderOptions"></ngx-slider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="modalTitle == 'New Division Company' || modalTitle == 'Division Company Info'" class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <app-ta-tab-switch
+      (switchClicked)="tabChange($event)"
+      [tabs]="divisionTabs"
+    ></app-ta-tab-switch>
+    <form
+      [formGroup]="companyForm"
+      (keydown)="keyDownFunction($event)"
+      class="form-container has-tabs tabs-2{{ ' tab-' + selectedTab }}"
+      *ngIf="loaded"
+    >
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group">
+              <input
+                id="name"
+                class="form-control input-control required"
+                placeholder="Company name"
+                maxlength="30"
+                formControlName="name"
+                (paste)="onPaste($event, 'name')"
+                (keypress)="onNameTyping($event)"
+                appInputFocus
+                appAutoFocus
+                [modalType]="inputData.createNew ? 'new' : 'edit'"
+              />
+              <label class="required-label" for="name">Company name</label>
+              <app-required-label [control]="companyForm.controls.name"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="mcNumber"
+                class="form-control input-control required"
+                placeholder="MC #"
+                formControlName="mcNumber"
+                (paste)="onPaste($event, 'mcNumber', 8)"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                maxlength="8"
+              />
+              <label class="required-label" for="mcNumber">MC #</label>
+              <app-required-label [control]="companyForm.controls.mcNumber"></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="usDotNumber"
+                class="form-control input-control required"
+                placeholder="USDOT #"
+                formControlName="usDotNumber"
+                (paste)="onPaste($event, 'usDotNumber', 9)"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                maxlength="8"
+              />
+              <label class="required-label" for="usDotNumber">USDOT #</label>
+              <app-required-label
+                [control]="companyForm.controls.usDotNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="taxNumber"
+                class="form-control input-control required"
+                placeholder="EIN"
+                formControlName="taxNumber"
+                mask="00-0000000"
+              />
+              <label class="required-label" for="taxNumber" appInputFocus>EIN</label>
+              <app-required-label [control]="companyForm.controls.taxNumber"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phone"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Phone"
+                formControlName="phone"
+                mask="(000) 000-0000"
+              />
+              <label class="required-label" for="phone">Phone</label>
+              <app-required-label [control]="companyForm.controls.phone"></app-required-label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="email"
+                appInputFocus
+                class="form-control input-control required"
+                placeholder="Email"
+                formControlName="email"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'email')"
+              />
+              <label class="required-label" for="email">Email</label>
+              <app-required-label [control]="companyForm.controls.email"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <div
+              class="form-label-group input-icon address-field-wrapper {{
+                manageInputValidation(companyForm.controls.address)
+              }}"
+            >
+              <input
+                id="address"
+                class="form-control input-control required"
+                placeholder="Address, City, State Zip"
+                formControlName="address"
+                appInputFocus
+                ngx-google-places-autocomplete
+                [options]="options"
+                #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)"
+              />
+              <label class="required-label" for="address">Address, City, State Zip</label>
+              <app-required-label [control]="companyForm.controls.address"></app-required-label>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-label-group">
+              <input
+                id="address_unit"
+                class="form-control input-control"
+                placeholder="Unit #"
+                formControlName="address_unit"
+                maxlength="6"
+                appInputrestriction="[A-Za-z0-9-]"
+                appInputFocus
+              />
+              <label for="address_unit">Unit #</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="upload-logo-preview"
+              *ngIf="!editLogoActive && logoUrl !== '' && logoUrl !== null"
+            >
+              <img src="{{ logoUrl }}" />
+              <div class="upload-action-buttons">
+                <svg-icon src="assets/img/svgs/edit-logo.svg" (click)="editLogo()"></svg-icon>
+                <svg-icon src="assets/img/svgs/delete-logo.svg" (click)="deleteLogo()"></svg-icon>
+                <p>Your logo will appear on invoices</p>
+              </div>
+            </div>
+            <div
+              class="upload-logo-wrapper d-flex flex-row"
+              *ngIf="!showUploadZone && editLogoActive"
+            >
+              <span class="logo-upload-icon left-gear-small"></span>
+              <span class="logo-upload-icon left-gear-large"></span>
+              <span class="logo-upload-icon left-bottom-cloud-dark"></span>
+              <span class="logo-upload-icon left-bottom-cloud-white"></span>
+              <span class="logo-upload-icon left-line"></span>
+              <span class="logo-upload-icon jpg-logo"></span>
+              <span class="logo-upload-icon png-logo"></span>
+              <span class="logo-upload-icon right-gear-large"></span>
+              <span class="logo-upload-icon right-top-cloud-dark"></span>
+              <span class="logo-upload-icon right-top-cloud-white"></span>
+              <span class="logo-upload-icon right-line"></span>
+              <span class="logo-upload-icon files-box"></span>
+              <span class="drag-image-text">Drag image here or click to add</span>
+            </div>
+            <div class="upload-logo-zone d-flex flex-row" *ngIf="showUploadZone">
+              <app-upload-logo></app-upload-logo>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="row no-margin-row">
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="irpNumber"
+                    class="form-control input-control"
+                    placeholder="IRP #"
+                    formControlName="irpNumber"
+                    maxlength="10"
+                  />
+                  <label for="irpNumber">IRP #</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="iftaNumber"
+                    class="form-control input-control"
+                    placeholder="IFTA #"
+                    formControlName="iftaNumber"
+                    maxlength="14"
+                  />
+                  <label for="iftaNumber">IFTA #</label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-label-group">
+                  <input
+                    id="scacNumber"
+                    class="form-control input-control"
+                    placeholder="SCAC #"
+                    formControlName="scacNumber"
+                    maxlength="6"
+                  />
+                  <label for="scacNumber">SCAC #</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group">
+              <input
+                id="ipassEzpass"
+                class="form-control input-control"
+                placeholder="IPASS/EZPASS #"
+                formControlName="ipassEzpass"
+                maxlength="11"
+              />
+              <label for="ipassEzpass">IPASS/EZPASS #</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="form-label-group">
+              <input
+                id="webUrl"
+                class="form-control input-control"
+                placeholder="Web url"
+                formControlName="webUrl"
+                appInputFocus
+              />
+              <label for="webUrl">Web url</label>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="fax"
+                class="form-control input-control"
+                placeholder="Fax"
+                formControlName="fax"
+                mask="(000) 000-0000"
+                appInputFocus
+              />
+              <label for="fax">Fax</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+            <div class="note-label-wrapper" (click)="openNote()">
+              <span class="note-label">Note</span>
+              <svg-icon
+                src="assets/img/svgs/down-arrow.svg"
+                class="down-icon"
+              ></svg-icon>
+            </div>
+            <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+                <textarea
+                  cdkTextareaAutosize
+                  #note
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5"
+                  formControlName="note"
+                  class="input-custom-textarea form-textarea"
+                ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-label-group" *ngIf="!newBankVisible">
+              <ng-select
+                placeholder="Bank name"
+                [items]="bankData"
+                formControlName="bank"
+                bindLabel="bankName"
+                class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+                (search)="onSearch($event)"
+                (close)="onClose($event)"
+                (clear)="onClose($event)"
+                (change)="onBankChange($event)"
+                [searchFn]="customSearch"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                  <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+                </ng-template>
+
+                <ng-template ng-label-tmp let-item="item">
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                    <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                  </span>
+                  <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                    {{ item.bankName }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+
+            <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+              <div class="form-label-group">
+                <input
+                  id="newBank"
+                  class="form-control input-control"
+                  placeholder="New bank"
+                  [(ngModel)]="newBank"
+                  [ngModelOptions]="{standalone: true}"
+                  (keypress)="onBankKeyPress($event)"
+                  appInputFocus
+                >
+                <label for="newBank">New bank</label>
+                <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+                </span>
+                <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                  <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <div class="form-label-group">
+              <input
+                id="accountNumber"
+                class="form-control input-control required"
+                placeholder="Account number"
+                formControlName="accountNumber"
+                minlength="4"
+                maxlength="17"
+                (paste)="onPaste($event, 'accountNumber', 17)"
+                type="number"
+                [required]="bankInfoRequired"
+              />
+              <label for="accountNumber">Account number</label>
+              <app-required-label
+                *ngIf="bankInfoRequired"
+                [control]="companyForm.controls.accountNumber"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-label-group">
+              <input
+                id="routingNumber"
+                class="form-control input-control required"
+                placeholder="Routing number"
+                formControlName="routingNumber"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                mask="000000000"
+                appInputFocus
+                type="text"
+                [required]="bankInfoRequired"
+              />
+              <label for="routingNumber">Routing number</label>
+              <app-required-label
+                *ngIf="bankInfoRequired"
+                [control]="companyForm.controls.routingNumber"
+              ></app-required-label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Dispatch</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneDispatch"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneDispatch"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneDispatch">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailDispatch"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailDispatch"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailDispatch')"
+              />
+              <label for="emailDispatch">Email</label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Accounting</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneAccounting"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneAccounting"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneAccounting">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailAccounting"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailAccounting"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailAccounting')"
+              />
+              <label for="emailAccounting">Email</label>
+            </div>
+          </div>
+        </div>
+        <div class="row subtitle-row">
+          <div class="txt-area">
+            <div class="bold-txt">Safety</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-label-group input-icon phone-field-wrapper">
+              <input
+                id="phoneSafety"
+                class="form-control input-control"
+                appInputFocus
+                placeholder="Phone"
+                formControlName="phoneSafety"
+                mask="(000) 000-0000"
+              />
+              <label for="phoneSafety">Phone</label>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="form-label-group input-icon email-field-wrapper">
+              <input
+                id="emailSafety"
+                appInputFocus
+                class="form-control input-control"
+                placeholder="Email"
+                formControlName="emailSafety"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (keypress)="onEmailTyping($event)"
+                (paste)="onPaste($event, 'emailSafety')"
+              />
+              <label for="emailSafety">Email</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="updateGeneralInfo()" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

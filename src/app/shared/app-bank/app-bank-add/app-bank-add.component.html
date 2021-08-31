@@ -1,0 +1,34 @@
+<!--Add new bank-->
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">New bank</h5>
+  <i class="fal fa-times cursor-pointer fs-24 icon-hover-primary" (click)="closeBankModal()"></i>
+</div>
+<div class="modal-body">
+  <form class="form-container" [formGroup]="bankForm">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-label-group">
+            <input
+              id="name"
+              type="number"
+              class="form-control input-control required"
+              placeholder="Bank name"
+              formControlName="name"
+              appInputrestriction="[A-Za-z\s]"
+              appInputFocus
+            >
+            <label class="required-label" for="name">Number of payments</label>
+            <app-required-label [control]="bankForm.controls.name"></app-required-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-btn" (click)="closeBankModal()">Cancel</button>
+  <button type="button" class="save-btn" (click)="addBank()" ngbAutofocus>Save</button>
+</div>
+</div>

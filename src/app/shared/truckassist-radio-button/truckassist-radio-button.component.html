@@ -1,0 +1,19 @@
+<div class="d-flex align-items-center radio-button-container">
+  <button
+    class="radio-button-circle f-flex"
+    (click)="select()"
+    [ngClass]="model === value ? 'checked' : 'not-checked'"
+    [disabled]="disabled"
+  >
+    <div class="element">
+      <ng-content></ng-content>
+    </div>
+  </button>
+
+  <label
+    class="radio-button-label"
+    (click)="select()"
+    [ngClass]="model === value ? 'checked' : 'not-checked'"
+    >{{ value }} <span class="items-counter" *ngIf="length">({{ length }})</span></label
+  >
+</div>

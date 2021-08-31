@@ -1,0 +1,23 @@
+<table class="truckassist-excel-table" id="exportExscel">
+  <thead>
+    <tr class="table-header">
+      <th *ngFor="let column of columns; let i = index">
+        <span class="field-value">
+          {{ column.name }}
+        </span>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="truckassist-tbody">
+    <tr *ngFor="let row of exportData; let i = index">
+      <td *ngFor="let column of columns; let i = index">
+        <span class="field-value" *ngIf="!column.progress" [innerHtml]="getValueByField(row, column.field)"></span>
+        <span class="filed-value" *ngIf="column.progress" [innerHtml]="column.progress.end
+        ? column.progress.start
+          ? (getValueByField(row, column.progress.end) | date: 'shortDate')
+          : (getExpireData(getValueByField(row, column.progress.end)) | date: 'shortDate')
+        : undefined"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>

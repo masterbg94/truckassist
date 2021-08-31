@@ -1,0 +1,450 @@
+@import '../../applicant.component.scss';
+
+.reviewer-slideShow {
+  &__location {
+    position: absolute; top: 4px; left: 296px; z-index: 999999;
+  }
+  &__date {
+    position: absolute; top: 4px; left: 43px; z-index: 999999;
+  }
+
+  &__firstrow {
+    position: absolute;
+    top: 4px;
+    left: 104px;
+  }
+  &__secondrow {
+    position: absolute;
+    top: 54px;
+    left: 485px;
+  }
+  &__thirdrow {
+    position: absolute;
+    top: 29px;
+    left: 485px;
+  }
+  .reviewConfirmAll {
+    bottom: 140px;
+  }
+}
+
+.centerContent {
+  margin-top: 25px !important;
+}
+.deleteInjuresFatality {
+  position: absolute;
+  top: 1px;
+  right: -9px;
+  cursor: pointer;
+  display: none;
+
+  &:hover {
+    display: inline-block;
+
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_mobile {
+    display: none;
+  }
+  @media only screen and (max-width: 414px) {
+    right: 60px;
+    display: inline-block;
+    &_desktop {
+      display: none;
+    }
+    &_mobile {
+      display: inline-block;
+    }
+  }
+  @media only screen and (max-width: 376px) {
+    right: 25px;
+  }
+}
+
+.editInjuresFatality {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  cursor: pointer;
+  display: none;
+
+  &:hover {
+    display: inline-block;
+
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.yesno {
+  top: 19px !important;
+  left: 29px !important;
+  position: absolute;
+
+  @media only screen and (max-width: 414px) {
+    top: 128px !important;
+    left: 28px !important;
+  }
+}
+
+.addAccident {
+  text-decoration: none;
+  color: rgba(86, 115, 170, 0.7);
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  top: -12px;
+  left: -14px;
+  margin: 0 auto;
+  &-show {
+    top: -5px;
+  }
+  &:hover {
+    color: $color-blue-normal;
+  }
+  @media only screen and (max-width: 414px) {
+    left: -5px;
+    top: -15px;
+  }
+  @media only screen and (max-width: 361px) {
+    left: 1px;
+  }
+}
+
+.accident {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: -2px !important;
+  padding: 0px;
+  width: 495px;
+
+  &_input {
+    background-color: #919191 !important;
+    text-align: center;
+    text-transform: uppercase;
+    padding-left: 0px !important;
+
+    &_location {
+      width: 135px;
+      padding: 0 6px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &_date {
+      width: 61px;
+      margin-left: -28px !important;
+    }
+
+    &_fat {
+      width: 35px;
+      margin-left: -6px !important;
+    }
+
+    &_inj {
+      width: 35px;
+      margin-left: -8px !important;
+    }
+
+    &_hazmat {
+      width: 46px;
+      margin-left: -11px !important;
+    }
+
+    &_desc {
+      padding: 0 6px !important;
+      margin-left: -3px;
+      width: 122px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @media only screen and (max-width: 414px) {
+      &_location {
+        margin-top: 50px;
+        width: 328px;
+      }
+
+      &_date {
+        margin-left: -174px !important;
+      }
+
+      &_fat {
+        margin-left: -153px !important;
+      }
+
+      &_inj {
+        margin-left: -158px !important;
+      }
+
+      &_hazmat {
+        margin-left: -167px !important;
+      }
+
+      &_desc {
+        margin-left: -165px !important;
+      }
+    }
+  }
+
+  &_input::placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_label {
+    position: relative;
+    top: -47px;
+    color: $color-gray-normal !important;
+    opacity: 1 !important;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 43px;
+
+    &_location {
+      left: 41px;
+    }
+
+    &_date {
+      left: -13px;
+    }
+
+    &_fat {
+      left: -5px;
+    }
+
+    &_inj {
+      left: -6px;
+    }
+
+    &_hazmat {
+      left: -9px;
+    }
+
+    &_desc {
+      left: 21px;
+    }
+
+    @media only screen and (max-width: 414px) {
+      &_location {
+        left: 132px;
+      }
+
+      &_date {
+        left: -157px;
+      }
+
+      &_fat {
+        left: -153px;
+      }
+
+      &_inj {
+        left: -158px;
+      }
+
+      &_hazmat {
+        left: -167px;
+      }
+
+      &_desc {
+        left: -143px;
+      }
+    }
+  }
+
+  &_paragrafYesNo {
+    margin-left: 0px !important;
+    margin-top: 15px !important;
+  }
+}
+
+.showEditDelete {
+  width: 505px;
+}
+.hideForm {
+  position: absolute;
+  right: -5px;
+  cursor: pointer;
+
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+  &_mobile {
+    display: none;
+  }
+  @media only screen and (max-width: 414px) {
+    right: 28px;
+    &_desktop {
+      display: none;
+    }
+    &_mobile {
+      display: inline-block;
+    }
+  }
+  @media only screen and (max-width: 376px) {
+    right: -1px;
+  }
+}
+
+.accidentCol:hover .deleteInjuresFatality {
+  display: inline-block;
+}
+
+.accidentCol:hover .editInjuresFatality {
+  display: inline-block;
+  @media only screen and (max-width: 414px) {
+    display: none !important;
+  }
+}
+
+.descript {
+  margin-top: 25px;
+  @media only screen and (max-width: 414px) {
+    width: 329px;
+    &_Mobile {
+      height: 90px !important;
+    }
+  }
+}
+
+// Delete modal
+.dropdown-dialog {
+  &:after {
+    @include triangletop;
+    top: -6px;
+    left: 110px;
+    content: '';
+    @media only screen and (max-width: 376px) {
+      left: 114px;
+    }
+  }
+
+  position: absolute;
+  top: 15px;
+  right: 118px;
+  z-index: 99;
+  visibility: hidden;
+  opacity: 0;
+  @media only screen and (max-width: 414px) {
+    right: 187px;
+    .delete-dialog-container {
+      right: 57px;
+    }
+  }
+  @media only screen and (max-width: 376px) {
+    right: 157px;
+  }
+}
+
+/* Class add after event */
+.hide-dropdown-dialog {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  transition: 0.2s;
+}
+
+.show-dropdown-dialog {
+  visibility: visible !important;
+  top: 28px !important;
+  opacity: 1 !important;
+  transition: 0.4s;
+}
+
+// Ovveride some class from applicant.scss
+.hazmat_paragraf {
+  left: 0px;
+  top: -15px;
+  @media only screen and (max-width: 414px) {
+    top: -30px;
+  }
+}
+.hazmatMobile_YesNo {
+  margin-top: -32px;
+  margin-left: 254px;
+  @media only screen and (max-width: 414px) {
+    position: relative;
+    top: 4px;
+    left: -277px;
+  }
+  @media only screen and (max-width: 376px) {
+    left: -277px;
+  }
+  @media only screen and (max-width: 361px) {
+    left: -274px;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .btn_mobile {
+    margin-left: -270px;
+  }
+  .fatality-injuries-conatiner {
+    .up-svg {
+      display: none;
+    }
+    .down-svg {
+      display: none;
+    }
+  }
+  .fatalityMobile {
+    position: absolute !important;
+    top: 54px !important;
+    right: 243px !important;
+  }
+  .hazmatMobile {
+    top: 96px;
+    left: -99px;
+  }
+
+  .showDeleteAccident {
+    margin-bottom: 74px;
+  }
+  .centerContent {
+    margin-left: 20px;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .btn_mobile {
+    margin-left: -327px;
+  }
+  .hazmatMobile {
+    top: 96px;
+    left: -100px;
+  }
+
+  .centerContent {
+    margin-left: -4px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .btn_mobile {
+    margin-left: -339px;
+  }
+  .centerContent {
+    margin-left: -8px;
+  }
+  .hazmatMobile {
+    left: -96px;
+  }
+}

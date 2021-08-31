@@ -1,0 +1,577 @@
+<form class="form-container" [formGroup]="insuranceTypeForm">
+  <div *ngFor="let insurance of insuranceTypeData; let i = index" [ngStyle]="{'margin-bottom': '22px'}">
+    <div *ngIf="insurance" class="row automobile_liability_container" (click)="onOpenDropDown(i)">
+      <div
+        class="col-12 automobile_liability"
+        [ngClass]="{ automobile_liability_drop_active: openInsuranceTypeDropDown === i }"
+      >
+        <div class="row automobile_liability_text">
+          <svg-icon
+            class="arrow_container"
+            src="../../../assets/img/company-settings/downArrow.svg"
+          ></svg-icon>
+          <p class="text_info">{{ insurance.insuranceType }}</p>
+          <svg-icon
+            class="edit_svg"
+            src="../../../assets/img/company-settings/pencil.svg"
+          ></svg-icon>
+          <svg-icon
+            class="delete_svg"
+            src="../../../assets/img/company-settings/delete.svg"
+          ></svg-icon>
+        </div>
+
+        <div class="row text_automobile">
+          <p class="info_code">{{ insurance.policy }}</p>
+          <p class="info_company">{{ insurance.insurer }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="automobile_liability_dropdown"
+      [ngClass]="{ automobile_liability_active: openInsuranceTypeDropDown === i }"
+      *ngIf="insurance"
+    >
+      <div class="container_drop">
+        <div class="each">
+          <div class="item_title">Each Occ.</div>
+          <div class="item_value">$1,000,000</div>
+        </div>
+
+        <div class="pers">
+          <div class="item_title">Pers. & Adv.</div>
+          <div class="item_value">$1,000,000</div>
+        </div>
+
+        <div class="rent">
+          <div class="item_title">Dmg to rent.</div>
+          <div class="item_value">$100,000</div>
+        </div>
+      </div>
+
+      <div class="container_dropdown">
+        <div class="aggreg">
+          <div class="item_title">Gen. Aggreg.</div>
+          <div class="item_value">$2,000,000</div>
+        </div>
+
+        <div class="exp">
+          <div class="item_title">Med. Exp.</div>
+          <div class="item_value">$5,000</div>
+        </div>
+
+        <div class="prod">
+          <div class="item_title">Prod. Comp.</div>
+          <div class="item_value">$2,000,000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="form-label-group" [ngStyle]="{ margin: '0px' }">
+        <ng-select
+          [items]="insuranceTypes"
+          formControlName="insuranceType"
+          bindValue="id"
+          bindLabel="type"
+          placeholder="Insurance Type"
+          appendTo="body"
+          (change)="selectInsuranceType($event)"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <span [ngOptionHighlight]="search">{{ item.type }}</span>
+          </ng-template>
+        </ng-select>
+        <app-required-label
+          [control]="insuranceTypeForm.controls.insuranceTypes"
+        ></app-required-label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insurance Type: Commercial General Liability -->
+  <form
+    *ngIf="insuranceType === 'Commercial General Liability'"
+    class="form-container margin-insurance-type-forms"
+    [formGroup]="commercialGeneralLiabilityForm"
+  >
+    <!-- Row One -->
+    <div class="row">
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="eachOccurrence"
+            class="form-control input-control required"
+            placeholder="Each Occurrence"
+            formControlName="eachOccurrence"
+            maxlength="8"
+          />
+          <label for="eachOccurrence">Each Occurrence</label>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="dmgToRentedPr"
+            class="form-control input-control required"
+            placeholder="Dmg. to rented pr."
+            formControlName="dmgToRentedPr"
+            maxlength="8"
+          />
+          <label for="dmgToRentedPr">Dmg. to rented pr.</label>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="medicalExp"
+            class="form-control input-control required"
+            placeholder="Medical Exp."
+            formControlName="medicalExp"
+            mask="00-0000000"
+          />
+          <label for="medicalExp" appInputFocus>Medical Exp.</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row Two -->
+    <div class="row">
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="persAdvInj"
+            class="form-control input-control required"
+            placeholder="Pers. & Adv. Inj."
+            formControlName="persAdvInj"
+            maxlength="8"
+          />
+          <label for="persAdvInj">Pers. & Adv. Inj.</label>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="genAggregate"
+            class="form-control input-control required"
+            placeholder="Gen. Aggregate"
+            formControlName="genAggregate"
+            maxlength="8"
+          />
+          <label for="genAggregate">Gen. Aggregate</label>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="form-label-group">
+          <input
+            id="prodCompOP"
+            class="form-control input-control required"
+            placeholder="Prod. - Comp/OP"
+            formControlName="prodCompOP"
+            mask="00-0000000"
+          />
+          <label for="prodCompOP" appInputFocus>Prod. - Comp/OP</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy And Insurer -->
+    <div class="row">
+      <div class="col-3">
+        <div class="form-label-group no-margin">
+          <input
+            id="policy"
+            class="form-control input-control required"
+            placeholder="Policy #"
+            formControlName="policy"
+            maxlength="8"
+          />
+          <label class="required-label" for="policy">Policy #</label>
+          <app-required-label
+            [control]="commercialGeneralLiabilityForm.controls.policy"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-label-group no-margin">
+          <input
+            id="insurer"
+            class="form-control input-control required"
+            placeholder="Insurer"
+            formControlName="insurer"
+            maxlength="8"
+          />
+          <label class="required-label" for="insurer">Insurer</label>
+          <app-required-label
+            [control]="commercialGeneralLiabilityForm.controls.insurer"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-2 save-edit">
+        <svg-icon
+          class="save_svg"
+          (click)="saveInsurance()"
+          src="../../../assets/img/company-settings/Save.svg"
+        ></svg-icon>
+        <svg-icon
+          (click)="cancelInsurance()"
+          class="cancel_svg"
+          src="../../../assets/img/company-settings/Cancel.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <p class="insurance-policy-add-new">Add New Insurance Policy</p>
+  </form>
+
+  <!-- Insurance Type: Automobile Liability -->
+  <form
+    *ngIf="insuranceType === 'Automobile Liability'"
+    class="form-container margin-insurance-type-forms"
+    [formGroup]="automobileLiabilityForm"
+  >
+    <!-- Row One -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="combSingle"
+            class="form-control input-control required"
+            placeholder="Comb. Single"
+            formControlName="combSingle"
+            maxlength="8"
+          />
+          <label for="combSingle">Comb. Single</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="bodlyInjPerson"
+            class="form-control input-control required"
+            placeholder="Bodly Inj. (Person)"
+            formControlName="bodlyInjPerson"
+            maxlength="8"
+          />
+          <label for="bodlyInjPerson">Bodly Inj. (Person)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row Two -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="bodlyInjAccident"
+            class="form-control input-control required"
+            placeholder="Bodly Inj. (Accident)"
+            formControlName="bodlyInjAccident"
+            maxlength="8"
+          />
+          <label for="bodlyInjAccident">Bodly Inj. (Accident)</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="propertyDamage"
+            class="form-control input-control required"
+            placeholder="Property damage"
+            formControlName="propertyDamage"
+            maxlength="8"
+          />
+          <label for="propertyDamage">Property damage</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy And Insurer -->
+    <div class="row">
+      <div class="col-3">
+        <div class="form-label-group no-margin">
+          <input
+            id="policy"
+            class="form-control input-control required"
+            placeholder="Policy #"
+            formControlName="policy"
+            maxlength="8"
+          />
+          <label class="required-label" for="policy">Policy #</label>
+          <app-required-label
+            [control]="automobileLiabilityForm.controls.policy"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-label-group no-margin">
+          <input
+            id="insurer"
+            class="form-control input-control required"
+            placeholder="Insurer"
+            formControlName="insurer"
+            maxlength="8"
+          />
+          <label class="required-label" for="insurer">Insurer</label>
+          <app-required-label
+            [control]="automobileLiabilityForm.controls.insurer"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-2 save-edit">
+        <svg-icon
+          class="save_svg"
+          (click)="saveInsurance()"
+          src="../../../assets/img/company-settings/Save.svg"
+        ></svg-icon>
+        <svg-icon
+          (click)="cancelInsurance()"
+          class="cancel_svg"
+          src="../../../assets/img/company-settings/Cancel.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <p class="insurance-policy-add-new">Add New Insurance Policy</p>
+  </form>
+
+  <!-- Insurance Type: Motor Truck Cargo Breakdown  -->
+  <form
+    *ngIf="
+      insuranceType === 'Motor Truck Cargo Breakdown' ||
+      insuranceType === 'Motor Truck Cargo/Reefer Breakdown'
+    "
+    class="form-container margin-insurance-type-forms"
+    [formGroup]="motorTruckCargoBreakdown"
+  >
+    <!-- Row One -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="singleConveyance"
+            class="form-control input-control required"
+            placeholder="Single Conveyance"
+            formControlName="singleConveyance"
+            maxlength="8"
+          />
+          <label for="singleConveyance">Single Conveyance</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="deductable"
+            class="form-control input-control required"
+            placeholder="Deductable"
+            formControlName="deductable"
+            maxlength="8"
+          />
+          <label for="deductable">Deductable</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy And Insurer -->
+    <div class="row">
+      <div class="col-3">
+        <div class="form-label-group no-margin">
+          <input
+            id="policy"
+            class="form-control input-control required"
+            placeholder="Policy #"
+            formControlName="policy"
+            maxlength="8"
+          />
+          <label class="required-label" for="policy">Policy #</label>
+          <app-required-label
+            [control]="motorTruckCargoBreakdown.controls.policy"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-label-group no-margin">
+          <input
+            id="insurer"
+            class="form-control input-control required"
+            placeholder="Insurer"
+            formControlName="insurer"
+            maxlength="8"
+          />
+          <label class="required-label" for="insurer">Insurer</label>
+          <app-required-label
+            [control]="motorTruckCargoBreakdown.controls.insurer"
+          ></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-2 save-edit">
+        <svg-icon
+          class="save_svg"
+          (click)="saveInsurance()"
+          src="../../../assets/img/company-settings/Save.svg"
+        ></svg-icon>
+        <svg-icon
+          (click)="cancelInsurance()"
+          class="cancel_svg"
+          src="../../../assets/img/company-settings/Cancel.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <p class="insurance-policy-add-new">Add New Insurance Policy</p>
+  </form>
+
+  <!-- Insurance Type: Physical Damage  -->
+  <form
+    *ngIf="insuranceType === 'Physical Damage'"
+    class="form-container margin-insurance-type-forms"
+    [formGroup]="physicalDamage"
+  >
+    <!-- Row One -->
+    <div class="row">
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="compColl"
+            class="form-control input-control required"
+            placeholder="Comp & Coll"
+            formControlName="compColl"
+            maxlength="8"
+          />
+          <label for="compColl">Comp & Coll</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-label-group">
+          <input
+            id="deductable"
+            class="form-control input-control required"
+            placeholder="Deductable"
+            formControlName="deductable"
+            maxlength="8"
+          />
+          <label for="deductable">Deductable</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy And Insurer -->
+    <div class="row">
+      <div class="col-3">
+        <div class="form-label-group no-margin">
+          <input
+            id="policy"
+            class="form-control input-control required"
+            placeholder="Policy #"
+            formControlName="policy"
+            maxlength="8"
+          />
+          <label class="required-label" for="policy">Policy #</label>
+          <app-required-label [control]="physicalDamage.controls.policy"></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-label-group no-margin">
+          <input
+            id="insurer"
+            class="form-control input-control required"
+            placeholder="Insurer"
+            formControlName="insurer"
+            maxlength="8"
+          />
+          <label class="required-label" for="insurer">Insurer</label>
+          <app-required-label [control]="physicalDamage.controls.insurer"></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-2 save-edit">
+        <svg-icon
+          class="save_svg"
+          (click)="saveInsurance()"
+          src="../../../assets/img/company-settings/Save.svg"
+        ></svg-icon>
+        <svg-icon
+          (click)="cancelInsurance()"
+          class="cancel_svg"
+          src="../../../assets/img/company-settings/Cancel.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <p class="insurance-policy-add-new">Add New Insurance Policy</p>
+  </form>
+
+  <!-- Insurance Type: Trailer Interchange  -->
+  <form
+    *ngIf="insuranceType === 'Trailer Interchange'"
+    class="form-container margin-insurance-type-forms"
+    [formGroup]="trailerInterchange"
+  >
+    <!-- Row One -->
+    <div class="row">
+      <div class="col-12">
+        <div class="form-label-group">
+          <input
+            id="value"
+            class="form-control input-control required"
+            placeholder="Value"
+            formControlName="value"
+            maxlength="8"
+          />
+          <label for="value">Value</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy And Insurer -->
+    <div class="row">
+      <div class="col-3">
+        <div class="form-label-group no-margin">
+          <input
+            id="policy"
+            class="form-control input-control required"
+            placeholder="Policy #"
+            formControlName="policy"
+            maxlength="8"
+          />
+          <label class="required-label" for="policy">Policy #</label>
+          <app-required-label [control]="trailerInterchange.controls.policy"></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="form-label-group no-margin">
+          <input
+            id="insurer"
+            class="form-control input-control required"
+            placeholder="Insurer"
+            formControlName="insurer"
+            maxlength="8"
+          />
+          <label class="required-label" for="insurer">Insurer</label>
+          <app-required-label [control]="trailerInterchange.controls.insurer"></app-required-label>
+        </div>
+      </div>
+
+      <div class="col-2 save-edit">
+        <svg-icon
+          class="save_svg"
+          (click)="saveInsurance()"
+          src="../../../assets/img/company-settings/Save.svg"
+        ></svg-icon>
+        <svg-icon
+          (click)="cancelInsurance()"
+          class="cancel_svg"
+          src="../../../assets/img/company-settings/Cancel.svg"
+        ></svg-icon>
+      </div>
+    </div>
+    <p class="insurance-policy-add-new">Add New Insurance Policy</p>
+  </form>
+</form>

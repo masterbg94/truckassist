@@ -1,0 +1,1190 @@
+@import '../../assets/scss/components/variables.scss';
+@import 'https://appsforoffice.microsoft.com/fabric/1.0/fabric.min.css';
+@import 'https://appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css';
+
+.full-screen-mode-map {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  border-radius: 0px !important;
+  padding: 0 12px 0 12px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all 0.1s;
+}
+
+.full-screen-tool {
+  width: 100% !important;
+  margin-top: 12px !important;
+  position: relative !important;
+  top: 0 !important;
+  right: 0 !important;
+  transition: all 0.3s;
+}
+
+.full-screen-routs-detail {
+  top: 56px !important;
+  height: calc(100vh - 122px) !important;
+  transition: all 0.3s;
+}
+
+.full-screen-zoom {
+  right: 15px !important;
+  bottom: 18px !important;
+}
+
+.full-screen-map-actions {
+  background: rgba(249, 249, 249, 0.9) !important;
+  &:hover {
+    background: rgba(249, 249, 249, 1) !important;
+    transition: 0.25s;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #606060 !important;
+}
+
+.map-container {
+  width: 1440px;
+  height: calc(100vh - 242px);
+  margin: 66px 0 0 0;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: width 0.1s height 0.1s;
+  agm-map {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  .toolbar-container {
+    .mapOL {
+      width: 100%;
+      height: calc(100vh - 242px);
+    }
+    #mapOL {
+      position: relative;
+    }
+
+    .legend-container {
+      width: auto;
+      height: auto;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+    }
+
+    .tool-container {
+      height: 32px;
+      width: 100%;
+      position: absolute;
+      top: -44px;
+      right: 0px;
+      z-index: 120;
+      display: grid;
+      grid-template-columns: 104px auto 32px 1fr 6px 32px;
+
+      &.max-route-number {
+        grid-template-columns: 104px auto 32px 1fr !important;
+      }
+
+      .count-route-container {
+        height: 32px;
+        background: white;
+        margin-right: 6px;
+        border-radius: 3px;
+        padding: 4px;
+        display: flex;
+
+        .counter,
+        .counter-title {
+          height: 24px;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 24px;
+          font-size: 14px;
+          color: #b7b7b7;
+        }
+
+        .counter {
+          width: 23px;
+          background: rgba(183, 183, 183, 0.3);
+          border-radius: 2px;
+          font-weight: bold;
+          margin-right: 6px;
+        }
+
+        .counter-title {
+          width: auto;
+          font-weight: 600;
+        }
+      }
+      .routs-toolbar-container {
+        width: auto;
+        height: 32px;
+        background: white;
+        border-radius: 3px;
+        display: flex;
+        float: left;
+        z-index: 200;
+        position: relative;
+        .tools-container {
+          position: relative;
+        }
+        .routs {
+          user-select: none;
+          cursor: pointer;
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 3px;
+          text-align: center;
+          height: 20px;
+          width: 127px;
+          margin: 0 12px 0 0;
+
+          &:hover {
+            z-index: 1000;
+            cursor: pointer;
+            transition: 0.25s;
+            .routes-container {
+              position: absolute;
+              z-index: 1000;
+              width: auto !important;
+              left: 0;
+              transition: 0.25s;
+
+              background: #919191;
+              .rout-p {
+                max-width: 170px;
+                transition: 0.25s;
+              }
+            }
+          }
+
+          .routes-container {
+            background: #b7b7b7;
+            border-radius: 3px;
+            width: 100%;
+            height: 20px;
+            display: flex;
+            padding: 6.1px 6px 6px 0;
+            min-width: 127px;
+            .place-count,
+            .total-distance {
+              margin: -5px 0 0 1px;
+              height: 18px;
+              float: left;
+              color: white;
+              font-size: 10px;
+              font-weight: bold;
+              background: rgba(250, 250, 250, 0.3);
+              text-align: center;
+            }
+
+            .place-count {
+              max-width: 20px !important;
+              min-width: 16px;
+              left: -4px;
+              padding: 2px 0 0 0;
+              border-radius: 2px 0px 0px 2px;
+            }
+
+            .total-distance {
+              max-width: 44px !important;
+              min-width: 16px;
+              display: block;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              padding: 2px 4px 0 4px;
+              left: -2px;
+              border-radius: 0px 2px 2px 0px;
+            }
+
+            .rout-p {
+              float: left;
+              color: white;
+              font-size: 12px;
+              position: relative;
+              top: -2px;
+              line-height: 12px;
+              margin: 0 0 0 2px;
+              height: 11px;
+              max-width: 50px;
+              display: block;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+            .rename-container {
+              height: 15px;
+              position: relative;
+              top: -3px;
+              margin-left: 2px;
+              .rename-rout {
+                width: 100%;
+                height: 15px;
+                border: none;
+                resize: none;
+                outline: none;
+                line-height: 9px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                background: transparent;
+                color: white;
+              }
+              .rename-svg {
+                position: absolute;
+                cursor: pointer;
+                top: -4px;
+                right: 0;
+                width: 11px;
+                height: 8px;
+                svg {
+                  width: 11px;
+                  height: 8px;
+                }
+                &:hover {
+                  svg {
+                    path {
+                      opacity: 1;
+                      transition: 0.2s;
+                    }
+                  }
+                }
+              }
+            }
+            .rout-options-container{
+              width: 20px;
+              height: 18px;
+              .rout-options {
+                float: right;
+                width: 20px;
+                height: 18px;
+                position: absolute;
+                top: -1px;
+                right: 4px;
+              }
+            }
+          }
+        }
+      }
+
+      .toolbar-options {
+        width: 32px;
+        height: 32px;
+        background: white;
+        border-radius: 3px;
+        z-index: 100;
+        display: flex;
+        padding: 4px 0 0 0;
+        margin-left: 6px;
+        .settings-container {
+          width: 18px;
+          height: 18px;
+          position: relative;
+          button {
+            position: absolute;
+            top: 1px;
+            left: 7px;
+            width: 18px;
+            height: 18px;
+            svg-icon {
+              cursor: pointer;
+              &:hover {
+                svg {
+                  path,
+                  circle {
+                    fill: #5673aa !important;
+                    transition: 0.3s;
+                  }
+                }
+              }
+            }
+          }
+          .settings-drop-down {
+            position: absolute;
+            margin: 20px 0 0 0;
+            visibility: hidden;
+            opacity: 0;
+            left: -3px;
+            transition: 0.2s;
+            &:after {
+              @include triangletop;
+              top: -6px;
+              left: 9px;
+              content: '';
+            }
+            width: 133px;
+            height: 160px;
+            border-radius: 3px;
+            padding: 6px;
+            background: white;
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+            p {
+              font-size: 12px;
+              font-weight: bold;
+              margin: 0px;
+              position: relative;
+              top: -2px;
+            }
+            .swich {
+              visibility: hidden;
+              opacity: 0;
+              transition: 0.3s !important;
+              width: 121px;
+              height: 25px;
+              .switch-container {
+                height: 25px;
+                width: 100%;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
+        button {
+          position: relative;
+          background: none;
+          border: none;
+          margin: 0 0 0 0px;
+          svg-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .map-actions-container {
+        height: 32px;
+        background: white;
+        border-radius: 3px;
+        margin-left: 12px;
+        position: relative;
+        min-width: 170px;
+        .map-actions-btn-container {
+          position: absolute;
+          height: 32px;
+          width: auto;
+          right: 0;
+          button {
+            margin-right: 2px !important;
+          }
+          .traffic,
+          .doppler-radar,
+          .time-zones,
+          .toll-road {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            position: relative;
+            &:hover {
+              svg-icon {
+                svg {
+                  path {
+                    fill: #5673aa !important;
+                    transition: 0.2s;
+                  }
+                  #Path_10766 {
+                    fill: white !important;
+                  }
+                }
+              }
+            }
+            svg-icon {
+              position: absolute;
+              top: 0;
+              left: 0;
+              svg {
+                rect {
+                  fill: none;
+                }
+              }
+            }
+          }
+          .legend {
+            width: 32px;
+            height: 32px;
+            border-radius: 50px;
+            border: none;
+            background: none;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            .legend-svg {
+              cursor: pointer !important;
+              position: absolute;
+              top: 4.8px;
+              left: 8px;
+              svg {
+                path {
+                  fill: #dadada;
+                }
+              }
+              &:hover {
+                svg {
+                  path {
+                    fill: #5673aa;
+                    transition: 0.3s;
+                  }
+                }
+              }
+            }
+
+            .legend-container {
+              &:after {
+                @include triangletop;
+                border-bottom: 5px solid white;
+                top: -5px;
+                left: 170px;
+                content: '';
+              }
+              box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+              position: absolute;
+              right: -5px;
+              top: 0;
+              opacity: 0;
+              width: 201px;
+              height: 224px;
+              visibility: hidden;
+              background: white;
+              border-radius: 3px;
+              transition: 0.2s;
+              .legend-item {
+                width: 201px;
+                height: 32px;
+              }
+              .shortcut {
+                background: #919191;
+                border-radius: 2px;
+                line-height: 8px;
+                top: 5px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+                white-space: nowrap;
+                position: relative;
+                text-align: center;
+                font-size: 10px;
+                font-weight: bold;
+                color: white;
+                height: 18px;
+                display: inline-block;
+                padding: 6px 6px 6px 6px;
+                float: left;
+                margin: 2px 6px 0 6px;
+              }
+              .shortcut-explination {
+                font-size: 12px;
+                color: #919191;
+                margin: 0;
+                position: relative;
+                height: 32px;
+                line-height: 33px;
+                float: left;
+              }
+              .legend-plus {
+                float: left;
+                margin: 4px 0 0 0;
+              }
+              .legend-up-down-arrow {
+                width: 21px;
+                height: 18px;
+                background: #919191;
+                border-radius: 2px;
+                float: left;
+                margin: 7px 6px 0px 0;
+                svg-icon {
+                  position: relative;
+                  top: -2px;
+                }
+              }
+              .legend-margin {
+                margin-left: 6px;
+              }
+            }
+          }
+        }
+      }
+      /* For add btn */
+      .add-btn {
+        position: relative;
+        height: 32px;
+        width: 32px;
+        border: none;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        grid-column: 6/7;
+        .add-svg {
+          position: absolute;
+          left: 0;
+          top: 0;
+          svg {
+            #Rectangle_4959 {
+              fill: white;
+              rx: 3px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .routs-detail-container::-webkit-scrollbar {
+    display: none;
+  }
+  .routs-detail-container {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 300px;
+    height: calc(100vh - 266px);
+    .opacaty-for-hover {
+      opacity: 0.9 !important;
+      transition: 0.2s;
+    }
+    .rout-detail {
+      position: relative;
+      width: 100%;
+      height: auto;
+      background: rgb(255, 255, 255);
+      opacity: 0.7;
+      border-radius: 3px;
+      transition: opacity 0.2s;
+      .detaile-container {
+        position: relative;
+        width: 100%;
+        height: auto;
+        cursor: grab;
+        &:active {
+          cursor: grabbing !important;
+        }
+        .right-border {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 3px;
+          opacity: 0.7;
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+          transition: 0.2s;
+        }
+        .add-fokus-detaile {
+          background: #f9f9f9;
+          .rout-number {
+            right: 270px !important;
+            transition: 0.2s;
+            color: #919191 !important;
+          }
+        }
+        .detaile {
+          height: 21px;
+          width: 300px;
+          position: relative;
+          z-index: 100;
+          &:hover {
+            .hover-others {
+              visibility: visible;
+              transition: 0.2s;
+            }
+            .remove-rout {
+              visibility: visible;
+            }
+            .rout-number {
+              /* right: 280px; */
+              right: 270px !important;
+              transition: 0.2s;
+            }
+            .hover-for-number {
+              visibility: visible;
+              transition: 0.25s;
+            }
+          }
+          .hover-others {
+            position: absolute;
+            right: 0;
+            height: 21px;
+            width: 274px;
+            background: rgba(249, 249, 249, 1);
+            visibility: hidden;
+          }
+          .hover-for-number {
+            visibility: hidden;
+            position: absolute;
+            height: 21px;
+            width: 26px;
+            background: rgba(0, 0, 0, 0.15);
+          }
+          p {
+            padding: 1px 0 0 0;
+            font-size: 12px;
+            margin: 1px 0 0 0;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          .rout-number,
+          .rout-destination,
+          .rout-paste,
+          .rout-to-go {
+            position: absolute;
+          }
+          .rout-number {
+            width: 33px;
+            text-align: center;
+            font-weight: bold;
+          }
+          .rout-destination {
+            width: 120px;
+            left: 33px;
+          }
+          .rout-paste,
+          .rout-to-go {
+            text-align: right;
+            width: 49px;
+          }
+          .rout-paste {
+            right: 80px;
+          }
+          .rout-to-go {
+            right: 27px;
+          }
+          .remove-rout {
+            position: absolute;
+            right: 6px;
+            top: -1px;
+            cursor: pointer;
+            visibility: hidden;
+            svg {
+              width: 9px;
+              height: 8px;
+            }
+            &:hover {
+              svg {
+                path {
+                  opacity: 1;
+                  transition: 0.2s;
+                }
+              }
+            }
+          }
+        }
+      }
+      .rout-textarea {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        /* border-radius: 2.7px; */
+      }
+      .rout-textarea,
+      .internal-add-place {
+        width: 100%;
+        height: 21px;
+        background: rgba(249, 249, 249, 0.7);
+        position: relative;
+        padding: 0 0 0 26px;
+        textarea {
+          width: 100%;
+          height: 21px;
+          border: none;
+          resize: none;
+          outline: none;
+          line-height: 17px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          background: #f9f9f9;
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+          padding-left: 7px;
+          font-size: 12px;
+          color: #606060;
+        }
+        svg-icon {
+          cursor: pointer;
+          position: absolute;
+          top: -1px;
+        }
+        .save-rout {
+          right: 27px;
+          svg {
+            path {
+              fill: #919191;
+            }
+          }
+          &:hover {
+            svg {
+              path {
+                fill: #6c6c6c;
+              }
+            }
+          }
+        }
+        .no-save-rout {
+          right: 6px;
+          &:hover {
+            svg {
+              path {
+                fill: #6c6c6c;
+              }
+            }
+          }
+          svg {
+            path {
+              fill: #919191;
+            }
+          }
+        }
+      }
+      .add-new-stop {
+        .graple-drag-and-drop {
+          position: absolute;
+          height: 21px;
+          width: 26px;
+          bottom: 0;
+          left: 0;
+          z-index: 100;
+          cursor: grab;
+          svg-icon {
+            position: absolute;
+            left: 11px;
+            top: -1px;
+          }
+        }
+        user-select: none;
+        width: 100%;
+        height: 21px;
+        position: relative;
+        &:hover {
+          cursor: pointer;
+        }
+        p {
+          font-size: 10px;
+          font-weight: 600;
+          position: absolute;
+          margin: 0;
+          right: 195px;
+          top: 3.4px;
+          &:hover {
+            color: #5673aa;
+            transition: 0.2s;
+          }
+        }
+      }
+    }
+  }
+
+  .map-control {
+    width: 60px;
+    height: 32px;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .logo-truckassist {
+    width: 45.5px;
+    height: 42px;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    opacity: 0.5;
+  }
+}
+
+.print-pdf-container {
+  width: 0;
+  visibility: hidden;
+  z-index: -100;
+  max-height: 0;
+  background: #ffffff;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  padding: 22px;
+  .route-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #6c6c6c;
+    margin: 0;
+  }
+  .route-item-title {
+    position: relative;
+    height: 17px;
+    width: 100%;
+    display: flex;
+    margin-top: 15px;
+    p {
+      font-size: 10px;
+      font-weight: bold;
+      color: #b7b7b7;
+      line-height: 9px;
+      position: absolute;
+      top: 0;
+      margin: 0;
+    }
+    .number {
+      left: 12px;
+    }
+
+    .city {
+      left: 32px;
+    }
+
+    .miles {
+      right: 90px;
+    }
+
+    .total-miles {
+      right: 12px;
+    }
+  }
+
+  .route-item-data {
+    height: 17px;
+    width: 100%;
+    display: flex;
+    position: relative;
+    background: #f9f9f9;
+    p {
+      margin: 0;
+      font-size: 10px;
+      color: #6c6c6c;
+      position: absolute;
+      line-height: 18px;
+    }
+    .number-data {
+      left: 12px;
+      font-weight: bold;
+    }
+
+    .city-data {
+      left: 32px;
+    }
+
+    .miles-data {
+      font-weight: 600;
+      right: 90px;
+    }
+
+    .total-miles-data {
+      font-weight: 600;
+      right: 12px;
+    }
+  }
+
+  .map-for-print {
+    position: relative;
+    width: 100%;
+    height: 485px;
+    margin-top: 22px;
+  }
+
+  .logo-container {
+    position: relative;
+    width: 100%;
+    height: 14px;
+    margin-top: 50px;
+    svg-icon {
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+/* ADD AFTER EVENT */
+.setContainerRoutesHeight {
+  height: auto !important;
+}
+
+.total-leg-style {
+  color: #919191;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+.route-container-add-scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.route-container-on-fullscreen {
+  z-index: 100 !important;
+}
+.route-name-fullscreen-style {
+  max-width: none !important;
+}
+.last-place-total-distance {
+  font-weight: 600 !important;
+}
+
+/* .add-btn-max-lenght {
+  opacity: 0.3 !important;
+  svg {
+    path {
+      fill: #dadada !important;
+    }
+  }
+  cursor: default !important;
+} */
+
+.add-svg-active {
+  &:hover {
+    svg {
+      #Rectangle_4959 {
+        fill: #5673aa !important;
+        transition: fill 0.3s;
+      }
+      #Path_7714 {
+        fill: white !important;
+        transition: fill 0.3s;
+      }
+    }
+  }
+}
+
+.add-detail-positions-animation {
+  transition: transform 0.3s !important;
+}
+
+.rout-detail-positions {
+  transform: translate3d(0, 0, 0) !important;
+  transition: transform 0.3s !important;
+}
+
+.rout-number-at-normal {
+  right: 266px !important;
+}
+
+.rout-number-at-focus {
+  right: 271px !important;
+}
+
+.route-item-not-even-number {
+  background: none !important;
+}
+.active-tool {
+  svg {
+    path {
+      fill: #5673aa !important;
+      transition: 0.25s;
+    }
+    #Path_10766 {
+      fill: white !important;
+    }
+  }
+}
+
+.show-print-pdf-route {
+  width: 545px !important;
+  visibility: visible !important;
+  max-height: 800px;
+  z-index: 1000 !important;
+  transition: width 0.25s, max-height 0.25s !important;
+}
+
+.show-lagend {
+  visibility: visible !important;
+  top: 32px !important;
+  opacity: 1 !important;
+  transition: top 0.3s, opacity 0.3s;
+}
+
+.show-tool-tip-on-marker {
+  left: 26px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: all 0.3s;
+}
+
+.legend-btn-style {
+  svg {
+    path {
+      fill: #5673aa !important;
+      transition: 0.3s;
+    }
+  }
+}
+.add-scale-to-marker {
+  position: relative;
+  opacity: 0.3;
+  z-index: 1000 !important;
+}
+.internal-add-place-first {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.internal-add-place-last {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.add-focus-others-radius-last {
+  border-bottom-right-radius: 3px;
+}
+.add-focus-for-number-radius-last {
+  border-bottom-left-radius: 3px;
+}
+.add-focus-others-radius-first {
+  border-top-right-radius: 3px;
+}
+.add-focus-for-number-radius-first {
+  border-top-left-radius: 3px;
+}
+.add-focus-others {
+  position: absolute !important;
+  right: 0 !important;
+  height: 21px !important;
+  width: 274px !important;
+  background: rgba(249, 249, 249, 1) !important;
+  visibility: visible !important;
+}
+.add-focus-for-number {
+  visibility: visible !important;
+  position: absolute !important;
+  height: 21px !important;
+  width: 26px !important;
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+.add-fokused-places-style {
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 3px !important;
+}
+.add-hover-style {
+  border-top-left-radius: 5px !important;
+}
+.add-route-margin {
+  margin-bottom: 12px;
+}
+.add-opacity {
+  opacity: 0.9 !important;
+  z-index: 1000 !important;
+  transition: 0.2;
+}
+.hide-add-new-stop {
+  height: 0px !important;
+  visibility: hidden;
+  display: none;
+}
+.rout-textarea-radius {
+  border-radius: 2.4px;
+}
+.settings-show-drop {
+  margin: 30px 0 0 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: 0.2s;
+}
+.show-swich {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: 0.3s;
+}
+.addPadding {
+  padding-left: 5px !important;
+}
+.addMarginSettings {
+  margin: 1px 0 0 9px !important;
+}
+.addToolBarOW {
+  width: 76px !important;
+}
+.cdk-drag-preview {
+  cursor: grabbing !important;
+  height: 21px;
+  width: 300px;
+  position: relative;
+  z-index: 100;
+  p {
+    font-size: 12px;
+    margin: 1px 0 0 0;
+  }
+  .rout-number,
+  .rout-destination,
+  .rout-paste,
+  .rout-to-go {
+    position: absolute;
+  }
+  /* .rout-paste,
+  .rout-to-go {
+    font-weight: 600;
+  } */
+  .rout-number {
+    right: 266px !important;
+    font-weight: bold;
+  }
+  .rout-destination {
+    left: 33px;
+  }
+  .rout-paste {
+    right: 80px;
+  }
+  .rout-to-go {
+    right: 27px;
+  }
+  .remove-rout {
+    position: absolute;
+    right: 6px;
+    top: -1px;
+    visibility: hidden;
+    svg {
+      width: 9px;
+      height: 8px;
+    }
+  }
+}
+.addEmptyStyle {
+  background: rgba(249, 249, 249, 0.7) !important;
+}
+.hoverNumOfRout {
+  right: 270px !important;
+  color: white !important;
+  transition: color 0.2;
+}
+.hoverAddNew,
+.focused-route {
+  width: 26px !important;
+  opacity: 1 !important;
+  transition: 0.2s;
+}
+.fokusSettings {
+  svg {
+    path,
+    circle {
+      fill: #5673aa !important;
+    }
+  }
+}
+.marker-hide {
+  display: none !important;
+}
+
+.fokusRoutOne {
+  background: #a14502 !important;
+}
+.fokusRoutTwo {
+  background: #9e8900 !important;
+}
+.fokusRoutThree {
+  background: #4e5d2a !important;
+}
+.fokusRoutFour {
+  background: #426b2c !important;
+}
+.fokusRoutFive {
+  background: #355988 !important;
+}
+.fokusRoutSix {
+  background: #2d635e !important;
+}
+.fokusRoutSeven {
+  background: #4f2e6b !important;
+}
+.fokusRoutEight {
+  background: #871616 !important;
+}

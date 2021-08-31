@@ -1,0 +1,299 @@
+<!-- Map -->
+<div class="map-conteiner" [ngClass]="{ 'fullscreen-map-mode': fullScreenMode }">
+  <agm-map
+    style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px;"
+    [restriction]="mapRestrictions"
+    [streetViewControl]="false"
+    [latitude]="mapOptions.latitude"
+    [longitude]="mapOptions.longitude"
+    [clickableIcons]="false"
+    [controlSize]="1"
+    [zoom]="zoom"
+    [styles]="styles"
+    (mapReady)="mapReady($event)"
+  >
+    <!-- Marker Start And End Point -->
+    <agm-direction
+      *ngIf="origin !== undefined && destination !== undefined"
+      [origin]="origin"
+      [destination]="destination"
+      [optimizeWaypoints]="false"
+      [renderOptions]="renderOptions"
+      [markerOptions]="markerOptions"
+    ></agm-direction>
+
+    <agm-marker-cluster
+      [zoomOnClick]="false"
+      [styles]="clusterStyles"
+      averageCenter="true"
+      minimumClusterSize="2"
+    >
+      <!-- Markesrs For Shops -->
+      <agm-marker
+        *ngFor="let shop of markerReiting; let i = index"
+        [latitude]="shop.latitude"
+        [longitude]="shop.longitude"
+        [agmFitBounds]="true"
+        [animation]="shop.animation"
+        [opacity]="closeInfoWindow === i ? 1 : 0.7"
+        [iconUrl]="{
+          url: shop.marker,
+          scaledSize: {
+            width: 26,
+            height: 32
+          }
+        }"
+        (markerClick)="clickedMarker(i, shop)"
+      >
+        <!-- Info Shop -->
+        <agm-snazzy-info-window
+          [isOpen]="closeInfoWindow === i ? true : false"
+          [maxWidth]="400"
+          [closeWhenOthersOpen]="true"
+          placement="bottom"
+        >
+          <ng-template>
+            <div class="drop-conteiner" [ngClass]="{ addShadowToDropDown: showShopInfo === i }">
+              <div
+                class="colored-triangle"
+                [ngClass]="{
+                  servisePointTypeNone: shop.numberOfServises === 0,
+                  servisePointTypeOne: shop.numberOfServises >= 1 && shop.numberOfServises <= 2,
+                  servisePointTypeTwo: shop.numberOfServises > 2 && shop.numberOfServises < 5,
+                  servisePointTypeThree: shop.numberOfServises >= 5
+                }"
+              ></div>
+              <div
+                class="badges"
+                [ngStyle]="{ 'border-radius': showShopInfo === -1 ? '5px' : '' }"
+                [ngClass]="{
+                  serviseTypeNone: shop.numberOfServises === 0,
+                  serviseTypeOne: shop.numberOfServises >= 1 && shop.numberOfServises <= 2,
+                  serviseTypeTwo: shop.numberOfServises > 2 && shop.numberOfServises < 5,
+                  serviseTypeThree: shop.numberOfServises >= 5,
+                  addBorderToDropMarker: showShopInfo !== -1,
+                  addShadowToBadgesDown: showShopInfo !== i
+                }"
+              >
+                <button appTaTooltip="Dealer" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.de }"
+                    src="../../../../assets/img/svgs/Badges/de.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Tire" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.ti }"
+                    src="../../../../assets/img/svgs/Badges/ti.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Parts" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.pa }"
+                    src="../../../../assets/img/svgs/Badges/pa.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Shop" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.sh }"
+                    src="../../../../assets/img/svgs/Badges/sh.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Towing" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.to }"
+                    src="../../../../assets/img/svgs/Badges/to.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Truck" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.tru }"
+                    src="../../../../assets/img/svgs/Badges/tru.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Trailer" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.tra }"
+                    src="../../../../assets/img/svgs/Badges/tra.svg"
+                  ></svg-icon>
+                </button>
+                <button appTaTooltip="Mobile" position="bottom-right">
+                  <svg-icon
+                    [ngClass]="{ addOpasatyToType: !shop.mo }"
+                    src="../../../../assets/img/svgs/Badges/mo.svg"
+                  ></svg-icon>
+                </button>
+              </div>
+              <div
+                class="shop-conteiner"
+                [ngClass]="{
+                  'shop-conteiner-animation': showShopInfo === i
+                }"
+                [ngStyle]="{
+                  height: showShopInfo === i ? 'auto' : '0px'
+                }"
+              >
+                <div class="shop-name">
+                  <p>{{ shop.name }}</p>
+                </div>
+                <div
+                  class="shop-info"
+                  [ngClass]="{ addMarkerInfoHight: shop.email === '' || shop.email === null }"
+                >
+                  <div class="phone" *ngIf="shop.phone !== ''">
+                    <div class="copy-drop-phone" [ngClass]="{ addCopyPhoneDrop: copyPhoneDrop }">
+                      <p>COPIED</p>
+                    </div>
+                    <svg-icon src="../../../../assets/img/svgs/phone1.svg"></svg-icon>
+                    <p (click)="onCopy(shop.phone, true, false, false)">
+                      {{ shop.phone | mask: '(000) 000-0000' }}
+                    </p>
+                  </div>
+                  <div class="email" *ngIf="shop.email !== '' && shop.email !== null">
+                    <div class="copy-drop-email" [ngClass]="{ addCopyEmailDrop: copyEmailDrop }">
+                      <p>COPIED</p>
+                    </div>
+                    <svg-icon src="../../../../assets/img/svgs/mail.svg"></svg-icon>
+                    <p (click)="onCopy(shop.email, false, true, false)">
+                      {{ shop.email }}
+                    </p>
+                  </div>
+                  <div
+                    class="address"
+                    *ngIf="shop.address !== ''"
+                    [ngClass]="{ addAddresMargin: shop.email === '' || shop.email === null }"
+                  >
+                    <div
+                      class="copy-drop-address"
+                      [ngClass]="{ addCopyAddressDrop: copyAddressDrop }"
+                    >
+                      <p>COPIED</p>
+                    </div>
+                    <svg-icon src="../../../../assets/img/svgs/pinnnn.svg"></svg-icon>
+                    <div
+                      class="address-conteiner"
+                      (click)="onCopy(shop.address.address, false, false, true)"
+                    >
+                      <p>{{ shop.stret }}</p>
+                      <p>
+                        {{ shop.address.city }}<span *ngIf="shop.address.city">, </span
+                        >{{ shop.address.stateShortName }} {{ shop.address.zipCode }},
+                        {{ shop.address.country }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </agm-snazzy-info-window>
+      </agm-marker>
+    </agm-marker-cluster>
+
+    <!-- Marker In Cluster -->
+    <agm-snazzy-info-window
+      [latitude]="clusterLocation.lat"
+      [longitude]="clusterLocation.long"
+      [isOpen]="isClusterDropDownOpened"
+      (isOpenChange)="clusterDropDownIsToggled($event)"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      [maxWidth]="400"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="grup-of-shops">
+          <div class="shop-count" [ngClass]="{ 'cluster-shop-count': clusterDropdownData.length }">
+            <p>{{ clusterDropdownData.length }} Shops</p>
+          </div>
+          <div class="shops-container" [ngClass]="{ 'add-scroll': clusterDropdownData.length > 5 }">
+            <div
+              class="shop-names"
+              [ngClass]="{
+                'cluster-last-element': i === clusterDropdownData.length - 1
+              }"
+              *ngFor="let shop of clusterDropdownData; let i = index"
+              (click)="onZoomMarkerInCluster(shop)"
+            >
+              <p>{{ shop.name }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+
+    <!-- Markars for only start or endpoint -->
+    <agm-marker
+      *ngIf="lat !== undefined || long !== undefined"
+      [latitude]="lat"
+      [longitude]="long"
+      [agmFitBounds]="true"
+      [animation]="noAnimation ? '' : 'DROP'"
+      [iconUrl]="{
+        url: origin !== undefined ? markerOptions.origin.icon : markerOptions.destination.icon
+      }"
+    ></agm-marker>
+  </agm-map>
+
+  <div class="start-end-container">
+    <textarea
+      class="start-point"
+      placeholder="{{ textArea === 1 ? '' : 'Starting Point' }}"
+      ngx-google-places-autocomplete
+      [options]="options"
+      #startPoint="ngx-places"
+      (onAddressChange)="handleAddressChange($event, 1)"
+      (click)="onTextArea(1)"
+      (keydown)="onEnterStart($event)"
+      [ngClass]="{ addCurser: textArea === 0, addTextareaCliked: textArea === 1 }"
+      [(ngModel)]="originPom"
+    ></textarea>
+    <div class="delete-start">
+      <svg-icon
+        *ngIf="originPom !== ''"
+        (click)="onDeleteStartPoints()"
+        src="../../../assets/img/new-x.svg"
+      ></svg-icon>
+    </div>
+    <div></div>
+    <textarea
+      class="end-point"
+      id="end_point"
+      placeholder="{{ textArea === 2 ? '' : 'Ending Point' }}"
+      ngx-google-places-autocomplete
+      [options]="options"
+      #endPoint="ngx-places"
+      (onAddressChange)="handleAddressChange($event, 2)"
+      (click)="onTextArea(2)"
+      [ngClass]="{ addCurser: textArea === 0, addTextareaCliked: textArea === 2 }"
+      [(ngModel)]="destinationPom"
+    ></textarea>
+    <div class="delete-end">
+      <svg-icon
+        *ngIf="destinationPom !== ''"
+        (click)="onDeleteEndPoints()"
+        src="../../../assets/img/new-x.svg"
+      ></svg-icon>
+    </div>
+  </div>
+
+  <!-- Shop List -->
+  <div class="shop-list-container" [ngClass]="{ 'fullscreen-list-mode': fullScreenMode }">
+    <!-- Favorite Shop List -->
+    <app-shop-lists
+      [titleOfList]="'Shop List'"
+      [shopList]="shopDataList"
+      (shopPin)="onPin($event)"
+      (shopDelete)="onDeleteShop($event)"
+    ></app-shop-lists>
+  </div>
+
+  <!-- Fullscreen And Zoom -->
+  <div class="map-control">
+    <app-map-control (mapMode)="onFullScreen($event)" (zoom)="onZoom($event)"></app-map-control>
+  </div>
+
+  <div class="fullscreen-truckassist-logo" *ngIf="fullScreenMode">
+    <svg-icon src="../../../assets/img/svgs/shop-map/Logo.svg"></svg-icon>
+  </div>
+</div>

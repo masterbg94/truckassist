@@ -1,0 +1,70 @@
+<div class="chart_holder">
+    <div class="chart_header">
+        <div class="chart_white_part with_counter">
+            <span class="load_counts_dash">{{mainData[0]['count']}}</span>
+            <span
+            style="color: #919191;"
+            appSelectionColor
+            >Invoice aging</span>
+        </div>
+    </div>
+    <div class="chart_main_holder chat_invoce">
+        <div class="chart_top_hold">
+            <chart #chart [type]="type"  [data]="data" [options]="options"></chart>
+            <div class="inside_chart" *ngIf="insideChart">
+                <div 
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="inside_title"
+                >{{insideChart.title}}</div>
+                <div 
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="inside_value main_value" 
+                    [ngStyle]="{'color': insideChart.color}" 
+                    [innerHtml]="insideChart.value | nFormatter"
+                ></div>
+                <div
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="inside_title"
+                >Count</div>
+                <div
+                    style="color: #919191;"
+                    appSelectionColor
+                    class="inside_value" 
+                    [ngStyle]="{'color': insideChart.color}"
+                >{{insideChart.count}}</div>
+            </div>
+        </div>
+        <div class="d-flex bottom_results">
+            <div *ngFor="let data of bottomData; let indx = index">
+                <div class="results_item first_item">
+                    <div 
+                        appSelectionColor    
+                        class="result_top"
+                        [ngStyle]="{ color: (chartCollors[indx]['normal']) }" 
+                    >{{data.title}}</div>
+                    <div 
+                        style="color: #919191;"
+                        appSelectionColor    
+                        class="result_middle" 
+                    >{{data.count}}</div>
+                    <div
+                        style="color: #919191;"
+                        appSelectionColor
+                        class="result_bottom" 
+                        [innerHtml]="data.value | nFormatter"
+                    ></div>
+                    <div
+                    style="color: #919191B3;"
+                    appSelectionColor    
+                    class="result_percentage" 
+                    >
+                    47%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

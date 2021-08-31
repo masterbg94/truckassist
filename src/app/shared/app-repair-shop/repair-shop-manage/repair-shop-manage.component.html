@@ -1,0 +1,125 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <div class="d-flex align-items-center">
+    <i class="fal fa-times cursor-pointer fs-24 icon-hover-primary" (click)="closeRepairShopEdit()"></i>
+  </div>
+</div>
+<div class="modal-body edit-repair-shop">
+  <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+  <form
+    [formGroup]="repairShopForm"
+    class="form-container"
+    (keydown)="keyDownFunction($event)"
+    *ngIf="loaded"
+  >
+    <div class="row">
+      <div class="col-12">
+        <div class="form-label-group">
+          <input
+            id="name"
+            class="form-control input-control required"
+            placeholder="Name"
+            formControlName="name"
+            appInputFocus
+            appAutoFocus
+            [modalType]="inputData.data.type"
+            style="text-transform:uppercase"
+            (paste)="onPaste($event, 'name')"
+            (keydown)="onCheckBackSpace($event)"
+            (keypress)="onShopNameTyping($event)"
+          >
+          <label class="required-label" for="name">Name</label>
+          <app-required-label [control]="repairShopForm.controls.name"></app-required-label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <div class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(repairShopForm.controls.phone) }}">
+          <input
+            id="phone"
+            appInputFocus
+            class="form-control input-control required"
+            placeholder="Phone"
+            formControlName="phone"
+            mask="(000) 000-0000"
+          >
+          <label class="required-label" for="phone">Phone</label>
+          <app-required-label [control]="repairShopForm.controls.phone"></app-required-label>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(repairShopForm.controls.email) }}">
+          <input
+            id="email"
+            appInputFocus
+            class="form-control input-control"
+            placeholder="Email"
+            formControlName="email"
+            oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+            (keypress)="onEmailTyping($event)"
+            (keydown)="onCheckBackSpace($event)"
+            (paste)="onPaste($event, 'email')"
+          >
+          <label for="email">Email</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-10">
+        <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(repairShopForm.controls.address) }}">
+          <input
+            id="address"
+            class="form-control input-control required"
+            placeholder="Address, City, State Zip"
+            formControlName="address"
+            appInputFocus
+            ngx-google-places-autocomplete
+            [options]="options"
+            #placesRef="ngx-places"
+            (onAddressChange)="handleAddressChange($event)"
+          >
+          <label class="required-label" for="address">Address, City, State Zip</label>
+          <app-required-label [control]="repairShopForm.controls.address"></app-required-label>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-label-group">
+          <input
+            id="address_unit"
+            class="form-control input-control"
+            placeholder="Unit #"
+            formControlName="address_unit"
+            maxlength="6"
+            appInputrestriction="[A-Za-z0-9-]"
+            appInputFocus
+          >
+          <label for="address_unit">Unit #</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div *ngIf="repairShopTypes !== undefined && repairShopTypes.length > 0" class="type">Types</div>
+        <div class="multiple-choises-wrapper">
+          <div class="btn-group btn-group-toggle{{ i == 0 ? ' first-choise' : ''}}" *ngFor="let type of repairShopTypes; let i = index">
+            <label class="btn-primary" ngbButtonLabel>
+              <input type="checkbox" ngbButton [(ngModel)]="type.checked" [ngModelOptions]="{ standalone: true }">
+              {{ type.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-btn" (click)="closeRepairShopEdit()">Cancel</button>
+  <button type="button" class="save-btn" (click)="manageRepairShop()" ngbAutofocus>Save</button>
+</div>
+</div>

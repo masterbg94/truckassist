@@ -1,0 +1,51 @@
+<app-custom-datetime-pickers></app-custom-datetime-pickers>
+
+<h2>Table SignalR v2</h2>
+<table class="table table-hover mb-0 signalr_table">
+  <thead>
+    <tr class="text-nowrap no-hover">
+      <th>Truck</th>
+      <th>Trailer</th>
+      <th>Driver</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody 
+    cdkDropList
+    (cdkDropListDropped)="onDrop($event, 'truckData')">   
+    <!-- <tr *ngFor="let item of signalRService.broadcastDbStatusData" class="cursor-pointer">-->
+    <tr 
+      cdkDrag
+      cdkDragHandle
+      cdkDragBoundary=".signalr_table"
+      [cdkDragPreviewClass]="'line-drag-row'"
+      cdkDragLockAxis="y"
+      *ngFor="let item of signalRService.data; index as indexOfelement;" class="cursor-pointer">  
+      <td>{{ item.truck }}</td>
+      <td>{{ item.trailer }}</td>
+      <td>{{ item.driver }}</td>
+      <td class="positionRel status_holder main_status_switch_holder" [class.active]="statusOpenedIndex == indexOfelement">
+        <!-- <app-ta-status-select
+              [value]="item.statusId"
+              [searchable]="false"
+              [dataItems]="item"
+              [dataType]="'dispatch'"
+              [clearable]="false"              
+              (changeVal)="sendMessage($event, indexOfelement)"
+            >
+        </app-ta-status-select> -->
+        <app-ta-status-switch
+            [statusId]="item.statusId"
+            [dataItems]="item"
+            [statusHeight]="32"
+            [statusMainIndex]="indexOfelement"
+            [statusTypes]="'dispatch'"
+            [openedStatus]="statusOpenedIndex"
+            (changeVal)="sendMessage($event, indexOfelement)"
+            (openIndex)="openIndex($event)"
+            >
+        </app-ta-status-switch>
+      </td>
+    </tr>
+  </tbody>
+</table>

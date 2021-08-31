@@ -1,0 +1,148 @@
+@import '../../assets/scss/components/variables.scss';
+
+.button_holder {
+  margin-bottom: 10px;
+}
+.first-row {
+  width: 1440px;
+  margin: 0;
+  padding: 0;
+}
+.with_width {
+  max-width: 1440px;
+  padding-left: 0px;
+  position: relative;
+  top: -10px;
+}
+.action-container {
+  padding: 0;
+  height: 32px;
+  line-height: 32px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  width: 272px;
+  &.action-container-no-radius {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .label-selection {
+    color: $primary !important;
+    font-weight: 400 !important;
+    vertical-align: middle;
+  }
+
+  #map-view {
+    margin-right: 2px;
+  }
+
+  .toolbar-btn {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+    height: 32px;
+    width: 32px;
+    border-radius: 0;
+    background-color: transparent !important;
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+    line-height: 16px;
+    z-index: 1000;
+
+    &.export-btn {
+      svg {
+        path {
+          fill: #a9a9a9;
+          &.dobosh {
+            fill: #dadada;
+          }
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: #344566;
+            &.dobosh {
+              fill: #5673aa;
+            }
+          }
+        }
+      }
+    }
+    &.print-btn {
+      svg {
+        path {
+          fill: #a9a9a9;
+          &.dobosh {
+            fill: #dadada;
+          }
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: #344566;
+            &.dobosh {
+              fill: #5673aa;
+            }
+          }
+        }
+      }
+    }
+
+    &.compress-btn,
+    &.card-view-btn {
+      svg {
+        path {
+          fill: #dadada;
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: #5673aa;
+          }
+        }
+      }
+    }
+
+    svg {
+      &:hover {
+        .a {
+          fill: $primary !important;
+          stroke: none !important;
+        }
+      }
+      .a {
+        fill: $icons-bg;
+        stroke: none !important;
+      }
+    }
+  }
+}
+.expanded-footer {
+  background: #ffffff;
+  color: #919191;
+  font-weight: bold;
+  font-size: 16px;
+  height: 40px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  .progress-border {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    .progress-footer {
+      background-color: #5673aa !important;
+      height: 2px;
+      transition: $transition;
+    }
+  }
+}

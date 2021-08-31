@@ -1,0 +1,96 @@
+.modal-container {
+  width: 648px !important;
+
+  .modal-title {
+    color: #919191 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+}
+.note-label {
+  padding-left: 12px !important;
+
+  .number-of-attachments,
+  .number-of-vehicles {
+    width: 24px;
+    height: 24px;
+    padding: 3px 7px;
+    background-color: rgb(183, 183, 183, .3);
+    color: #919191;
+    margin-right: 5px;
+    margin-left: -1px;
+    border-radius: 3px;
+  }
+}
+.note-visible {
+  padding-top: 7px !important;
+  max-height: none !important;
+}
+.note-hidden {
+  padding-top: 0px !important;
+}
+.visible-note {
+  height: 138px;
+  min-height: 138px;
+}
+.visible-note-irsPayment {
+  height: 233px;
+}
+.visible-note-review {
+  height: 98px;
+}
+.visible-note-vehicles {
+  height: 180px;
+}
+.visible-note-vehicles-attachment {
+  height: 210px;
+}
+.down-icon {
+  right: 16px !important;
+}
+.add-icon {
+  position: absolute;
+  right: 13px;
+  top: 6px;
+  cursor: pointer;
+  z-index: 99;
+
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+}
+.edit-icon {
+  position: absolute;
+  top: 5.1px;
+  left: 70px;
+  z-index: 99;
+  cursor: pointer;
+  &:hover {
+    svg {
+      path {
+        opacity: 1;
+      }
+    }
+  }
+}
+.row-custom {
+  margin-top: 6px;
+}
+.row-custom-signer {
+  position: relative;
+}
+
+::ng-deep .save-button {
+  position: relative !important;
+  right: -232px !important;
+  top: 0px !important;
+}
+
+.vehicle-total-tax {
+  position: absolute;
+  right: 36px;
+}

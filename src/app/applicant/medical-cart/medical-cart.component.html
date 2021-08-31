@@ -1,0 +1,107 @@
+<form [formGroup]="medicalForm" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow medical my-5 reviewer-slideShow">
+    <h1>Medical Examiner's Certificate</h1>
+    <p class="firstParagraf medical_paragraf">
+      Please fill fields and upload the examiner's certificate example as proof of validation.
+    </p>
+    <div class="centerContent">
+      <div class="row medical_row">
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Issue date"
+              class="required datepicker-label{{
+                medicalForm.controls.issueDate.value !== null &&
+                medicalForm.controls.issueDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                [format]="format"
+                placeholder=""
+                formControlName="issueDate"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="medicalForm.controls.issueDate"></app-required-label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Exp. date"
+              class="required datepicker-label{{
+                medicalForm.controls.expDate.value !== null &&
+                medicalForm.controls.expDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                [format]="format"
+                placeholder=""
+                formControlName="expDate"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="medicalForm.controls.expDate"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-12">
+          <div class="row rowMobile" style="position: relative;">
+            <div class="col-12">
+              <app-app-upload
+                [attachments]="attachments"
+                (filesEvent)="receiveMessage($event)"
+                [clearFiles]="clearFiles"
+                [component]="'medical'"
+                [multiple]="true"
+              ></app-app-upload>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[0]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+        type="submit"
+        class="btns btns_next mx-2"
+        style="margin-left: 0px !important;"
+      >
+        Next
+      </button>
+      <button
+        *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+        type="submit"
+        class="btns btns_next mx-2 btns_reviewConfirm"
+      >
+        <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+        <span class="btns_reviewConfirm-text">Confirm All</span>
+      </button>
+    </div>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

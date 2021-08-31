@@ -1,0 +1,116 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header d-flex align-items-center" *ngIf="tabValue!==1" cdkDragHandle>
+    <h5 class="m-0">Account plans</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body" cdkDragHandle>
+
+    <div class="tab1" *ngIf="tabValue===1">
+      <svg-icon src="assets/img/svgs/warning.svg">
+      </svg-icon>
+      <p>
+        Your 14 day trial
+        has expired
+      </p>
+    </div>
+
+    <div class="tab2" *ngIf="tabValue===2">
+      <div class="switch-plan">
+        <app-ta-switch [data]="switchData" (switchClicked)="tabChange($event)"></app-ta-switch>
+
+        <p>Base {{selectedTab?.name}} Plan</p>
+        <p>3 vehicle licenses included</p>
+        <p class="plan-price">{{selectedTab?.name === 'Monthly' ? '$99.99' : '$1,049.00'}}</p>
+      </div>
+
+      <div class="basic-service d-flex flex-wrap justify-content-between">
+        <div class="single-service-item d-flex align-items-center justify-content-between" *ngFor="let i of allItems">
+          <p>{{i}}</p>
+          <svg-icon
+            src="assets/img/svgs/questionmark.svg"
+            [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+            [appTaTooltip]="'Lorem lorem lorem lorep lorem lorep'"
+            position="bottom-right"
+          ></svg-icon>
+        </div>
+      </div>
+
+      <div class="additional-service">
+        <p class="additional-service-heading">Additional Charges</p>
+        <table>
+          <thead>
+          <tr>
+            <th>Trucks
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'Valentino Rossi'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+            <th>Lic. Per Unit
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'James Bond 007'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+            <th>Ach Pay
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'Dovi'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+            <th>Fax
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'RSV4'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+            <th>Gps
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'MotoGP'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+            <th>Eld
+              <svg-icon
+                src="assets/img/svgs/questionmark.svg"
+                [svgStyle]="{ 'width.px': 16, 'height.px': 16 }"
+                [appTaTooltip]="'F1'"
+                position="bottom-right"
+              ></svg-icon>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let o of additionalOptions">
+            <td>{{o.trucks}}</td>
+            <td>${{o.license}}</td>
+            <td>${{o.ach}}</td>
+            <td>{{o.fax}}</td>
+            <td>{{o.gps}}</td>
+            <td>{{o.eld}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="savings">
+        <p><span>20% savings</span> with a non-refundable full year subscription.</p>
+        <p>Each base plan includes <span id="vehicle">3 vehicles</span>, <br>
+          Additional licenses will be based calculated on a daily average of active trucks totaled after a 30 day period and charged</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer footer-payment">
+    <button (click)="goNext()">Subscribe</button>
+  </div>
+</div>

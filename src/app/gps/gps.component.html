@@ -1,0 +1,1192 @@
+<div class="gps-container" [ngClass]="{ 'fullscreen-mode-gps-container': fullscreenMode }">
+  <!-- Doppler legend -->
+  <div class="legend-container">
+    <div class="doppler-conatiner">
+      <app-doppler-legend *ngIf="showDoppler"></app-doppler-legend>
+    </div>
+    <div class="traffic-conatiner" [ngStyle]="{ 'margin-top': showDoppler ? '6px' : '0px' }">
+      <app-traffic-legend *ngIf="trafficLayerShow"></app-traffic-legend>
+    </div>
+    <div
+      class="timezone-conatiner"
+      [ngStyle]="{ 'margin-top': showDoppler || trafficLayerShow ? '6px' : '0px' }"
+    >
+      <app-timezone-legend *ngIf="isTimeZoneActive"></app-timezone-legend>
+    </div>
+  </div>
+
+  <!--  *ngIf="showGpsLegend" -->
+  <div
+    class="gps-map-icons-legend"
+    [ngStyle]="{ opacity: showGpsLegend ? '1' : '0' }"
+    [ngClass]="{ 'gps-legend-active': showGpsLegend, 'remuve-gps-legend': removeGpsLegend }"
+  >
+    <app-gps-legend *ngFor="let legend of legendData" [dataLegend]="legend"></app-gps-legend>
+  </div>
+
+  <!-- Options Bar -->
+  <div
+    class="options-container"
+    [ngClass]="{
+      'options-container-history-log-mode': showHistoryLog && !fullscreenMode,
+      'fullscreen-mode-options-container': fullscreenMode,
+      'options-container-history-log-mode-fullscreen': showHistoryLog && fullscreenMode
+    }"
+  >
+    <div class="count-all-gps-devices">
+      <div class="count-container">{{ countOfGpsDevices }}</div>
+      <div class="count-all-title">GPS</div>
+    </div>
+    <div
+      class="live-tracking-btn"
+      [ngClass]="{ 'live-tracking-off': showHistoryLog }"
+      (click)="onToggleTracking(false)"
+    >
+      <div class="count-of-selected">
+        <p>{{ countOfLiveTrtucking }}</p>
+      </div>
+      <div class="title">
+        <p>Live Tracking</p>
+      </div>
+    </div>
+    <div
+      class="history-log-btn"
+      [ngClass]="{ 'history-log-on': showHistoryLog }"
+      (click)="onToggleTracking(true)"
+    >
+      <p>History Log</p>
+    </div>
+    <div class="switch-gps-type">
+      <div class="mobile" (click)="gpsMode = 1" [ngClass]="{ gpsModeActive: gpsMode === 1 }">
+        Mobile
+      </div>
+      <div class="gps-device" (click)="gpsMode = 2" [ngClass]="{ gpsModeActive: gpsMode === 2 }">
+        GPS Device
+      </div>
+    </div>
+    <app-custom-search *ngIf="!showHistoryLog"></app-custom-search>
+    <div class="tracking-tab">
+      <div class="tracking-options">
+        <!-- Show Toll Road -->
+        <button
+          (click)="onTollRoad()"
+          class="tool-bar-btn"
+          appTaTooltip="{{ isTollRoadActive ? '' : 'Toll road' }}"
+          position="bottom-right"
+        >
+          <svg-icon
+            [ngClass]="{ 'active-toll': isTollRoadActive }"
+            class="toll-svg"
+            src="../../assets/img/svgs/GPS/Toll-road-svg.svg"
+          ></svg-icon>
+        </button>
+        <!-- Show Timezones -->
+        <button
+          (click)="onTimeZone()"
+          class="tool-bar-btn"
+          appTaTooltip="{{ isTimeZoneActive ? '' : 'Time zones' }}"
+          position="bottom-right"
+        >
+          <svg-icon
+            [ngClass]="{ 'active-tool': isTimeZoneActive }"
+            src="../../assets/img/svgs/GPS/Time-zones-svg.svg"
+          ></svg-icon>
+        </button>
+        <!-- Show Doppler Radar -->
+        <button
+          (click)="onDopplerRadar()"
+          class="tool-bar-btn"
+          appTaTooltip="{{ showDoppler ? '' : 'Doppler Radar' }}"
+          position="bottom-right"
+        >
+          <svg-icon
+            [ngClass]="{ 'active-tool': showDoppler }"
+            src="../../assets/img/svgs/GPS/Doppler-radar-svg.svg"
+          ></svg-icon>
+        </button>
+        <!-- Show Truffic -->
+        <button
+          (click)="onShowTruffic()"
+          class="tool-bar-btn"
+          appTaTooltip="{{ trafficLayerShow ? '' : 'Traffic' }}"
+          position="bottom-right"
+        >
+          <svg-icon
+            [ngClass]="{ 'truffic-active-style': trafficLayerShow }"
+            src="../../assets/img/svgs/GPS/Truffic-svg-v2.svg"
+          ></svg-icon>
+        </button>
+        <!-- Show Sattings -->
+        <button class="tool-bar-btn" appTaTooltip="Settings" position="bottom-right">
+          <svg-icon class="sattings-svg" src="../../assets/img/svgs/GPS/setting-v2.svg"></svg-icon>
+        </button>
+
+        <!-- Gps Legend -->
+        <button
+          (click)="onShowGpsLegend()"
+          class="tool-bar-btn"
+          appTaTooltip="{{ showGpsLegend ? '' : 'Map markers legend' }}"
+          position="bottom-right"
+        >
+          <svg-icon
+            class="gps-legend"
+            [ngClass]="{ legend: showGpsLegend }"
+            src="../../assets/img/svgs/GPS/Legend/new-gps-legend-btn.svg"
+          ></svg-icon>
+        </button>
+      </div>
+    </div>
+    <div class="space"></div>
+    <div *ngIf="showHistoryLog" class="switch-date">
+      <app-ta-switch
+        [data]="historyLogSwitch.data"
+        [changeToGpsStyle]="true"
+        (switchClicked)="switchDate($event)"
+      ></app-ta-switch>
+    </div>
+  </div>
+
+  <!-- TRUCKS MOVING POSITIONS -->
+  <agm-map
+    [ngClass]="{ 'fullscreen-mode-agm-map': fullscreenMode }"
+    [restriction]="mapRestrictions"
+    [streetViewControl]="false"
+    [latitude]="mapOptions.latitude"
+    [longitude]="mapOptions.longitude"
+    [zoomControl]="true"
+    [controlSize]="1"
+    [clickableIcons]="false"
+    [zoom]="zoom"
+    [styles]="styles"
+    (mapReady)="mapReady($event)"
+  >
+    <agm-direction
+      *ngIf="truckLocation && truckDestination"
+      [origin]="truckLocation"
+      [destination]="truckDestination"
+      [optimizeWaypoints]="false"
+      [renderOptions]="truckRouteOptions"
+      [markerOptions]="truckRouteMarkerOptions"
+    ></agm-direction>
+
+    <!-- TRUCKS MOVING POSITIONS -->
+    <agm-marker-cluster
+      [zoomOnClick]="false"
+      [styles]="clusterStyles"
+      averageCenter="true"
+      minimumClusterSize="2"
+    >
+      <div *ngFor="let truckPosition of this.trucksPositionOnMap; let i = index">
+        <agm-marker
+          *ngIf="truckPosition && truckPosition.showOnMap && tableData.length && !showHistoryLog"
+          [latitude]="truckPosition.lat"
+          [longitude]="truckPosition.long"
+          [agmFitBounds]="true"
+          [animation]="truckPosition.animation"
+          [iconUrl]="{
+            url: truckPosition.marker,
+            scaledSize: {
+              width: 26,
+              height: 32
+            }
+          }"
+          (markerClick)="markerClicked(i)"
+        >
+          <!-- Driver Name -->
+          <agm-snazzy-info-window
+            class="driver-info-window"
+            [maxWidth]="240"
+            [openOnMarkerClick]="false"
+            [closeOnMapClick]="false"
+            [isOpen]="markerSelected !== i"
+            [closeWhenOthersOpen]="false"
+            placement="bottom"
+          >
+            <ng-template>
+              <div
+                (wheel)="onMouseWheel($event)"
+                *ngIf="truckPosition.truckNumber !== 'No Data'"
+                class="driver-name-container"
+              >
+                <p [ngStyle]="{ color: truckPosition.driverNameColor }">
+                  {{
+                    truckPosition.driverName !== 'No Driver'
+                      ? truckPosition.driverName
+                      : truckPosition.truckNumber
+                  }}
+                </p>
+              </div>
+              <div
+                (wheel)="onMouseWheel($event)"
+                *ngIf="truckPosition.truckNumber === 'No Data'"
+                class="driver-name-container"
+              >
+                <p [ngStyle]="{ color: truckPosition.driverNameColor }">
+                  {{ truckPosition.hardwareID }}
+                </p>
+              </div>
+            </ng-template>
+          </agm-snazzy-info-window>
+
+          <!-- Info On Truck -->
+          <agm-snazzy-info-window
+            [maxWidth]="240"
+            [openOnMarkerClick]="false"
+            [closeOnMapClick]="false"
+            [isOpen]="markerSelected === i"
+            [closeWhenOthersOpen]="false"
+            placement="bottom"
+          >
+            <ng-template>
+              <div
+                class="truck-info-container"
+                [ngClass]="{
+                  'truck-info-container-first-click-with-status':
+                    countOfMarkerCliced === 1 &&
+                    truckPosition.dispatchBoardStatus !== '' &&
+                    truckPosition.dispatchBoardStatus !== ' ' &&
+                    truckPosition.dispatchBoardStatus,
+                  'truck-info-container-first-click-no-status':
+                    (countOfMarkerCliced === 1 && truckPosition.dispatchBoardStatus === '') ||
+                    truckPosition.dispatchBoardStatus === ' ' ||
+                    !truckPosition.dispatchBoardStatus,
+                  'truck-info-container-second-click': countOfMarkerCliced === 2
+                }"
+                (wheel)="onMouseWheel($event)"
+              >
+                <div class="driver-name">
+                  <p appSelectionColor>
+                    {{ truckPosition.driverName }}
+                  </p>
+                </div>
+
+                <!-- Truck And Trailer Unit -->
+                <div class="truck-trailer-info">
+                  <div class="truck-info">
+                    <p class="title-truck" appSelectionColor>Truck</p>
+                    <p class="data-truck" appSelectionColor>
+                      {{ truckPosition.truckNumber !== 'No Data' ? '#' : ''
+                      }}{{ truckPosition.truckNumber }}
+                    </p>
+                  </div>
+
+                  <div class="trailer-info">
+                    <p class="title-trailer" appSelectionColor>Trailer</p>
+                    <p class="data-trailer" appSelectionColor>
+                      {{ truckPosition.trailerNumber !== 'No Data' ? '#' : ''
+                      }}{{ truckPosition.trailerNumber }}
+                    </p>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    truckPosition.dispatchBoardStatus !== '' &&
+                    truckPosition.dispatchBoardStatus !== ' ' &&
+                    truckPosition.dispatchBoardStatus
+                  "
+                  class="load-status"
+                  [ngStyle]="{ color: truckPosition.boardStatusColor }"
+                >
+                  {{ truckPosition.dispatchBoardStatus }}
+                </div>
+                <!-- Truck Gps Info -->
+                <div class="truck-gps-data-container">
+                  <!-- Speed -->
+                  <div class="truck-speed-ignation">
+                    <div class="data-title">
+                      <p class="speed" appSelectionColor>Speed</p>
+                      <p class="ignation" appSelectionColor>Ignition</p>
+                    </div>
+                    <div class="data-for-speed-ignation">
+                      <p class="speed" appSelectionColor>{{ truckPosition.speed }}</p>
+                      <p class="ignation" appSelectionColor>
+                        {{ truckPosition.ignition ? 'ON' : 'OFF' }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Vehicle Status -->
+                  <div class="truck-status gps-data-margin">
+                    <p class="title-of-truck-data" appSelectionColor>Vehicle Status</p>
+
+                    <!-- For Moving Status -->
+                    <p class="truck-gps-data" appSelectionColor *ngIf="truckPosition.speed !== '/'">
+                      {{ truckPosition.vehicleStatus }} -
+                      {{ truckPosition.statusTime | date: 'HH' }}h.
+                      {{ truckPosition.statusTime | date: 'mm' }}m. - Heading
+                      {{ truckPosition.course }}.
+                    </p>
+
+                    <!-- For Short Stop Status -->
+                    <p
+                      class="truck-gps-data"
+                      appSelectionColor
+                      *ngIf="truckPosition.statusTime < halfAnHour && truckPosition.speed === '/'"
+                    >
+                      {{ truckPosition.vehicleStatus }} -
+                      {{ truckPosition.statusTime | date: 'mm' }}m.
+                    </p>
+
+                    <!-- For Extende Stop Status -->
+                    <p
+                      class="truck-gps-data"
+                      appSelectionColor
+                      *ngIf="
+                        truckPosition.statusTime < twelveHours &&
+                        truckPosition.statusTime >= halfAnHour &&
+                        truckPosition.speed === '/'
+                      "
+                    >
+                      {{ truckPosition.vehicleStatus }} -
+                      {{ truckPosition.statusTime | date: 'HH' }}h.
+                      {{ truckPosition.statusTime | date: 'mm' }}m.
+                    </p>
+
+                    <!-- For Parking Status -->
+                    <p
+                      class="truck-gps-data"
+                      appSelectionColor
+                      *ngIf="truckPosition.statusTime >= twelveHours && truckPosition.speed === '/'"
+                    >
+                      {{ truckPosition.vehicleStatus }} - {{ truckPosition.statusDays + 'd.' }}
+                      {{ truckPosition.statusTime | date: 'HH' }}h.
+                      {{ truckPosition.statusTime | date: 'mm' }}m.
+                    </p>
+                  </div>
+                  <!-- Time & Date -->
+                  <div class="truck-time-date gps-data-margin" *ngIf="truckPosition.speed === '/'">
+                    <p class="title-of-truck-data" appSelectionColor>Time & Date</p>
+                    <p class="truck-gps-data" appSelectionColor>
+                      {{ truckPosition.eventDateTime | date: 'shortTime' }} -
+                      {{ truckPosition.eventDateTime | date: 'shortDate' }} ({{
+                        truckPosition.eventDateTime | date: 'z'
+                      }})
+                    </p>
+                  </div>
+                  <!-- Location -->
+                  <div
+                    class="truck-location gps-data-margin"
+                    [ngClass]="{ 'add-bottom-margin': truckPosition.statusTime < twelveHours }"
+                    *ngIf="truckPosition.placeAddress !== ''"
+                  >
+                    <div class="address-title" appSelectionColor>Location</div>
+                    <div class="address-conatiner address-conatiner-margin" appSelectionColor>
+                      {{ truckPosition.placeAddress.street }},
+                    </div>
+                    <div class="address-conatiner address-conatiner-margin" appSelectionColor>
+                      {{ truckPosition.placeAddress.state }}{{ truckPosition.placeAddress.zip }} -{{
+                        truckPosition.placeAddress.country
+                      }}
+                    </div>
+                  </div>
+
+                  <app-gps-statistic
+                    [hideCityInfo]="true"
+                    [isGps]="true"
+                    *ngIf="truckPosition.statusTime < twelveHours"
+                  ></app-gps-statistic>
+                </div>
+                <div class="truck-gps-device">
+                  <!-- Hardware ID -->
+                  <div class="truck-time-date">
+                    <p class="title-of-truck-data" appSelectionColor>Hardware ID</p>
+                    <p class="truck-gps-data" appSelectionColor>{{ truckPosition.hardwareID }}</p>
+                  </div>
+                  <!-- Lat/Lon -->
+                  <div class="truck-time-date gps-data-margin">
+                    <p class="title-of-truck-data" appSelectionColor>Lat/Lon</p>
+                    <p class="truck-gps-data" appSelectionColor>{{ truckPosition.dms }}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </agm-snazzy-info-window>
+        </agm-marker>
+      </div>
+    </agm-marker-cluster>
+
+    <!-- Marker In Cluster -->
+    <agm-snazzy-info-window
+      [latitude]="clusterLocation.lat"
+      [longitude]="clusterLocation.long"
+      [isOpen]="isClusterDropDownOpened"
+      (isOpenChange)="clusterDropDownIsToggled($event)"
+      [closeWhenOthersOpen]="true"
+      [closeOnMapClick]="true"
+      [maxWidth]="400"
+      placement="bottom"
+    >
+      <ng-template>
+        <div class="group-of-trucks">
+          <div
+            class="trucks-data"
+            [ngClass]="{
+              'group-of-trucks-first-item': j === 0,
+              'group-of-trucks-last-item': j === clusterDropdownData.length - 1
+            }"
+            *ngFor="let truck of clusterDropdownData; let j = index"
+            (click)="onZoomMarkerInCluster(truck)"
+          >
+            <svg-icon src="{{ truck.clusterMurker }}"></svg-icon>
+            <p class="truck-unit" appSelectionColor>{{ truck.truckNumber }}</p>
+            <p class="trailer-unit" appSelectionColor>#C23647</p>
+            <p class="driver-name" appSelectionColor>{{ truck.driverName }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </agm-snazzy-info-window>
+
+    <!-- History Log -->
+    <div *ngIf="showHistoryLog">
+      <agm-marker
+        *ngFor="let marker of historyMarkers"
+        [latitude]="marker.latitude"
+        [longitude]="marker.longitude"
+        [agmFitBounds]="true"
+        [iconUrl]="{
+          url: marker.icon,
+          scaledSize: {
+            width: 13,
+            height: 13
+          }
+        }"
+      ></agm-marker>
+    </div>
+  </agm-map>
+
+  <!-- Titel Bar, List Of Drivers And Devices, List Of Not Assigned Devices -->
+  <div class="devices-container" *ngIf="tableData.length && !showHistoryLog">
+    <!-- Titel Bar -->
+    <div
+      class="devices-title-container"
+      [ngClass]="{
+        'tabel-expend-title-conatiner': listExtendet && !showUnassignOption,
+        'expend-show-unassign-option-normal-title': showUnassignOption && !listExtendet,
+        'expend-show-unassign-option-tabel-expend-title': showUnassignOption && listExtendet
+      }"
+    >
+      <div class="title">
+        <div
+          class="checkbox-container"
+          [ngClass]="{ 'tabel-expend-checkbox-margin': listExtendet }"
+        >
+          <div
+            class="selected"
+            [ngClass]="{ hasSelected: countOfSelected }"
+            (click)="showDropSelect = !showDropSelect"
+          >
+            {{ countOfSelected ? countOfSelected : '' }}
+            <div
+              class="drop-select"
+              *ngIf="showDropSelect"
+              [ngClass]="{ 'drop-selected-has-no-selected': !countOfSelected }"
+            >
+              <div class="drop-option" (click)="onAllSelect('Select')" *ngIf="!countOfSelected">
+                Select All
+              </div>
+              <div
+                class="drop-option"
+                (click)="onAllSelect('Select')"
+                *ngIf="countOfSelected > 0 && countOfSelected < tableData.length"
+              >
+                Select Remaining
+              </div>
+              <div
+                class="drop-option drop-option-margin"
+                (click)="onAllSelect('Deselect')"
+                *ngIf="countOfSelected > 0 && countOfSelected < tableData.length"
+              >
+                Deselect Selected
+              </div>
+              <div
+                class="drop-option"
+                (click)="onAllSelect('Deselect')"
+                *ngIf="countOfSelected === tableData.length"
+              >
+                Deselect All
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="title-text truck"
+          (click)="onSort('truck')"
+          [ngClass]="{ 'truck-width-all-off': !listExtendet && !showUnassignOption }"
+        >
+          Truck
+          <app-sort-popup [sortType]="countTruckSorted" [left]="'40px'"></app-sort-popup>
+        </div>
+        <div class="title-text trailer" (click)="onSort('trailer')" *ngIf="listExtendet">
+          Trailer
+          <app-sort-popup [sortType]="countTrailerSort" [left]="'43px'"></app-sort-popup>
+        </div>
+        <div class="title-text status" (click)="onSort('status')" *ngIf="listExtendet">
+          Status
+          <app-sort-popup [sortType]="countStatusSort" [left]="'45px'"></app-sort-popup>
+        </div>
+        <div class="title-text hardware-id" (click)="onSort('hardware')" *ngIf="showUnassignOption">
+          Hardw. ID
+          <app-sort-popup [sortType]="countHardwareSorted" [left]="'66px'"></app-sort-popup>
+        </div>
+        <div
+          class="title-text driver"
+          [ngClass]="{ 'tabel-expend-driver-title': listExtendet }"
+          (click)="onSort('driver')"
+        >
+          Driver
+          <app-sort-popup [sortType]="countDriverSorted" [left]="'43px'"></app-sort-popup>
+        </div>
+        <div class="title-text location" *ngIf="listExtendet">Location</div>
+        <div class="title-text destination" *ngIf="listExtendet">Destination</div>
+        <div class="title-text speed" *ngIf="listExtendet" (click)="onSort('speed')">
+          Speed
+          <app-sort-popup [sortType]="countSpeedSort" [left]="'54px'"></app-sort-popup>
+        </div>
+      </div>
+      <svg-icon
+        *ngIf="!showUnassignOption"
+        (click)="onUnassignMode(true, false)"
+        (mouseenter)="hoverSvgUnassign = true"
+        (mouseleave)="hoverSvgUnassign = false"
+        appTaTooltip="Unassign Hardware"
+        tooltipBackground="#FF5D5D"
+        position="bottom-right"
+        src="{{
+          hoverSvgUnassign
+            ? '../../assets/img/svgs/GPS/new-close-unassign.svg'
+            : '../../assets/img/svgs/GPS/new-unassign-svg.svg'
+        }}"
+      ></svg-icon>
+      <svg-icon
+        *ngIf="showUnassignOption"
+        (click)="onUnassignMode(false, false)"
+        (mouseenter)="hoverSvgUnassign = true"
+        (mouseleave)="hoverSvgUnassign = false"
+        appTaTooltip="Close"
+        tooltipBackground="#707070"
+        position="bottom-right"
+        src="{{
+          hoverSvgUnassign
+            ? '../../assets/img/svgs/GPS/new-unassign-svg.svg'
+            : '../../assets/img/svgs/GPS/new-close-unassign.svg'
+        }}"
+      ></svg-icon>
+      <svg-icon
+        class="expend-table-svg"
+        (click)="onExpendTabel()"
+        [ngClass]="{ 'tabel-expend-active': listExtendet }"
+        src="../../assets/img/svgs/GPS/expend-tabel.svg"
+      ></svg-icon>
+    </div>
+
+    <!-- List Of Drivers And Devices -->
+    <div
+      class="devices-driver-list-container"
+      [ngClass]="{
+        'devices-driver-list-container-unassign': listExtendet && !showUnassignOption,
+        'expend-show-unassign-option-normal-list': showUnassignOption && !listExtendet,
+        'expend-show-unassign-option-tabel-expen-list': showUnassignOption && listExtendet
+      }"
+    >
+      <div
+        class="devices-driver-list"
+        [ngClass]="{
+          'devices-driver-list-unassign': listExtendet && showDropDownDialog === -1,
+          'unassign-dialog': showDropDownDialog !== -1
+        }"
+      >
+        <virtual-scroller
+          [ngClass]="{ 'hide-scrolle': showDropDownDialog !== -1 }"
+          #driversDevicesScrolle
+          [items]="tableData"
+          [ngStyle]="{
+            height:
+              scrollItemInFilter < 7 ? scrollItemInFilter * 20 + 2 + 'px' : 10 * 20 + 2 + 'px',
+            width: '238px'
+          }"
+        >
+          <div *ngFor="let driverAndDevice of driversDevicesScrolle.viewPortItems; let i = index">
+            <div
+              class="device-driver"
+              [ngClass]="{
+                'unassign-svg-active': listExtendet,
+                'devices-first': i === 0
+              }"
+              *ngIf="driverAndDevice.show"
+            >
+              <div class="checkbox-container">
+                <app-truckassist-checkbox
+                  class="single-checkbox"
+                  id="{{ i }}"
+                  [disabled]="false"
+                  [checked]="driverAndDevice.isSelected"
+                  (change)="selectDevices(driverAndDevice)"
+                  [gpsStyle]="true"
+                >
+                </app-truckassist-checkbox>
+              </div>
+              <div
+                class="table-marker-container"
+                (mouseenter)="mouseOver = i"
+                (mouseleave)="mouseOver = -1"
+                [ngClass]="{
+                  'moving-hover': mouseOver === i && driverAndDevice.speed !== '/',
+                  'short-stop-hover':
+                    mouseOver === i &&
+                    driverAndDevice.time < halfAnHour &&
+                    driverAndDevice.speed === '/',
+                  'extended-stop-hover':
+                    mouseOver === i &&
+                    driverAndDevice.time < twelveHours &&
+                    driverAndDevice.time >= halfAnHour &&
+                    driverAndDevice.speed === '/',
+                  'parking-stop-hover':
+                    mouseOver === i &&
+                    driverAndDevice.time >= twelveHours &&
+                    driverAndDevice.speed === '/'
+                }"
+                *ngIf="listExtendet"
+              >
+                <div class="hover-table-marker">
+                  <svg-icon class="marker-svg" src="{{ driverAndDevice.marker }}"></svg-icon>
+
+                  <!-- Moving -->
+                  <div
+                    class="hover-table-text"
+                    *ngIf="mouseOver === i && driverAndDevice.speed !== '/'"
+                  >
+                    Moving {{ driverAndDevice.time | date: 'HH' }}h.
+                    {{ driverAndDevice.time | date: 'mm' }}m. - Heading
+                    {{ driverAndDevice.course }}.
+                  </div>
+
+                  <!-- Short Stop -->
+                  <div
+                    class="hover-table-text"
+                    *ngIf="
+                      mouseOver === i &&
+                      driverAndDevice.time < halfAnHour &&
+                      driverAndDevice.speed === '/'
+                    "
+                  >
+                    Short Stop - {{ driverAndDevice.time | date: 'mm' }}m.
+                  </div>
+
+                  <!-- Extendet Stop -->
+                  <div
+                    class="hover-table-text"
+                    *ngIf="
+                      mouseOver === i &&
+                      driverAndDevice.time < twelveHours &&
+                      driverAndDevice.time >= halfAnHour &&
+                      driverAndDevice.speed === '/'
+                    "
+                  >
+                    Ext. Stop - {{ driverAndDevice.time | date: 'HH' }}h.{{
+                      driverAndDevice.time | date: 'mm'
+                    }}m.
+                  </div>
+
+                  <!-- Parking -->
+                  <div
+                    class="hover-table-text"
+                    *ngIf="
+                      mouseOver === i &&
+                      driverAndDevice.time >= twelveHours &&
+                      driverAndDevice.speed === '/'
+                    "
+                  >
+                    Parking - {{ driverAndDevice.timeDays + 'd.' }}
+                    {{ driverAndDevice.time | date: 'HH' }}h.
+                    {{ driverAndDevice.time | date: 'mm' }}m.
+                  </div>
+                </div>
+              </div>
+              <div
+                class="truck-number"
+                [innerHtml]="driverAndDevice.truckNumber | taHighlight: highlightingWords"
+              >
+                #{{ driverAndDevice.truckNumber }}
+              </div>
+              <div
+                class="trailer-number"
+                *ngIf="listExtendet"
+                [innerHtml]="driverAndDevice.trailerNumber | taHighlight: highlightingWords"
+              >
+                #{{ driverAndDevice.trailerNumber }}
+              </div>
+              <!--  [innerHtml]="driverAndDevice.dispatchBoardStatus | taHighlight: highlightingWords" -->
+              <div class="status" *ngIf="listExtendet">
+                <div class="vehicle-time-container">
+                  <svg-icon src="../../assets/img/svgs/GPS/vehicle-status-time.svg"></svg-icon>
+                  <div class="time">
+                    {{ driverAndDevice.time | date: 'HH' }}h
+                    {{ driverAndDevice.time | date: 'mm' }}min
+                  </div>
+                </div>
+                <div class="status-text" [ngStyle]="{ color: driverAndDevice.boardStatusColor }">
+                  {{ driverAndDevice.dispatchBoardStatus | uppercase }}
+                </div>
+              </div>
+              <div
+                class="hardware-id"
+                *ngIf="showUnassignOption"
+                [innerHtml]="driverAndDevice.hardwareID | taHighlight: highlightingWords"
+              >
+                {{ driverAndDevice.hardwareID }}
+              </div>
+              <div
+                class="driver-name"
+                [innerHtml]="driverAndDevice.driverName | taHighlight: highlightingWords"
+                [ngClass]="{ 'tabel-expend-driver-name': listExtendet }"
+              >
+                {{ driverAndDevice.driverName }}
+              </div>
+              <div
+                class="location"
+                *ngIf="listExtendet"
+                [innerHtml]="driverAndDevice.location | taHighlight: highlightingWords"
+              >
+                {{ driverAndDevice.location }}
+              </div>
+              <!-- [innerHtml]="driverAndDevice.destination | taHighlight: highlightingWords" -->
+              <div
+                class="destination"
+                *ngIf="listExtendet"
+                [ngClass]="{ 'active-show-direction': activeDirection === i }"
+              >
+                <svg-icon
+                  (click)="setDirection(driverAndDevice, i)"
+                  src="../../assets/img/svgs/GPS/show-destination.svg"
+                  *ngIf="driverAndDevice.isSelected"
+                ></svg-icon>
+                {{ driverAndDevice.destination }}
+              </div>
+              <div class="speed" *ngIf="listExtendet">{{ driverAndDevice.speed }}</div>
+              <div
+                class="statistic"
+                [ngClass]="{
+                  'hide-statistic': !listExtendet,
+                  'statistic-margin': !showUnassignOption
+                }"
+                #statisticPopover="ngbPopover"
+                [ngbPopover]="statisticStops"
+                (click)="toggleStatisticStops(statisticPopover, driverAndDevice)"
+                triggers="manual"
+                [autoClose]="true"
+                [placement]="'bottom'"
+                [container]="'body'"
+                [popoverClass]="'statistic-stop-container'"
+              >
+                <app-gps-statistic *ngIf="listExtendet"></app-gps-statistic>
+              </div>
+              <div class="unassign" *ngIf="showUnassignOption" (click)="deleteDialogOpened = i">
+                <svg-icon
+                  class="unassign-svg"
+                  src="../../assets/img/svgs/GPS/cancle-svg.svg"
+                  [ngClass]="{ 'unassign-svg-active ': deleteDialogOpened === i }"
+                  #unassignPopover="ngbPopover"
+                  [ngbPopover]="deleteDialog"
+                  (click)="toggleDeleteDialog(unassignPopover, driverAndDevice)"
+                  triggers="manual"
+                  [autoClose]="true"
+                  [placement]="'bottom'"
+                  [container]="'body'"
+                  [popoverClass]="'popover-delete'"
+                ></svg-icon>
+              </div>
+            </div>
+          </div>
+        </virtual-scroller>
+      </div>
+    </div>
+
+    <!-- List Of Not Assigned Devices -->
+    <div class="not-assigned-devices-container" *ngIf="notAssignedGpsDevices.length">
+      <div
+        class="not-assigned-devices-title"
+        [ngClass]="{ 'devices-title-active': showDevicesList }"
+        (click)="showDevicesList = !showDevicesList"
+        s
+      >
+        <!-- <p appSelectionColor>Not Assigned Devices</p> -->
+        <div class="count-unassigned">{{ notAssignedGpsDevices.length }}</div>
+        <div class="title">Unassigned</div>
+        <svg-icon class="down-arrow-svg" src="../../assets/img/svgs/GPS/Down-Arrow.svg"></svg-icon>
+      </div>
+      <div class="devices-drop-container">
+        <div
+          *ngIf="notAssignedGpsDevices.length"
+          class="title-of-devices"
+          [ngClass]="{ 'title-of-devices-show': showDevicesList }"
+        >
+          <p appSelectionColor>Device ID</p>
+        </div>
+        <div class="devices-list-container" [ngClass]="{ 'show-devices-list': showDevicesList }">
+          <div
+            class="devices"
+            [ngClass]="{
+              'active-devices': showTruckDropDown === i,
+              'hide-devices': !notAssignedGpsDevices.length,
+              'devices-first': i === 0,
+              'devices-last': i === notAssignedGpsDevices.length - 1
+            }"
+            *ngFor="let device of notAssignedGpsDevices; let i = index"
+          >
+            <p
+              appSelectionColor
+              class="devices-id"
+              [innerHtml]="device.uniqueId | taHighlight: highlightingWords"
+            >
+              {{ device.uniqueId }}
+            </p>
+            <p class="add-btn" *ngIf="showTruckDropDown !== i" (click)="showTruckDropDown = i">
+              Add truck
+            </p>
+            <div
+              class="search-driver"
+              [ngClass]="{
+                'hide-search-driver': showTruckDropDown !== i,
+                'focuse-ng-select': focusOnNgSelect === i,
+                'truck-selected': truckSelected === i
+              }"
+            >
+              <p
+                class="selected-truck"
+                *ngIf="truckSelected === i && !hideTruckSelectedNumber"
+                appSelectionColor
+              >
+                #{{ truckDataOfSelected.truckNumber }}
+              </p>
+              <ng-select
+                *ngIf="showTruckDropDown === i"
+                [items]="trucks"
+                bindValue="id"
+                bindLabel="truckNumber"
+                placeholder="Truck ID"
+                (clickOutside)="focusOnNgSelect = -1"
+                (change)="selectTruck($event, i)"
+                (search)="onSearch($event)"
+                (clear)="onClose($event)"
+                (close)="onClose($event)"
+                (click)="onFocusNgSelect(i)"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span
+                    [ngOptionHighlight]="search"
+                    [ngClass]="{
+                      'ng-select-truck-active': item.isActive,
+                      'ng-select-truck-inactive': !item.isActive
+                    }"
+                    >#{{ item.truckNumber }}</span
+                  >
+                </ng-template>
+              </ng-select>
+              <div class="save-cancel-ng-select" *ngIf="truckSelected === i">
+                <svg-icon
+                  (click)="onAssign(device)"
+                  class="ok-svg"
+                  src="../../assets/img/svgs/GPS/ok-svg.svg"
+                ></svg-icon>
+                <svg-icon
+                  (click)="onCancleSelectedTruck()"
+                  class="cancle-svg"
+                  src="../../assets/img/svgs/GPS/cancle-svg.svg"
+                ></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Log Tabs And Options -->
+  <div class="history-log-tabs-container" *ngIf="showHistoryLog">
+    <div class="driver-truck-info">
+      <div class="driver-truck-selected" (click)="showDriverTruckList = !showDriverTruckList">
+        <div *ngIf="tableData.length">
+          <p class="truck-unit" appSelectionColor>
+            #{{ historyDataView ? historyDataView?.truckNumber : tableData[0]?.truckNumber }}
+          </p>
+          <p class="driver-name" appSelectionColor>
+            {{ historyDataView ? historyDataView?.driverName : tableData[0]?.driverName }}
+          </p>
+        </div>
+        <!-- When There Is No Data -->
+        <div *ngIf="!tableData.length">
+          <p class="truck-unit">
+            No Data
+          </p>
+        </div>
+        <svg-icon
+          class="down-arrow-svg"
+          [ngClass]="{ 'rotate-truck-driver': showDriverTruckList }"
+          src="../../assets/img/svgs/GPS/Down-Arrow.svg"
+        ></svg-icon>
+      </div>
+      <div class="driver-truck-list" [ngClass]="{ 'driver-truck-list-show': showDriverTruckList }">
+        <div
+          class="driver-truck"
+          (click)="onSTruckDHistory(truckDriver)"
+          *ngFor="let truckDriver of tableData"
+        >
+          <p appSelectionColor class="truck">#{{ truckDriver?.truckNumber }}</p>
+          <p appSelectionColor class="dviver-name">{{ truckDriver?.driverName }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="driver-time-data">
+      <!-- Driving -->
+      <div class="driveing-time">
+        <div
+          class="data-time-presentation"
+          [ngStyle]="{ width: drivingPercentage.toString() + '%' }"
+        ></div>
+        <p class="presentation-name">Driving Time</p>
+        <p class="percentage-time">{{ drivingPercentage }}%</p>
+      </div>
+      <!-- Short Stop -->
+      <div class="short-stop time-data-margin">
+        <div
+          class="data-time-presentation"
+          [ngStyle]="{ width: shortStopPercentage.toString() + '%' }"
+        ></div>
+        <p class="presentation-name">Short Stop</p>
+        <p class="percentage-time">{{ shortStopPercentage }}%</p>
+      </div>
+      <!-- Extended Stop -->
+      <div class="stop-time time-data-margin">
+        <div
+          class="data-time-presentation"
+          [ngStyle]="{ width: extendedStopPercentage.toString() + '%' }"
+        ></div>
+        <p class="presentation-name">Extended Stop</p>
+        <p class="percentage-time">{{ extendedStopPercentage }}%</p>
+      </div>
+      <!-- Parking -->
+      <div class="idle-time time-data-margin">
+        <div
+          class="data-time-presentation"
+          [ngStyle]="{ width: parkingPercentage.toString() + '%' }"
+        ></div>
+        <p class="presentation-name">
+          Parking
+        </p>
+        <p class="percentage-time">{{ parkingPercentage }}%</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Log Date Options -->
+  <div class="history-log-date-options-container" *ngIf="showHistoryLog">
+    <!-- Date Picker -->
+    <div
+      class="date-picker-container"
+      *ngIf="hideDateRangePicker"
+      (click)="onAddAnimationArrowPickers()"
+    >
+      <p>{{ datePickerDate | date: 'longDate' }}</p>
+      <svg-icon
+        class="down-arrow-svg"
+        [ngClass]="{ 'rotate-arrow': animateDatePicker }"
+        src="../../assets/img/svgs/GPS/Down-Arrow.svg"
+      ></svg-icon>
+      <kendo-datepicker [(value)]="datePickerDate"></kendo-datepicker>
+    </div>
+
+    <!-- Range Picker -->
+    <div
+      class="kendo-date-range-container"
+      *ngIf="!hideDateRangePicker"
+      (click)="onAddAnimationArrowPickers()"
+    >
+      <div class="range-picker-container">
+        <p>{{ startDate | date: 'longDate' }} - {{ endDate | date: 'longDate' }}</p>
+        <svg-icon
+          class="down-arrow-svg"
+          [ngClass]="{ 'rotate-arrow': animateDatePicker }"
+          src="../../assets/img/svgs/GPS/Down-Arrow.svg"
+        ></svg-icon>
+      </div>
+      <kendo-daterange (click)="clickedOnPicker = true">
+        <div class="d-flex range-container">
+          <kendo-floatinglabel text="start">
+            <kendo-dateinput kendoDateRangeStartInput [(value)]="startDate"></kendo-dateinput>
+          </kendo-floatinglabel>
+
+          <kendo-floatinglabel text="end">
+            <kendo-dateinput kendoDateRangeEndInput [(value)]="endDate"></kendo-dateinput>
+          </kendo-floatinglabel>
+        </div>
+      </kendo-daterange>
+    </div>
+
+    <!-- Day Switch -->
+    <div class="switch-day history-log-time-pick-margin">
+      <svg-icon
+        class="arrow-left"
+        src="../../assets/img/svgs/GPS/stop-list-arrow-left.svg"
+        (click)="onSwitchDay(true)"
+      ></svg-icon>
+      <p>Tuesday, 24th November</p>
+      <svg-icon
+        class="arrow-right"
+        src="../../assets/img/svgs/GPS/stop-list-arrow-right.svg"
+        (click)="onSwitchDay(false)"
+      ></svg-icon>
+    </div>
+
+    <!-- Stop List -->
+    <!--  *ngIf="historyStops && historyStops.length" -->
+    <div class="truck-time-info-container history-log-time-pick-margin">
+      <div
+        class="title-truck-time-info"
+        [ngClass]="{ 'stop-list-active': showStopListDropdown }"
+        (click)="
+          historyStops && historyStops.length
+            ? (showStopListDropdown = !showStopListDropdown)
+            : (showStopListDropdown = false)
+        "
+      >
+        <div class="stops-count">
+          {{ historyStops && historyStops.length ? historyStops.length : '0' }}
+        </div>
+        <div class="list-title">Stops</div>
+        <div class="cdt">CDT</div>
+        <svg-icon
+          [ngClass]="{ 'truck-time-arrow-active': showStopListDropdown }"
+          class="down-arrow-svg"
+          src="../../assets/img/svgs/GPS/Down-Arrow.svg"
+        ></svg-icon>
+      </div>
+      <div
+        class="truck-time-drop-down"
+        [ngClass]="{ 'truck-time-drop-down-active': showStopListDropdown }"
+      >
+        <div class="drop-down-title">
+          <p>Location</p>
+          <p class="stop-time">Stop Time</p>
+          <p class="leg">Leg</p>
+          <p class="total">Total</p>
+        </div>
+        <div class="time-info-container">
+          <div
+            [ngClass]="{ 'time-info-margin': i !== 0 }"
+            class="time-info"
+            *ngFor="let stopData of historyStops; let i = index"
+          >
+            <div
+              class="bullet-point"
+              [ngClass]="{
+                'bullet-short-stop': stopData.typeOfStop === 'Short Stop',
+                'bullet-extended-stop': stopData.typeOfStop === 'Extended Stop',
+                'bullet-parking': stopData.typeOfStop === 'Parking'
+              }"
+            ></div>
+            <div class="line" *ngIf="i !== historyStops.length - 1"></div>
+            <p class="place" appSelectionColor>{{ stopData.location }}</p>
+            <p class="time-from-to" appSelectionColor>
+              {{ stopData.startDateTime | date: 'h:mm' }} -
+              {{ stopData.endDateTime | date: 'h:mm' }}
+            </p>
+            <p class="leg" appSelectionColor>{{ i !== 0 ? stopData.leg : '' }}</p>
+            <p
+              class="total"
+              [ngStyle]="{
+                color: i === historyStops.length - 1 ? '#6C6C6C' : 'rgba(108, 108, 108, 0.7)'
+              }"
+              appSelectionColor
+            >
+              {{ stopData.total }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player -->
+  <div class="player-wrapper" [ngClass]="{ 'player-wrapper-fullscreen': fullscreenMode }">
+    <div
+      class="player-container"
+      [ngClass]="{ 'show-player': showHistoryLog, 'player-fullscreen': fullscreenMode }"
+    >
+      <div class="player">
+        <svg-icon
+          (click)="onPlayMarker()"
+          class="play-btn-svg"
+          src="{{
+            playInterval
+              ? '../../assets/img/svgs/GPS/pause.svg'
+              : '../../assets/img/svgs/GPS/Play Button.svg'
+          }}"
+        ></svg-icon>
+        <div class="slider-ruler-container">
+          <div class="player-slider">
+            <!--  <div
+              class="time-line"
+              *ngFor="let timeLine of playerTimeLine; let i = index"
+              [ngStyle]="{
+                width: timeLine.timeLine.toString() + '%',
+                background: timeLine.timeLineColor
+              }"
+            ></div> -->
+            <ng5-slider
+              [ngClass]="{ 'ng5-slider-no-time-line': !playerTimeLineData.length }"
+              [(value)]="slideInit"
+              [options]="options"
+              (click)="onPlayerSlider()"
+            ></ng5-slider>
+          </div>
+          <svg-icon
+            class="time-ruler-svg"
+            src="{{
+              fullscreenMode
+                ? '../../assets/img/svgs/GPS/Time Ruler Fullscreen.svg'
+                : '../../assets/img/svgs/GPS/Time Ruler.svg'
+            }}"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen And Zoom -->
+  <div
+    class="map-control"
+    [ngClass]="{
+      'move-zoom-fullscreen': showHistoryLog && !fullscreenMode,
+      'fullscreen-mode-zoom': fullscreenMode && !showHistoryLog,
+      'fullscreen-mode-zoom-historylog': fullscreenMode && showHistoryLog
+    }"
+  >
+    <app-map-control (mapMode)="onFullScreen($event)" (zoom)="onZoom($event)"></app-map-control>
+  </div>
+
+  <!-- Logo -->
+  <div class="logo-container" [ngClass]="{ 'move-logo': showHistoryLog }" *ngIf="fullscreenMode">
+    <svg-icon src="../../assets/img/svgs/GPS/Logo.svg"></svg-icon>
+  </div>
+</div>
+
+<ng-template #deleteDialog let-data="data">
+  <div class="delete-container">
+    <div class="drop-down-delete">
+      <p>Are you sure you want to unassign?</p>
+      <div class="yes-no">
+        <div class="no" (click)="deleteDialogOpened = -1">
+          <p>No</p>
+        </div>
+        <div class="yes" (click)="onUnassign(data)">
+          <p>Yes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #statisticStops>
+  <app-gps-statistic-stops></app-gps-statistic-stops>
+</ng-template>

@@ -1,0 +1,12 @@
+@-moz-document url-prefix() {
+  .form-label-group > label { top: 1px; }
+  body.modal-open {
+    // padding-right: 6px !important;
+    .chat-icon {
+      right: 28px;
+    }
+    #scrollTop {
+      right: 16px;
+    }
+  }
+}

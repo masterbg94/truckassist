@@ -1,0 +1,776 @@
+@import 'src/assets/scss/components/variables';
+
+.card-wrapper {
+  transition: 0.3s;
+  border-radius: 3px;
+
+  .todo-card {
+    flex: 1;
+    background: white;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    transition: 0.3s;
+
+    &.have-border-bottom {
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+
+    &-top {
+      padding: 0 12px;
+      background: $bw1;
+      height: 32px;
+      border-top-right-radius: 3px;
+      border-top-left-radius: 3px;
+
+      .todo-card-title {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 18px;
+        color: $bw5;
+      }
+
+      svg-icon.todo-done-icon {
+        display: flex;
+        margin-right: 6px;
+      }
+
+      .dropdown.action-dropdown {
+        height: 100%;
+        margin-left: 12px;
+
+        a#dropdownMenuLink {
+          height: 100%;
+          display: flex;
+          align-items: center;
+
+          svg-icon {
+            display: flex;
+
+            svg {
+              path {
+                transition: 0.3s;
+                fill: $app-main-gray;
+                opacity: 1;
+              }
+            }
+          }
+
+          &:hover {
+            svg-icon {
+              svg {
+                path {
+                  transition: 0.3s;
+                  fill: $app-main-blue;
+                }
+              }
+            }
+          }
+        }
+
+        .dropdown-menu.dropdown-detail {
+          top: 0 !important;
+          left: -10px !important;
+          margin: 0;
+
+          &:after {
+            @include triangletop;
+            left: 10px;
+            top: -5.5px;
+            content: '';
+          }
+
+          a {
+            font-size: 14px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            line-height: 16px;
+            padding: 6px 12px;
+            transition: 0.3s;
+
+            svg-icon {
+              display: flex;
+              align-items: center;
+              width: 14px;
+              height: 14px;
+              margin-right: 10px;
+
+              svg {
+                width: 100%;
+                height: 100%;
+
+                path {
+                  opacity: 0.7;
+                  transition: 0.3s;
+                }
+              }
+            }
+
+            span {
+              opacity: 0.7;
+              transition: 0.3s;
+              color: $app-main-gray;
+            }
+
+            &:hover {
+              svg-icon {
+                svg {
+                  path {
+                    opacity: 1;
+                    transition: 0.3s;
+                  }
+                }
+              }
+
+              span {
+                opacity: 1;
+                transition: 0.3s;
+              }
+            }
+
+            &:first-of-type:hover {
+              svg-icon {
+                svg {
+                  path {
+                    opacity: 1;
+                    transition: 0.3s;
+                    fill: $app-main-blue;
+                  }
+                }
+              }
+            }
+
+            &:nth-of-type(2) {
+              span {
+                color: red;
+              }
+            }
+          }
+
+          .dropdown-divider {
+            margin: 0;
+          }
+        }
+      }
+
+      kendo-chip-list {
+        height: 20px;
+        cursor: auto;
+        margin-right: 12px;
+
+        kendo-chip {
+          height: 20px;
+          background: $bw4;
+          transition: $transition;
+          color: white;
+          border-radius: 3px;
+
+          &:hover {
+            background: $bw5;
+            transition: $transition;
+          }
+
+          ::ng-deep {
+            .k-chip-content {
+              .k-chip-label {
+                display: flex;
+                align-items: center;
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &-bottom {
+      flex: 1;
+      padding: 6px 12px 12px;
+
+      .bottom-details {
+        flex: 1;
+
+        .attached {
+          kendo-chip-list {
+            height: 21px;
+            margin-bottom: 12px;
+            cursor: auto;
+
+            &.big-list {
+              flex-wrap: wrap;
+              height: auto;
+
+              kendo-chip {
+                margin-bottom: 6px;
+                max-width: 88px;
+
+                ::ng-deep {
+                  .k-chip-content {
+                    padding: 0;
+
+                    .k-chip-label {
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      display: -webkit-box;
+                    }
+                  }
+                }
+              }
+            }
+
+            kendo-chip {
+              height: 21px;
+              background: #dadada;
+              transition: $transition;
+              color: white;
+              border-radius: 3px;
+
+              &:hover {
+                background: $bw5;
+                transition: $transition;
+              }
+
+              ::ng-deep {
+                .k-chip-content .k-chip-label {
+                  display: flex;
+                  align-items: center;
+                  height: 100%;
+                }
+              }
+            }
+          }
+
+          .bottom-icons {
+            margin-bottom: 6px;
+
+            svg-icon {
+              width: 16px;
+              height: 16px;
+              //margin-bottom: 8px;
+              align-items: flex-start;
+              display: flex;
+              cursor: pointer;
+              margin-left: 8px;
+
+              svg {
+                //width: 100%;
+                width: 16px;
+                height: 16px;
+
+                path {
+                  //fill: #606060;
+                  transition: 0.3s;
+                }
+              }
+
+              &:hover {
+                svg {
+                  g {
+                    opacity: 1;
+                  }
+
+                  path {
+                    fill: $bw5;
+                    transition: 0.3s;
+                    opacity: 1;
+                  }
+                }
+              }
+            }
+
+            .comment-number {
+              margin-left: 8px;
+
+              p {
+                color: white;
+                font-size: 11px;
+                line-height: 11px;
+                font-weight: 600;
+                transition: 0.3s;
+                width: 18px;
+                text-align: center;
+                height: 15px;
+                padding-left: 1px !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+
+              svg-icon {
+                height: 16px;
+                width: 18px;
+                cursor: pointer;
+                display: flex;
+
+                svg {
+                  height: 16px;
+                  width: 18px;
+                }
+
+                &.done-comment {
+                  cursor: auto;
+                }
+              }
+
+              &:hover {
+                p {
+                  color: white;
+                  transition: 0.3s;
+                }
+
+                svg-icon svg path {
+                  fill: $bw5;
+                }
+              }
+
+              &.comment-expanded {
+                p {
+                  color: white;
+                  transition: 0.3s;
+                }
+
+                svg-icon svg path {
+                  opacity: 1;
+                  fill: $app-main-blue;
+                }
+              }
+
+              &-icon {
+                svg-icon {
+                  width: 18px;
+                  display: flex;
+                }
+              }
+            }
+
+            .blue-icon {
+              svg path {
+                fill: $light-blue;
+              }
+            }
+          }
+        }
+
+        .description {
+          display: flex;
+          font-size: 12px;
+          color: #606060;
+          line-height: 15px;
+          max-height: 45px;
+          margin-bottom: 12px;
+
+          p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+
+        .dates {
+          p {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 15px;
+
+            &:nth-of-type(2) {
+              margin-left: 16px;
+            }
+          }
+        }
+      }
+
+      .expiration-date-col {
+        margin: auto -12px -12px -12px;
+        border-radius: 0 0 3px 3px;
+        overflow: hidden;
+        transition: $transition;
+
+        &.rounded-bottom {
+          border-radius: 0;
+          overflow: unset;
+          transition: $transition;
+        }
+
+        app-progress-expiration {
+          width: 100%;
+        }
+      }
+    }
+
+    ::ng-deep {
+      .k-chip-content {
+        //display: flex;
+        .k-chip-label {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  .hyperlink {
+    height: 27px;
+    padding-left: 12px;
+    padding-right: 12px;
+    background: white;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    a {
+      color: $app-main-blue;
+      font-size: 12px;
+      line-height: 15px;
+
+      &:hover {
+        text-decoration: none;
+        color: $app-main-blue;
+      }
+    }
+  }
+
+  .collapse {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    overflow: hidden;
+
+    .comment-wrapper {
+      background: #fff;
+      max-height: 250px;
+      margin: 0;
+
+      &.comment-wrapper-big {
+        overflow-y: scroll;
+        max-height: 300px;
+      }
+
+      .comment-button {
+        height: 20px;
+        align-self: flex-end;
+        background: #28529f;
+        color: white;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 12px;
+        opacity: 0.7;
+        transition: 0.3s;
+
+        &:hover {
+          transition: 0.3s;
+          opacity: 1;
+        }
+      }
+
+      .single-comment {
+        background: white;
+        height: 100%;
+        padding: 6px;
+        transition: $transition;
+        cursor: default;
+
+        p {
+          margin: 0;
+          padding: 0;
+        }
+
+        &:hover {
+          background: $bw1;
+          transition: $transition;
+
+          .comment-actions {
+            display: flex;
+            align-items: center;
+            transition: 0.5s;
+            height: 22px;
+          }
+        }
+
+        .comment-text {
+          flex: 1;
+
+          p {
+            color: $app-main-gray;
+          }
+
+          .comment-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 18px;
+            line-height: 18px;
+            margin-bottom: 5px;
+
+            .comment-user {
+              .comment-avatar {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                overflow: hidden;
+
+                img {
+                  width: 100%;
+                }
+
+                svg-icon.comment-avatar-default {
+                  display: flex;
+                  height: 18px;
+                  width: 18px;
+
+                  svg {
+                    height: 100%;
+                    width: 100%;
+                  }
+                }
+              }
+
+              p {
+                font-weight: 600;
+                font-size: 14px;
+                color: $bw5;
+                margin-left: 6px;
+              }
+            }
+
+            .comment-date {
+              p {
+                font-size: 10px;
+                line-height: 22px;
+                color: $light-blue;
+              }
+            }
+          }
+
+          .comment-desc {
+            p {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              font-size: 12px;
+              line-height: 15px;
+              max-width: 360px;
+            }
+
+            textarea.comment-textarea {
+              width: 100%;
+              margin: 0;
+              padding: 0;
+              background: transparent;
+              border: none;
+              overflow: hidden;
+              line-height: 15px;
+              font-size: 12px;
+              height: 30px !important;
+              max-height: 30px !important;
+              resize: none;
+              color: $bw6;
+            }
+
+            // icons in edit comment
+            .d-flex .create-comment-new-icons {
+
+              svg-icon {
+                position: relative;
+
+                svg path, svg circle {
+                  fill: #DADADA;
+                }
+
+                &:hover {
+                  svg path, svg circle {
+                    fill: $app-main-blue;
+                  }
+                }
+
+                &:last-of-type {
+                  margin-left: 6px;
+
+                  &:hover {
+                    svg path, svg circle {
+                      fill: #6c6c6c;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .comment-actions {
+          display: none;
+          transition: 0.5s;
+          margin-left: 6px;
+
+          svg-icon:last-of-type {
+            margin-left: 6px;
+          }
+
+          svg-icon:hover {
+            svg path, svg circle {
+              fill: $app-main-blue;
+            }
+          }
+        }
+      }
+
+      .create-comment {
+        padding: 12px 12px 6px;
+        border-top: 1px solid $bw2;
+      }
+
+      .create-comment-new {
+        height: 40px;
+        background: #f7f7f7;
+        padding: 6px;
+
+        textarea.comment-textarea {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          background: transparent;
+          border: none;
+          overflow: hidden;
+          line-height: 15px;
+          font-size: 12px;
+          resize: none;
+          color: $bw6;
+          height: 30px !important;
+          max-height: 30px !important;
+        }
+
+        &-icons {
+          height: 20px;
+          display: flex;
+
+          svg-icon {
+            cursor: pointer;
+
+            svg path {
+              transition: $transition;
+            }
+
+            &:hover {
+              svg path, svg circle {
+                fill: $app-main-blue;
+              }
+            }
+          }
+
+          svg-icon:first-of-type {
+            &:hover {
+              svg path {
+                fill: $app-main-blue;
+                transition: $transition;
+              }
+            }
+          }
+        }
+      }
+
+      .comment-body {
+        margin-bottom: 2px;
+        // Single comment height
+        //height: 65px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .comment-body:last-of-type {
+        margin-bottom: 0 !important;
+      }
+
+      .add-comment-text {
+        height: 30px;
+        padding: 6px 12px;
+
+        p {
+          color: #28529f;
+          cursor: pointer;
+          font-size: 12px;
+          font-weight: bold;
+          opacity: 0.7;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: $box-shadow;
+    transition: 0.3s;
+  }
+
+  div:last-of-type {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  &.done {
+    .todo-card {
+      opacity: 0.7;
+    }
+  }
+}
+
+.doc_xml_pds {
+  width: 130px;
+  height: 175px;
+  border-radius: 8px;
+  background: #d1d1d1;
+  border-right: 0 solid red;
+
+  .svg_download {
+    visibility: hidden;
+    height: 26px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 33px 1px 38px 1px 28px 1px 28px;
+
+    .gap {
+      background: transparent;
+      height: 26px;
+    }
+  }
+
+  transition: 0.3s;
+
+  p {
+    width: 120px;
+    text-align: center;
+    margin: 0 0 0 5px !important;
+    padding: 0 !important;
+    position: relative;
+    top: 75%;
+    transform: translateY(-75%);
+    font-size: 14px;
+    transition: 0.2s;
+    font-weight: 600;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-right: 6px solid red;
+    transition: 0.2s;
+
+    .svg_download {
+      visibility: visible;
+      transition: 0.2s;
+    }
+
+    p {
+      top: 35%;
+      transform: translateY(-30%);
+      transition: 0.2s;
+    }
+  }
+}

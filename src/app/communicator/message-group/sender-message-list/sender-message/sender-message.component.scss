@@ -1,0 +1,421 @@
+.main-container {
+  display: flex;
+  padding: 3px 0;
+  padding-bottom: 4px;
+  background: white;
+  transition: 0.2s;
+  position: relative;
+
+  p {
+    margin: 0;
+  }
+
+  .dropdown-container {
+    padding-right: 8px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+
+  .action-container-editMode {
+    width: 100% !important;
+  }
+
+  .action-container {
+    display: flex;
+    align-items: center;
+    
+
+    .time-text {
+      font-size: 10px;
+      font-weight: bold;
+      line-height: 10px;
+      color: #b4b4b4;
+      margin-left: 9px;
+      visibility: hidden;
+      position: relative;
+      top: 1.3px;
+    }
+
+    .delete-icon {
+      margin: 0 6px;
+      margin-top: -1px;
+      cursor: pointer;
+      visibility: hidden;
+      svg {
+        path {
+          fill: rgba($color: #ff5d5d, $alpha: 0.7);
+        }
+      }
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      visibility: hidden;
+      margin-top: -1px;
+      svg {
+        path {
+          fill: '#DADADA';
+        }
+      }
+    }
+  }
+
+  .reactions-conatiner {
+    flex: 1;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 6px;
+  }
+
+  .attachment-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 6px;
+  }
+
+  .link-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 6px;
+  }
+
+  .message-content {
+    flex: 1;
+  }
+
+  .message-text {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    color: #6c6c6c;
+    margin: 0 6px;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+
+    .edited-text {
+      font-size: 12px;
+      color: #919191;
+    }
+
+    .native-message {
+      color: #919191;
+      text-decoration: none;
+    }
+
+    .link-message {
+      color: rgb(86, 115, 170, .7);
+      cursor: pointer;
+      transition: all .2s ease-in;
+      &:hover {
+        color: #5673AA;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  
+
+  .message-text-animation {
+    -webkit-animation: messageShowUp 200ms ease-in;
+    animation: messageShowUp 200ms ease-in;
+  }
+
+  .status-marker {
+    width: 2px;
+    background: #a8c876;
+    border-radius: 8px;
+    margin-right: 6px;
+  }
+
+  .status-sent {
+    background: #eeeeee;
+  }
+
+  .status-delivered {
+    background: #dadada;
+  }
+
+  .status-seen {
+    background: #bfe288;
+  }
+
+  .status-full-seen {
+    background: #83a849;
+  }
+
+  .status-not-sent {
+    background: #ff5d5d;
+  }
+
+  &:hover {
+    background: #f9f9f9;
+    transition: 0.2s;
+
+    .action-container {
+      .time-text {
+        visibility: visible;
+      }
+
+      .delete-icon {
+        visibility: visible;
+        &:hover {
+          svg {
+            path {
+              fill: #ff5d5d;
+            }
+          }
+        }
+      }
+
+      .edit-icon {
+        visibility: visible;
+        &:hover {
+          svg {
+            path {
+              fill: #919191;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .edit-message-content-container {
+    width: 100%;
+    padding-right: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: #eeeeee;
+    border-radius: 3px;
+
+    .edit-message {
+      width: 100%;
+      height: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-input {
+        display: flex;
+        flex: 1;
+      }
+
+      &-input > input {
+        flex: 1;
+        font-size: 14px;
+        color: #6c6c6c;
+        background-color: #eeeeee;
+        border: none;
+        outline: none;
+        caret-color: #6c6c6c;
+        word-wrap: break-word;
+        margin: 0 6px;
+
+        &:focus {
+          outline: none;
+          border: none;
+        }
+        &:focus .edit-message {
+          visibility: visible !important;
+          display: block !important;
+        }
+      }
+      &-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100px;
+        cursor: pointer;
+        position: relative;
+        svg-icon {
+          height: 18px;
+          width: 18px;
+        }
+        .input-emoji {
+          &:hover svg {
+            path {
+              fill: #5673aa;
+            }
+          }
+        }
+        .input-emoji-visible {
+          svg {
+            path {
+              fill: #5673aa;
+            }
+          }
+        }
+        .input-attach {
+          &:hover svg {
+            path {
+              fill: #5673aa;
+            }
+          }
+        }
+        .input-confirm {
+          &:hover svg {
+            path {
+              fill: #5673aa;
+            }
+          }
+        }
+        .input-close {
+          &:hover svg {
+            path {
+              fill: #ff5d5d;
+            }
+          }
+        }
+
+        .emoji_down {
+          position: absolute;
+          bottom: -7px;
+          right: 7px;
+          z-index: 99;
+          &::ng-deep.emoji-triangle-down {
+            bottom: 22px !important;
+            left: 197px !important;
+          }
+        }
+        .emoji_up {
+          position: absolute;
+          top: 49px;
+          right: 44px;
+          z-index: 99;
+        }
+      }
+      &-attach-emoji {
+        display: flex;
+        justify-content: space-between;
+        width: 54px;
+        height: 26px;
+        padding: 2px 3px;
+        margin-right: 3px;
+      }
+      &-manipulation {
+        display: flex;
+        justify-content: space-between;
+        width: 54px;
+        height: 26px;
+        padding: 2px 4px;
+        background-color: #ffffff;
+        border-radius: 3px;
+        &:first-child {
+          padding-left: 1px;
+        }
+      }
+    }
+
+    .attachments-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 3px 0;
+    }
+  }
+
+  .deletedColor-time {
+    color: transparent !important;
+  }
+  .deletedColor-text {
+    color: #ffffff !important;
+  }
+  .deletedColor-svgs {
+    svg {
+      path {
+        fill: transparent !important;
+      }
+    }
+  }
+
+  .dropdown-users-container-visible {
+    visibility: visible !important;
+  }
+
+  .dropdown-users-container {
+    width: 188px;
+    height: auto;
+    max-height: 160px;
+    background: #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    overflow-y: scroll;
+    border-radius: 3px;
+    position: absolute;
+    right: 9px;
+    z-index: 9;
+    visibility: hidden;
+    transition: all 0.3s ease-in;
+
+    .dropdown-users-items {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f9f9f9;
+      }
+
+      .user-image {
+        width: 24px;
+        height: 24px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: 4px 6px;
+      }
+
+      .user-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.deletedColor-background {
+  background-color: #ff5d5d !important;
+}
+
+.hideMessage {
+  display: none !important;
+}
+
+@-webkit-keyframes messageShowUp {
+  0% {
+    transform: translateX(-6px);
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(3px);
+    transform: translateX(-3px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0px);
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes messageShowUp {
+  0% {
+    transform: translateX(-6px);
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(3px);
+    transform: translateX(-3px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0px);
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}

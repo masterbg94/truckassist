@@ -1,0 +1,66 @@
+<form class="form" [formGroup]="form">
+  <div class="row row-custom">
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="isRegisteredEFTPSAccount"
+        formControlName="isRegisteredEFTPSAccount"
+        [checked]="isRegisteredEFTPSAccount"
+        (change)="(isRegisteredEFTPSAccount != isRegisteredEFTPSAccount)"
+        [(ngModel)]="isRegisteredEFTPSAccount"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkbox-text"
+        > I agree that I am a registered EFTPS Account User with the US Treasury Department
+        <span class="required-star"> *</span></span
+      >
+    </div>
+  </div>
+  <div class="row row-custom">
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="eftpsNotCreditCard"
+        formControlName="eftpsNotCreditCard"
+        [checked]="eftpsNotCreditCard"
+        (change)="(eftpsNotCreditCard != eftpsNotCreditCard)"
+        [(ngModel)]="eftpsNotCreditCard"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkbox-text"
+        > I understand that I cannot use a credit card to pay my tax (EFTPS is not a credit card
+        payment) <span class="required-star"> *</span></span
+      >
+    </div>
+  </div>
+  <div class="row row-custom">
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="cannotAccessMyEFTPSAccound"
+        formControlName="cannotAccessMyEFTPSAccound"
+        [checked]="cannotAccessMyEFTPSAccound"
+        (change)="(cannotAccessMyEFTPSAccound != cannotAccessMyEFTPSAccound)"
+        [(ngModel)]="cannotAccessMyEFTPSAccound"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkbox-text"
+        > I understand TruckAssist.io cannot access my EFTPS Account and I must log into my EFTPS
+        account and issue the payment<span class="required-star"> *</span></span
+      >
+    </div>
+  </div>
+  <div class="row row-custom">
+    <div class="col-12">
+      <app-truckassist-checkbox
+        id="madePaymentUsingEFTPS"
+        formControlName="madePaymentUsingEFTPS"
+        [checked]="madePaymentUsingEFTPS"
+        (change)="(madePaymentUsingEFTPS != madePaymentUsingEFTPS)"
+        [(ngModel)]="madePaymentUsingEFTPS"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkbox-text"
+        > I agree I have made a payment using EFTPS for the amount shown above (I understand I will
+        incur IRS penalties if I have not)<span class="required-star"> *</span></span
+      >
+    </div>
+  </div>
+</form>

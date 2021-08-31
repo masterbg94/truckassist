@@ -1,0 +1,80 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <form class="form-container" [formGroup]="officeForm" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+
+      <div class="row">
+        <div class="col-4">
+          <div class="form-label-group input-icon phone-field-wrapper {{
+              manageInputValidation(officeForm.controls.phone)
+            }}">
+            <input id="phone" class="form-control input-control required" placeholder="Phone" appInputFocus
+              formControlName="phone" mask="(000) 000-0000" />
+            <label class="required-label" for="phone">Phone</label>
+            <app-required-label [control]="officeForm.controls.phone"></app-required-label>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="form-label-group input-icon email-field-wrapper {{
+              manageInputValidation(officeForm.controls.email)
+            }}">
+            <input id="email" appInputFocus class="form-control input-control required"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')" (keypress)="onEmailTyping($event)"
+              (paste)="onPaste($event, 'email')" placeholder="Email" formControlName="email" />
+            <label class="required-label" for="email">Email</label>
+            <app-required-label [control]="officeForm.controls.email"></app-required-label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-10">
+          <div class="form-label-group input-icon address-field-wrapper {{
+              manageInputValidation(officeForm.controls.address)
+            }}">
+            <input id="address" class="form-control input-control required" placeholder="Address, City, State Zip"
+              formControlName="address" appInputFocus ngx-google-places-autocomplete [options]="options"
+              #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" />
+            <label class="required-label" for="address">Address, City, State Zip</label>
+            <app-required-label [control]="officeForm.controls.address"></app-required-label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <!-- appInputrestriction="[A-Za-z0-9-]" -->
+            <input id="address_unit" class="form-control input-control" placeholder="Unit #"
+              formControlName="address_unit" maxlength="6"  (keypress)="onUnitTyping($event)" appInputFocus />
+            <label for="address_unit">Unit #</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-100 note-wrapper">
+        <div class="note-label-wrapper" (click)="openNote()">
+          <span class="note-label">Note</span>
+          <span class="note-toggle-icon">
+            <i class="fas fa-minus" *ngIf="showNote"></i>
+            <i class="fas fa-plus" *ngIf="!showNote"></i>
+          </span>
+        </div>
+        <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+          <textarea cdkTextareaAutosize #note cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" formControlName="note"
+            class="input-custom-textarea form-textarea"></textarea>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeOfficeEditModal()">
+      Cancel
+    </button>
+    <button type="button" class="save-btn" (click)="updateOffice()" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

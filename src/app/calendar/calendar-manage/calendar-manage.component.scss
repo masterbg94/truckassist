@@ -1,0 +1,660 @@
+@import '../../../assets/scss/components/variables.scss';
+
+.calendar-modal-body {
+  flex-wrap: wrap;
+  position: relative;
+  flex: 1 1 auto;
+  padding: 22px 12px 0px 12px;
+  user-select: none;
+}
+.calendar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #919191;
+  line-height: 19pt;
+  font-family: $main-font;
+}
+.form.calendar-form {
+  position: relative;
+  width: 456px;
+  top: 0;
+}
+.eventTitle {
+  width: 90px;
+  height: 18px;
+  font-family: $main-font;
+}
+.rowCalendar {
+  padding-bottom: 22px;
+
+  ::ng-deep{
+    .ng-dropdown-panel.ng-select-bottom{
+      top: 30px !important;
+    }
+  }
+}
+.datePicker1 {
+  width: 146px;
+  position: relative;
+  span.k-icon.k-i-calendar:after,
+  span.k-icon.k-i-calendar:before {
+    background: none !important;
+  }
+
+  .k-icon {
+    width: 1.3em;
+    height: 1.3em;
+  }
+}
+
+.datePicker2 {
+  width: 146px;
+  position: relative;
+  left: 12px;
+}
+.dropDown1 {
+  width: 140px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.dropDown2 {
+  width: 140px;
+  height: 26px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+}
+.timePicker1 {
+  width: 146px;
+  height: 26px;
+  position: relative;
+}
+
+.timePicker2 {
+  width: 146px;
+  height: 26px;
+  position: relative;
+  left: 6px;
+}
+
+#eventTitle {
+  text-transform: capitalize;
+}
+
+.calendarLabelGroup {
+  margin: 0 !important;
+}
+.addTimeText {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: $main-font;
+  position: relative;
+  color: #919191;
+  &:hover {
+    color: #5673aa;
+    cursor: pointer;
+  }
+}
+.repeatEventText {
+  font-weight: 600;
+  font-size: 12px;
+  position: relative;
+  font-family: $main-font;
+  color: #919191;
+  &:hover {
+    color: #5673aa;
+    cursor: pointer;
+  }
+}
+.rowCalendarRepeater1 {
+  position: relative;
+  display: flex;
+  padding-bottom: 22px;
+  span.repeatEveryText {
+    position: relative;
+    width: 93px;
+    height: 18px;
+    top: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #6c6c6c;
+    cursor: default;
+    font-family: $main-font;
+    user-select: none;
+  }
+  .inputNumber {
+    width: 30px;
+    height: 26px;
+    border: 0px;
+    background: rgba(247, 246, 246, 0.7);
+    outline: none;
+    position: relative;
+    left: 12px;
+    border-radius: 3px;
+
+    font-size: 14px;
+    text-align: center;
+  }
+  .svgIconsCounter {
+    width: 12px;
+    height: 18px;
+    position: relative;
+    left: 18px;
+
+    .svgArrowInput:hover,
+    .svgArrowInput2:hover {
+      cursor: pointer;
+    }
+  }
+  .eventSwitcher {
+    width: 263px;
+    height: 26px;
+    position: relative;
+    left: 30px;
+    .slide-container,
+    fieldset.multiswitch.ta-switch-wrapper {
+      height: 26px !important;
+    }
+
+    ::ng-deep{
+      .slide-container{
+        background-color: rgba(218,218,218, 0.7) !important;
+      }
+
+      input:checked ~ a{
+        left: 2px;
+      }
+
+      label:hover{
+        background-color: transparent !important;
+      }
+
+      label:nth-last-child(8) ~ input:nth-child(7):checked ~ a{
+        left: calc(75% - 2px) !important;
+      }
+
+      .checked-label.ta-radio-button{
+        color: #ACACAC !important;
+        &:hover{
+          color: #6c6c6c !important;
+          background-color: transparent !important;
+        }
+      }
+
+      &:hover{
+        background-color: #DADADA !important;
+        border-radius: 3px;
+      }
+
+      a{
+        height: 24px !important;
+        top: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        border: none !important;
+        box-shadow: 0 0 4px 0 rgba(0,0,0, 0.17);
+
+        &:hover{
+          border-color: #B7B7B7 !important;
+         
+        }
+      }
+    }
+  }
+  .eventXButton {
+    width: 12px;
+    height: 12px;
+    opacity: 0.75;
+    font-size: 33px;
+    font-weight: 600;
+    color: #919191;
+    transition: 0.15s;
+    cursor: pointer;
+    position: relative;
+    bottom: 10px;
+    cursor: pointer;
+    left: 41px;
+    text-decoration: none !important;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+.rowCalendarRepeaterTypes {
+  display: flex;
+  padding-bottom: 22px;
+  .weeklyText {
+    width: 21px;
+    height: 18px;
+    font-size: 14px;
+    font-family: $main-font;
+    color: #606060;
+    cursor: default;
+    font-weight: 400;
+    user-select: none;
+  }
+  .toggleDaysGroup {
+    width: 393px;
+    position: relative;
+    left: 45px;
+  }
+  button.toggleDays {
+    width: 50px;
+    height: 26px;
+    line-height: 0;
+    color: #fff;
+    border: 0;
+    background-color: #DDD;
+    margin-left: 7px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: $main-font;
+    right: 0;
+
+    &:hover{
+      background-color: #C7C7C7;
+    }
+  }
+  button.toggleDays:first-child,
+  button.toggleDaysActive:first-child {
+    margin-left: 0px;
+  }
+  button.toggleDays:last-child {
+    margin-left: 7px;
+  }
+  button.toggleDaysActive {
+    width: 50px;
+    height: 26px;
+    line-height: 0px;
+    border: 0;
+    border-radius: 3px;
+    margin-left: 7px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: $main-font;
+    background-color: rgba(145, 145, 145, 0.7);
+
+    &:hover{
+      background-color: #919191;
+    }
+  }
+  .toggleMonthDaysGroup {
+    width: 123px;
+    height: 26px;
+    display: flex;
+    position: relative;
+    left: 12px;
+    button.toggleMonthDays {
+      border: 0;
+      background: #f9f9f9;
+      color: #919191;
+      font-size: 12px;
+      font-family: $main-font;
+      font-weight: 700;
+    }
+    button.toggleMonthDaysActive {
+      color: #fff;
+      background-color: rgba(145, 145, 145, 0.7);
+      border: 0px;
+      line-height: 0;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: $main-font;
+      transition: all 0.3s;
+
+      &:hover{
+        background-color: #919191;
+      }
+    }
+    button.toggleMonthDays:nth-child(1),
+    button.toggleMonthDaysActive:nth-child(1) {
+      width: 57px;
+      border-radius: 5px 0px 0px 5px;
+    }
+    button.toggleMonthDays:nth-child(2),
+    button.toggleMonthDaysActive:nth-child(2) {
+      border-radius: 0px 5px 5px 0px;
+      width: 66px;
+    }
+  }
+  .monthlyDay {
+    width: 146px;
+    height: 26px;
+    display: flex;
+    position: absolute;
+    left: 183px;
+    .monthlyDayInput {
+      width: 30px;
+      height: 26px;
+      border: 0;
+      background: hsla(0, 7%, 96.8%, 0.7);
+      outline: none;
+      text-align: center;
+      border-radius: 3px;
+    }
+    .svgIconsMonthlyCounter {
+      width: 12px;
+      height: 18px;
+      display: inline-block;
+      left: 6px;
+      position: relative;
+      top: 0;
+      cursor: pointer;
+    }
+    .monthlyDayText {
+      width: 93px;
+      height: 18px;
+      font-size: 14px;
+      font-family: $main-font;
+      left: 12px;
+      position: relative;
+      user-select: none;
+    }
+  }
+  .monthlyEvery {
+    width: 288px;
+    height: 26px;
+    display: flex;
+    position: absolute;
+    left: 180px;
+
+    .monthlyEveryDropdown1 {
+      width: 126px;
+      height: 26px;
+      position: relative;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+    .monthlyEveryDropdown2 {
+      width: 150px;
+      height: 26px;
+      position: absolute;
+      left: 138px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+  .toggleYearDaysGroup {
+    display: flex;
+    left: 12px;
+    position: relative;
+    button.toggleYearlyDays {
+      border: 0;
+      background: #f9f9f9;
+      color: #919191;
+      font-size: 12px;
+      font-family: $main-font;
+      font-weight: 700;
+      height: 26px;
+    }
+    button.toggleYearlyDaysActive {
+      color: #fff;
+      background-color: rgba(145, 145, 145, 0.7);
+      border: 0px;
+      line-height: 0;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: $main-font;
+      height: 26px;
+      transition: all 0.3s;
+
+      &:hover{
+        background-color: #919191;
+      }
+    }
+
+    button.toggleYearlyDays:first-child,
+    button.toggleYearlyDaysActive:first-child {
+      width: 109px;
+      border-radius: 5px 0px 0px 5px;
+    }
+    button.toggleYearlyDays:last-child,
+    button.toggleYearlyDaysActive:last-child {
+      border-radius: 0px 5px 5px 0px;
+      width: 66px;
+    }
+  }
+
+  .yearlyText {
+    width: 21px;
+    height: 18px;
+    font-size: 14px;
+    font-family: $main-font;
+  }
+  .yearlyMonth {
+    display: flex;
+    position: relative;
+    left: 24px;
+    width: 224px;
+    .yearlyDropdown1 {
+      width: 176px;
+      height: 26px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+    .yearlyDayInput {
+      width: 30px;
+      height: 26px;
+      border: 0;
+      background: hsla(0, 7%, 96.8%, 0.7);
+      outline: none;
+      position: relative;
+      left: 12px;
+      text-align: center;
+      border-radius: 3px;
+    }
+    .svgIconsCounter {
+      width: 12px;
+      height: 18px;
+      display: inline-block;
+      left: 18px;
+      position: relative;
+      top: 0;
+      cursor: pointer;
+    }
+  }
+  .yearlyEvery {
+    width: 241px;
+    display: flex;
+    position: relative;
+    left: 24px;
+
+
+    ::ng-deep{
+      .ng-clear-wrapper{
+        display: none !important;
+      }
+    }
+    .yearlyDropdownEvery1 {
+      width: 79px;
+      height: 26px;
+      position: relative;
+    }
+    .yearlyDropdownEvery2 {
+      width: 68px;
+      height: 26px;
+      position: relative;
+      left: 12px;
+    }
+    .yearlyDropdownEvery3 {
+      width: 65px;
+      height: 26px;
+      position: relative;
+      left: 15px;
+    }
+    .yearlyTextEvery2 {
+      width: 12;
+      height: 14;
+      font-size: 11px;
+      font-family: $main-font;
+      color: #8f8f8f;
+      position: relative;
+      left: 13px;
+      top: 3px;
+      font-weight: 600;
+      user-select: none;
+    }
+  }
+}
+.eventModalEndOccurence {
+  width: 294px;
+  position: absolute;
+}
+.untilDatePicker {
+  width: 150px;
+  left: 306px;
+  position: relative;
+}
+.eventModalNumberOfTimes {
+  width: 273px;
+  display: inline-block;
+}
+.eventModalForever {
+  width: 456px;
+  position: relative;
+}
+.numberOfTimes {
+  width: 171px;
+  height: 26px;
+  display: flex;
+  position: relative;
+  left: 12px;
+  .numberOfTimesText1 {
+    width: 27px;
+    top: 4px;
+    position: relative;
+    font-size: 14px;
+    font-family: $main-font;
+    font-weight: 400;
+    color: #606060;
+    user-select: none;
+  }
+  .svgIconsCounter {
+    width: 12px;
+    height: 18px;
+    display: inline-block;
+    left: 69px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+  }
+  .numberOfTimesText2 {
+    width: 83px;
+    font-size: 14px;
+    font-family: $main-font;
+    font-weight: 400;
+    position: relative;
+    left: 30px;
+    top: 4px;
+    user-select: none;
+  }
+  .numberOfTimesInput {
+    width: 30px;
+    height: 26px;
+    position: relative;
+    border: 0px;
+    background: hsla(0, 7%, 96.8%, 0.7);
+    outline: none;
+    left: 6px;
+    text-align: center;
+    border-radius: 3px;
+  }
+}
+.weeklyText2 {
+  width: 23px;
+  height: 15px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Montserrat';
+}
+.form-label-group {
+  position: relative;
+  margin-bottom: 1.2rem;
+  transition: 0.3s;
+  width: 455px;
+  margin-top: 14px;
+  height: 26px;
+}
+
+.modal-container{
+  ::ng-deep{
+    ng-select{
+      .ng-clear-wrapper{
+        display: none !important;
+      }
+    }
+
+
+
+    .k-floating-label-container .k-datepicker.ng-invalid.ng-touched .k-icon,
+    .k-floating-label-container .k-timepicker.ng-invalid.ng-touched .k-icon{
+      background-color:  #ff5d5d !important;
+    }
+
+    .k-floating-label-container .k-datepicker.ng-invalid.ng-touched .k-picker-wrap,
+    .k-floating-label-container .k-timepicker.ng-invalid.ng-touched .k-picker-wrap{
+      border-right: none !important;
+    }
+
+    .new_pick_start_end{
+      kendo-floatinglabel{
+        &:first-child{
+          .k-datepicker .k-picker-wrap,
+          .k-timepicker .k-picker-wrap{
+            border-left: 3px solid #24C1A1 !important;
+          }
+        }
+        &:nth-child(2){
+          .k-datepicker .k-picker-wrap,
+          .k-timepicker .k-picker-wrap{
+            border-left: 3px solid #ff5d5d !important;
+          }
+        }
+      }
+    }
+
+    kendo-datepicker{
+      .k-picker-wrap{
+        overflow: hidden !important;
+        transition: none;
+      }
+      .k-dateinput-wrap{
+        transition: none;
+        border-radius: 0 !important;
+      }
+    }
+  }
+}
+
+.increase_holder{
+  svg{
+    display: flex;
+    position: relative;
+    top: 4px;
+
+    path{
+      fill: rgba(96,96,96, 0.4);
+    }
+
+    &:hover{
+      path{
+        fill: #5673AA;
+      }
+    }
+  }
+
+  .svgArrowInput2{
+    svg{
+      top: 6px;
+    }
+  }
+}
+

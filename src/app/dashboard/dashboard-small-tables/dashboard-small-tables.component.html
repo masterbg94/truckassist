@@ -1,0 +1,25 @@
+<div class="small_table_main" [ngClass]="listTitle.toLowerCase()">
+  <div class="small_table_header">
+    <div class="d-flex flex-grow-1">
+      <div class="custom_search" [class.expanded_item]="searchExpanded">
+        <app-custom-search
+          (sendChangeStyle)="setExpanded($event)"
+          [stateName]="'state' + listTitle"
+          [gridNameTitle]="listTitle"
+        ></app-custom-search>
+      </div>
+      <div @shrinkItem class="table_title" *ngIf="!searchExpanded">
+        <span style="color: #919191;" appSelectionColor>{{ listTitle }} (18)</span>
+      </div>
+    </div>
+    <button
+      class="plus-svg-container"
+      appTaTooltip="Add {{ listTitle.toLowerCase() }}"
+      position="bottom-right"
+      tooltipBackground="#919191"
+    >
+      <svg-icon src="../../../../assets/img/svgs/table/add.svg"> </svg-icon>
+    </button>
+  </div>
+  <app-small-flip-cards [data]="data" [cardtType]="listTitle.toLowerCase()"></app-small-flip-cards>
+</div>

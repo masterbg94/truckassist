@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 62 62">
+  <g id="exclamation" transform="translate(1 1)">
+    <g id="Group_2589" data-name="Group 2589">
+      <g id="Group_2588" data-name="Group 2588">
+        <path id="Path_1503" data-name="Path 1503" d="M30,0A30,30,0,1,0,60,30,29.983,29.983,0,0,0,30,0Zm0,55.312A25.312,25.312,0,1,1,55.312,30,25.3,25.3,0,0,1,30,55.312Z" fill="#ff5d5d" stroke="#fff" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Group_2591" data-name="Group 2591" transform="translate(27.652 15.09)">
+      <g id="Group_2590" data-name="Group 2590">
+        <path id="Path_1504" data-name="Path 1504" d="M238.348,128.877A2.348,2.348,0,0,0,236,131.225v15.119a2.348,2.348,0,0,0,4.7,0V131.225A2.348,2.348,0,0,0,238.348,128.877Z" transform="translate(-236 -128.877)" fill="#ff5d5d" stroke="#fff" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="Group_2593" data-name="Group 2593" transform="translate(26.83 37.745)">
+      <g id="Group_2592" data-name="Group 2592">
+        <circle id="Ellipse_582" data-name="Ellipse 582" cx="3.17" cy="3.17" r="3.17" fill="#ff5d5d" stroke="#fff" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<div class="main-container">
+  <div class="unselectable header-container">
+    <div class="header-title-container">
+      <p class="header-title">Documents</p>
+    </div>
+    <div
+      class="plus-svg-container"
+      appTaTooltip="Add Document"
+      position="bottom-right"
+      (click)="addDocuments()"
+    >
+      <svg-icon src="assets/img/svgs/table/add.svg"></svg-icon>
+    </div>
+  </div>
+
+  <div class="documents-container dropzone-preview-carousel" *ngIf="documents?.length > 0">
+    <app-document
+      *ngFor="let file of files; let i = index"
+      [i]="i"
+      [file]="file"
+    >
+    </app-document>
+  </div>
+</div>

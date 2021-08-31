@@ -1,0 +1,88 @@
+
+<div class="chart_holder">
+    <div class="chart_header">
+        <div class="chart_white_part">
+            <span
+                style="color: #919191b3;"
+                appSelectionColor
+                class="d-flex"
+            >
+            Average loading time</span>
+        </div>
+        <div class="chart_select_holder">
+            <ng-select
+             [items]="timeList"
+             bindLabel="name"
+             [searchable]="false"
+             [(ngModel)]="selectedPeriod"
+             bindValue="period"
+            ></ng-select>
+        </div>
+    </div>
+    <div class="chart_main_holder d-flex loading_chart">
+        <div class="loading_top_bar d-flex">
+            <div class="loading_avrg_items">
+                <div 
+                    class="avrg_title"
+                    style="color: #FF5D5DB3;"
+                    appSelectionColor
+                >Avg. pickup</div>
+                <div 
+                    style="color: #919191B3;"
+                    appSelectionColor    
+                    class="avrg_value">22 min</div>
+            </div>
+            <div class="loading_avrg_items">
+                <div
+                    style="color: #24C1A1B3;"
+                    appSelectionColor
+                    class="avrg_title"
+                >Avg. delivery</div>
+                <div
+                    style="color: #919191B3;"
+                    appSelectionColor
+                    class="avrg_value">26 min</div>
+            </div>
+            <div class="loading_avrg_items">
+                <div 
+                    style="color: #5673AAB3;"
+                    appSelectionColor    
+                    class="avrg_title"
+                >Avg. truck</div>
+                <div
+                    style="color: #919191B3;"
+                    appSelectionColor
+                    class="avrg_value"
+                >184</div>
+            </div>
+        </div>
+        <chart #chart [type]="type" [data]="data" [options]="options"></chart>
+        <div class="dash_count_legend">
+            <div class="legend_item">
+                <span class="legend_color" [style.backgroundColor]="'#FF5D5D'"></span>
+                <span 
+                    class="legend_text"
+                    style="color: #B7B7B7;"
+                    appSelectionColor
+                >Pickup</span>
+            </div>
+            <div class="legend_item">
+                <span class="legend_color" [style.backgroundColor]="'#24C1A1'"></span>
+                <span 
+                    style="color: #B7B7B7;"
+                    appSelectionColor
+                    class="legend_text">Delivery</span>
+            </div>
+            <div class="legend_item">
+                <span class="legend_color">
+                    <svg-icon src="../../../../assets/img/svgs/charts/graph_dot.svg"> </svg-icon>
+                </span>
+                <span 
+                    style="color: #B7B7B7;"
+                    appSelectionColor    
+                    class="legend_text"
+                >Truck</span>
+            </div>
+        </div>
+    </div>
+</div>

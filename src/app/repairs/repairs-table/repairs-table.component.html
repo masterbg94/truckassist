@@ -1,0 +1,17 @@
+<app-truckassist-table
+  (deleteEvent)="callDelete($event)"
+  (actionEvent)="callAction($event)"
+  (typeSelected)="onTypeSelect($event)"
+  (allTypsDeselected)="onDeselectedTyps()"
+  (pinShop)="onPin($event)"
+  (sendShopData)="onShopDataReceive($event)"
+  (shopMode)="hideTable = $event"
+  (switchRepairTabelView)="onSwitchTabelView($event)"
+  [options]="tableOptions"
+  [loadingItems]="loadingItems"
+  [useSwitchTabEvent]="{use: true, where: null}"
+></app-truckassist-table>
+
+<!-- <app-shop-map *ngIf="hideTable" [tableShopData]="tableShopDate"></app-shop-map> -->
+
+

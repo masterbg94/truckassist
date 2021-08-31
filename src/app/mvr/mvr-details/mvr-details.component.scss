@@ -1,0 +1,148 @@
+.mvr-details {
+  display: grid;
+  grid-template-columns: repeat(4, 276px) 1fr;
+  column-gap: 12px;
+
+  // Common utility
+  .header-title {
+    height: 32px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #919191;
+    background-color: #ffffff;
+    padding: 5px 12px;
+    user-select: none;
+  }
+
+  .header-body {
+    border-radius: 3px;
+    background-color: #ffffff;
+    color: #919191;
+    padding: 6px;
+    margin-top: 12px;
+
+    .row-custom {
+      margin-bottom: 12px;
+    }
+
+    .status-complete {
+      color: #24c1a1 !important;
+    }
+    .status-pending {
+      color: #FFAD43 !important;
+    }
+
+    &-title {
+      font-size: 14px;
+      font-weight: bold;
+      text-align: left;
+      user-select: none;
+    }
+
+    &-text {
+      font-size: 12px;
+      font-weight: normal;
+      text-align: left;
+      margin-top: 4px;
+    }
+  }
+
+  .header-body-without-cornerRadius {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .user-click {
+    cursor: pointer;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .switch-container {
+    display: flex;
+
+    &-back-btn {
+      width: 34px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #dadada;
+      border-radius: 3px;
+      opacity: 1;
+      z-index: 999999;
+      &:hover {
+        background: #b7b7b7;
+      }
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+    ::ng-deep .details-card-header {
+      padding-left: 0px !important;
+      width: 236px !important;
+      margin-left: 7px !important;
+    }
+  }
+
+  //-------- Settings for fifth column
+  .header-title-fifthColumn {
+    width: 250px;
+    display: inline-block;
+  }
+
+  .header-title-svg {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    margin-left: 6px;
+    padding: 6.8px 6.8px;
+    background-color: #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    .title-svg {
+      position: relative;
+      bottom: 1px;
+    }
+
+    &:hover {
+      .title-svg {
+        svg {
+          #Path_9372 {
+            fill: rgb(145, 145, 145, 0.7);
+          }
+          #Path_7723 {
+            fill: #919191;
+          }
+        }
+      }
+    }
+  }
+  //--------- End settings for fifth column
+
+
+  // Override progress settings
+  ::ng-deep .progress {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+
+    ::ng-deep .progress-bar {
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+    }
+
+    ::ng-deep .progress-panel {
+      position: relative !important;
+
+      ::ng-deep .progress-date {
+        right: 8px !important
+      }
+    }
+  }
+
+}

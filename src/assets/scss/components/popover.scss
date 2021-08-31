@@ -1,0 +1,123 @@
+.copy-position {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+ngb-popover-window {
+  border: none !important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15) !important;
+  .arrow{
+    display: none!important;
+  }
+  &:after{
+    content: '';
+    @include triangletop;
+  }
+}
+
+.note-delete-popover{
+  z-index: 99999999999;
+
+  .popover-body{
+    padding: 0;
+  }
+
+  &:after{
+    left: 11px !important;
+  }
+
+  .container-options{
+    display: flex;
+    align-items: center;
+    width: 100px;
+    padding: 4px 8px;
+    background-color: #fff;
+    z-index: 20;
+    border-radius: 3px 3px 0 0;
+
+    &.delete-item{
+      border-radius: 0 0 3px 3px;
+    }
+    svg-icon{
+      width: 20px;
+      height: 20px;
+      padding-left: 0px;
+      display: flex;
+      align-items: center;
+      svg{
+        width: 14px;
+        height: 14px;
+      }
+
+      &.delete-icon{
+        svg{
+          height: 16px;
+        }
+      }
+
+      &.tag-img{
+        svg{
+          path{
+            fill: #49CBFC;
+          }
+        }
+      }
+    }
+
+    &.with-arrow{
+      position: relative;
+
+      &:after{
+        position: absolute;
+        right: 3px;
+        top: 50%;
+        height: 100%;
+        width: 20px;
+        content: "";
+        background-image: url(/assets/img/svgs/right.svg);
+        background-size: 6px 12px;
+        background-position: calc(100% - 7px) center;
+        background-repeat: no-repeat;
+        transform: translateY(-50%);
+        transition: transform 0.2s;
+      }
+
+      &.active{
+        background-color: #E5E5E5;
+        border-radius: 0;
+        & ~ .group-dropdown{
+          display: flex;
+        }
+
+        &:after{
+          transform: translateY(-50%) rotate(180deg);
+        }
+        
+      }
+    }
+
+    .small_font{
+      font-size: 12px;
+    }
+
+    &.delete-item{
+      color: #FF5D5D;
+
+      div{
+        font-size: 12px;
+      }
+    }
+
+    &:hover{
+      background-color: #F9F9F9;
+      border-radius: 3px 3px 0 0;
+
+      cursor: pointer;
+
+      &.delete-item{
+        border-radius: 0 0 3px 3px;
+      }
+    }
+    
+  }
+}

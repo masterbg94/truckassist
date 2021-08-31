@@ -1,0 +1,16 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">Add documents</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body add-document">
+    <app-attachments page='document' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveDocs()" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

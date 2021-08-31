@@ -1,0 +1,258 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <div class="d-flex align-items-center">
+      <div class="d-flex mr-2">
+        <i
+          class="fal fa-times cursor-pointer fs-24 icon-hover-primary icon-hover-primary"
+          (click)="closeTodoEdit()"
+        ></i>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <form [formGroup]="taskForm" class="form-container" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+      <div class="row">
+        <div class="col-12" style="margin-bottom: 22px">
+          <app-ta-switch
+            [data]="todoSwitchData"
+            (switchClicked)="categorySwitch($event)"
+          ></app-ta-switch>
+        </div>
+        <div class="col-12">
+          <div class="form-label-group">
+            <input
+              id="name"
+              class="form-control input-control"
+              placeholder="Title"
+              formControlName="name"
+              appInputrestriction="[0-9A-Za-z\.\,\s]"
+              maxlength="45"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+            />
+            <label for="name">Title</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-label-group">
+            <input
+              id="description"
+              class="form-control input-control"
+              placeholder="Description"
+              formControlName="description"
+              maxlength="160"
+              />
+            <label for="name">Description</label>
+          </div>
+        </div>
+      </div>
+      <!--Hyperlink-->
+      <div class="row">
+        <div class="col-8">
+          <div class="form-label-group">
+            <input
+              id="url"
+              class="form-control input-control"
+              placeholder="Hyperlink"
+              formControlName="url"
+            />
+            <label for="url">Hyperlink</label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="Deadline">
+              <kendo-datepicker
+                #datepick
+                placeholder=""
+                required
+                formControlName="deadLine"
+                [format]="'MM/dd/yy'"
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+                (keydown.delete)="deletePresed()"
+                (valueChange)="datepickerValueChange($event)"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+      </div>
+      <!--Assign task-->
+      <div class="row">
+        <div class="col-12 assign-task">
+
+          <div class="form-label-group">
+            <ng-select
+              [items]="allUsers"
+              [multiple]="true"
+              bindLabel="userFullName"
+              [closeOnSelect]="false"
+              [hideSelected]="true"
+              placeholder="Assign task"
+              [dropdownPosition]="'bottom'"
+              appendTo="body"
+              formControlName="assignData"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.userFullName }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!--Comment-->
+      <div class="row" *ngIf="this.inputData.data.type === 'edit'">
+        <div class="col-12 comment-wrapper">
+          <div class="note-label-wrapper" (click)="openComments()">
+            <span class="note-label">Comments</span>
+            <span class="note-toggle-icon">
+              <i class="fas fa-minus" *ngIf="showComments"></i>
+              <i class="fas fa-plus" *ngIf="!showComments"></i>
+            </span>
+          </div>
+          <div
+            [ngStyle]="{ 'overflow-y': comments.length > 4 ? 'scroll' : 'unset' }"
+            style="max-height: 350px; margin: auto -12px;" >
+            <div
+              *ngFor="let c of comments; let i = index"
+              class="p-0 m-0 card-body {{ showComments ? ' note-visible' : ' note-hidden' }}">
+              <div class="single-comment d-flex" style="margin-bottom: 2px;">
+                <!--<div class="comment-avatar">
+                  <img *ngIf="returnUserForComment(c)?.doc?.avatar?.src; else commentAvatar"
+                       src="{{ returnUserForComment(c)?.doc?.avatar?.src}}"
+                       alt=""
+                       class="img-fluid"/>
+                  <ng-template #commentAvatar>
+                    <svg-icon class="comment-avatar-default" src="assets/img/svgs/comment-avatar.svg"></svg-icon>
+                  </ng-template>
+                </div>-->
+                <div class="comment-text d-flex flex-column">
+                  <div class="comment-text-info d-flex justify-content-between">
+                    <div class="comment-user d-flex">
+                      <div class="comment-avatar">
+                        <img *ngIf="returnUserForComment(c)?.doc?.avatar?.src; else commentAvatar"
+                             src="{{ returnUserForComment(c).doc.avatar.src}}"
+                             alt="Todo-user-image"
+                             class="img-fluid"/>
+                        <ng-template #commentAvatar>
+                          <svg-icon class="comment-avatar-default" src="assets/img/svgs/comment-avatar.svg"></svg-icon>
+                        </ng-template>
+                      </div>
+                      <p>{{returnUserForComment(c)?.userFullName}}</p>
+                    </div>
+                    <div class="comment-date d-flex">
+                      <p>{{ c.createdAt | date: 'M/d/yyyy' }} {{ c.createdAt | date: 'hh:mm' }}</p>
+                    </div>
+                  </div>
+                  <div class="comment-desc">
+                    <p *ngIf="!toggledEditComment[i]">{{ c.commentText }}</p>
+                    <div class="d-flex" *ngIf="toggledEditComment[i]">
+                      <textarea
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="2"
+                        [(ngModel)]="c.commentText"
+                        [formControl]="updateCommentControl"
+                        class="comment-textarea form-textarea"
+                        maxlength="100"
+                      ></textarea>
+                      <div class="d-flex create-comment-new-icons">
+                        <svg-icon
+                          src="/assets/img/svgs/checkmark-filled.svg"
+                          (click)="updateComment(c, i)"
+                          [svgStyle]="{ 'width.px': 20, 'height.px': 20, 'margin-left.px': 5 }"
+                        >
+                        </svg-icon>
+                        <svg-icon
+                          src="/assets/img/svgs/close-filled.svg"
+                          (click)="toggleEditComment(i)"
+                          [svgStyle]="{ 'width.px': 20, 'height.px': 20, 'margin-left.px': 5 }"
+                        >
+                        </svg-icon>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="comment-actions" *ngIf="returnUserId(c) && !toggledEditComment[i]">
+                  <svg-icon
+                    src="/assets/img/svgs/edit-comment.svg"
+                    class="cursor-pointer"
+                    (click)="toggleEditComment(i)">
+                  </svg-icon>
+                  <svg-icon
+                    src="/assets/img/svgs/delete-comment.svg"
+                    class="ml-2 cursor-pointer"
+                    (click)="deleteComment(c.id)">
+                  </svg-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="add-comment-text d-flex align-items-center"
+            *ngIf="showComments && !addNewComment">
+            <p (click)="toggleCreateComment()">Add new comment</p>
+          </div>
+
+          <div class="create-comment-new cnmargin d-flex" *ngIf="showComments && addNewComment">
+            <div class="d-flex flex-grow-1 align-items-end">
+              <textarea
+                cdkTextareaAutosize
+                #comment
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="2"
+                [formControl]="commentControl"
+                class="comment-textarea form-textarea"
+                maxlength="112"
+              ></textarea>
+              <div class="d-flex create-comment-new-icons">
+                <svg-icon
+                  src="/assets/img/svgs/checkmark-filled.svg"
+                  (click)="createComment()"
+                  [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 6 }">
+                </svg-icon>
+                <svg-icon
+                  src="/assets/img/svgs/close-filled.svg"
+                  (click)="toggleCreateComment()"
+                  [svgStyle]="{ 'width.px': 16, 'height.px': 16, 'margin-left.px': 6 }"
+                >
+                </svg-icon>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!--Note-->
+
+      <app-attachments page='todo' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+          </div>
+          <div
+            class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}"
+          >
+            <textarea
+              cdkTextareaAutosize
+              #note
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="5"
+              formControlName="note"
+              class="input-custom-textarea form-textarea"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeTodoEdit()">Cancel</button>
+    <button type="button" class="save-btn" (click)="manageTask(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

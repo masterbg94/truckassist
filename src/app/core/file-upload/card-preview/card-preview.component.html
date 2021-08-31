@@ -1,0 +1,14 @@
+<div class="dropzone-preview-carousel new-owl-carousel card-preview-carousel{{ component == 'todo' ? ' multiple-items-carousel' : '' }}{{ files.length == 1 ? ' single-file' : ' multiple-file' }}" [@slideInOut] *ngIf="visible">
+  <owl-carousel-o
+    [options]="customOptions"
+    #owlCar
+  >
+    <ng-template carouselSlide *ngFor="let file of files; let i = index;" [id]="'owl-' + i">
+      <app-files-upload-wrapper
+        [file]="file"
+        [slideIndex]="i"
+        (click)="openGallery(i, $event)"
+      ></app-files-upload-wrapper>
+    </ng-template>
+  </owl-carousel-o>
+</div>

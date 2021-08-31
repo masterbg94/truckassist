@@ -1,0 +1,183 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+
+    <form [formGroup]="fuelForm" class="form-container">
+      <div class="row">
+        <!-- Driver -->
+        <div class="col-12">
+          <div class="driver-container">
+            {{ driverData.driverName === '' ? 'No Driver' : driverData.driverName }}
+            <span class="driver-container-label">Driver</span>
+          </div>
+          <!-- <div class="form-label-group">
+            <ng-select [items]="driversList" formControlName="driverId" bindLabel="id" bindValue="id"
+              placeholder="Driver" class="required-field" appendTo="body">
+              <ng-template ng-label-tmp let-item="item">
+                <div class="dropdown-item-wrapper">
+                  <span class="ta-dropdown-item">{{ item.firstName }} {{ item.lastName }}</span>
+                </div>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div class="dropdown-item-wrapper ta-list-items">
+                  <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{ item.firstName }} {{ item.lastName
+                    }}</span>
+                </div>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="fuelForm.controls.driverId"></app-required-label>
+          </div> -->
+        </div>
+      </div>
+      <div class="row">
+        <!-- Truck -->
+        <div class="col-4">
+          <div class="form-label-group">
+            <ng-select (change)="selectTruck($event)" [items]="truckList" formControlName="truckId" bindLabel="id" bindValue="id" placeholder="Truck"
+              class="required-field" [searchFn]="truckListSearch" appendTo="body">
+              <ng-template ng-label-tmp let-item="item">
+                <div class="dropdown-item-wrapper">
+                  <span class="ta-dropdown-item">{{ item.truckNumber }}</span>
+                </div>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div class="dropdown-item-wrapper ta-list-items">
+                  <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{ item.truckNumber }}</span>
+                </div>
+              </ng-template>
+            </ng-select>
+            <app-required-label [control]="fuelForm.controls.truckId"></app-required-label>
+          </div>
+        </div>
+        <!-- Date -->
+        <div class="col-4 new_picker_date_label">
+
+          <kendo-floatinglabel text="" class="datePicker1 required">
+            <kendo-datepicker [formatPlaceholder]="{
+                year: 'yy',
+                month: 'mm',
+                day: 'dd'
+              }" [popupSettings]="{ popupClass: 'custom-datepick' }" placeholder="MM/DD/YY"
+              formControlName="transactionDate" class="dateTimePicker">
+            </kendo-datepicker>
+          </kendo-floatinglabel>
+        </div>
+        <!-- Time -->
+        <div class="col-4 new_picker_date_label">
+          <kendo-floatinglabel text="">
+            <kendo-timepicker [formatPlaceholder]="{
+                    hour: 'hh',
+                    minute: 'mm'
+                  }" 
+                [format]="'hh:mm a'" 
+                [popupSettings]="{ popupClass: 'custom-timepick' }" 
+                placeholder="HH:MM AM"
+                (valueChange)="pickupDateTimeChange($event)" 
+                [class]="'datePick'"
+            ></kendo-timepicker>
+          </kendo-floatinglabel>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Location -->
+        <div class="col-5">
+          <div class="form-label-group">
+            <input id="address" class="form-control input-control required" placeholder="Location"
+              formControlName="location" appInputFocus ngx-google-places-autocomplete [options]="options"
+              #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)">
+            <label class="required-label" for="location">Location</label>
+            <app-required-label [control]="fuelForm.controls.location"></app-required-label>
+          </div>
+        </div>
+        <!-- Name -->
+        <div class="col-7">
+          <div class="form-label-group">
+            <input class="form-control input-control required" placeholder="Name" formControlName="name">
+            <label for="name">Name</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 category_holder" formGroupName="doc">
+          <div formArrayName="fuel">
+            <div class="row" *ngFor="let item of fuelItems.controls; let i = index" [formGroupName]="i">
+              <!-- Category -->
+              <div class="col-4">
+                <div class="form-label-group">
+                  <ng-select [items]="fuelCategories" formControlName="category" bindLabel="id" bindValue="name"
+                    placeholder="Category" class="required-field" [searchFn]="categorySearch" appendTo="body">
+                    <ng-template ng-label-tmp let-item="item">
+                      <div class="dropdown-item-wrapper">
+                        <span class="ta-dropdown-item">{{ item.name }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                      <div class="dropdown-item-wrapper ta-list-items">
+                        <span class="ta-dropdown-item" [ngOptionHighlight]="search">{{ item.name }}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+              <!-- Qty -->
+              <div class="col-2">
+                <div class="form-label-group">
+                  <input id="addressUnit" class="form-control input-control required" placeholder="Qty"
+                    formControlName="qty" type="number" (change)="calculateSubTotalAndTotal(i)" appInputFocus>
+                  <label class="required-label" for="qty">Qty</label>
+                  <app-required-label [control]="fuelItems.controls[i]['qty']"></app-required-label>
+                </div>
+              </div>
+              <!-- Price -->
+              <div class="col-6 d-flex">
+                <div class="form-label-group max_100">
+                  <input id="addressUnit" class="form-control input-control required" placeholder="Price"
+                    formControlName="price" type="number" (change)="calculateSubTotalAndTotal(i)" appInputFocus>
+                  <label class="required-label" for="address">Price</label>
+                  <app-required-label [control]="fuelItems.controls[i]['price']"></app-required-label>
+                </div>
+                <div class="form-label-group whiteInput d-flex">
+                  <span class="subtotalSpan">{{(item.get('subtotal').value ) | currency}}</span>
+                  <!-- <input
+                          id="addressUnit"
+                          class="form-control input-control"
+                          placeholder="Price"
+                          [value]="item.get('price') ? item.get('price').value : 0"
+                          type="number"
+                          appInputFocus
+                          disabled
+                        > -->
+                  <label class="required-label" for="address">Subtotal</label>
+                </div>
+                <span class="delete_cat">
+                  <svg-icon position="bottom-right" appTaTooltip="Delete Category" *ngIf="fuelItems.controls.length > 1"
+                    src="assets/img/svgs/times.svg" class="remove_category cursor-pointer ml-2"
+                    (click)="removeCategories(i)">
+                  </svg-icon>
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Add Extra Category -->
+        <div class="col-12">
+          <div class="fuel_items_hold">
+            <a *ngIf="this.fuelItems.length < 5" class="add_category" (click)="addCategory()">Add Extra Category</a>
+            <div class="fuelTotal">Total: <span>{{fuelTotal | currency}}</span></div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveFuel()" ngbAutofocus>Save</button>
+  </div>
+</div>

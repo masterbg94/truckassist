@@ -1,0 +1,124 @@
+.simple-footer {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #888a8a;
+}
+.login-brand {
+  margin: 20px 0;
+  margin-bottom: 40px;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #888a8a;
+  text-align: center;
+}
+.summary {
+  display: inline-block;
+  width: 100%;
+  .summary-info {
+    background-color: #eaf2f4;
+    padding: 50px 0;
+    text-align: center;
+    border-radius: 3px;
+    h4 {
+      font-weight: 600;
+    }
+  }
+  .summary-item {
+    margin-top: 20px;
+    h6 {
+      margin-bottom: 15px;
+    }
+  }
+}
+.browser {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background-size: 100%;
+}
+.footer-social-list {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+  line-height: 1.25rem;
+  li {
+    display: inline-block;
+    &:not(:last-child) {
+      margin-right: 1.5rem;
+    }
+  }
+  a {
+    color: #8e9090;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+}
+.top-footer {
+  width: 100%;
+  line-height: 1.25rem;
+  opacity: 1;
+  transform: translate(0, 0);
+  color: $dark;
+  font-size: 14px;
+  flex: 0 0 auto;
+  h6 {
+    font-size: 14px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  p {
+    color: #8e9090;
+  }
+  a {
+    color: #8e9090;
+    line-height: 2;
+    color: #8e9090;
+    line-height: 2;
+    address {
+      color: #8e9090;
+      margin-bottom: 0;
+      line-height: 2;
+    }
+  }
+  img {
+    width: 80px;
+    border: 1px solid #e9f1f1;
+    padding: 2px;
+    &:hover {
+      color: #8e9090;
+      opacity: .6;
+    }
+  }
+}
+.footer-payments {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+  line-height: 1.25rem;
+  li {
+    display: inline-block;
+    &:not(:last-child) {
+      margin-right: 1.5rem;
+    }
+  }
+  a {
+    color: #8e9090;
+    text-decoration: none;
+    font-size: 2rem;
+    &:hover {
+      opacity: .9;
+    }
+  }
+}
+
+@media (max-width: 992px){
+  .footer-social-list {
+    text-align:center;
+    margin-top:1rem;
+  }
+  .footer1{
+    text-align:center;
+  }
+}

@@ -1,0 +1,365 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <i
+      class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+      (click)="closeAccidentEdit()"
+    ></i>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <form
+      class="form-container"
+      [formGroup]="accidentForm"
+      (keydown)="keyDownFunction($event)"
+      *ngIf="loaded"
+    >
+      <div class="row">
+        <div class="col-4">
+          <div class="form-label-group">
+            <ng-select
+              [items]="driversData"
+              formControlName="driver"
+              bindValue="id"
+              bindLabel="driverName"
+              placeholder="Driver"
+              (change)="selectDriver($event)"
+              class="required-field has-add-new{{
+                driverSearchItems == 1 ? ' has-one-result' : ''
+              }}"
+              (search)="onSearch($event)"
+              (clear)="onClose($event)"
+              (close)="onClose($event)"
+              appAutoFocus
+              [modalType]="inputData.data.type"
+              [searchFn]="customSearch"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">{{ item.driverName }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="MM/DD/YY"
+              class="required datepicker-label{{
+                accidentForm.controls.accidentDate.value !== null &&
+                accidentForm.controls.accidentDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                [format]="'MM/dd/yy'"
+                required
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+                placeholder="MM/DD/YY"
+                formControlName="accidentDate"
+                (valueChange)="pickupDateDateChange($event)"
+                [class]="'datePick'"
+              ></kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="accidentForm.controls.accidentDate"></app-required-label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="HH:MM AM" class="datepicker-label">
+              <kendo-timepicker
+                [formatPlaceholder]="{
+                  hour: 'hh',
+                  minute: 'mm'
+                }"
+                [format]="'hh:mm a'"
+                [popupSettings]="{ popupClass: 'custom-timepick' }"
+                placeholder="HH:MM AM"
+                formControlName="accidentTime"
+                (valueChange)="pickupDateTimeChange($event)"
+                [class]="'datePick'"
+              ></kendo-timepicker>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-7">
+          <div
+            class="form-label-group input-icon address-field-wrapper {{
+              manageInputValidation(accidentForm.controls.address)
+            }}"
+          >
+            <input
+              id="address"
+              class="form-control input-control required"
+              placeholder="Location"
+              formControlName="address"
+              appInputFocus
+              ngx-google-places-autocomplete
+              [options]="options"
+              #placesRef="ngx-places"
+              (keydown)="addressKeyDown($event)"
+              (onAddressChange)="handleAddressChange($event)"
+            />
+            <label class="required-label" for="address">Location</label>
+            <app-required-label [control]="accidentForm.controls.address"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-label-group reportable-input tow-hm-container">
+            <p *ngIf="!isReportable" class="required-label">Reportable</p>
+            <div *ngIf="!isReportable" class="option-tow-hm">
+              <div
+                (click)="onReportable(true)"
+                class="option-yes"
+                [ngClass]="{ 'add-option-selected': isReportable }"
+              >
+                Yes
+              </div>
+              <div
+                (click)="onReportable(false, null)"
+                class="option-no"
+                [ngClass]="{ 'add-option-selected': !isReportable && !isReportableClicked }"
+              >
+                No
+              </div>
+            </div>
+            <app-required-label
+              *ngIf="!isReportable"
+              [control]="accidentForm.controls.reportable"
+            ></app-required-label>
+            <input
+              *ngIf="isReportable"
+              id="report"
+              class="form-control input-control"
+              placeholder="Report #"
+              type="text"
+              formControlName="report"
+              maxlength="20"
+            />
+            <svg-icon
+              *ngIf="isReportable"
+              (click)="onReportable(false, true)"
+              src="assets/img/svgs/table/badge-close.svg"
+            >
+            </svg-icon>
+            <app-required-label
+              *ngIf="isReportable"
+              [control]="accidentForm.controls.report"
+            ></app-required-label>
+            <label *ngIf="isReportable" for="report">Report #</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-7">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-label-group">
+                <ng-select
+                  [items]="trucks"
+                  formControlName="truck"
+                  bindValue="id"
+                  bindLabel="truckNumber"
+                  placeholder="Truck #"
+                  (change)="selectTrucks($event)"
+                  appendTo="body"
+                  class="required-field"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.truckNumber }}</span>
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="accidentForm.controls.truck"></app-required-label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-label-group">
+                <ng-select
+                  [items]="trailerTabData"
+                  formControlName="trailer"
+                  bindValue="id"
+                  bindLabel="trailerNumber"
+                  placeholder="Trailer #"
+                  (change)="selectTrailers($event)"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.trailerNumber }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-label-group">
+            <input
+              id="insuranceClaim"
+              class="form-control input-control"
+              placeholder="Insurance Claim #"
+              appInputFocus
+              formControlName="insuranceClaim"
+            />
+            <label for="insuranceClaim">Insurance Claim #</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-7">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-label-group">
+                <div class="tow-hm-container">
+                  <p>Tow.</p>
+                  <div class="option-tow-hm">
+                    <div
+                      (click)="onTow(true)"
+                      class="option-yes"
+                      [ngClass]="{ 'add-option-selected': isTow }"
+                    >
+                      Yes
+                    </div>
+                    <div
+                      (click)="onTow(false)"
+                      class="option-no"
+                      [ngClass]="{ 'add-option-selected': !isTow }"
+                    >
+                      No
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-label-group">
+                <div class="tow-hm-container">
+                  <p>HM</p>
+                  <div class="option-tow-hm">
+                    <div
+                      (click)="onHM(true)"
+                      class="option-yes"
+                      [ngClass]="{ 'add-option-selected': isHM }"
+                    >
+                      Yes
+                    </div>
+                    <div
+                      (click)="onHM(false)"
+                      class="option-no"
+                      [ngClass]="{ 'add-option-selected': !isHM }"
+                    >
+                      No
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="row">
+            <div class="col-6">
+              <div class="input-type-number">
+                <div class="fatality-injuries-conatiner fatality-injuries-padding">
+                  <p>Fat.</p>
+                  <input
+                    id="fatality"
+                    type="number"
+                    [(ngModel)]="fatalityCount"
+                    class="form-control input-control"
+                    formControlName="fatality"
+                  />
+                  <div class="svg-container">
+                    <svg-icon
+                      (click)="onCountFatality(true)"
+                      class="up-svg"
+                      src="/assets/img/svgs/safety/Up.svg"
+                    >
+                    </svg-icon>
+                    <svg-icon
+                      (click)="onCountFatality(false)"
+                      class="down-svg"
+                      src="/assets/img/svgs/safety/Down.svg"
+                    >
+                    </svg-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-type-number">
+                <div class="fatality-injuries-conatiner injuries-padding">
+                  <p>Inj.</p>
+                  <input
+                    id="injuries"
+                    type="number"
+                    [(ngModel)]="injuriesCount"
+                    class="form-control input-control"
+                    formControlName="injuries"
+                  />
+                  <div class="svg-container">
+                    <svg-icon
+                      (click)="onCountInjuries(true)"
+                      class="up-svg"
+                      src="/assets/img/svgs/safety/Up.svg"
+                    >
+                    </svg-icon>
+                    <svg-icon
+                      (click)="onCountInjuries(false)"
+                      class="down-svg"
+                      src="/assets/img/svgs/safety/Down.svg"
+                    >
+                    </svg-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-attachments
+        page="safety"
+        (filesChanged)="setFiles($event)"
+        [attachments]="attachments"
+      ></app-attachments>
+
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+          </div>
+          <div
+            class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}"
+          >
+            <textarea
+              cdkTextareaAutosize
+              #note
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="5"
+              formControlName="note"
+              class="input-custom-textarea form-textarea"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeAccidentEdit()">Cancel</button>
+    <button type="button" class="save-btn" (click)="updateAccident(false)" ngbAutofocus>
+      Save
+    </button>
+  </div>
+</div>

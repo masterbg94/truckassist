@@ -1,0 +1,458 @@
+<form [formGroup]="daysHOS" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>7 Days HOS</h1>
+    <p class="firstParagraf">
+      <span style="font-weight: bold;">Instructions:</span> Motor Carriers when using a driver for
+      the first time shall obtain from the driver a signed statement giving the total time on-duty
+      during the immediately preceding 7 days and time at which such driver was last relived from
+      duty prior to beginning work for such motor carrier. Rule 395.8(j) (2) Federal Motor Carrier
+      Safety Regulations.
+    </p>
+    <p class="firstParagraf">
+      <span style="font-weight: bold;">NOTE:</span> Hours for any compensated work during the
+      preceding 7 days, including work for a non-motor carrier entity, must be recorded on this
+      form.
+    </p>
+    <div class="step7" style="position: relative;">
+      <div class="step7_day">
+        <span class="step7_day_dayCaracter">Day</span>
+        <span class="step7_1">1</span>
+        <span class="step7_2">2</span>
+        <span class="step7_3">3</span>
+        <span class="step7_4">4</span>
+        <span class="step7_5">5</span>
+        <span class="step7_6">6</span>
+        <span class="step7_7">7</span>
+      </div>
+      <div class="step7_date">
+        <span class="step7_date_date">Date</span>
+        <span *ngFor="let date of arrayOfDate">{{ date }}</span>
+      </div>
+      <div class="step7_inp text-center" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+        <span class="step7_HOS">HOS <span class="requiredStar">*</span></span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="firstDay"
+            [(ngModel)]="day1"
+            (change)="sumHOS()"
+            [ngClass]="day1 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            class="form-control input-control required"
+            (keydown)="disableArrowDown(day1, $event)"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="secondDay"
+            [(ngModel)]="day2"
+            (change)="sumHOS()"
+            [ngClass]="day2 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day2, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="thirdDay"
+            [(ngModel)]="day3"
+            (change)="sumHOS()"
+            [ngClass]="day3 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day3, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="fourthDay"
+            [(ngModel)]="day4"
+            (change)="sumHOS()"
+            [ngClass]="day4 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day4, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="fifthDay"
+            [(ngModel)]="day5"
+            (change)="sumHOS()"
+            [ngClass]="day5 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day5, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="sixthDay"
+            [(ngModel)]="day6"
+            (change)="sumHOS()"
+            [ngClass]="day6 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day6, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+        <span class="step7_inp-days">
+          <input
+            formControlName="seventhDay"
+            [(ngModel)]="day7"
+            (change)="sumHOS()"
+            [ngClass]="day7 > 14 ? 'step7_defaultColor' : ''"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            (keydown)="disableArrowDown(day7, $event)"
+            class="form-control input-control required"
+            type="number"
+          />
+        </span>
+      </div>
+      <!-- Review Company -->
+      <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+        <app-reviewCheckButton
+          [reviewItem]="companyReview[0]"
+          (feedbackReviewItem)="feedbackReview($event)"
+        ></app-reviewCheckButton>
+      </div>
+      <span class="step7_totalHours">Total Hours: {{ sumDays }} </span>
+    </div>
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="certifyKnowledge"
+        formControlName="certifyKnowledge"
+        [checked]="certifyKnowledge"
+        (change)="(certifyKnowledge != certifyKnowledge)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkBox" style="font-weight: bold;">
+      I hereby certify that the information given above is correct to the best of my Knowledge</span
+    >
+    <p class="herebyCheck">
+      and behalf, and that I was released from work on:
+    </p>
+    <p class="firstParagraf" style="font-weight: bold;">
+      Date released from work and location?
+    </p>
+    <div class="centerContent">
+      <div class="row" style="position: relative;">
+        <div class="col-3">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Date"
+              class="required datepicker-label{{
+                daysHOS.controls.dateHOS.value !== null && daysHOS.controls.dateHOS.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            >
+              <kendo-datepicker
+                [format]="format"
+                placeholder=""
+                [max]="maxDate"
+                formControlName="dateHOS"
+                required
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+              >
+              </kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="daysHOS.controls.dateHOS"></app-required-label>
+          </div>
+          <div
+            *ngIf="
+              isCompanyReview ? !companyReview[1].isTrue && companyReview[1].isTrue !== null : false
+            "
+            class="reviewer-slideShow__date"
+          >
+            <app-reviewSingleCheckButton
+              [reviewItem]="companyReview[1].date"
+            ></app-reviewSingleCheckButton>
+          </div>
+        </div>
+        <div class="col-9">
+          <div
+            class="form-label-group input-icon address-field-wrapper {{
+              manageInputValidation(daysHOS.controls.cityState)
+            }} cityMobile"
+          >
+            <input
+              id="cityState"
+              class="form-control input-control required"
+              placeholder="City, State"
+              formControlName="cityState"
+              ngx-google-places-autocomplete
+              #placesRef="ngx-places"
+              appInputFocus
+              [options]="options"
+              (onAddressChange)="handleAddressChange($event)"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="cityState">City, State</label>
+            <app-required-label [control]="daysHOS.controls.cityState"></app-required-label>
+          </div>
+          <div
+            *ngIf="
+              isCompanyReview ? !companyReview[1].isTrue && companyReview[1].isTrue !== null : false
+            "
+            class="reviewer-slideShow__city"
+          >
+            <app-reviewSingleCheckButton
+              [reviewItem]="companyReview[1].city"
+            ></app-reviewSingleCheckButton>
+          </div>
+        </div>
+        <!-- Review Company -->
+        <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+          <app-reviewCheckButton
+            [reviewItem]="companyReview[1]"
+            (feedbackReviewItem)="feedbackReview($event)"
+          ></app-reviewCheckButton>
+        </div>
+      </div>
+    </div>
+    <p class="firstParagraf" style="margin-top: -9px !important;">
+      <span style="font-weight: bold;">Instructions:</span> When employed by motor carrier, a driver
+      must report to the motor carrier all on-duty time working for other employers. The definition
+      of on-duty time found in Section 395.2 paragraphs 8 and 9 of the Federal Motor Carrier Safety
+      Regulations includes time performing any other work in the capacity of, or in the employment
+      or service of a common, contract or private motor carrier, also performing any compensated
+      work for any non-motor carrier entity.
+    </p>
+    <div class="centerContent2">
+      <div class="row mt-4" style="position: relative;">
+        <div class="col-8">
+          <p class="yesno_paragraf">
+            Are you currently working for another employer?
+            <span style="color: #ff5d5d;"> * </span>
+          </p>
+          <app-required-yes-no
+            [control]="daysHOS.controls.workForAnotherEmpl"
+          ></app-required-yes-no>
+        </div>
+        <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+          <div class="yesno yesno_1">
+            <input
+              (change)="
+                questionsWithExplanation(
+                  $event.target.value,
+                  'workForAnotherEmpl',
+                  'explainWorkAnotherEmpl'
+                )
+              "
+              formControlName="workForAnotherEmpl"
+              type="radio"
+              id="opt45"
+              value="yes"
+            />
+            <label for="opt45" class="yesno_label1">
+              <span class="yesno_options">Yes</span>
+            </label>
+            <input
+              (change)="
+                questionsWithExplanation(
+                  $event.target.value,
+                  'workForAnotherEmpl',
+                  'explainWorkAnotherEmpl'
+                )
+              "
+              formControlName="workForAnotherEmpl"
+              type="radio"
+              id="opt46"
+              value="no"
+            />
+            <label for="opt46" class="yesno_label2">
+              <span class="yesno_options">No</span>
+            </label>
+          </div>
+        </div>
+        <!-- Review Company -->
+        <div class="reviewer-slideShow__thirdrow" *ngIf="isCompanyReview">
+          <app-reviewCheckButton
+            [reviewItem]="companyReview[2]"
+            (feedbackReviewItem)="feedbackReview($event)"
+          ></app-reviewCheckButton>
+        </div>
+      </div>
+      <div *ngIf="workForAnotherEmploye" class="row">
+        <div class="col-10 explainRowContent">
+          <div class="form-label-group explainContent">
+            <input
+              id="explainWorkAnotherEmpl"
+              placeholder="Please explain"
+              class="form-control input-control required"
+              formControlName="explainWorkAnotherEmpl"
+              (keypress)="onDescriptionTyping($event)"
+              (paste)="onPaste($event, 'explainWorkAnotherEmpl')"
+              appInputFocus
+              appAutoFocus
+              [dontDoFocus]="
+                daysHOS.get('explainWorkAnotherEmpl').value === null ? 'false' : 'true'
+              "
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="explainWorkAnotherEmpl">Please explain</label>
+            <app-required-label
+              [control]="daysHOS.controls.explainWorkAnotherEmpl"
+            ></app-required-label>
+          </div>
+          <!-- Review Company -->
+          <div
+            class="reviewer-slideShow__fourthrow"
+            *ngIf="isCompanyReview && workForAnotherEmploye"
+          >
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[3]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="position: relative;">
+        <div class="col-8">
+          <p class="yesno_paragraf">
+            At this time do you intend to work for another employer while still employed by this
+            company? <span class="reuqiredText"> * </span>
+          </p>
+          <app-required-yes-no
+            [control]="daysHOS.controls.intendToWorkForAnotherEmpl"
+          ></app-required-yes-no>
+        </div>
+        <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+          <div class="yesno">
+            <input
+              formControlName="intendToWorkForAnotherEmpl"
+              type="radio"
+              id="opt47"
+              value="yes"
+              (change)="
+                questionsWithExplanation(
+                  $event.target.value,
+                  'intendToWorkForAnotherEmpl',
+                  'explainIntendWorkAnotherEmpl'
+                )
+              "
+            />
+            <label for="opt47" style="margin-top: 21px !important;" class="yesno_label1">
+              <span class="yesno_options">Yes</span>
+            </label>
+            <input
+              formControlName="intendToWorkForAnotherEmpl"
+              type="radio"
+              id="opt48"
+              value="no"
+              (change)="
+                questionsWithExplanation(
+                  $event.target.value,
+                  'intendToWorkForAnotherEmpl',
+                  'explainIntendWorkAnotherEmpl'
+                )
+              "
+            />
+            <label for="opt48" style="margin-top: 21px !important;" class="yesno_label2">
+              <span class="yesno_options">No</span>
+            </label>
+          </div>
+        </div>
+        <!-- Review Company -->
+        <div
+          class="reviewer-slideShow__fifhrow"
+          *ngIf="isCompanyReview"
+          [style.top]="IntendworkForAnotherEmploye ? '26px' : '26px'"
+        >
+          <app-reviewCheckButton
+            [reviewItem]="companyReview[4]"
+            (feedbackReviewItem)="feedbackReview($event)"
+          ></app-reviewCheckButton>
+        </div>
+      </div>
+      <div *ngIf="IntendworkForAnotherEmploye" class="row">
+        <div class="col-10 explainRowContent">
+          <div class="form-label-group explainContent explainContent-2">
+            <input
+              id="explainIntendWorkAnotherEmpl"
+              placeholder="Please explain"
+              class="form-control input-control required"
+              formControlName="explainIntendWorkAnotherEmpl"
+              (keypress)="onDescriptionTyping($event)"
+              (paste)="onPaste($event, 'explainIntendWorkAnotherEmpl')"
+              appInputFocus
+              appAutoFocus
+              [dontDoFocus]="
+                daysHOS.get('explainIntendWorkAnotherEmpl').value === null ? 'false' : 'true'
+              "
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            />
+            <label class="required-label" for="explainIntendWorkAnotherEmpl">Please explain</label>
+            <app-required-label
+              [control]="daysHOS.controls.explainIntendWorkAnotherEmpl"
+            ></app-required-label>
+          </div>
+          <!-- Review Company -->
+          <div
+            class="reviewer-slideShow__sixthrow"
+            *ngIf="isCompanyReview && IntendworkForAnotherEmploye"
+          >
+            <app-reviewCheckButton
+              [reviewItem]="companyReview[5]"
+              (feedbackReviewItem)="feedbackReview($event)"
+            ></app-reviewCheckButton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+      <app-truckassist-checkbox
+        id="cerifyUnderstand"
+        formControlName="cerifyUnderstand"
+        [checked]="cerifyUnderstand"
+        (change)="(cerifyUnderstand != cerifyUnderstand)"
+      >
+      </app-truckassist-checkbox>
+    </span>
+    <span class="checkBox">
+      I hereby certify that the information given above is true and I understand that once I begin
+      driving for this company, if I begin working for any additional employer(s) for compensation
+      that I must inform
+    </span>
+    <p class="CheckParagraf">
+      this company immediately of such employment activity.
+    </p>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+    >
+      Next
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2 btns_reviewConfirm"
+    >
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

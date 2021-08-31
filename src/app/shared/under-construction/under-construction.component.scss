@@ -1,0 +1,42 @@
+.container_under_construction {
+  width: 1007px;
+  height: 749px;
+  position: relative;
+  margin: auto;
+  .text_under_construction {
+    width: 350px;
+    height: 66px;
+    color: #b7b7b7;
+    font-weight: 900;
+    font-size: 54px;
+    margin-bottom: 7px;
+  }
+  .text {
+    width: 580px;
+    height: 66px;
+    margin: auto;
+    color: #6c6c6c;
+    font-size: 54px;
+    font-weight: 900;
+    background: none !important;
+  }
+  .svg_under_construction {
+    width: 1002px;
+    height: 514px;
+    margin: auto;
+    position: absolute;
+    top: 165px;
+  }
+
+  .text_bottom {
+width: 300px;
+    height: 32px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 26px;
+    color: #FFAC43;
+    font-weight: 600;
+    font-style: italic;
+  }
+}

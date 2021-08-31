@@ -1,0 +1,51 @@
+.main-container {
+  height: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 30px;
+  background-color: #F9F9F9;
+  margin: 1px 0;
+  margin-right: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  .reaction-type {
+    line-height: 12px;
+    font-size: 12px;
+  }
+
+  .number-of-reactions {
+    font-size: 10px;
+    color: #B4B4B4;
+    font-weight: bold;
+    margin-left: 6px;
+  }
+
+  &:hover {
+    background-color: #5673AA;
+
+    .number-of-reactions {
+      color: #FFFFFF;
+    }
+  }
+
+}
+
+.selected-container {
+  background-color: #5673AA !important;
+
+  &:hover {
+    background-color: #344566 !important;
+  }
+}
+
+.selected-text {
+  color: #FFFFFF !important;
+}
+
+.reverse-container {
+  margin-right: 0;
+  margin-left: 6px;
+}

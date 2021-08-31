@@ -1,0 +1,220 @@
+<div
+  class="main-container main-container-sender"
+  *ngIf="message"
+  [ngClass]="{ 'deletedColor-background': message.deleteStarted && !message.deleted }"
+  [ngClass]="{ hideMessage: message.deleted }"
+  #senderPosition
+>
+  <div
+    class="action-container"
+    [ngClass]="{'action-container-editMode': editMode}"
+    [style.visible]="!editMode ? 'hidden' : 'visible'"
+    (mouseleave)="leaveEvent()"
+    (mouseenter)="enterEvent()"
+  >
+    <p
+      *ngIf="!editMode && !message.deleted"
+      class="time-text"
+      [ngClass]="{ 'deletedColor-time': message.deleteStarted && !message.deleted }"
+    >
+      {{ message.time }}
+    </p>
+    <svg-icon
+      *ngIf="!editMode && !message.deleted"
+      class="delete-icon"
+      [ngClass]="{ 'deletedColor-svgs': message.deleteStarted && !message.deleted }"
+      src="assets/img/svgs/communicator/ic_delete_circle.svg"
+      (click)="deleteMessage()"
+      appTaTooltip="Delete message"
+      position="bottom-right"
+      tooltipBackground="#FF5D5D"
+    >
+    </svg-icon>
+    <svg-icon
+      *ngIf="!editMode && !message.deleted"
+      class="edit-icon"
+      [ngClass]="{ 'deletedColor-svgs': message.deleteStarted && !message.deleted }"
+      src="assets/img/svgs/communicator/ic_edit_circle.svg"
+      (click)="editMessage()"
+      appTaTooltip="Edit message"
+      position="bottom-right"
+      tooltipBackground="#919191"
+    >
+    </svg-icon>
+    <div *ngIf="editMode" class="edit-message-content-container">
+      <div class="edit-message">
+        <div class="edit-message-input">
+          <input
+            #messageInput
+            type="text"
+            name="message-text"
+            [(ngModel)]="editMessageText"
+            (keydown.enter)="onKeyPressEnter($event)"
+            (keydown.esc)="onKeyPressEscape($event)"
+            (paste)="onPaste($event)"
+          />
+        </div>
+        <div class="edit-message-buttons">
+          <div [ngClass]="positionOfSenderMessage ? 'emoji_down' : 'emoji_up'">
+            <app-chat-emoji
+              [visibilityEmoji]="emojiVisible"
+              [typeOfTriangle]="positionOfSenderMessage ? 'down' : 'up'"
+              (selectedEmoji)="addEmoji($event)"
+              (mouseleave)="leaveEmoji()"
+              (mouseenter)="stayOnEmoji()"
+            >
+            </app-chat-emoji>
+          </div>
+          <div class="edit-message-attach-emoji">
+            <svg-icon
+              (click)="emojiVisible = !emojiVisible"
+              class="input-emoji"
+              [ngClass]="{ 'input-emoji-visible': emojiVisible }"
+              src="../../../../../assets/img/svgs/communicator/ic_emoji-message.svg"
+            >
+            </svg-icon>
+            <label for="image">
+              <input
+                hidden
+                type="file"
+                name="image"
+                id="image"
+                #fileInput
+                (change)="addAttachments($event.target.files)"
+                (click)="$event.target.value = null"
+              />
+              <svg-icon class="input-attach" src="../../assets/img/svgs/communicator/ic_attach.svg">
+              </svg-icon>
+            </label>
+          </div>
+          <div class="edit-message-manipulation">
+            <svg-icon
+              (click)="confirmEditMessage()"
+              class="input-confirm"
+              src="../../../../../assets/img/svgs/communicator/ic_confirm_message.svg"
+            >
+            </svg-icon>
+            <svg-icon
+              (click)="closeEditMessage()"
+              class="input-close"
+              src="../../../../../assets/img/svgs/communicator/ic_close-message.svg"
+            >
+            </svg-icon>
+          </div>
+        </div>
+      </div>
+      <div class="attachments-container" *ngIf="attachments.length > 0">
+        <app-message-attachment-thumb
+          *ngFor="let attachment of attachments"
+          [attachment]="attachment"
+          (delete)="deleteAttachment($event)"
+        ></app-message-attachment-thumb>
+      </div>
+    </div>
+  </div>
+  <div class="message-content">
+    <span
+      *ngIf="!editMode && !message.deleted && !isLinkMessage()"
+      class="message-text"
+      [ngClass]="{
+        'deletedColor-text': message.deleteStarted && !message.deleted,
+        'message-text-animation': getStatus() === 'sent'
+      }"
+    >
+      <span
+        class="edited-text"
+        [ngClass]="{ 'deletedColor-text': message.deleteStarted && !message.deleted }"
+        *ngIf="message.edited"
+        >(edited)</span
+      >
+      {{ message.text }}
+    </span>
+    <span
+      *ngIf="!editMode && !message.deleted && isLinkMessage()"
+      class="message-text"
+      [ngClass]="{
+        'deletedColor-text': message.deleteStarted && !message.deleted,
+        'message-text-animation': getStatus() === 'sent'
+      }"
+    >
+      <span
+        class="edited-text"
+        [ngClass]="{ 'deletedColor-text': message.deleteStarted && !message.deleted }"
+        *ngIf="message.edited"
+        >(edited)</span
+      >
+      <a
+        *ngFor="let item of isContainUrl(message.text).array"
+        [ngClass]="item.includes('http') ? 'link-message' : 'native-message'"
+        (click)="openPageLink(item)"
+      >
+        {{ item }}
+      </a>
+    </span>
+    <div *ngIf="!editMode && !message.deleted && message.attachments.length > 0">
+      <div class="attachment-container" *ngFor="let attachment of message.attachments">
+        <app-message-attachment
+          [attachment]="attachment"
+          [chatId]="chatId"
+        ></app-message-attachment>
+      </div>
+    </div>
+    <div *ngIf="!editMode && !message.deleted && message.links.length > 0">
+      <div class="link-container" *ngFor="let link of message.links">
+        <app-link [link]="link"></app-link>
+      </div>
+    </div>
+    <div
+      class="reactions-conatiner"
+      *ngIf="!editMode && !message.deleted && message.reactionGroups"
+    >
+      <app-reaction
+        *ngFor="let reactionGroup of message.reactionGroups"
+        [reaction]="reactionGroup"
+        [reverse]="true"
+      >
+      </app-reaction>
+    </div>
+  </div>
+  <div
+    *ngIf="!editMode && !message.deleted"
+    class="status-marker"
+    [ngClass]="{
+      'deletedColor-background': message.deleteStarted && !message.deleted,
+      'status-sent': getStatus() === 'sent',
+      'status-delivered': getStatus() === 'delivered',
+      'status-seen': getStatus() === 'seen',
+      'status-full-seen': getStatus() === 'full-seen',
+      'status-not-sent': isNotSent === true
+    }"
+    (mouseenter)="isUsersVisible = true"
+    (mouseleave)="isUsersVisible = false"
+  ></div>
+  <div
+    *ngIf="isChannelStatus"
+    [ngClass]="{ 'dropdown-users-container-visible': isUsersVisible }"
+    class="dropdown-users-container"
+  >
+    <div
+      (mouseenter)="isUsersVisible = true"
+      (mouseleave)="isUsersVisible = false"
+      class="dropdown-users-items"
+      *ngFor="let status of getSeenStatuses(); let i = index"
+    >
+      <img
+        class="user-image"
+        [alt]="status.user.name"
+        [src]="
+          !status.user.active ?
+            '../../assets/img/svgs/communicator/ic_inactive_user.svg'
+          :
+            status.user.image ?
+              status.user.image
+            :
+              '../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+        "
+      />
+      <p class="user-name">{{ status.user.name }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div
+  class="d-inline-block status-select-dropdown"
+  [class]="{ show: open || showCloseBtn }"
+  (clickOutside)="closeMenu()"
+>
+  <button class="switch-btn" (click)="showMenu(target);">
+    <div class="panel-label-container">
+      <span class="ta-font-bold">{{ 'Status' }}</span>
+    </div>
+    <span class="panel-arrow">
+      <svg-icon
+        class="arrow-down-up"
+        [src]="'assets/img/svgs/down.svg'"
+        [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+      ></svg-icon>
+    </span>
+
+    <a
+      class="status-select-close-btn"
+      [ngClass]="{ 'visible-status-select': showCloseBtn && !open }"
+      (click)="removeFilter($event)"
+    >
+      <svg-icon
+        class="chip-icon d-flex flex-column justify-content-center align-items-center"
+        src="assets/img/svgs/table/badge-close.svg"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+    </a>
+  </button>
+  <div class="select-dropdown-menu d-none" [class]="{ 'd-block': open }" #target>
+    <div
+      class="select-dropdown-item d-flex justify-content-center align-items-center"
+      *ngFor="let item of viewItems; let i = index"
+      (mouseover)="item.hovered = true"
+      (mouseout)="item.hovered = false"
+      [class]="{ 'selected-item': item.selected }"
+      (click)="selectItem(i)"
+      [style.background-color]="item.selected  && !item.hovered ? item.color : item.hovered ? item.color + '50' : ''"
+    >
+      <span
+        class="select-dropdown-item-badge"
+        [style.color]="item.selected || item.hovered ? '#ffffff' : item.typeColor"
+        >{{ item.type }}</span
+      >
+      <span
+        [style.color]="item.selected || item.hovered ? '#ffffff' : item.color"
+        [innerHtml]="item.name"
+      ></span>
+    </div>
+  </div>
+</div>

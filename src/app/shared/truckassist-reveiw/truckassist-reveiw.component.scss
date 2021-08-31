@@ -1,0 +1,256 @@
+@import '../../../assets/scss/components/variables.scss';
+
+/* Reveiw */
+.reveiw-container {
+  width: 102px;
+  height: auto;
+  display: grid;
+  grid-template-columns: 18px 1fr 18px;
+  position: relative;
+  align-items: center;
+
+  .like,
+  .result,
+  .disLike {
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+      transition: 0.3s;
+    }
+  }
+
+  .like,
+  .disLike {
+    cursor: pointer;
+    svg {
+      path,
+      rect {
+        fill: #dadada;
+      }
+    }
+    &:hover {
+      svg {
+        path,
+        rect {
+          fill: #919191;
+          transition: 0.25s;
+        }
+      }
+    }
+  }
+
+  ::ng-deep.result {
+    position: relative;
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    // margin: 1px 0 0 0;
+    &:hover {
+      p {
+        background: rgba(243, 243, 243, 1);
+        color: rgba(145, 145, 145, 1);
+        transition: 0.25s;
+      }
+    }
+    p {
+      width: 26px;
+      height: 26px;
+      text-align: center;
+      background: rgba(243, 243, 243, 0.7);
+      border-radius: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      color: rgba(145, 145, 145, 0.7);
+      position: absolute;
+    }
+    .upcount {
+      left: 6px;
+    }
+    .downcount {
+      right: 6px;
+    }
+  }
+}
+
+/* Add After Event Reveiw */
+.result-details-style{
+  margin-top: 1px;
+  p{
+    background: #B7B7B7 !important;
+    color: white !important;
+  }
+}
+
+.tabel-comments-container {
+  top: 35px !important;
+}
+
+.tabel-delete-dialog-style {
+  top: 26px !important;
+  margin: 0 !important;
+}
+
+
+.tabel-style-result {
+  position: relative;
+  // top: 3px;
+}
+
+.table-style-reveiw-container {
+  // top: -1px;
+}
+.shop-map-padding {
+  .result {
+    margin: 1px 0 0 0 !important;
+  }
+}
+
+.shop-map-style-svg {
+  svg {
+    opacity: 1 !important;
+    /* path,
+    rect {
+      fill: #ffffff !important;
+    } */
+  }
+}
+.hover-triangle-first-comment {
+  &:hover {
+    &:after {
+      border-bottom: 6px solid #f9f9f9 !important;
+      transition: 0.3s;
+    }
+  }
+}
+
+.comments-triangle-user-no-comment {
+  &:after {
+    border-bottom: 6px solid rgba(86, 115, 170, 0.7) !important;
+  }
+}
+.comments-triangle-user-no-comment-hover {
+  &:hover {
+    &:after {
+      border-bottom: 6px solid rgba(86, 115, 170, 1) !important;
+      transition: 0.3s;
+    }
+  }
+}
+
+.only-one-comment-style {
+  border-radius: 3px !important;
+}
+
+.last-commet-style {
+  border-bottom-left-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+
+.first-commet-style {
+  border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
+}
+
+.user-comment-style-on-dialog {
+  .comment-date-time {
+    .comment-time {
+      visibility: visible !important;
+      width: auto !important;
+      margin-left: 6px !important;
+    }
+    .edit-svg {
+      margin-left: 6px !important;
+      visibility: visible !important;
+      width: auto !important;
+      svg {
+        width: auto !important;
+      }
+    }
+    .delete-comment-svg {
+      visibility: visible !important;
+      width: 18px !important;
+      margin-left: 6px !important;
+      .delete-svg {
+        visibility: visible !important;
+        width: auto !important;
+        opacity: 1 !important;
+      }
+    }
+  }
+}
+
+.add-result-style-if-user-has-comment {
+  p {
+    background: rgba(183, 183, 183, 0.7) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  &:hover {
+    p {
+      background: rgba(183, 183, 183, 1) !important;
+      color: rgba(255, 255, 255, 1) !important;
+      transition: 0.25s !important;
+    }
+  }
+}
+
+.result-style-shop-map-expend {
+  p {
+    background: #ffffff !important;
+    color: #919191 !important;
+  }
+}
+
+.result-style-shop-map {
+  p {
+    height: 28px !important;
+    line-height: 27px !important;
+  }
+}
+
+.result-style-tabel-selected {
+  p {
+    background: #f3f3f3 !important;
+    color: #919191 !important;
+  }
+}
+
+.addLikeColor {
+  svg {
+    opacity: 1 !important;
+    path {
+      fill: #24c1a1 !important;
+    }
+    rect {
+      fill: #24c1a1 !important;
+      opacity: 1 !important;
+    }
+  }
+}
+
+.addDislikeColor {
+  svg {
+    opacity: 1 !important;
+    path,
+    rect {
+      fill: #ff5d5d !important;
+    }
+  }
+}
+
+.addInstaAnimation {
+  svg {
+    transform: scale(1.5) !important;
+    transition: 0.2s;
+  }
+}
+
+.show-Write-Reveiw-Question {
+  height: 32px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

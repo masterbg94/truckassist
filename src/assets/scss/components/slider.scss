@@ -1,0 +1,169 @@
+
+.slider {
+    .owl-nav {
+        [class*=owl-] {
+            position: absolute;
+            top: 50%;
+            left: 35px;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            margin: 0;
+            background-color: $black;
+            border-radius: 50%;
+            color: $white;
+            width: 40px;
+            height: 40px;
+            line-height: 34px;
+            opacity: .3;
+        }
+
+        .owl-next {
+            right: 0;
+            left: initial;
+        }
+    }
+
+    &:hover {
+        .owl-nav {
+            [class*=owl-] {
+                opacity: 1;
+            }
+        }
+    }
+
+    .slider-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1;
+        background-color: rgba(0, 0, 0, .3);
+        color: $white;
+        padding: 10px;
+
+        .slider-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .slider-description {
+            font-size: 12px;
+            line-height: 24px;
+            opacity: .8;
+        }
+    }
+}
+
+//Material slider
+.mat-slider-thumb-label {
+    width: 38px !important;
+    height: 19px !important;
+    transform: rotate(0deg) !important;
+}
+
+.mat-slider-thumb {
+    transform: scale(0) !important;
+}
+
+.mat-slider-thumb-label-text {
+    opacity: 1 !important;
+}
+
+.mat-slider.mat-slider-horizontal .mat-slider-wrapper {
+    top: 17px;
+    height: 0;
+    left: 0;
+    right: 0;
+}
+.mat-slider-label {
+  margin-bottom: 0.5rem;
+}
+.mat-slider.mat-slider-horizontal .mat-slider-track-wrapper {
+    height: 6px;
+    border-radius: 10px
+}
+
+.mat-slider.mat-slider-horizontal .mat-slider-track-background,
+.mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+    height: 100%;
+}
+
+.mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+    background-color: $primary;
+}
+
+.mat-accent .mat-slider-thumb {
+  width: 18px;
+  height: 18px;
+  bottom: -12px;
+  right: -12px;
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(1) !important;
+  border: none;
+  background-color: #fff !important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15) !important;
+}
+.mat-slider.mat-slider-horizontal .mat-slider-track-fill {
+  background-color: #5673AA;
+}
+.mat-accent .mat-slider-thumb-label {
+  background-color: transparent !important;
+}
+.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+    background-color: white;
+}
+
+.mat-slider-track-background {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.cdk-focused .mat-slider-track-background, .mat-slider:hover .mat-slider-track-background {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.mat-slider-horizontal .mat-slider-thumb-label-text {
+    transform: rotate(0deg) !important;
+}
+.mat-accent .mat-slider-thumb-label-text {
+  color: #28529F;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0px;
+  font-family: "Montserrat", sans-serif !important;
+  padding-left: 22px;
+}
+.mat-slider-horizontal .mat-slider-thumb-label {
+    //right: -8px !important;
+    right: -13px !important;
+    top: -25px !important;
+}
+
+.mat-slider-thumb-label {
+    border-radius: 3px !important;
+
+}
+
+.mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label, .mat-accent .mat-slider-track-fil {
+    background-color: $primary;
+}
+
+.mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb, .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
+    background-color: $primary;
+}
+
+.mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb, .mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb-label {
+    background-color: $primary;
+}
+
+.slider-padding {
+    padding-top: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.switch:hover {
+    background-color: $white;
+}

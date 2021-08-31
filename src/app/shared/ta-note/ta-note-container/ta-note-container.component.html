@@ -1,0 +1,28 @@
+<div class="editor_menu" @pickupAnimation [class.hidden]="!isExpanded">
+    <div class="editor_buttons bold_text" [class.active]="activeOptions.bold" (click)="executeEditor('bold')">
+      <svg-icon
+      [svgStyle]="{ 'width.px': '11.47', 'height.px': '14' }"
+      src="assets/img/svgs/note_b.svg"></svg-icon>
+    </div>
+    <div class="editor_buttons italic_text" [class.active]="activeOptions.italic" (click)="executeEditor('italic')">
+      <svg-icon
+      [svgStyle]="{ 'width.px': '10', 'height.px': '14' }"
+      src="assets/img/svgs/italic.svg"></svg-icon>
+    </div>
+    <div class="editor_buttons underline_text"  [class.active]="activeOptions.underline" (click)="executeEditor('underline')">
+      <svg-icon
+      [svgStyle]="{ 'width.px': '12.25', 'height.px': '14' }"
+      src="assets/img/svgs/underline.svg"></svg-icon>
+    </div>
+    <div class="editor_buttons text_color" [class.no_opacity]="showCollorPattern" (click)="showCollorPattern = !showCollorPattern" >
+      <!-- <span></span> -->
+      <span class="circle_span" [ngStyle]="{'background-color': selectedPaternColor}"></span>
+      <div *ngIf="showCollorPattern" id="colors_patter" class="colors_patter">
+        <div (click)="executeEditor('foreColor', '#707070')"></div>
+        <div (click)="executeEditor('foreColor', '#158740')"></div>
+        <div (click)="executeEditor('foreColor', '#2B79C7')"></div>
+        <div (click)="executeEditor('foreColor', '#9F48B9')"></div>
+        <div (click)="executeEditor('foreColor', '#DB2222')"></div>
+      </div>
+    </div>
+</div>

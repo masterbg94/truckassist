@@ -1,0 +1,594 @@
+@import '../applicant.component.scss';
+
+.safety {
+  &_header {
+    margin-bottom: 60px !important;
+
+    @media only screen and (max-width: 414px) {
+      margin-bottom: 40px !important;
+      margin-top: -10px !important;
+    }
+  }
+  &_reviewSection {
+    text-decoration: none;
+    color: rgba(86, 115, 170, 0.7);
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    left: -5px;
+    margin: 0 auto;
+
+    &:hover {
+      color: $color-blue-normal;
+    }
+  }
+
+  &_dotTesting {
+    margin: 15px auto;
+  }
+}
+.headingTwo {
+  font-size: 26px !important;
+  &-drug {
+    margin-top: 40px !important;
+
+    @media only screen and (max-width: 414px) {
+      margin-top: 51px !important;
+    }
+  }
+}
+.pad {
+  @media only screen and (max-width: 414px) {
+    margin-left: 22px !important;
+  }
+  @media only screen and (max-width: 376px) {
+    margin-left: 0px !important;
+  }
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: -2px !important;
+  margin-left: -30px;
+  padding: 0px;
+
+  @media only screen and (max-width: 414px) {
+    &-2 {
+      margin-left: 7px !important;
+      width: 321px !important;
+    }
+  }
+  &_block {
+    margin: 0 auto;
+    margin-left: -9px;
+    @media only screen and (max-width: 414px) {
+      margin-left: 23px !important;
+      .row {
+        .col-12 {
+          max-width: 100% !important;
+        }
+      }
+    }
+    @media only screen and (max-width: 376px) {
+      margin-left: 0px !important;
+    }
+  }
+  &_input {
+    background-color: #919191 !important;
+    text-align: center;
+    text-transform: uppercase;
+    padding-left: 0px !important;
+  }
+
+  &_input::placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_label {
+    position: relative;
+    top: -47px;
+    color: $color-gray-normal !important;
+    opacity: 1 !important;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    &_applicantName {
+      left: 69px;
+    }
+
+    &_applicantSSN {
+      left: 43px;
+    }
+
+    &_applicantBirthday {
+      left: 42px;
+    }
+
+    @media only screen and (max-width: 376px) {
+      &_applicantName {
+        left: 126px;
+        &-2 {
+          left: 102px !important;
+        }
+      }
+
+      &_applicantSSN {
+        left: 72px;
+        &-2 {
+          left: 60px !important;
+        }
+      }
+
+      &_applicantBirthday {
+        left: 71px;
+        &-2 {
+          left: 59px !important;
+        }
+      }
+    }
+    @media only screen and (max-width: 414px) {
+      &_applicantName {
+        left: 126px;
+        &-2 {
+          left: 102px !important;
+        }
+      }
+
+      &_applicantSSN {
+        left: 72px;
+        &-2 {
+          left: 60px !important;
+        }
+      }
+
+      &_applicantBirthday {
+        left: 71px;
+        &-2 {
+          left: 59px !important;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 414px) {
+    margin-left: -1px;
+    width: 366px;
+  }
+}
+
+.hazmat {
+  &_paragraf {
+    left: 16px !important;
+
+    @media only screen and (max-width: 414px) {
+      left: -93px !important;
+      top: -12px !important;
+    }
+  }
+  &_Yes {
+    margin-left: 114px !important;
+    margin-top: 0px !important;
+
+    @media only screen and (max-width: 414px) {
+      margin-left: 104px !important;
+    }
+  }
+
+  &_No {
+    margin-top: 0px !important;
+    margin-right: -201px !important;
+
+    @media only screen and (max-width: 414px) {
+      margin-right: -206px !important;
+    }
+  }
+}
+
+.explainRowContent {
+  padding-right: 4px !important;
+
+  @media only screen and (max-width: 414px) {
+    margin-top: 0px;
+  }
+}
+
+.explainContent {
+  margin-bottom: 10px !important;
+  width: 476px !important;
+}
+.performanceHistory {
+  margin: 0 100px 0 auto;
+  @media only screen and (max-width: 414px) {
+    margin: 34px auto -15px -5px;
+    width: 311px;
+  }
+}
+
+.reviewConfirmAll {
+  bottom: 179px;
+  z-index: 50;
+}
+
+.yesno_common_sph {
+  margin-top: 40px !important;
+  @media only screen and (max-width: 414px) {
+    margin-top: 77px !important;
+  }
+  @media only screen and (max-width: 376px) {
+    margin-top: 40px !important;
+  }
+}
+
+.addAccident {
+  margin-left: -9px;
+
+  @media only screen and (max-width: 414px) {
+    position: relative;
+    top: 41px !important;
+  }
+}
+.descript {
+  margin-top: 25px;
+}
+
+@media only screen and (max-width: 361px) {
+  .slideShow {
+    margin-left: 5px;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .slideShow {
+    margin-left: 12px;
+  }
+}
+@media only screen and (max-width: 414px) {
+  .slideShow {
+    margin-left: 16px;
+  }
+}
+
+
+// Reasponsive for android i iphone
+@media only screen and (max-width: 414px) {
+  .slideShow-nomodal {
+    margin-left: 12px !important;
+  }
+  .yesno_paragraf-drugs {
+    margin-left: -35px !important;
+  }
+  .slideShow {
+    margin-left: 16px;
+  }
+  .drugAddress {
+    width: 488px !important;
+    .col-10 {
+      max-width: 51.33% !important;
+    }
+  }
+  .modal_header {
+    margin-left: -1px !important;
+  }
+  .btns {
+    margin-left: 6px !important;
+  }
+  .explainRowContent-desc {
+    margin-top: -8px !important;
+  }
+  .explainRowContent-date {
+    height: 45px !important;
+  }
+  .slideShowMobile {
+    @media only screen and(max-width:414px) {
+      margin-left: 29px;
+      width: 331px !important;
+      .form-label-group-mobile {
+        width: 130px !important;
+        &-1 {
+          margin-left: 12px !important;
+        }
+        &-2 {
+          margin-left: -14px !important;
+        }
+      }
+      .col-6-hazmat {
+        position: relative;
+        top: 89px;
+        left: -138px;
+        .yesno {
+          top: 28px !important;
+          right: 117px !important;
+
+          &_drugs {
+            top: 85px !important;
+            left: -127px !important;
+          }
+        }
+      }
+      .rowAccidentMobile {
+        margin-bottom: 15px;
+      }
+      .centerContent2Mobile {
+        margin-left: 11px !important;
+      }
+      .centerContent3Mobile {
+        margin-left: 11px !important;
+        max-width: 244px !important;
+      }
+      .row {
+        .col-12 {
+          max-width: 68%;
+        }
+        .col-5 {
+          max-width: 34.66%;
+        }
+        .col-8 {
+          max-width: 51.66%;
+        }
+        .col-6-mobile {
+          width: 105%;
+          margin-left: -15px;
+        }
+        .col-9 {
+          max-width: 202px !important;
+        }
+      }
+      .injuries-mobile {
+        margin-left: 5px;
+      }
+      .yesno {
+        top: 43px !important;
+        right: 117px !important;
+        @media only screen and (max-width: 376px) {
+          &-common {
+            top: 78px !important;
+          }
+          &_drugs {
+            top: 85px !important;
+            left: -127px !important;
+          }
+        }
+      }
+      .stateReasonMobile {
+        margin: 33px auto 8px -1px;
+        width: 371px;
+        @media only screen and (max-width: 376px) {
+          margin-top: 35px;
+          margin-bottom: 11px;
+        }
+      }
+      .centerContentMobile {
+        width: 319px !important;
+      }
+      .centerContent {
+        &-Mobile {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 376px) {
+  .slideShow-nomodal {
+    margin-left: 12px !important;
+  }
+  .yesno_paragraf-drugs {
+    margin-left: -35px !important;
+  }
+  .slideShow {
+    margin-left: 16px;
+  }
+  .drugAddress {
+    width: 488px !important;
+    .col-10 {
+      max-width: 51.33% !important;
+    }
+  }
+  .modal_header {
+    margin-left: -1px !important;
+  }
+  .btns {
+    margin-left: 6px !important;
+  }
+  .explainRowContent-desc {
+    margin-top: -8px !important;
+  }
+  .explainRowContent-date {
+    height: 45px !important;
+  }
+  .slideShowMobile {
+    @media only screen and(max-width:376px) {
+      margin-left: 16px;
+      width: 331px !important;
+      .form-label-group-mobile {
+        width: 130px !important;
+        &-1 {
+          margin-left: 12px !important;
+        }
+        &-2 {
+          margin-left: -14px !important;
+        }
+      }
+      .col-6-hazmat {
+        position: relative;
+        top: 89px;
+        left: -138px;
+        .yesno {
+          top: 28px !important;
+          right: 117px !important;
+
+          &_drugs {
+            top: 85px !important;
+            left: -127px !important;
+          }
+        }
+      }
+      .rowAccidentMobile {
+        margin-bottom: 15px;
+      }
+      .centerContent2Mobile {
+        margin-left: 11px !important;
+      }
+      .centerContent3Mobile {
+        margin-left: 11px !important;
+        max-width: 244px !important;
+      }
+      .row {
+        .col-12 {
+          max-width: 68%;
+        }
+        .col-5 {
+          max-width: 34.66%;
+        }
+        .col-8 {
+          max-width: 51.66%;
+        }
+        .col-6-mobile {
+          width: 105%;
+          margin-left: -15px;
+        }
+        .col-9 {
+          max-width: 202px !important;
+        }
+      }
+      .injuries-mobile {
+        margin-left: 5px;
+      }
+      .yesno {
+        top: 43px !important;
+        right: 117px !important;
+        @media only screen and (max-width: 376px) {
+          &-common {
+            top: 78px !important;
+          }
+          &_drugs {
+            top: 85px !important;
+            left: -127px !important;
+          }
+        }
+      }
+      .stateReasonMobile {
+        margin: 33px auto 8px -1px;
+        width: 371px;
+        @media only screen and (max-width: 376px) {
+          margin-top: 35px;
+          margin-bottom: 11px;
+        }
+      }
+      .centerContentMobile {
+        width: 319px !important;
+      }
+      .centerContent {
+        &-Mobile {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 361px) {
+  .slideShow {
+    margin-left: 5px !important;
+  }
+  .btns {
+    margin-left: 6px !important;
+  }
+  .modal_header {
+    margin-left: -5px !important;
+  }
+
+  .slideShowMobile {
+    @media only screen and(max-width:361px) {
+      margin-left: 9px !important;
+      width: 321px !important;
+      .form-label-group-mobile {
+        width: 130px !important;
+        &-1 {
+          margin-left: 12px !important;
+        }
+        &-2 {
+          margin-left: -14px !important;
+        }
+      }
+      .col-6-hazmat {
+        position: relative;
+        top: 89px;
+        left: -138px;
+        .yesno {
+          top: 28px !important;
+          right: 117px !important;
+          &_drugs {
+            top: 86px !important;
+          }
+        }
+      }
+
+      .rowAccidentMobile {
+        margin-bottom: 15px;
+      }
+      .centerContent2Mobile {
+        margin-left: 8px !important;
+      }
+      .centerContent3Mobile {
+        margin-left: 6px !important;
+        max-width: 244px !important;
+      }
+      .row {
+        .col-12 {
+          max-width: 68%;
+        }
+        .col-5 {
+          max-width: 34.66%;
+        }
+        .col-8 {
+          max-width: 51.66%;
+        }
+        .col-6-mobile {
+          width: 105%;
+          margin-left: -15px;
+        }
+        .col-9 {
+          max-width: 202px !important;
+        }
+      }
+      .injuries-mobile {
+        margin-left: 5px;
+      }
+      .yesno {
+        top: 43px !important;
+        right: 117px !important;
+        @media only screen and (max-width: 376px) {
+          &-common {
+            top: 78px !important;
+          }
+        }
+        @media only screen and(max-width:361px) {
+          &_drugs {
+            top: 86px !important;
+          }
+        }
+      }
+      .stateReasonMobile {
+        margin: 33px auto 8px -1px;
+        width: 371px;
+        @media only screen and (max-width: 361px) {
+          margin-top: 35px;
+          margin-bottom: 11px;
+        }
+      }
+      .centerContentMobile {
+        width: 319px !important;
+      }
+      .centerContent {
+        &-Mobile {
+          margin-left: 1px;
+        }
+      }
+    }
+  }
+}

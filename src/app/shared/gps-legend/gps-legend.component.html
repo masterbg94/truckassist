@@ -1,0 +1,11 @@
+<div class="gps-legend-container">
+  <div class="gps-legend-title" [ngClass]="{'add-margin-title': dataLegend.index > 0}" *ngIf="dataLegend.title">
+    <div class="title">{{ dataLegend.title }}</div>
+  </div>
+  <div class="legend-type">
+    <div class="type" [ngClass]="{'add-margin-type': i !== 0}" *ngFor="let type of dataLegend.type; let i = index">
+      <svg-icon src="{{ type.icon }}"></svg-icon>
+      <div class="type-text">{{ type.text }}</div>
+    </div>
+  </div>
+</div>

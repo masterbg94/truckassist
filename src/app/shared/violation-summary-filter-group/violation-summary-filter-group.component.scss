@@ -1,0 +1,48 @@
+.violation_summary_filters {
+  width: 526px;
+  height: 32px;
+  display: flex;
+  &_box {
+    height: 100%;
+    width: 70px;
+    border-radius: 3px;
+    padding: 4px;
+    display: flex;
+    cursor: pointer;
+    margin-right: 6px;
+    &_value {
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
+      margin-right: 11px;
+      font-weight: bold;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &_icon {
+      svg-icon {
+        svg {
+          path {
+            fill: #b7b7b7;
+          }
+        }
+      }
+      &_not_active {
+        svg {
+          path {
+            fill: #b7b7b74a !important;
+          }
+        }
+      }
+      &_active {
+        svg {
+          path {
+            fill: #fff !important;
+          }
+        }
+      }
+    }
+  }
+}

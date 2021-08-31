@@ -1,0 +1,471 @@
+<form [formGroup]="cdlInformation" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>CDL Information</h1>
+    <p class="firstParagraf" style="margin-bottom: 25px !important;">
+      No person who operates a commercial motor vehicle shall at any time have more than one
+      driver’s license (49 CFR 383.21). I certify that I do not have more than one motor vehicle
+      license, the information for which is listed below.
+    </p>
+    <div class="centerContent">
+      <div *ngIf="licences.length > 0">
+        <div class="row licence" *ngFor="let item of licences; let i = index">
+          <div (click)="editLicence(i)" class="col-11 col-md-4">
+            <input
+              id="licence"
+              placeholder="{{ item.name }}"
+              disabled
+              class="form-control input-control licence_input licence_input_lic"
+            />
+            <label class="licence_label licence_label_lic" for="licence">LICENCE #</label>
+          </div>
+          <div class="col-3">
+            <input
+              id="state"
+              placeholder="{{ item.state.key }}"
+              disabled
+              class="form-control input-control licence_input licence_input_state"
+            />
+            <label class="licence_label licence_label_state" for="state">STATE</label>
+          </div>
+          <div class="col-3">
+            <input
+              id="class"
+              placeholder="{{ item.class.value }}"
+              disabled
+              class="form-control input-control licence_input licence_input_cls"
+            />
+            <label class="licence_label licence_label_cls" for="class">CLASS</label>
+          </div>
+          <div class="col-3 col-md-2">
+            <input
+              id="date"
+              placeholder="{{ item.modifiedDate }}"
+              disabled
+              class="form-control input-control licence_input licence_input_date"
+            />
+            <label class="licence_label licence_label_date" for="date">EXP. DATE</label>
+          </div>
+          <a (click)="editLicence(i)" class="editLicence">
+            <svg-icon src="../../../../assets/img/applicants/grayPen.svg"></svg-icon>
+          </a>
+          <a
+            appTaTooltip="Delete"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#FF5D5D"
+            position="bottom-right"
+            class="deleteLicence"
+            (click)="isDeleteActiveLicence(i)"
+          >
+            <svg-icon
+              class="deleteLicence_desktop"
+              src="../../../../assets/img/applicants/delete.svg"
+            ></svg-icon>
+            <svg-icon
+              class="deleteLicence_mobile"
+              src="../../../../assets/img/applicants/delete_mobile.svg"
+            ></svg-icon>
+          </a>
+          <div
+            class="dropdown-dialog"
+            [ngClass]="{
+              'show-dropdown-dialog': openDropDeleteDialogLicence[i].value,
+              'hide-dropdown-dialog': !openDropDeleteDialogLicence[i].value
+            }"
+          >
+            <div class="delete-dialog-container">
+              <div class="drop-down-delete-dialog">
+                <p>Are you sure you want to delete?</p>
+                <div class="yes-no">
+                  <div class="no" (click)="onSelectDeleteLicence(false, i)">
+                    <p>No</p>
+                  </div>
+                  <div class="yes" (click)="onSelectDeleteLicence(true, i)">
+                    <p>Yes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="displayForm3 || licences.length < 1">
+        <!-- Hide form -->
+        <a
+          *ngIf="licences.length > 0 && !isCompanyReview"
+          appTaTooltip="Delete"
+          tooltipColor="#FFFFFF"
+          tooltipBackground="#FF5D5D"
+          position="bottom-right"
+          class="hideForm"
+          (click)="hideForm()"
+        >
+          <svg-icon
+            class="hideForm_desktop"
+            src="../../assets/img/applicants/delete.svg"
+          ></svg-icon>
+          <svg-icon
+            class="hideForm_mobile"
+            src="../../../../assets/img/applicants/delete_mobile.svg"
+          ></svg-icon>
+        </a>
+        <div class="row row_mobile" style="position: relative;">
+          <div class="col-5 col-md-4">
+            <div class="form-label-group">
+              <input
+                id="licence"
+                placeholder="Licence #"
+                class="form-control input-control required"
+                formControlName="licence"
+                oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                (paste)="onPaste($event, 'licence', 17)"
+                (keypress)="onLicenseNumberTyping($event)"
+                maxlength="17"
+                appAutoFocus
+                [dontDoFocus]="cdlInformation.get('licence').value === null && !isCompanyReview ? 'false' : 'true'"
+                appInputFocus
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              />
+              <label class="required-label" for="licence">Licence #</label>
+              <app-required-label [control]="cdlInformation.controls.licence"></app-required-label>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__licence"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[0].licence"
+              ></app-reviewSingleCheckButton>
+            </div>
+          </div>
+          <div class="col-md-3" [ngClass]="licences.length > 0 ? 'col-4' : 'col-5'">
+            <div class="form-label-group">
+              <ng-select
+                [items]="countryData"
+                formControlName="country"
+                placeholder="Country"
+                bindLabel="value"
+                (change)="getStatesLicense($event)"
+                class="required-field"
+                appendTo="body"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              ></ng-select>
+              <app-required-label [control]="cdlInformation.controls.country"></app-required-label>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__country"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[0].country"
+              ></app-reviewSingleCheckButton>
+            </div>
+          </div>
+          <div class="col-4 col-md-3">
+            <div class="form-label-group">
+              <ng-select
+                [items]="stateData"
+                formControlName="state"
+                placeholder="State"
+                bindLabel="key"
+                class="required-field"
+                appendTo="body"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <svg-icon
+                    src="assets/img/svgs/states/{{ item.value }}.svg"
+                    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                    class="select-dropdown-image"
+                  ></svg-icon>
+                  <span [ngOptionHighlight]="search">{{ item.key }}</span>
+                </ng-template>
+
+                <ng-template ng-label-tmp let-item="item">
+                  <div class="value-label-container state-value-label">
+                    <svg-icon
+                      src="assets/img/svgs/states/{{ item.value }}.svg"
+                      [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
+                      class="select-dropdown-image"
+                    ></svg-icon>
+                    <span>{{ item.key }}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="cdlInformation.controls.state"></app-required-label>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__state"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[0].state"
+              ></app-reviewSingleCheckButton>
+            </div>
+          </div>
+          <div class="col-3 col-md-2">
+            <div class="form-label-group">
+              <ng-select
+                [items]="classData"
+                formControlName="categoryClass"
+                placeholder="License class"
+                bindLabel="value"
+                placeholder="Class"
+                class="input-control required-field"
+                appendTo="body"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+              </ng-select>
+              <app-required-label
+                [control]="cdlInformation.controls.categoryClass"
+              ></app-required-label>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__class"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[0].class"
+              ></app-reviewSingleCheckButton>
+            </div>
+
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[0]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+
+          <div class="col-3">
+            <div class="form-label-group">
+              <kendo-floatinglabel
+                text="Exp. Date"
+                class="required datepicker-label{{
+                  cdlInformation.controls.expDate.value !== null &&
+                  cdlInformation.controls.expDate.value !== ''
+                    ? ' valid-label'
+                    : ''
+                }}"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+                <kendo-datepicker
+                  [format]="format"
+                  placeholder=""
+                  formControlName="expDate"
+                  [formatPlaceholder]="{
+                    year: 'yy',
+                    month: 'mm',
+                    day: 'dd'
+                  }"
+                  required
+                  [popupSettings]="{ popupClass: 'custom-datepick' }"
+                ></kendo-datepicker>
+              </kendo-floatinglabel>
+              <app-required-label [control]="cdlInformation.controls.expDate"></app-required-label>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__expDate"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[1].expDate"
+              ></app-reviewSingleCheckButton>
+            </div>
+          </div>
+          <div class="col-11 col-md-9">
+            <div class="form-label-group">
+              <ng-select
+                [items]="endorsementData"
+                [multiple]="true"
+                bindLabel="endorsementName"
+                [closeOnSelect]="false"
+                [hideSelected]="true"
+                formControlName="endorsments"
+                placeholder="Endorsments"
+                [dropdownPosition]="'bottom'"
+                class="input-control"
+                appendTo="body"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+              </ng-select>
+            </div>
+            <div
+              *ngIf="
+                isCompanyReview
+                  ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                  : false
+              "
+              class="reviewer-slideShow__endorsments"
+            >
+              <app-reviewSingleCheckButton
+                [reviewItem]="companyReview[1].endorsements"
+              ></app-reviewSingleCheckButton>
+            </div>
+
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[1]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+
+          <div class="col-11 col-md-12" style="padding-left: 0px;">
+            <div class="form-label-group">
+              <ng-select
+                [items]="restrictionData"
+                [multiple]="true"
+                bindLabel="restrictionName"
+                [closeOnSelect]="false"
+                [hideSelected]="true"
+                formControlName="restrictions"
+                placeholder="Restrictions"
+                [dropdownPosition]="'bottom'"
+                class="input-control"
+                appendTo="body"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+              </ng-select>
+            </div>
+            <!-- Review Company -->
+            <div
+              class="reviewer-slideShow__thirdrow"
+              *ngIf="isCompanyReview"
+              [style.bottom]="dinamicLicenceIndex !== -1 ? licences[dinamicLicenceIndex].restrictions?.length > 0 && dinamicLicence ? '26px' : '-4px' : '-4px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[2]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+        <p class="firstParagraf additionalLicence">
+          List any additional license(s) held in past 3 years
+        </p>
+        <a *ngIf="!isCompanyReview" class="addLicence" (click)="addLicence()">Add Licence</a>
+        <div class="row">
+          <div class="centerContent3">
+            <div class="row licence_paragrafYesNo" style="position: relative;">
+              <div class="col-9" style="padding-right: 0px;">
+                <p class="yesno_paragraf additionalLicence_paragraf">
+                  Has your permit, CDL or privilege to operate a motor vehicle ever been denided,
+                  suspended, or revoked?
+                  <span class="requiredStar">*</span>
+                </p>
+                <div class="requiredYESNO-mobile">
+                  <app-required-yes-no
+                    [control]="cdlInformation.controls.denidedSuspended"
+                  ></app-required-yes-no>
+                </div>
+              </div>
+              <div class="col-1"  [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+                <div class="yesno">
+                  <input
+                    formControlName="denidedSuspended"
+                    type="radio"
+                    id="p1"
+                    (change)="denidedSuspended($event.target.value)"
+                    value="yes"
+                  />
+                  <label for="p1" class="yesno_label1 additionalLicence_Yes">
+                    <span class="yesno_options">Yes</span>
+                  </label>
+                  <input
+                    formControlName="denidedSuspended"
+                    type="radio"
+                    id="p2"
+                    (change)="denidedSuspended($event.target.value)"
+                    value="no"
+                  />
+                  <label for="p2" class="yesno_label2 additionalLicence_No">
+                    <span class="yesno_options">No</span>
+                  </label>
+                </div>
+              </div>
+              <!-- Review Company -->
+              <div class="reviewer-slideShow__fourthrow" *ngIf="isCompanyReview">
+                <app-reviewCheckButton
+                  [reviewItem]="companyReview[3]"
+                  (feedbackReviewItem)="feedbackReview($event)"
+                ></app-reviewCheckButton>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isSuspended" class="row explaination">
+          <div class="col-12">
+            <div class="form-label-group">
+              <input
+                id="denided"
+                placeholder="Please explain"
+                class="form-control input-control required"
+                formControlName="explainDenidedSuspended"
+                (keypress)="onDescriptionTyping($event)"
+                (paste)="onPaste($event, 'denided')"
+                appInputFocus
+                appAutoFocus
+                [dontDoFocus]="
+                  cdlInformation.get('explainDenidedSuspended').value === null && !isCompanyReview ? 'false' : 'true'
+                "
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              />
+              <label class="required-label" for="denided">Please explain</label>
+              <app-required-label
+                [control]="cdlInformation.controls.explainDenidedSuspended"
+              ></app-required-label>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__fifthrow" *ngIf="isCompanyReview && isSuspended">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[4]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        *ngIf="displayForm3 === false && licences.length > 0"
+        class="showLicence"
+        (click)="showFormLicence()"
+        >Add another licence</a
+      >
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview" type="submit" class="btns btns_next mx-2">Next</button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

@@ -1,0 +1,79 @@
+<div class="main-container main-container-receiver" *ngIf="attachment">
+  <!-- Media -->
+  <div *ngIf="isImage()" [ngClass]="{ 'sender-content': !isReceived }" (click)="openGallery()">
+    <p class="name">{{ attachment.name }}</p>
+    <img *ngIf="isImage()" class="image" [src]="attachment.url" />
+  </div>
+  <div *ngIf="isVideo()" [ngClass]="{ 'sender-content': !isReceived }">
+    <p class="name">{{ attachment.name }}</p>
+    <div class="overlay-video" (click)="openGallery()"></div>
+    <app-chat-video-preview
+      [displayVideo]="true"
+      [video_id]="attachment.guid"
+      [attachUrl]="attachment.url"
+    ></app-chat-video-preview>
+  </div>
+  <div [ngClass]="{ 'sent-file-content-container': !isReceived }" (click)="goToLink()">
+    <!-- docx -->
+    <div
+      *ngIf="isDoc()"
+      class="file-container"
+      (mouseenter)="hoveredWord = true"
+      (mouseleave)="hoveredWord = false"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_doc.svg"></svg-icon>\
+      <p class="size">{{attachment.size / 1024 | number: '1.2-2'}} kB</p>
+      <p class="time">{{attachment.newFormatDate.time}}</p>
+      <p class="date">{{attachment.newFormatDate.date}}</p>
+      <p class="name">{{ attachment.name }}</p>
+    </div>
+    <!-- xlsx -->
+    <div
+      *ngIf="isXls()"
+      class="file-container"
+      (mouseenter)="hoveredExcel = true"
+      (mouseleave)="hoveredExcel = false"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_xls.svg"></svg-icon>
+      <p class="size">{{attachment.size / 1024 | number: '1.2-2'}} kB</p>
+      <p class="time" *ngIf="attachment?.time">{{attachment.time}}</p>
+      <p class="date" *ngIf="attachment?.date">{{attachment.date}}</p>
+      <p class="name">{{ attachment.name }}</p>
+    </div>
+    <!-- pdf -->
+    <div
+      *ngIf="isPdf()"
+      class="file-container"
+      (mouseenter)="hoveredPdf = true"
+      (mouseleave)="hoveredPdf = false"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_pdf.svg"></svg-icon>
+      <p class="name">{{ attachment.name }}</p>
+    </div>
+  </div>
+  <!-- unknown -->
+  <div
+    *ngIf="!isImage() && !isDoc() && !isXls() && !isPdf() && !isZip() && !isVideo()"
+    [ngClass]="{ 'sent-file-content-container': !isReceived }"
+  >
+    <div
+      class="file-container"
+      (mouseenter)="hoveredUnknown = true"
+      (mouseleave)="hoveredUnknown = false"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_file.svg"></svg-icon>
+      <p class="name">{{ attachment.name }}</p>
+    </div>
+  </div>
+  <!-- zip -->
+  <div *ngIf="isZip()" [ngClass]="{ 'sent-file-content-container': !isReceived }">
+    <div
+      class="file-container"
+      (mouseenter)="hoveredZip = true"
+      (mouseleave)="hoveredZip = false"
+    >
+      <svg-icon src="assets/img/svgs/communicator/ic_zip.svg"></svg-icon>
+      <p class="name">{{ attachment.name }}</p>
+    </div>
+  </div>
+</div>

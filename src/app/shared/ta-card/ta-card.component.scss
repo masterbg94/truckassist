@@ -1,0 +1,1224 @@
+@import '../../../assets/scss/components/variables';
+
+$ta-card-bg1: #f7f7f7;
+$bw5-07: rgba(145, 145, 145, 0.7);
+$ta-card-disabled: #dadada;
+$ta-card-disabled-07: rgba(218, 218, 218, 0.7);
+$ta-card-disabled2: #b7b7b7;
+$ta-card-disabled2-07: rgba(183, 183, 183, 0.7);
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.ta-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 351px;
+  width: 100%;
+  transition: $transition;
+  margin-bottom: 12px;
+  border-radius: 0 0 3px 3px;
+
+  &.disabled-card {
+    // for disabled text
+    .disabled-text {
+      color: $ta-card-disabled !important;
+      transition: $transition;
+    }
+
+    .disabled-text-opacity {
+      color: $ta-card-disabled-07 !important;
+      transition: $transition;
+    }
+
+    // to reduce opacity
+    .disabled-opacity {
+      opacity: 0.4;
+      transition: $transition;
+    }
+
+    &:hover {
+      .disabled-opacity {
+        opacity: 1;
+        transition: $transition;
+      }
+
+      .disabled-text {
+        color: $bw5 !important;
+        transition: $transition;
+      }
+
+      .disabled-text-opacity {
+        color: $bw5-07 !important;
+        transition: $transition;
+      }
+
+      .ta-card-expand {
+        &-driver {
+          .driver-info-item svg-icon,
+          .driver-bank svg-icon {
+            opacity: 1;
+          }
+
+          .driver-progress app-progress-expiration {
+            opacity: 1;
+          }
+
+          .driver-commission ngx-slider {
+            opacity: 1;
+          }
+
+          .driver-restrictions .restrictions-boxes .single-restriction {
+            opacity: 1;
+          }
+        }
+      }
+
+      .ta-card-title {
+        .icon-title p.title {
+          color: $bw5;
+        }
+
+        svg-icon {
+          opacity: 1;
+          transition: $transition;
+        }
+      }
+    }
+
+    .ta-card {
+      &-title {
+        font-style: italic;
+
+        .icon-title {
+          p.title {
+            color: $ta-card-disabled;
+          }
+        }
+
+        svg-icon {
+          opacity: 0.4;
+          transition: $transition;
+        }
+      }
+
+      &-body {
+        &-image {
+          .truck-icon,
+          .truck-make,
+          .driver-image {
+            svg-icon svg {
+              opacity: 0.4;
+            }
+          }
+        }
+
+        &-data {
+          .driver-data {
+            .driver-state {
+              svg-icon {
+                opacity: 0.4;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .ta-card-expand {
+      &-driver {
+        .driver-info-item svg-icon,
+        .driver-bank svg-icon {
+          opacity: 0.4;
+        }
+
+        .driver-progress app-progress-expiration {
+          opacity: 0.4;
+        }
+
+        .driver-commission ngx-slider {
+          opacity: 0.4;
+        }
+
+        .driver-restrictions .restrictions-boxes .single-restriction {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+
+  .ta-card {
+    width: 100%;
+    border-radius: 3px;
+    background: white;
+
+    &-title {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background: $bw1;
+      padding: 0 12px;
+      height: 32px;
+      border-radius: 3px 3px 0 0;
+      user-select: none;
+      justify-content: space-between;
+
+      p {
+        margin: 0 0 0 6px;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: bold;
+        color: $bw5;
+        cursor: pointer;
+        transition: $transition;
+
+        &:hover {
+          color: $light-blue;
+          transition: $transition;
+        }
+      }
+
+      .load-title {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        padding: 0 6px;
+
+        p b {
+          color: #24c1a1;
+        }
+      }
+
+      .repair-title-star {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        margin-left: 12px;
+
+        svg-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .icon-title {
+        .expanded-icon {
+          display: flex;
+          align-items: center;
+
+          svg-icon {
+            display: flex;
+            align-items: center;
+          }
+        }
+
+        .customer-title {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 6px;
+
+          svg-icon {
+            display: flex;
+            align-items: center;
+            height: 18px;
+          }
+        }
+      }
+
+      .dropdown {
+      }
+    }
+
+    &-body {
+      display: flex;
+      padding: 12px;
+      border-radius: 0 0 3px 3px;
+      width: 100%;
+
+      &-image {
+        display: flex;
+        margin-right: 22px;
+
+        .driver-image {
+          width: 44px;
+        }
+
+        .truck-image {
+          width: 100px;
+          display: flex;
+          flex-direction: column;
+
+          .truck-icon,
+          .truck-make {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .truck-make {
+            height: 14px;
+            margin-top: 12px;
+
+            svg-icon {
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+        }
+      }
+
+      &-data {
+        width: 100%;
+
+        .driver-data {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
+          &-item {
+            max-width: 49%;
+            width: 100%;
+            color: $bw5;
+            opacity: 0.7;
+            margin: 0;
+            padding: 0;
+
+            &:nth-child(even) {
+              text-align: right;
+            }
+
+            span {
+              margin-right: 6px;
+              font-weight: 700;
+              font-size: 14px;
+
+              &.black {
+                font-weight: 900;
+              }
+            }
+          }
+
+          .driver-state {
+            display: flex;
+            align-items: center;
+            max-width: 47%;
+            width: 100%;
+            justify-content: space-between;
+
+            .driver-data-item {
+              max-width: unset;
+            }
+
+            svg-icon {
+              display: flex;
+              align-items: center;
+              height: 24px;
+            }
+          }
+        }
+
+        .truck-data {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+
+          p.truck-data-item {
+            color: $bw5;
+            opacity: 0.7;
+            margin: 0;
+            padding: 0;
+            height: 18px;
+            display: flex;
+            align-items: center;
+
+            span {
+              margin-right: 6px;
+              font-weight: bold;
+              font-size: 14px;
+              line-height: 18px;
+            }
+
+            &.truck-vin {
+              span {
+                font-weight: 900;
+              }
+            }
+          }
+
+          .truck-year-color {
+            margin-top: 12px;
+            margin-bottom: 12px;
+
+            .truck-data-item-color {
+              margin-left: 22px;
+              display: flex;
+              align-items: center;
+
+              .color-box {
+                width: 18px;
+                height: 18px;
+                border-radius: 3px;
+                margin-left: 6px;
+                background: orangered;
+              }
+            }
+          }
+        }
+
+        .load-data {
+          &-ref {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+
+            .d-flex.flex-column {
+              p:first-of-type {
+                margin-bottom: 6px;
+              }
+
+              p {
+                font-size: 14px;
+                line-height: 18px;
+                padding: 0;
+                margin: 0;
+                color: $bw5;
+
+                b {
+                  color: $bw4;
+                }
+              }
+            }
+          }
+
+          &-start-end {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+
+            .start-address,
+            .end-address {
+              display: flex;
+              flex-direction: row;
+
+              .count {
+                border-radius: 3px;
+                height: 18px;
+                width: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                  font-size: 14px;
+                  line-height: 14px;
+                  font-weight: bold;
+                  color: white;
+                  padding: 0;
+                  margin: 0;
+                }
+              }
+
+              .address-date {
+                display: flex;
+                flex-direction: column;
+                margin-left: 6px;
+
+                p {
+                  margin: 0;
+                  padding: 0;
+                  color: $bw5;
+                  font-size: 12px;
+                  line-height: 15px;
+                  height: 15px;
+
+                  &:first-of-type {
+                    font-size: 14px;
+                    line-height: 18px;
+                    height: 18px;
+                    margin-bottom: 4px;
+                  }
+                }
+              }
+            }
+
+            .start-address {
+              .count {
+                background: #24c1a1;
+              }
+            }
+
+            .end-address {
+              .count {
+                background: #ff5d5d;
+              }
+            }
+          }
+        }
+
+        .repair-data {
+          &-shop {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+
+            &-item {
+              display: flex;
+              align-items: center;
+
+              &:last-of-type {
+                align-items: flex-start;
+              }
+
+              &:first-of-type {
+                justify-content: space-between;
+              }
+
+              &:nth-of-type(2) {
+                margin: 6px 0 12px 0;
+              }
+
+              .shop-item-icon {
+                margin-right: 6px;
+                display: flex;
+
+                svg-icon {
+                  display: flex;
+                  width: 18px;
+                  align-items: center;
+                  justify-content: flex-start;
+                }
+              }
+
+              p {
+                padding: 0;
+                margin: 0;
+                color: $bw5;
+                font-size: 14px;
+                line-height: 18px;
+              }
+
+              .repair-shop-phone {
+                display: flex;
+                align-items: center;
+              }
+
+              .like-dislike {
+                display: flex;
+                align-items: center;
+
+                .likes-count,
+                .dislikes-count {
+                  display: flex;
+                  align-items: center;
+
+                  .count-number {
+                    width: 26px;
+                    height: 28px;
+                    border-radius: 2px;
+                    background: #f3f3f3;
+                    color: $bw5;
+                    font-size: 16px;
+                    font-weight: 600;
+                  }
+
+                  .count-icon,
+                  .count-number {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                }
+
+                .likes-count {
+                  margin-right: 2px;
+
+                  .count-icon {
+                    margin-right: 6px;
+                  }
+                }
+
+                .dislikes-count {
+                  .count-icon {
+                    margin-left: 6px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .repair-truck-trailer-data {
+          display: flex;
+          flex-direction: column;
+
+          .repair-company-date,
+          .repair-company-odo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+              color: $bw5;
+              padding: 0;
+              margin: 0;
+            }
+          }
+
+          .repair-company-date {
+            margin-bottom: 6px;
+
+            p {
+              color: $bw5-07;
+            }
+          }
+
+          .repair-list {
+            display: flex;
+            justify-content: space-between;
+
+            p {
+              font-size: 14px;
+              line-height: 14px;
+              padding: 0;
+              margin: 0;
+            }
+
+            &-items {
+              display: flex;
+              width: 80%;
+
+              p {
+                color: $bw5;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            }
+
+            &-price {
+              width: 20%;
+              text-align: right;
+
+              p {
+                color: $bw5-07;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .ta-card-expand {
+      z-index: 1;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      //height: 100%;
+      /* padding & boja za sve */
+      &-truck,
+      &-driver,
+      &-trailer,
+      &-load,
+      &-repair,
+      &-customer {
+        & > div {
+          padding: 12px;
+
+          &:nth-of-type(odd) {
+            background: $ta-card-bg1;
+          }
+
+          &:nth-of-type(even) {
+            background: white;
+          }
+
+          &:nth-last-of-type(1) {
+            border-radius: 0 0 3px 3px;
+            overflow: hidden;
+          }
+        }
+      }
+
+      &-truck,
+      &-trailer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .licence-owner {
+          display: flex;
+          justify-content: space-between;
+
+          .licence-plate,
+          .owner {
+            display: flex;
+            flex-direction: column;
+
+            p {
+              font-size: 14px;
+              color: $bw5;
+              font-weight: 400;
+              margin: 0;
+              padding: 0;
+
+              &:first-of-type {
+                font-weight: 700;
+              }
+            }
+          }
+        }
+
+        .truck-data {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
+          &-col {
+            max-width: 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            p {
+              margin: 0;
+              padding: 0;
+              font-size: 14px;
+              color: $bw5;
+
+              &:first-of-type {
+                font-weight: 700;
+              }
+            }
+
+            &:nth-last-of-type(-n + 2) {
+              margin-top: 12px;
+            }
+          }
+        }
+
+        .commission {
+          display: flex;
+          align-items: center;
+
+          p {
+            padding: 0;
+            margin: 0;
+            color: $bw5;
+            font-size: 14px;
+            line-height: 14px;
+            margin-right: 12px;
+            font-weight: 700;
+          }
+
+          ngx-slider {
+            margin-top: 10px;
+            margin-bottom: 0;
+          }
+        }
+
+        .mileage {
+          display: flex;
+          flex-wrap: wrap;
+
+          .d-flex {
+            max-width: 50%;
+            width: 100%;
+
+            p:first-of-type {
+              font-weight: 700;
+            }
+
+            p {
+              font-size: 14px;
+              font-weight: 400;
+              margin: 0;
+              padding: 0;
+              color: $bw5;
+            }
+          }
+        }
+
+        .insurance {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+
+          p:first-of-type {
+            font-weight: 700;
+          }
+
+          p {
+            font-size: 14px;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+            color: $bw5;
+          }
+        }
+      }
+
+      &-driver {
+        .driver-info {
+          display: flex;
+          flex-direction: column;
+
+          &-item {
+            display: flex;
+            align-items: center;
+
+            p {
+              font-size: 14px;
+              color: $bw5;
+              padding: 0;
+              margin: 0 6px 0 0;
+            }
+
+            svg-icon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+              width: 18px;
+              margin-right: 6px;
+            }
+          }
+        }
+
+        .driver-progress {
+          display: flex;
+          flex-direction: column;
+
+          app-progress-expiration:not(:last-child) {
+            margin-bottom: 8px;
+          }
+        }
+
+        .driver-bank {
+          &-data {
+            p {
+              font-size: 14px;
+              margin: 0;
+              color: $bw5;
+
+              &:first-of-type {
+                margin-bottom: 12px;
+              }
+
+              span {
+                font-weight: bold;
+                margin-right: 6px;
+              }
+            }
+          }
+        }
+
+        .driver-commission {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .d-flex {
+            p:first-of-type {
+              font-weight: 700;
+            }
+
+            p {
+              color: $bw5;
+              font-weight: 400;
+              font-size: 14px;
+              margin: 0;
+              padding: 0;
+            }
+          }
+
+          ngx-slider {
+            margin: 10px 0 0 12px;
+          }
+        }
+
+        .driver-restrictions {
+          p {
+            color: $bw5;
+            font-weight: 700;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+          }
+
+          .restrictions-boxes {
+            display: flex;
+            flex-wrap: wrap;
+
+            .single-restriction {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 33px;
+              height: 28px;
+              background: #dadada;
+              margin-right: 6px;
+              border-radius: 3px;
+              cursor: default;
+
+              &:hover {
+                background: #919191;
+              }
+
+              p {
+                color: white;
+                font-size: 14px;
+                line-height: 14px;
+                font-weight: 900;
+              }
+            }
+          }
+        }
+      }
+
+      &-load {
+        .load-route {
+          display: flex;
+          flex-wrap: wrap;
+
+          .route-item {
+            display: flex;
+            max-width: 50%;
+            width: 100%;
+
+            &:nth-last-of-type(-n + 2) {
+              .route-item-number {
+                background: #ff5d5d;
+              }
+            }
+
+            &-number {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+              width: 18px;
+              border-radius: 2px;
+              background: #24c1a1;
+
+              p {
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 14px;
+                color: white;
+              }
+            }
+
+            &-address {
+              margin-left: 6px;
+              display: flex;
+              flex-direction: column;
+
+              p {
+                color: $bw5;
+                font-size: 12px;
+                line-height: 15px;
+                height: 15px;
+
+                &:first-of-type {
+                  font-size: 14px;
+                  line-height: 18px;
+                  height: 18px;
+                  margin-bottom: 6px;
+                }
+              }
+            }
+
+            &.divided-first-last {
+              &:first-of-type {
+                max-width: 100%;
+              }
+
+              &:last-of-type {
+                max-width: 100%;
+                margin-left: 50%;
+              }
+            }
+          }
+        }
+
+        .load-info {
+          display: flex;
+          justify-content: space-between;
+
+          .d-flex {
+            p {
+              font-size: 14px;
+              color: $bw5;
+              line-height: 14px;
+
+              &:first-of-type {
+                font-weight: bold;
+                opacity: 0.7;
+              }
+            }
+          }
+        }
+
+        .load-money {
+          display: flex;
+          justify-content: space-between;
+
+          &-item {
+            max-width: 72px;
+            width: 100%;
+            border-radius: 2px;
+            height: 33px;
+
+            &-heading {
+              width: 100%;
+              height: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 2px 2px 0 0;
+
+              p {
+                font-size: 8px;
+                font-weight: bold;
+                color: white;
+                line-height: 10px;
+              }
+            }
+
+            &-body {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 0 0 2px 2px;
+              height: 21px;
+
+              p {
+                font-size: 12px;
+                line-height: 15px;
+                color: $bw5;
+              }
+            }
+
+            &:nth-of-type(1) {
+              background: white;
+
+              .load-money-item-heading {
+                background: rgba(0, 0, 0, 0.4);
+              }
+
+              .load-money-item-body p {
+                color: $bw5;
+              }
+            }
+
+            &:nth-of-type(2) {
+              background: #a16caf;
+
+              .load-money-item-heading {
+                background: rgba(0, 0, 0, 0.41);
+              }
+
+              .load-money-item-body p {
+                color: white;
+              }
+            }
+
+            &:nth-of-type(3) {
+              background: transparent;
+
+              .load-money-item-heading {
+                background: #993838;
+              }
+
+              .load-money-item-body p {
+                color: $bw5;
+              }
+            }
+
+            &:nth-of-type(4) {
+              background: #5673aa;
+
+              .load-money-item-heading {
+                background: rgba(0, 0, 0, 0.43);
+              }
+
+              .load-money-item-body p {
+                color: white;
+              }
+            }
+          }
+        }
+
+        .load-map {
+          height: 147px;
+          padding: 0 !important;
+
+          agm-map {
+            height: 100%;
+          }
+        }
+      }
+
+      &-repair {
+        .star-dropdown {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+
+          &-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 20px;
+            border-radius: 3px;
+
+            p {
+              font-size: 11px;
+              font-weight: bold;
+              line-height: 16px;
+              color: white;
+            }
+
+            &:nth-of-type(odd) {
+              background: #dadada;
+            }
+
+            &:nth-of-type(even) {
+              background: $bw5;
+            }
+          }
+        }
+      }
+
+      &-customer {
+        .customer-loads {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            color: $bw5;
+            font-size: 14px;
+            line-height: 18px;
+
+            span {
+              font-weight: bold;
+              line-height: 18px;
+              margin-right: 6px;
+            }
+          }
+        }
+      }
+
+      &-repair-truck-trailer {
+        max-width: 351px;
+
+        .repair-list-dropdown {
+          display: flex;
+          flex-direction: column;
+          background: $ta-card-bg1;
+
+          &-item {
+            display: flex;
+            height: 24px;
+            align-items: center;
+            padding: 0 12px;
+            cursor: pointer;
+
+            &:hover {
+              background: rgba(145, 145, 145, 0.9);
+              position: relative;
+
+              .index-number {
+                color: rgba(255, 255, 255, 0.7);
+                flex: 1;
+              }
+
+              .repair-detail {
+                max-width: 315px;
+                position: absolute;
+                left: 30px;
+                color: white;
+              }
+            }
+
+            p {
+              font-size: 14px;
+              line-height: 14px;
+              color: $bw5;
+
+              &.index-number {
+                display: flex;
+                align-items: center;
+                width: 12px;
+                color: $bw5-07;
+                font-weight: bold;
+                margin-right: 6px;
+              }
+
+              &.repair-detail {
+                flex: 1;
+                max-width: calc(100% - 88px);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                user-select: none;
+              }
+
+              &.repair-count {
+                width: 16px;
+              }
+
+              &.repair-price {
+                width: 60px;
+                text-align: right;
+              }
+            }
+          }
+        }
+
+        .total-repair-price {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 30px;
+          background: #f3f3f3;
+          padding: 0 12px;
+
+          p {
+            font-size: 14px;
+            line-height: 14px;
+            font-weight: bold;
+            color: $bw5;
+
+            &:first-of-type {
+              color: $bw5-07;
+              margin-left: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

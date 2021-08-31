@@ -1,0 +1,62 @@
+.gps_info_header {
+  line-height: 15px;
+  justify-content: space-between;
+
+  .gps_full_mileage {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .gps_temp_mileage {
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
+
+.gps_info_hold {
+  width: 100%;
+}
+
+.gps_info_body {
+  line-height: 15px;
+
+  .gps_info_city {
+    justify-content: space-between;
+
+    .gps_end_location {
+      position: relative;
+      font-size: 12px;
+      font-weight: 700;
+      color: #b7b7b7;
+
+      z-index: 2;
+    }
+
+    .gps_end_perc {
+      position: relative;
+      font-size: 12px;
+      font-weight: 700;
+      color: #6c6c6c;
+      z-index: 2;
+    }
+  }
+}
+
+.hide-city-info{
+  display: none !important;
+}
+
+/* NG CLASS */
+.info_hold_gps_hover{
+  cursor: pointer;
+  width: 228px;
+  height: 26px;
+  border-radius: 3px;
+  padding: 5px 6px 3px 6px;
+  position: relative;
+  left: -6px;
+  &:hover{
+    background: #E5E5E5 !important;
+    transition: 0.25s;
+  }
+}

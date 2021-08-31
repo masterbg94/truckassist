@@ -1,0 +1,96 @@
+<div class="media-content" [ngClass]="{'openedDeleteModal': openModalDelete.isOpen }">
+  <div class="media-content-left">
+    <img
+      *ngIf="isImage()"
+      class="media-image"
+      [src]="File.url"
+      [alt]="File.extension"
+      (click)="openGallery()"
+    />
+    <div *ngIf="isVideo()" class="media-image">
+      <svg-icon
+        (click)="openGallery()"
+        class="media-playButton"
+        src="assets/img/svgs/communicator/ic_chat-content-playButton.svg"
+      ></svg-icon>
+      <app-chat-video-preview
+        (click)="openGallery()"
+        [displayVideo]="isVideo()"
+        [attachUrl]="File.url"
+        [overlayPlay]="false"
+        [bufferPlay]="false"
+        [scrubBar]="false"
+        [play]="false"
+        [mute]="false"
+        [volume]="false"
+        [timeDisplay]="false"
+        [insideScrubBar]="false"
+        [fullScreen]="false"
+      ></app-chat-video-preview>
+    </div>
+    <svg-icon
+      *ngIf="isDoc()"
+      class="doc-image"
+      src="assets/img/svgs/communicator/ic_doc.svg"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="isXls()"
+      class="doc-image"
+      src="assets/img/svgs/communicator/ic_xls.svg"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="isPdf()"
+      class="doc-image"
+      src="assets/img/svgs/communicator/ic_pdf.svg"
+    ></svg-icon>
+    <img *ngIf="isLink()" class="link-image" [src]="File.favicon" (click)="openPage()" />
+    <svg-icon
+      *ngIf="isZip()"
+      class="doc-image"
+      src="assets/img/svgs/communicator/ic_zip.svg"
+    ></svg-icon>
+    <div class="media-details">
+      <span (click)="openPage(); openGallery()" class="media-name" [ngClass]="{'media-link': File.title}">{{
+        File.name ? File.name : File.title
+      }}</span>
+      <span *ngIf="!isDocument">
+        <span class="media-username">{{ File.message.user.name }}</span>
+      </span>
+      <span *ngIf="isDocument">
+        <span class="media-username-doc">{{ File.message.user.name }}</span>
+        <span class="media-size-doc">{{ File.size / 1024 | number: '1.2-2' }} kB</span>
+      </span>
+    </div>
+  </div>
+  <div
+    class="media-content-right"
+    [ngClass]="{ 'media-content-right-link': isLink() || !isMyAttachment(), 
+                 'media-content-right-openedModal': openModalDelete.isOpen}"
+  >
+    <div class="media-date">
+      {{ createdDateFile }}
+    </div>
+    <div class="media-time">
+      {{ createdTimeFile }}
+    </div>
+  </div>
+  <button
+    class="more-media-button"
+    (click)="openDeleteModal(File.id)"
+    *ngIf="!isLink() && isMyAttachment()"
+    [ngClass]="{ 'more-media-button-pressed': openModalDelete.isOpen }"
+  >
+    <svg-icon
+      [ngClass]="{ 'more-media-delete': openModalDelete.isOpen }"
+      class="more-media"
+      src="assets/img/svgs/communicator/ic_user-info-more.svg"
+    ></svg-icon>
+  </button>
+  <svg-icon
+    *ngIf="openModalDelete.isOpen"
+    (click)="deleteAttachment()"
+    class="media-delete"
+    (focusout)="openModalDelete.isOpen = false"
+    src="../../../../assets/img/svgs/communicator/ic_user-info-delete.svg"
+  ></svg-icon>
+</div>

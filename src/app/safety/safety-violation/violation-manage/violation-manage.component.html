@@ -1,0 +1,926 @@
+<div class="modal-container violation-modal" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-ta-tab-switch (switchClicked)="tabChange($event)" [tabs]="tabs"> </app-ta-tab-switch>
+    <app-loading-modal class="large" *ngIf="!loaded"></app-loading-modal>
+    <form
+      *ngIf="loaded"
+      [formGroup]="violationForm"
+      class="form-container has-tabs tabs-2{{ ' tab-' + selectedTab }}"
+      (keydown)="keyDownFunction($event)"
+    >
+      <!-- 
+        *
+        *
+        *
+          First Tab  
+        *
+        *
+        *
+       -->
+      <div class="single-tab-container">
+        <div class="row">
+          <div class="col-3">
+            <div class="form-label-group">
+              <ng-select
+                [items]="driversData"
+                formControlName="driverName"
+                bindValue="id"
+                bindLabel="driverName"
+                placeholder="Driver"
+                (change)="selectDriver($event)"
+                class="required-field has-add-new{{
+                  driverSearchItems == 1 ? ' has-one-result' : ''
+                }}"
+                (search)="onSearchDriver($event)"
+                (clear)="onCloseDriver($event)"
+                (close)="onCloseDriver($event)"
+                appAutoFocus
+                [modalType]="inputData.data.type"
+                [searchFn]="customSearchDriver"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.driverName }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label
+                [control]="violationForm.controls.driverName"
+              ></app-required-label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <ng-select
+                [items]="trucks"
+                formControlName="truck"
+                bindValue="id"
+                bindLabel="truckNumber"
+                placeholder="Truck #"
+                appendTo="body"
+                class="required-field has-add-new{{
+                  truckSearchItems == 1 ? ' has-one-result' : ''
+                }}"
+                (search)="onSearchTruck($event)"
+                (clear)="onCloseTruck($event)"
+                (close)="onCloseTruck($event)"
+                [searchFn]="customSearchTruck"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.truckNumber }}</span>
+                </ng-template>
+              </ng-select>
+              <app-required-label [control]="violationForm.controls.truck"></app-required-label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <ng-select
+                [items]="trailerTabData"
+                formControlName="trailer"
+                bindValue="id"
+                bindLabel="trailerNumber"
+                placeholder="Trailer #"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">{{ item.trailerNumber }}</span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <input
+                id="reportNumber"
+                class="form-control input-control"
+                placeholder="Last name"
+                formControlName="reportNumber"
+                appInputFocus
+              />
+              <label class="" for="reportNumber">Report #</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <div
+              class="form-label-group input-icon address-field-wrapper {{
+                manageInputValidation(violationForm.controls.state)
+              }}"
+            >
+              <input
+                id="state"
+                class="form-control input-control required"
+                placeholder="County, State"
+                formControlName="state"
+                appInputFocus
+                ngx-google-places-autocomplete
+                [options]="options"
+                #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event, 1)"
+              />
+              <label class="required-label" for="state">County, State</label>
+              <app-required-label [control]="violationForm.controls.state"></app-required-label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <kendo-floatinglabel
+                text="mm/dd/yy"
+                class="required datepicker-label{{ false ? ' valid-label' : '' }}"
+              >
+                <kendo-datepicker
+                  placeholder=""
+                  [format]="format"
+                  [formatPlaceholder]="{
+                    year: 'yy',
+                    month: 'mm',
+                    day: 'dd'
+                  }"
+                  formControlName="date"
+                  required
+                  [popupSettings]="{ popupClass: 'custom-datepick' }"
+                ></kendo-datepicker>
+              </kendo-floatinglabel>
+              <app-required-label [control]="violationForm.controls.date"></app-required-label>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <kendo-floatinglabel
+                text="hh:mm:am"
+                class="datepicker-label{{ false ? ' valid-label' : '' }}"
+              >
+                <kendo-timepicker
+                  [formatPlaceholder]="{
+                    hour: 'hh',
+                    minute: 'mm'
+                  }"
+                  formControlName="time"
+                  [format]="'hh:mm a'"
+                  [popupSettings]="{ popupClass: 'custom-timepick' }"
+                  placeholder=""
+                  [class]="'datePick'"
+                ></kendo-timepicker>
+              </kendo-floatinglabel>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-label-group">
+              <ng-select
+                name="lvl"
+                class="required-field has-add-new form-control input-control violation-lvl-inspection-select"
+                placeholder="Level"
+                appInputFocus
+                [items]="violationLVL"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="lvl"
+              >
+              </ng-select>
+              <app-required-label [control]="violationForm.controls.lvl"></app-required-label>
+            </div>
+          </div>
+        </div>
+        <!-- Violations -->
+        <div class="row" [ngStyle]="{ margin: '0 -12px' }">
+          <div class="w-100">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div
+                  class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapseOne"
+                  aria-expanded="true"
+                >
+                  <span class="panel-title panel-violation">
+                    <span>
+                      {{ tempViolationData?.length || '0' }}
+                    </span>
+                    <span>
+                      Violation
+                    </span>
+                    <span>
+                      Severity Weight:
+                    </span>
+                    <span>
+                      {{ severityWeightSum }}
+                    </span>
+                  </span>
+                  <span class="panel-arrow">
+                    <svg-icon
+                      class="arrow-down-up"
+                      [src]="'assets/img/svgs/down.svg'"
+                      [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    ></svg-icon>
+                  </span>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse show">
+                  <div class="panel-body">
+                    <div class="col-12 p-body">
+                      <div
+                        class="panel-body_box"
+                        *ngFor="let vio of tempViolationData; let i = index; trackBy: trackByFn"
+                        id="violation-list-{{ i }}"
+                        name="violation-list-{{ i }}"
+                      >
+                        <span>
+                          <svg-icon [src]="vio.icon"> </svg-icon>
+                        </span>
+                        <span>
+                          {{ vio.type === 1 ? 'D' : vio.type === 2 ? '1' : '2' }}
+                        </span>
+                        <span>
+                          {{ vio.code }}
+                        </span>
+                        <span>
+                          {{
+                            vio.description.length > 53
+                              ? (vio.description | slice: 0:53) + '...'
+                              : vio.description
+                          }}
+                        </span>
+                        <span [ngStyle]="{ background: vio.oos ? '#FF5D5D' : '#6c6c6cc7' }">
+                          {{ vio.oos ? '2+' + vio.sw : vio.sw }}
+                        </span>
+                        <span>
+                          <svg-icon
+                            (click)="editViolationDataItemInArray(i, vio)"
+                            src="assets/img/svgs/edit-pencil.svg"
+                          >
+                          </svg-icon>
+                        </span>
+                        <span>
+                          <svg-icon
+                            (click)="removeViolationDataItemInArray(i, vio)"
+                            src="assets/img/svgs/delete-full.svg"
+                          >
+                          </svg-icon>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div
+                        class="form-label-group violation-code-form"
+                        *ngIf="!newVisible"
+                        [ngStyle]="{ width: violationCodeSelected ? '613px' : '100%' }"
+                      >
+                        <ng-select
+                          #ngSelectViolationCode
+                          placeholder="Violation Code"
+                          [items]="violationSearchData"
+                          bindLabel="Violation Code"
+                          (search)="onSearch($event)"
+                          (close)="onClose($event)"
+                          (clear)="onClose($event)"
+                          (change)="onDriverChange($event)"
+                          [searchFn]="customSearch"
+                          appendTo="body"
+                        >
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <div class="violation-code-dropdown option-{{ item.id }}">
+                              <span class="violation-image">
+                                <svg-icon [src]="item.icon"></svg-icon>
+                              </span>
+                              <span *ngIf="item.id !== 0">{{
+                                item.type === 1 ? 'D' : item.type === 2 ? '1' : '2'
+                              }}</span>
+                              <span *ngIf="item.id === 0"></span>
+                              <span [ngOptionHighlight]="search">{{ item.code }}</span>
+                              <span>{{ item.description }}</span>
+                            </div>
+                          </ng-template>
+
+                          <ng-template ng-label-tmp let-item="item">
+                            <div class="violation-code-dropdown">
+                              <span class="violation-image">
+                                <svg-icon [src]="item.icon"></svg-icon>
+                              </span>
+                              <span *ngIf="item.id !== 0">{{
+                                item.type === 1 ? 'D' : item.type === 2 ? '1' : '2'
+                              }}</span>
+                              <span *ngIf="item.id === 0"></span>
+                              <span [ngOptionHighlight]="search">{{ item.code }}</span>
+                              <span>{{
+                                item.description.length > 48
+                                  ? (item.description | slice: 0:48) + '...'
+                                  : item.description
+                              }}</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+
+                        <div class="check_oos" *ngIf="!newVisible && violationCodeSelected">
+                          <div
+                            (click)="oosClicked = !oosClicked"
+                            [ngClass]="{ active: oosClicked }"
+                            class="check_oos_check"
+                          >
+                            OOS
+                          </div>
+                          <svg-icon
+                            (click)="pushNewViolationCode()"
+                            src="assets/img/svgs/profile/check.svg"
+                          >
+                          </svg-icon>
+                          <svg-icon (click)="closeOOS()" src="assets/img/svgs/reveiw/Cancel.svg">
+                          </svg-icon>
+                        </div>
+                      </div>
+
+                      <div class="add-new-form new-violation-code-form" *ngIf="newVisible">
+                        <div
+                          placement="bottom"
+                          [popoverClass]="'checkbox_pop_activity'"
+                          [ngbPopover]="typePopover"
+                          class="type-selection"
+                        >
+                          <svg-icon [src]="newViolationCodeUnitTypeIcon"></svg-icon>
+                        </div>
+                        <ng-template #typePopover let-data="data">
+                          <div class="checkbox_pop">
+                            <div
+                              (click)="setUnitType(unit.icon)"
+                              *ngFor="let unit of unitTypes"
+                              class="checkbox_pop_icon"
+                            >
+                              <svg-icon [src]="unit.icon"> </svg-icon>
+                              <span>{{ unit.title }}</span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <div class="form-label-group ng-select-type">
+                          <ng-select
+                            name="newUnitType"
+                            class="form-control input-control required"
+                            placeholder="Unit"
+                            [(ngModel)]="newViolationCode.type"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            [items]="violationUnitData"
+                            bindLabel="name"
+                            bindValue="id"
+                            #newUnitType="ngModel"
+                          ></ng-select>
+                          <app-required-label [control]="newUnitType"></app-required-label>
+                        </div>
+                        <div class="form-label-group">
+                          <input
+                            id="newViolationCode"
+                            name="newCode"
+                            type="text"
+                            class="form-control input-control required"
+                            placeholder="Code"
+                            [(ngModel)]="newViolationCode.code"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            #newCode="ngModel"
+                            required
+                          />
+                          <label class="required" for="newCode">Code</label>
+                          <app-required-label [control]="newCode"></app-required-label>
+                        </div>
+                        <div class="form-label-group">
+                          <input
+                            class="form-control input-control required"
+                            placeholder="Description"
+                            name="newDescription"
+                            [(ngModel)]="newViolationCode.description"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            required
+                            #newDescription="ngModel"
+                          />
+                          <label class="required" for="newDescription">Description</label>
+                          <app-required-label [control]="newDescription"></app-required-label>
+                        </div>
+                        <div class="form-label-group">
+                          <input
+                            type="number"
+                            class="form-control input-control required"
+                            placeholder="SW"
+                            name="newSW"
+                            [(ngModel)]="newViolationCode.sw"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            #newSW="ngModel"
+                          />
+                          <label for="newSW">SW</label>
+                          <app-required-label [control]="newSW"></app-required-label>
+                        </div>
+                        <div class="check_oos">
+                          <div
+                            (click)="oosClicked = !oosClicked"
+                            [ngClass]="{ active: oosClicked }"
+                            class="check_oos_check"
+                          >
+                            OOS
+                          </div>
+                          <svg-icon
+                            [ngClass]="{ disabled: newCode.errors?.required }"
+                            (click)="saveNewViolationCode()"
+                            src="assets/img/svgs/profile/check.svg"
+                          >
+                          </svg-icon>
+                          <svg-icon
+                            (click)="closeNewViolationCode()"
+                            src="assets/img/svgs/reveiw/Cancel.svg"
+                          >
+                          </svg-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Violations -->
+        <!-- Citation -->
+        <div class="row" [ngStyle]="{ margin: '0 -12px' }">
+          <div class="w-100">
+            <div class="panel-group" id="accordion-2">
+              <div class="panel panel-default">
+                <div
+                  class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapseTwo"
+                  aria-expanded="false"
+                >
+                  <span class="panel-title panel-citation">
+                    <span>
+                      {{ tempCitationData?.length || '0' }}
+                    </span>
+                    <span>
+                      Citation
+                    </span>
+                    <span>
+                      {{ citationCostSum | currency: 'USD':'symbol':'1.0-0' }}
+                    </span>
+                  </span>
+                  <span class="panel-arrow">
+                    <svg-icon
+                      class="arrow-down-up"
+                      [src]="'assets/img/svgs/down.svg'"
+                      [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    ></svg-icon>
+                  </span>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse show">
+                  <div class="panel-body">
+                    <div class="col-12 p-body">
+                      <div
+                        class="panel-body_citation"
+                        *ngFor="let citation of tempCitationData; let i = index; trackBy: trackByFn"
+                        id="citation-list-{{ i }}"
+                        name="citation-list-{{ i }}"
+                      >
+                        <span>
+                          {{ citation.citationNumber }}
+                        </span>
+                        <span>
+                          {{
+                            citation.description.length > 53
+                              ? (citation.description | slice: 0:53) + '...'
+                              : citation.description
+                          }}
+                        </span>
+                        <span>
+                          {{ citation.cost | currency: 'USD':'symbol':'1.0-0' }}
+                        </span>
+                        <span>
+                          <svg-icon
+                            (click)="editNewCitation(i, citation)"
+                            src="assets/img/svgs/edit-pencil.svg"
+                          >
+                          </svg-icon>
+                        </span>
+                        <span>
+                          <svg-icon
+                            (click)="removeCitation(i, citation.cost)"
+                            src="assets/img/svgs/delete-full.svg"
+                          >
+                          </svg-icon>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="add-new-form new-citation-code-form">
+                        <div class="form-label-group">
+                          <input
+                            name="newCitationNumber"
+                            type="text"
+                            class="form-control input-control"
+                            placeholder="Citation #"
+                            [(ngModel)]="newCitation.citationNumber"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            #newCitationNumber="ngModel"
+                          />
+                          <label class="required" for="newCitationNumber">Citation #</label>
+                        </div>
+                        <div class="form-label-group">
+                          <input
+                            class="form-control input-control"
+                            placeholder="Description"
+                            name="newCitationDescription"
+                            [(ngModel)]="newCitation.description"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            #newCitationDescription="ngModel"
+                          />
+                          <label class="required" for="newCitationDescription">Description</label>
+                        </div>
+                        <div class="form-label-group">
+                          <input
+                            type="text"
+                            class="form-control input-control required"
+                            placeholder="Cost"
+                            name="newCitationCost"
+                            [(ngModel)]="newCitation.cost"
+                            [ngModelOptions]="{ standalone: true }"
+                            appInputFocus
+                            currencyMask
+                            #newCitationCost="ngModel"
+                          />
+                          <label for="newCitationCost">Cost</label>
+                        </div>
+                        <div class="check_oos" [ngStyle]="{ position: 'initial' }">
+                          <svg-icon
+                            (click)="addNewCitation()"
+                            src="assets/img/svgs/profile/check.svg"
+                          >
+                          </svg-icon>
+                          <svg-icon
+                            (click)="closeNewCitation()"
+                            src="assets/img/svgs/reveiw/Cancel.svg"
+                          >
+                          </svg-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Citation -->
+        <!-- Attachments -->
+        <app-attachments
+          page="safety"
+          (filesChanged)="setFiles($event)"
+          [attachments]="attachments"
+        ></app-attachments>
+        <!-- Attachments -->
+
+        <!-- Note -->
+        <div class="row">
+          <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+            <div class="note-label-wrapper" (click)="openNote()">
+              <span class="note-label">Note</span>
+              <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+            </div>
+            <div
+              class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}"
+            >
+              <textarea
+                cdkTextareaAutosize
+                #note
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
+                formControlName="note"
+                placeholder="Write a note..."
+                class="input-custom-textarea form-textarea"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- Note -->
+      </div>
+
+      <!-- 
+        *
+        *
+        *
+          Second Tab  
+        *
+        *
+        *
+       -->
+      <div class="single-tab-container single-tab-container-two">
+        <!-- Authority Details -->
+        <div class="row" [ngStyle]="{ margin: '0 -12px' }">
+          <div class="w-100">
+            <div class="panel-group" id="accordion-3">
+              <div class="panel panel-default">
+                <div
+                  class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapseThree"
+                  aria-expanded="true"
+                >
+                  <span class="panel-title panel-citation" [ngStyle]="{ 'font-weight': 600 }">
+                    Authority Details
+                  </span>
+                  <span class="panel-arrow">
+                    <svg-icon
+                      class="arrow-down-up"
+                      [src]="'assets/img/svgs/down.svg'"
+                      [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    ></svg-icon>
+                  </span>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse show">
+                  <div class="panel-body">
+                    <div class="row" [ngStyle]="{ height: '85px' }">
+                      <div class="col-12" [ngStyle]="{ height: '50px' }">
+                        <div class="form-label-group">
+                          <input
+                            id="policeDepartment"
+                            class="form-control input-control"
+                            placeholder="Police Department"
+                            formControlName="policeDepartment"
+                            appInputFocus
+                          />
+                          <label class="" for="policeDepartment">Police Department</label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div
+                          class="form-label-group input-icon address-field-wrapper {{
+                            manageInputValidation(violationForm.controls.policeAddress)
+                          }}"
+                        >
+                          <input
+                            id="policeAddress"
+                            class="form-control input-control"
+                            placeholder="Address"
+                            formControlName="policeAddress"
+                            appInputFocus
+                            ngx-google-places-autocomplete
+                            [options]="options"
+                            #placesRef="ngx-places"
+                            (onAddressChange)="handleAddressChange($event, 2)"
+                          />
+                          <label class="" for="policeAddress">Address</label>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div
+                          class="form-label-group input-icon phone-field-wrapper {{
+                            manageInputValidation(violationForm.controls.policePhone)
+                          }}"
+                        >
+                          <input
+                            id="policePhone"
+                            class="form-control input-control"
+                            placeholder="Phone"
+                            appInputFocus
+                            formControlName="policePhone"
+                            mask="(000) 000-0000"
+                          />
+                          <label for="phone">Phone</label>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div
+                          class="form-label-group input-icon fax-field-wrapper {{
+                            manageInputValidation(violationForm.controls.policeFax)
+                          }}"
+                        >
+                          <input
+                            id="policeFax"
+                            class="form-control input-control"
+                            placeholder="Fax"
+                            formControlName="policeFax"
+                            mask="(000) 000-0000"
+                            appInputFocus
+                          />
+                          <label for="fax">Fax</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Authority Details -->
+        <!-- Location & Shipping Info -->
+        <div class="row" [ngStyle]="{ margin: '0 -12px' }">
+          <div class="w-100">
+            <div class="panel-group" id="accordion-4">
+              <div class="panel panel-default">
+                <div
+                  class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapseFour"
+                  aria-expanded="true"
+                >
+                  <span class="panel-title panel-citation" [ngStyle]="{ 'font-weight': 600 }">
+                    Location & Shipping Info
+                  </span>
+                  <span class="panel-arrow">
+                    <svg-icon
+                      class="arrow-down-up"
+                      [src]="'assets/img/svgs/down.svg'"
+                      [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    ></svg-icon>
+                  </span>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse show">
+                  <div class="panel-body">
+                    <div class="row" [ngStyle]="{ height: '50px' }">
+                      <div class="col-5">
+                        <div class="form-label-group">
+                          <input
+                            id="highway"
+                            class="form-control input-control"
+                            placeholder="Highway"
+                            formControlName="highway"
+                            appInputFocus
+                          />
+                          <label class="" for="highway">Highway</label>
+                        </div>
+                      </div>
+                      <div class="col-7">
+                        <div
+                          class="form-label-group {{
+                            manageInputValidation(violationForm.controls.location)
+                          }}"
+                        >
+                          <input
+                            id="location"
+                            class="form-control input-control"
+                            placeholder="Location"
+                            formControlName="location"
+                            appInputFocus
+                            ngx-google-places-autocomplete
+                            [options]="options"
+                            #placesRef="ngx-places"
+                            (onAddressChange)="handleAddressChange($event, 3)"
+                          />
+                          <label class="" for="location">Location</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row-location-shipping">
+                      <div class="form-label-group">
+                        <input
+                          id="customer"
+                          class="form-control input-control"
+                          placeholder="Customer"
+                          formControlName="customer"
+                          appInputFocus
+                        />
+                        <label class="" for="customer">Customer</label>
+                      </div>
+                      <div>
+                        <div
+                          class="form-label-group input-icon address-field-wrapper {{
+                            manageInputValidation(violationForm.controls.origin)
+                          }}"
+                        >
+                          <input
+                            id="origin"
+                            class="form-control input-control"
+                            placeholder="Origin"
+                            formControlName="origin"
+                            appInputFocus
+                            ngx-google-places-autocomplete
+                            [options]="options"
+                            #placesRef="ngx-places"
+                            (onAddressChange)="handleAddressChange($event, 4)"
+                          />
+                          <label class="" for="origin">Origin</label>
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          class="form-label-group input-icon address-field-wrapper {{
+                            manageInputValidation(violationForm.controls.destination)
+                          }}"
+                        >
+                          <input
+                            id="destination"
+                            class="form-control input-control"
+                            placeholder="Address"
+                            formControlName="destination"
+                            appInputFocus
+                            ngx-google-places-autocomplete
+                            [options]="options"
+                            #placesRef="ngx-places"
+                            (onAddressChange)="handleAddressChange($event, 5)"
+                          />
+                          <label class="" for="destination">Destination</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row-location-shipping-two">
+                      <div class="form-label-group">
+                        <input
+                          id="cargo"
+                          class="form-control input-control"
+                          placeholder="Cargo"
+                          formControlName="cargo"
+                          appInputFocus
+                        />
+                        <label class="" for="cargo">Cargo</label>
+                      </div>
+                      <div class="hazmat-toggle">
+                        <span>Hazmat</span>
+                        <app-ta-switch
+                          [data]="switchData"
+                          (switchClicked)="switchHazmat($event)"
+                        ></app-ta-switch>
+                      </div>
+
+                      <div class="form-label-group">
+                        <input
+                          id="bol"
+                          class="form-control input-control"
+                          placeholder="Bill of Lading"
+                          formControlName="bol"
+                          appInputFocus
+                        />
+                        <label class="" for="bol">BOL #</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Location & Shipping Info -->
+        <!--  Special Checks -->
+        <div class="row" [ngStyle]="{ margin: '0 -12px' }">
+          <div class="w-100">
+            <div class="panel-group" id="accordion-5">
+              <div class="panel panel-default">
+                <div
+                  class="panel-heading accordion-toggle d-flex align-items-center justify-content-between"
+                  data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapseFive"
+                  aria-expanded="true"
+                >
+                  <span class="panel-title panel-citation" [ngStyle]="{ 'font-weight': 600 }">
+                    Special Checks
+                  </span>
+                  <span class="panel-arrow">
+                    <svg-icon
+                      class="arrow-down-up"
+                      [src]="'assets/img/svgs/down.svg'"
+                      [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+                    ></svg-icon>
+                  </span>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse show">
+                  <div class="panel-body">
+                    <div class="special-checks">
+                      <div
+                        [ngStyle]="{ background: sCheck.check ? '#6C6C6C' : '#dadada' }"
+                        (click)="checkSpecialCheck(i)"
+                        *ngFor="let sCheck of specialChecks; let i = index"
+                        class="special-checks_box"
+                      >
+                        {{ sCheck.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  Special Checks -->
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeViolationEdit()">
+      Cancel
+    </button>
+    <button
+      [disabled]="!violationForm.valid"
+      type="button"
+      class="save-btn"
+      (click)="saveViolation(false)"
+    >
+      Save
+    </button>
+  </div>
+</div>

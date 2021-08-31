@@ -1,0 +1,266 @@
+<div
+  id="info"
+  class="info"
+  (resized)="onResized($event)"
+  [@infoShowed]
+  [ngClass]="{ 'info-closed': closePreviewAnimation }"
+  *ngIf="selectedChat && !isMediaPreview && !isDocPreview && !isOthersPreview"
+>
+  <svg-icon
+    (click)="closeInfoUser()"
+    class="info__close"
+    src="assets/img/svgs/communicator/ic_user-info-close.svg"
+  ></svg-icon>
+  <!-- Direct Container -->
+  <div
+    *ngIf="selectedChat.type === 'direct'"
+    class="user"
+    [ngClass]="{ 'user-company': getUserData().type === 'company' }"
+  >
+    <div class="user__image">
+      <img
+        *ngIf="getUserData().type === 'driver'"
+        class="image-profile"
+        [src]="
+          getUserData().image
+            ? getUserData().image
+            : 'assets/img/svgs/communicator/ic_inactive-driver-new.svg'
+        "
+      />
+      <img
+        *ngIf="getUserData().type === 'company'"
+        class="image-profile-company"
+        [src]="
+          getUserData().image
+            ? getUserData().image
+            : 'assets/img/svgs/communicator/ic_inactive-company-new.svg'
+        "
+      />
+    </div>
+    <div class="user__details">
+      <div
+        class="user__name"
+        [ngClass]="{ 'user__name-company': getUserData().type === 'company' }"
+      >
+        <p class="user__name--firstname" style="color: #919191;" appSelectionColor>
+          {{ getUserData().name }}
+        </p>
+      </div>
+      <div
+        class="user__phone"
+        [ngClass]="{ 'user__phone-company': getUserData().type === 'company' }"
+      >
+        <app-copied [value]="1234567890">
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-contact.svg"></svg-icon>
+          <span class="telephone"> {{ formatTelephone(1234567890) }}</span>
+        </app-copied>
+      </div>
+      <div
+        class="user__email"
+        [ngClass]="{ 'user__email-company': getUserData().type === 'company' }"
+      >
+        <app-copied [value]="'leonardo_cotton_1979_chicago@...'">
+          <svg-icon src="assets/img/svgs/communicator/ic_user-info-email.svg"></svg-icon>
+          <span class="email"> leonardo_cotton_1979_chicago@...</span>
+        </app-copied>
+      </div>
+    </div>
+  </div>
+  <!-- Channel container -->
+  <div *ngIf="selectedChat.type === 'channel'" class="user">
+    <div class="user__channel">
+      <div class="user__channel-leftSide">
+        <p class="channel-name">{{ selectedChat.name }}</p>
+        <p class="subchat-name" *ngIf="selectedChat.type === 'channel' && selectedChat.userType === 'driver'">
+          {{this.selectedChat.subchats[activeChatOption].name}}
+        </p>
+      </div>
+      <div class="user__channel-rightSide">
+        <div
+          (click)="onExpandUser()"
+          #headerUsers
+          class="user-count-container"
+          appTaTooltip="View all {{ getSubscriptions().length }} members"
+          tooltipBackground="#919191"
+          position="bottom-right"
+        >
+          <p class="user-count-text">{{ getSubscriptions().length }}</p>
+        </div>
+        <div class="user-images-container">
+          <div *ngFor="let subscription of getSubscriptions(); let i = index">
+            <img
+              class="user-header-image"
+              *ngIf="i < 3"
+              [alt]="subscription.user.name"
+              [style.right.px]="16 * i"
+              [appTaTooltip]="subscription.user.name"
+              tooltipBackground="#919191"
+              position="bottom-right"
+              [src]="
+                !subscription.user.active
+                  ? '../../assets/img/svgs/communicator/ic_inactive_user.svg'
+                  : subscription.user.image
+                  ? subscription.user.image
+                  : '../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+              "
+            />
+          </div>
+        </div>
+        <div *ngIf="dropDownChannelUsers" class="dropdown-user-images-container">
+          <div
+            class="dropdown-users-items"
+            *ngFor="let subscription of getSubscriptions(); let i = index"
+          >
+            <img
+              class="user-image"
+              [alt]="subscription.user.name"
+              [appTaTooltip]="subscription.user.name"
+              tooltipBackground="#919191"
+              position="bottom-right"
+              [src]="
+                !subscription.user.active
+                  ? '../../assets/img/svgs/communicator/ic_inactive_user.svg'
+                  : subscription.user.image
+                  ? subscription.user.image
+                  : '../../assets/img/svgs/communicator/ic_user_placeholder.svg'
+              "
+            />
+            <p class="user-name">{{ subscription.user.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Media container -->
+  <div class="media">
+    <div class="media__header">
+      <app-chat-search (onChangeSearch)="filterMediaText = $event"></app-chat-search>
+      <div class="media__header-info">
+        <div class="media__header-info--left">
+          <span class="media__number">{{ getMediaData().length }}</span> Media
+        </div>
+        <div class="media__header-info--right" (click)="onPreview('media')">
+          Show All
+        </div>
+      </div>
+    </div>
+    <div class="media__body">
+      <app-chat-content-info
+        *ngFor="let item of getMediaData() | slice: 0:3"
+        [File]="item"
+        [chat]="selectedChat"
+        (deleteFile)="onDeleteMedia($event)"
+      >
+      </app-chat-content-info>
+    </div>
+  </div>
+  <!-- Doc container -->
+  <div class="media">
+    <div class="media__header">
+      <app-chat-search (onChangeSearch)="filterDocumentText = $event"></app-chat-search>
+      <div class="media__header-info">
+        <div class="media__header-info--left">
+          <span class="media__number">{{ getDocumentsData().length }}</span> Files
+        </div>
+        <div (click)="onPreview('document')" class="media__header-info--right">
+          Show All
+        </div>
+      </div>
+    </div>
+    <div class="media__body">
+      <app-chat-content-info
+        *ngFor="let item of getDocumentsData() | slice: 0:4"
+        [File]="item"
+        [chat]="selectedChat"
+        [isDocument]="true"
+        (deleteFile)="onDeleteMedia($event)"
+      >
+      </app-chat-content-info>
+    </div>
+  </div>
+  <!-- Others container -->
+  <div class="media">
+    <div class="media__header">
+      <app-chat-search (onChangeSearch)="filterOthersText = $event"></app-chat-search>
+      <div class="media__header-info">
+        <div class="media__header-info--left">
+          <span class="media__number">{{ getOthersData().length }}</span> Links
+        </div>
+        <div (click)="onPreview('other')" class="media__header-info--right">
+          Show All
+        </div>
+      </div>
+    </div>
+    <div class="media__body">
+      <app-chat-content-info
+        *ngFor="let item of othersData | slice: 0:3"
+        [File]="item"
+        [chat]="selectedChat"
+      >
+      </app-chat-content-info>
+    </div>
+  </div>
+</div>
+<!-- Preview media -->
+<div class="preview" *ngIf="isMediaPreview" (resized)="onResized($event)">
+  <div class="preview__header">
+    <div class="preview__header--left" (click)="closePreview('media')">
+      <svg-icon
+        class="svgs"
+        src="assets/img/svgs/communicator/ic_user-info-closing-arrow.svg"
+      ></svg-icon>
+      <p class="text">Back</p>
+    </div>
+    <app-chat-search (onChangeSearch)="filterMediaText = $event"></app-chat-search>
+    <div class="preview__header--right">
+      <span class="header-number">{{ getMediaData().length }}</span> Media
+    </div>
+  </div>
+  <app-chat-content-preview
+    [isPreview]="isOpen"
+    [mediaData]="getMediaData()"
+    [mediaFilterType]="mediaFilterType"
+  ></app-chat-content-preview>
+</div>
+<!-- Preview Document -->
+<div class="preview" *ngIf="isDocPreview" (resized)="onResized($event)">
+  <div class="preview__header">
+    <div class="preview__header--left" (click)="closePreview('document')">
+      <svg-icon
+        class="svgs"
+        src="assets/img/svgs/communicator/ic_user-info-closing-arrow.svg"
+      ></svg-icon>
+      <p class="text">Back</p>
+    </div>
+    <app-chat-search (onChangeSearch)="filterDocumentText = $event"></app-chat-search>
+    <div class="preview__header--right">
+      <span class="header-number">{{ getDocumentsData().length }}</span> Files
+    </div>
+  </div>
+  <app-chat-content-preview
+    [isPreview]="isOpen"
+    [mediaData]="getDocumentsData()"
+    [mediaFilterType]="documentFilterType"
+  ></app-chat-content-preview>
+</div>
+<!-- Preview Other (links) -->
+<div class="preview" *ngIf="isOthersPreview" (resized)="onResized($event)">
+  <div class="preview__header">
+    <div class="preview__header--left" (click)="closePreview('other')">
+      <svg-icon
+        class="svgs"
+        src="assets/img/svgs/communicator/ic_user-info-closing-arrow.svg"
+      ></svg-icon>
+      <p class="text">Back</p>
+    </div>
+    <app-chat-search (onChangeSearch)="filterOthersText = $event"></app-chat-search>
+    <div class="preview__header--right">
+      <span class="header-number">{{ getOthersData().length }}</span> Links
+    </div>
+  </div>
+  <app-chat-content-preview
+    [isPreview]="isOpen"
+    [mediaData]="getOthersData()"
+    [isLink]="true"
+  ></app-chat-content-preview>
+</div>

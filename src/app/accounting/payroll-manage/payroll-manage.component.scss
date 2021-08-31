@@ -1,0 +1,162 @@
+.flex_header{
+    display: flex;
+    justify-content: space-between;
+
+    .switcher_hold{
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        padding-right: 12px;
+    }
+
+    ::ng-deep{
+        .multiswitch{
+            width: 130px;
+
+            .slide-container{
+                border-radius: 3px !important;
+                a{
+                    border-radius: 3px !important;
+                }
+            }
+        }
+
+        .eventSwitcher{
+            .slide-container{
+                background-color: #F9F9F9;
+                a{
+                    background-color: #5673AA;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+.disabled_item{
+    background-color: #919191 !important;
+    color: #fff;
+    font-weight: bold !important;
+}
+
+.limited_hold{
+    label{
+        left: 0;
+    }
+}
+
+::ng-deep{
+
+    app-truckassist-checkbox{
+        .checkbox-label{
+            display: inline !important;
+            margin-right: 10px;
+        }
+    }
+
+    .eventSwitcher{
+        .slide-container{
+            color: rgba(145, 145, 145, 0.7) !important;
+
+            &:hover{
+                color: #919191 !important;
+            }
+
+            input:checked ~ a{
+                border-radius: 3px 0 0 3px !important;
+            }
+
+            label:nth-last-child(4) ~ input:nth-child(3):checked ~ a{
+                border-radius: 0px 3px 3px 0px !important;
+            }
+            
+            background-color: #F9F9F9 !important;
+            a{
+                background-color: #5673AA !important;
+                border: none !important;
+            }
+
+            .checked-label.ta-radio-button{
+                color: #fff !important;
+            }
+        }
+    }
+}
+
+.form-label-group{
+    margin-bottom: 22px;
+}
+
+.modal-body{
+    padding: 15px 10px 0 10px;
+}
+
+.flex_item{
+    display: flex;
+    justify-content: space-between;
+
+    .flex1{
+        flex: 1;
+        margin-right: 5px;
+    }
+}
+
+.no-padd-margin{
+    padding: 0 !important;
+    margin: 0 !important; 
+}
+
+.marLeft{
+    margin: 0 !important; 
+    padding: 0 0 0 10px !important;
+}
+
+.paymentsCount{
+    display: flex;
+
+    .limitNumber {
+        width: 30px;
+        height: 26px;
+        border: 0;
+        background: hsla(0, 7%, 96.8%, 0.7);
+        outline: none;
+        text-align: center;
+        border-radius: 3px;
+    }
+
+    .increase_holder{
+        height: 26px;
+        margin: 0 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        svg-icon{
+            height: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+    }
+}
+
+.modal-container{
+    ::ng-deep{
+      ng-select{
+        .ng-clear-wrapper{
+          display: none !important;
+        }
+      }
+  
+      .k-floating-label-container .k-datepicker.ng-invalid.ng-touched .k-icon,
+      .k-floating-label-container .k-timepicker.ng-invalid.ng-touched .k-icon{
+        background-color:  #ff5d5d !important;
+      }
+  
+      .k-floating-label-container .k-datepicker.ng-invalid.ng-touched .k-picker-wrap,
+      .k-floating-label-container .k-timepicker.ng-invalid.ng-touched .k-picker-wrap{
+        border-right: none !important;
+      }
+    }
+  }

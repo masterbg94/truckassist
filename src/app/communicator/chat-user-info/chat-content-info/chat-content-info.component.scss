@@ -1,0 +1,192 @@
+.openedDeleteModal {
+ justify-content:baseline !important;
+
+ .media-content-left {
+   flex: 1 !important;
+ }
+}
+.media-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px;
+  padding-left: 0px;
+  font-size: 12px;
+  color: #b7b7b7;
+  background-color: #ffffff;
+  position: relative;
+
+  &:hover {
+    background-color: #f9f9f9;
+    color: #919191;
+    cursor: pointer;
+    .more-media-button {
+      display: inline-block;
+    }
+    .media-content-right {
+      position: absolute;
+      right: 20px;
+    }
+
+    .media-content-right-link {
+      right: 6px !important;
+    }
+    .media-size-doc {
+      display: inline-block;
+    }
+    .media-username-doc {
+      display: none;
+    }
+  }
+
+  .media-content-left {
+    display: flex;
+
+    .media-image {
+      width: 59px;
+      height: 33px;
+      object-fit: cover;
+      position: relative;
+
+      .media-playButton {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999999;
+      }
+
+      ::ng-deep vg-controls {
+        display: none !important;
+      }
+    }
+
+    .doc-image {
+      width: 24.5px;
+      height: 28px;
+      position: relative;
+      top: 3px;
+    }
+
+    .link-image {
+      width: 33px;
+      height: 33px;
+      object-fit: cover;
+    }
+
+    .media-details {
+      display: flex;
+      flex-direction: column;
+      margin-left: 6px;
+
+      .media-name {
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+      .media-link {
+        color: #5673AA;
+          
+        &:hover {
+          color: #5673AA;
+        }
+      }
+    }
+  }
+
+  .media-content-right {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    transition: all 0.2s ease-in;
+    .media-date {
+      font-weight: bold;
+    }
+  }
+
+  .media-content-right-openedModal {
+    position: absolute !important;
+    right: 20px !important;
+  }
+
+  .media-delete {
+    position: absolute;
+    right: -92px;
+    z-index: 999;
+
+    svg {
+      transition: all .2s ease-in;
+      #Path_7317 {
+        fill: rgb(255, 93, 93, 0.7);
+      }
+      #Path_7318 {
+        fill: rgb(255, 93, 93, 0.7);
+      }
+      #Delete {
+        fill: rgb(255, 93, 93, 0.7);
+      }
+    }
+
+    &:hover {
+      svg {
+        #Path_7317 {
+          fill: rgb(255, 93, 93, 1);
+        }
+        #Path_7318 {
+          fill: rgb(255, 93, 93, 1);
+        }
+        #Delete {
+          fill: rgb(255, 93, 93, 1);
+        }
+      }
+    }
+  }
+
+  // Globally css classes
+  .media-size-doc {
+    display: none;
+  }
+
+  .more-media-button-pressed {
+    display: inline-block !important;
+    background-color: rgb(218, 218, 218, 0.4) !important;
+
+    .more-media {
+      svg {
+        path {
+          fill: #dadada !important;
+        }
+      }
+    }
+  }
+
+  .more-media-button {
+    display: none;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    margin: none;
+    margin-right: -4px;
+    padding: 5px 4px;
+    border-radius: 3px;
+    transition: all .2s ease-in;
+    .more-media {
+      pointer-events: none;
+    }
+    .more-media-delete {
+      display: inline-block;
+    }
+
+    &:hover {
+      .more-media {
+        svg {
+          path {
+            fill: #919191;
+          }
+        }
+      }
+    }
+  }
+}

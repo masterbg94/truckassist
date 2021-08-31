@@ -1,0 +1,97 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <div class="d-flex align-items-center">
+      <i class="fal fa-times cursor-pointer fs-24 icon-hover-primary" (click)="closeAddressEditModal()"></i>
+    </div>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+    <form class="form-container" [formGroup]="contactForm" *ngIf="loaded">
+      <div class="row">
+        <div class="col-7">
+          <div class="form-label-group">
+            <input id="name" class="form-control input-control required" placeholder="Name" formControlName="name"
+              (paste)="onPaste($event, 'name', 23)" (keydown)="onCheckBackSpace($event)"
+              (keypress)="onNameTyping($event)" appInputFocus maxlength="23" appAutoFocus
+              [modalType]="inputData.data.type">
+            <label class="required-label" for="name">Name</label>
+            <app-required-label [control]="contactForm.controls.name"></app-required-label>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-label-group">
+            <ng-select placeholder="Select label"
+                       [items]="createdLabels"
+                       formControlName="labelId"
+                       bindValue="labelId"
+                       bindLabel="labelName"
+                       class="label-select"
+                       appendTo="body">
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span [ngStyle]="{ color: item.labelColor }" [ngOptionHighlight]="search">{{ item.labelName }}</span>
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div
+            class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(contactForm.controls.phone) }}">
+            <input id="phone" appInputFocus class="form-control input-control required" placeholder="Phone"
+              formControlName="phone" mask="(000) 000-0000">
+            <label class="required-label" for="phone">Phone</label>
+            <app-required-label [control]="contactForm.controls.phone"></app-required-label>
+          </div>
+        </div>
+        <div class="col-8">
+          <div
+            class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(contactForm.controls.email) }}">
+            <input id="email" appInputFocus class="form-control input-control required"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')" (keypress)="onEmailTyping($event)"
+              (keydown)="onCheckBackSpace($event)" (paste)="onPaste($event, 'email')" placeholder="Email"
+              formControlName="email">
+            <label class="required-label" for="email">Email</label>
+            <app-required-label [control]="contactForm.controls.email"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <div
+            class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(contactForm.controls.address) }}">
+            <input id="address" class="form-control input-control required" placeholder="Address, City, State Zip"
+              formControlName="address" ngx-google-places-autocomplete [options]="options" #placesRef="ngx-places"
+              appInputFocus (onAddressChange)="handleAddressChange($event)">
+            <label class="required-label" for="address">Address, City, State Zip</label>
+            <app-required-label [control]="contactForm.controls.address"></app-required-label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <input id="address_unit" class="form-control input-control" placeholder="Unit #"
+              formControlName="address_unit" maxlength="6" appInputrestriction="[A-Za-z0-9-]" appInputFocus>
+            <label for="address_unit">Unit #</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+          <div class="note-label-wrapper" (click)="openNote()">
+            <span class="note-label">Note</span>
+            <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+          </div>
+          <div class="example-full-width note-input{{ showNote ? ' note-visible' : ' note-hidden' }}">
+            <textarea cdkTextareaAutosize #note cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" formControlName="note"
+              class="input-custom-textarea form-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeAddressEditModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="manageContact()" ngbAutofocus>Save</button>
+  </div>
+</div>

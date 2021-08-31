@@ -1,0 +1,59 @@
+<div
+  class="d-inline-block tab-select-dropdown"
+  [class]="{ show: open }"
+  [id]="id"
+  (clickOutside)="closeMenu()"
+>
+  <button
+    #switchBtn
+    class="switch-btn"
+    [ngClass]="{
+      'active-btn': class.active,
+      'extra-btn': class.extended,
+      'super-btn': class.super,
+      'full-btn': showCloseBtn
+    }"
+    (mouseover)="hovered = true"
+    (mouseout)="hovered = false"
+  >
+    <div class="panel-text-container" (click)="showMenu(target)">
+      <span class="counter-badge"
+        ><span class="badge-value ta-font-bold">{{ showCloseBtn ? selectedItems : total }}</span>
+      </span>
+      <span class="button-title">{{ title }}</span>
+    </div>
+    <div class="panel-input-container">
+      <input #inputToFocus class="panel-input" (keyup)="searchItems($event)" />
+    </div>
+    <span class="panel-arrow" (click)="showMenu(target)">
+      <svg-icon
+        class="arrow-down-up"
+        [src]="'assets/img/svgs/down.svg'"
+        [svgStyle]="{ 'width.px': '12', 'height.px': '12' }"
+      ></svg-icon>
+    </span>
+
+    <a
+      class="tab-select-close-btn"
+      [ngClass]="{ 'visible-tab': hovered && showCloseBtn && !open }"
+      *ngIf="class.active"
+      (click)="removeFilters($event)"
+    >
+      <svg-icon
+        class="chip-icon d-flex flex-column justify-content-center align-items-center"
+        src="assets/img/svgs/table/badge-close.svg"
+        [svgStyle]="{ 'width.px': '14', 'height.px': '14' }"
+      ></svg-icon>
+    </a>
+  </button>
+  <div class="select-dropdown-menu d-none" [class]="{ 'd-block': open }" [style.width]="dropWidth + 'px'" #target>
+    <div
+      class="select-dropdown-item"
+      *ngFor="let item of viewItems; let i = index"
+      [class]="{ 'selected-item': item.selected, 'approved-item': item.approved, 'focused-item': item.focused }"
+      (click)="selectItem(i)"
+    >
+      <span class="ta-font-regular" [innerHtml]="'#' + item.id"></span>
+    </div>
+  </div>
+</div>

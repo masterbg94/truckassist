@@ -1,0 +1,1106 @@
+<form [formGroup]="personalInfo" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slide">
+    <h1 class="heading1">Driver Application</h1>
+    <div *ngIf="!isAgreement">
+      <p class="firstParagraf firstParagraf_reasponsive">
+        In compliance with Federal and State equal opportunity laws, qualified applicants are
+        <br />
+        considered for all positions without regard to race, religion, sex national origin, age
+        marital status, <br />
+        or non-job related disability.
+      </p>
+      <p class="firstParagraf">
+        I understand that information I provide regarding current and/or previous employers may be
+        used, and those employer(s) will be contacted, for the purpose of investigation my safety
+        performance history as required by 49 CFR 391.23(d) and (e).
+      </p>
+    </div>
+    <app-truckassist-checkbox
+      id="isAgreement"
+      formControlName="isAgreement"
+      [checked]="isAgreement"
+      (change)="(isAgreement != isAgreement)"
+      [(ngModel)]="isAgreement"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkBox"> I also understand that JD Freight have the right to:</span>
+    <div>
+      <p class="secondParagraf">
+        Review information provided by previous employers
+      </p>
+      <p class="secondParagraf">
+        Have errors in the information corrected by previous employers and for those previous
+        employers to re-send thecorrected
+      </p>
+      <p class="secondParagraf">Information to the prospective employer, and</p>
+      <p class="secondParagraf">
+        Have a rebuttal statement attached to the alleged erroneous information, if the previous
+        employer(s) and I cannot agree on the accuracy of the information
+      </p>
+    </div>
+    <div *ngIf="isAgreement" [@animateForm]="stateForm" class="details">
+      <div class="step1Slide">
+        <div class="centerContent">
+          <div class="row pt-2">
+            <div class="col-5">
+              <div class="form-label-group">
+                <input
+                  id="firstName"
+                  placeholder="First Name"
+                  class="form-control input-control required"
+                  formControlName="firstName"
+                  (paste)="onPaste($event, 'firstName')"
+                  onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                  appInputrestriction="[A-Za-z]"
+                  appAutoFocus
+                  [dontDoFocus]="personalInfo.get('firstName').value === null && !isCompanyReview ? 'false' : 'true'"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="firstName">First Name</label>
+                <app-required-label
+                  [control]="personalInfo.controls.firstName"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__firstname"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].firstName"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-5 col-md-4">
+              <div class="form-label-group">
+                <input
+                  id="lastName"
+                  class="form-control input-control required"
+                  placeholder="Last name"
+                  formControlName="lastName"
+                  (paste)="onPaste($event, 'lastName')"
+                  onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                  appInputFocus
+                  appInputrestriction="[A-Za-z]"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="lastName">Last name</label>
+                <app-required-label [control]="personalInfo.controls.lastName"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__lastname"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].lastName"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-4 col-md-3">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="DOB"
+                  class="required datepicker-label{{
+                    personalInfo.controls.birthday.value !== null &&
+                    personalInfo.controls.birthday.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="birthday"
+                    required
+                    [max]="maxYear"
+                    [rangeValidation]="true"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  >
+                  </kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label [control]="personalInfo.controls.birthday"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__kendo"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].dob"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__firstrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[0]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+            <div class="col-6 col-md-4">
+              <div
+                class="form-label-group input-icon phone-field-wrapper
+                          {{ manageInputValidation(personalInfo.controls.personalPhone) }}"
+              >
+                <input
+                  id="phone"
+                  class="form-control input-control required"
+                  placeholder="Phone"
+                  formControlName="personalPhone"
+                  mask="(000) 000-0000"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="phone">Phone</label>
+                <app-required-label
+                  [control]="personalInfo.controls.personalPhone"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__phone"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].phone"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <div
+                class="form-label-group input-icon email-field-wrapper {{
+                  manageInputValidation(personalInfo.controls.email)
+                }}"
+              >
+                <input
+                  id="email"
+                  class="form-control input-control"
+                  placeholder="Email"
+                  formControlName="email"
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                  (keypress)="onEmailTyping($event)"
+                  (paste)="onPaste($event, 'email')"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="email">Email</label>
+                <app-required-label [control]="personalInfo.controls.email"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__email"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].email"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__secondrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[1]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                          {{ manageInputValidation(personalInfo.controls.address) }}"
+              >
+                <input
+                  id="address"
+                  formControlName="address"
+                  class="form-control input-control required"
+                  placeholder="Address, City, State Zip"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  [options]="options"
+                  (onAddressChange)="handleAddressChange($event)"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="address">Address, City, State Zip</label>
+                <app-required-label [control]="personalInfo.controls.address"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__address"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[2].address"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="address_unit"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="addressUnit"
+                  maxlength="6"
+                  appInputrestriction="[A-Za-z0-9-]"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="address_unit">Unit #</label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__unit"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[2].unit"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__thirdrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[2]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="ssn"
+                  (paste)="onPaste($event, 'ssn')"
+                  class="form-control input-control required"
+                  placeholder="SSN"
+                  (paste)="onPaste($event, 'ssn')"
+                  formControlName="ssn"
+                  mask="000-00-0000"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="ssn">SSN</label>
+                <app-required-label [control]="personalInfo.controls.ssn"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__ssn"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[3].ssn"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-label-group" *ngIf="!newBankVisible">
+                <ng-select
+                  placeholder="Bank name"
+                  [items]="bankData"
+                  formControlName="bankData"
+                  bindLabel="bankName"
+                  class="bank-name-select has-add-new{{
+                    bankSearchItems == 1 ? ' has-one-result' : ''
+                  }}"
+                  (search)="onSearch($event)"
+                  (close)="onClose($event)"
+                  (clear)="onClose($event)"
+                  (change)="onBankChange($event)"
+                  [searchFn]="customSearch"
+                  appendTo="body"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                      <svg-icon
+                        src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"
+                      ></svg-icon>
+                    </span>
+                    <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{
+                      item.bankName
+                    }}</span>
+                    <svg-icon
+                      class="delete-record-icon"
+                      *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1"
+                      src="assets/img/trash.svg"
+                      (click)="deleteBank(item.id)"
+                      appTaTooltip="Delete"
+                      position="bottom-left"
+                    ></svg-icon>
+                  </ng-template>
+
+                  <ng-template ng-label-tmp let-item="item">
+                    <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                      <svg-icon
+                        src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"
+                      ></svg-icon>
+                    </span>
+                    <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                      {{ item.bankName }}
+                    </span>
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__bank"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[3].bankName"
+                ></app-reviewSingleCheckButton>
+              </div>
+
+              <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+                <div class="form-label-group">
+                  <input
+                    id="newBank"
+                    class="form-control input-control"
+                    placeholder="New bank"
+                    [(ngModel)]="newBank"
+                    [ngModelOptions]="{ standalone: true }"
+                    (keypress)="onBankKeyPress($event)"
+                    appInputFocus
+                    [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                  />
+                  <label for="newBank">New bank</label>
+                  <span
+                    class="save-new-record"
+                    (click)="saveNewBank()"
+                    *ngIf="newBank !== '' && newBank !== null"
+                    appTaTooltip="Save"
+                    position="bottom-right"
+                  >
+                    <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+                  </span>
+                  <span
+                    class="close-new-record"
+                    (click)="closeNewBank()"
+                    appTaTooltip="Cancel"
+                    position="bottom-right"
+                  >
+                    <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__fourthrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[3]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-label-group">
+                <input
+                  id="accountNumber"
+                  class="form-control input-control{{ bankInfoRequired ? ' required' : '' }}"
+                  placeholder="Account number"
+                  formControlName="accountNumber"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                  (paste)="onPaste($event, 'accountNumber')"
+                  minlength="4"
+                  maxlength="17"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="{{ bankInfoRequired ? 'required-label' : '' }}" for="accountNumber"
+                  >Account number</label
+                >
+                <app-required-label
+                  [control]="personalInfo.controls.accountNumber"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[4].isTrue && companyReview[4].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__accountnumber"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[4].accountNumber"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="routingNumber"
+                  class="form-control input-control{{ bankInfoRequired ? ' required' : '' }}"
+                  placeholder="Routing number"
+                  formControlName="routingNumber"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                  (paste)="onPaste($event, 'routingNumber')"
+                  minlength="9"
+                  maxlength="9"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="{{ bankInfoRequired ? 'required-label' : '' }}">Routing number</label>
+                <app-required-label
+                  [control]="personalInfo.controls.routingNumber"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[4].isTrue && companyReview[4].isTrue !== null
+                    : false
+                "
+                class="reviewer-slide__routingnumber"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[4].routingNumber"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__fifthrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[4]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+        <div class="centerContent2" [ngClass]="{ 'centerContent2-review': isCompanyReview }">
+          <div class="row" [ngClass]="{ 'mb-1': isCompanyReview }">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Do you have legal right to work in the US?
+                <span class="requiredStar" style="right: 0px !important;">*</span>
+              </p>
+              <app-required-yes-no
+                [control]="personalInfo.controls.legalWork"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno">
+                <input
+                  formControlName="legalWork"
+                  type="radio"
+                  id="opt1"
+                  value="yes"
+                  ng-required="true"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt1" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="legalWork"
+                  type="radio"
+                  id="opt2"
+                  value="no"
+                  ng-required="true"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt2" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__sixthrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[5]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ reviewOtherName: isCompanyReview }">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Have you ever been known by any other name?<span class="requiredStar">*</span>
+              </p>
+              <app-required-yes-no
+                [control]="personalInfo.controls.anotherName"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno">
+                <input
+                  formControlName="anotherName"
+                  type="radio"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'anotherName',
+                      'explainAnotherName'
+                    )
+                  "
+                  id="opt3"
+                  value="yes"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt3" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="anotherName"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'anotherName',
+                      'explainAnotherName'
+                    )
+                  "
+                  type="radio"
+                  id="opt4"
+                  value="no"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt4" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slide__seventhrow" *ngIf="isCompanyReview && isAgreement">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[6]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div *ngIf="hasOtherName" class="row">
+            <div class="col-10 explanation-content">
+              <div class="form-label-group explanation-content-2">
+                <input
+                  id="explainAnotherName"
+                  placeholder="Please explain"
+                  class="form-control input-control required"
+                  formControlName="explainAnotherName"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'explainAnotherName')"
+                  appInputFocus
+                  appAutoFocus
+                  [dontDoFocus]="
+                    personalInfo.get('explainAnotherName').value === null && !isCompanyReview ? 'false' : 'true'
+                  "
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="explainAnotherName">Please explain</label>
+                <app-required-label
+                  [control]="personalInfo.controls.explainAnotherName"
+                ></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              class="reviewer-slide__eightrow"
+              *ngIf="isCompanyReview && isAgreement && hasOtherName"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[7]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ reviewMilitary: isCompanyReview }">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Were you ever in the military?<span class="requiredStar">*</span>
+              </p>
+              <app-required-yes-no
+                [control]="personalInfo.controls.inMilitary"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno">
+                <input formControlName="inMilitary" type="radio" id="opt5" value="yes" />
+                <label for="opt5" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input formControlName="inMilitary" type="radio" id="opt6" value="no" />
+                <label for="opt6" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement"
+              [style.top]="hasOtherName ? '157px' : '121px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[8]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ 'mt-1': isCompanyReview }">
+            <div class="col-8" style="padding-right: 0px !important;">
+              <p class="yesno_paragraf">
+                Have you ever been convicted of a felony?<span class="requiredStar">*</span>
+              </p>
+              <app-required-yes-no [control]="personalInfo.controls.felony"></app-required-yes-no>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno">
+                <input
+                  formControlName="felony"
+                  type="radio"
+                  (change)="
+                    questionsWithExplanation($event.target.value, 'felony', 'explainFelony')
+                  "
+                  id="opt7"
+                  value="yes"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt7" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="felony"
+                  type="radio"
+                  (change)="
+                    questionsWithExplanation($event.target.value, 'felony', 'explainFelony')
+                  "
+                  id="opt8"
+                  value="no"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt8" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement"
+              [style.top]="hasOtherName ? '210px' : '174px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[9]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div *ngIf="hasfelony" class="row">
+            <div class="col-10 explanation-content">
+              <div class="form-label-group explanation-content-2">
+                <input
+                  id="explainFelony"
+                  placeholder="Please explain"
+                  class="form-control input-control required"
+                  formControlName="explainFelony"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'explainFelony')"
+                  appInputFocus
+                  appAutoFocus
+                  [dontDoFocus]="
+                    personalInfo.get('explainFelony').value === null && !isCompanyReview ? 'false' : 'true'
+                  "
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="explainFelony">Please explain</label>
+                <app-required-label
+                  [control]="personalInfo.controls.explainFelony"
+                ></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement && hasfelony"
+              [style.top]="hasOtherName ? '248px' : '218px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[10]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ 'mt-2': isCompanyReview }">
+            <div class="col-8">
+              <p class="yesno_paragraf">
+                Have you ever been convicted of a misdemeanor?<span class="requiredStar">*</span>
+                <app-required-yes-no
+                  [control]="personalInfo.controls.misdemeanor"
+                ></app-required-yes-no>
+              </p>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno yesno_misdemeanor">
+                <input
+                  formControlName="misdemeanor"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'misdemeanor',
+                      'explainMisdemeanor'
+                    )
+                  "
+                  type="radio"
+                  id="opt9"
+                  value="yes"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt9" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="misdemeanor"
+                  type="radio"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'misdemeanor',
+                      'explainMisdemeanor'
+                    )
+                  "
+                  id="opt10"
+                  value="no"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt10" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement"
+              [style.top]="hasOtherName ? '303px' : '232px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[11]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div *ngIf="hasMisdemeanor" class="row">
+            <div class="col-10 explanation-content">
+              <div class="form-label-group explanation-content-2">
+                <input
+                  id="explainMisdemeanor"
+                  placeholder="Please explain"
+                  class="form-control input-control required"
+                  formControlName="explainMisdemeanor"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'explainMisdemeanor')"
+                  appInputFocus
+                  appAutoFocus
+                  [dontDoFocus]="
+                    personalInfo.get('explainMisdemeanor').value === null && !isCompanyReview ? 'false' : 'true'
+                  "
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="explainMisdemeanor">Please explain</label>
+                <app-required-label
+                  [control]="personalInfo.controls.explainMisdemeanor"
+                ></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement && hasMisdemeanor"
+              [style.top]="hasOtherName ? '342px' : '312px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[12]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row" [ngClass]="{ 'mt-1': isCompanyReview }">
+            <div class="col-8" style="padding-right: 0px !important;">
+              <p class="yesno_paragraf">
+                Have you ever had a DUI, DWI, or OVI?<span class="requiredStar">*</span>
+              </p>
+              <app-required-yes-no
+                [control]="personalInfo.controls.drunkDriving"
+              ></app-required-yes-no>
+            </div>
+            <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+              <div class="yesno">
+                <input
+                  formControlName="drunkDriving"
+                  type="radio"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'drunkDriving',
+                      'explainDrunkDriving'
+                    )
+                  "
+                  id="opt11"
+                  value="yes"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt11" class="yesno_label1">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input
+                  formControlName="drunkDriving"
+                  type="radio"
+                  id="opt12"
+                  (change)="
+                    questionsWithExplanation(
+                      $event.target.value,
+                      'drunkDriving',
+                      'explainDrunkDriving'
+                    )
+                  "
+                  value="no"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="opt12" class="yesno_label2">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement"
+              [style.top]="hasOtherName ? '392px' : '284.5px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[13]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div *ngIf="hasDUIDWIOVI" class="row">
+            <div class="col-10 explanation-content">
+              <div class="form-label-group explanation-content-2" style="margin-bottom: 20px;">
+                <input
+                  id="explainDrunkDriving"
+                  placeholder="Please explain"
+                  class="form-control input-control required"
+                  formControlName="explainDrunkDriving"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'explainDrunkDriving')"
+                  appInputFocus
+                  appAutoFocus
+                  [dontDoFocus]="
+                    personalInfo.get('explainDrunkDriving').value === null && !isCompanyReview ? 'false' : 'true'
+                  "
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="explainDrunkDriving">Please explain</label>
+                <app-required-label
+                  [control]="personalInfo.controls.explainDrunkDriving"
+                ></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div
+              style="position: absolute; left: 452px;"
+              *ngIf="isCompanyReview && isAgreement && hasDUIDWIOVI"
+              [style.top]="hasOtherName ? '431px' : '311.5px'"
+            >
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[14]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+        </div>
+
+        <a class="address-showhide" (click)="ToggleState()"
+          >Previous addresses for the past 3 years?</a
+        >
+        <div class="centerContent mt-3" [@animateAddress]="state">
+          <div class="row" formArrayName="previousAddresses">
+            <div
+              class="col-12"
+              *ngFor="let item of getAddress.controls; let idx = index"
+              [formGroupName]="idx"
+            >
+              <div class="row showDeleteAddress">
+                <div class="col-1 showDeleteAddress_number">
+                  <div class="numberOfAddress">{{ idx + 1 }}</div>
+                </div>
+                <div class="col-9">
+                  <div
+                    class="form-label-group input-icon address-field-wrapper
+                                {{ manageInputValidation(item.get('oldAddress')) }}"
+                  >
+                    <input
+                      formControlName="oldAddress"
+                      id="address"
+                      class="form-control input-control required"
+                      placeholder="Address, City, State Zip"
+                      ngx-google-places-autocomplete
+                      #placesRef="ngx-places"
+                      appInputFocus
+                      appAutoFocus
+                      [dontDoFocus]="item.get('oldAddress').value === null && !isCompanyReview ? 'false' : 'true'"
+                      [options]="options"
+                      (onAddressChange)="handleAddressChange2($event, idx)"
+                      [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                    />
+                    <label class="required-label" for="address">Address, City, State Zip</label>
+                    <app-required-label [control]="item.get('oldAddress')"></app-required-label>
+                  </div>
+                  <div
+                    *ngIf="
+                      isCompanyReview
+                        ? !companyReview[15].isTrue && companyReview[15].isTrue !== null
+                        : false
+                    "
+                    class="reviewer-slide__oldAddress"
+                  >
+                    <app-reviewSingleCheckButton
+                      [reviewItem]="companyReview[15].oldAddress"
+                    ></app-reviewSingleCheckButton>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-label-group">
+                    <input
+                      formControlName="oldUnit"
+                      id="address_unit"
+                      class="form-control input-control"
+                      placeholder="Unit #"
+                      maxlength="6"
+                      appInputrestriction="[A-Za-z0-9-]"
+                      appInputFocus
+                      [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                    />
+                    <label for="address_unit">Unit #</label>
+                  </div>
+                  <div
+                    *ngIf="
+                      isCompanyReview
+                        ? !companyReview[15].isTrue && companyReview[15].isTrue !== null
+                        : false
+                    "
+                    class="reviewer-slide__oldUnit"
+                  >
+                    <app-reviewSingleCheckButton
+                      [reviewItem]="companyReview[15].oldUnit"
+                    ></app-reviewSingleCheckButton>
+                  </div>
+                </div>
+                <!-- Review Company -->
+                <div
+                  class="reviewer-slide__fourtheenrow"
+                  *ngIf="isCompanyReview && isAgreement && hasDUIDWIOVI"
+                >
+                  <app-reviewCheckButton
+                    [reviewItem]="companyReview[15]"
+                    (feedbackReviewItem)="feedbackReview($event)"
+                  ></app-reviewCheckButton>
+                </div>
+                <a
+                  appTaTooltip="Delete"
+                  tooltipColor="#FFFFFF"
+                  tooltipBackground="#FF5D5D"
+                  position="bottom-right"
+                  class="deleteAddressOld"
+                  (click)="isDeleteCurrentAddress(idx)"
+                >
+                  <svg-icon
+                    class="deleteAddressOld_desktopSvg"
+                    src="../../assets/img/applicants/delete.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    class="deleteAddressOld_mobileSvg"
+                    src="../../../../assets/img/applicants/delete_mobile.svg"
+                  ></svg-icon>
+                </a>
+                <div
+                  class="dropdown-dialog"
+                  [ngClass]="{
+                    'show-dropdown-dialog': openDropDeleteDialogAddress[idx].value,
+                    'hide-dropdown-dialog': !openDropDeleteDialogAddress[idx].value
+                  }"
+                >
+                  <div class="delete-dialog-container">
+                    <div class="drop-down-delete-dialog">
+                      <p>Are you sure you want to delete?</p>
+                      <div class="yes-no">
+                        <div class="no" (click)="onDeleteCurrentAddress(false, idx)">
+                          <p>No</p>
+                        </div>
+                        <div class="yes" (click)="onDeleteCurrentAddress(true, idx)">
+                          <p>Yes</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a
+              [ngClass]="{ 'addAddressOld-disable': isCompanyReview }"
+              *ngIf="state == 'in'"
+              class="addAddressOld"
+              (click)="addAddress()"
+              >Add address</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    *ngIf="isAgreement && (isSomeFalseReview.length > 0 ? true : !isCompanyReview)"
+    type="submit"
+    class="btns btns_next mx-2"
+  >
+    Next
+  </button>
+  <button
+    *ngIf="isAgreement && (isSomeFalseReview.length > 0 ? false : isCompanyReview)"
+    type="submit"
+    class="btns btns_next mx-2 btns_reviewConfirm"
+  >
+    <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+    <span class="btns_reviewConfirm-text">Confirm All</span>
+  </button>
+
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview && isAgreement">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

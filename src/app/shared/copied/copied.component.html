@@ -1,0 +1,13 @@
+<div
+  class="main-container"
+>
+  <div (click)="onClick()">
+    <ng-content></ng-content>
+  </div>
+  <div
+    class="copied-text-container"
+    [ngClass]="{'add-on-copy': animate}"
+  >
+    <p class="copied-text">COPIED</p>
+  </div>
+</div>

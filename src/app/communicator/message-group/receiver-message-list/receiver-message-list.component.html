@@ -1,0 +1,14 @@
+<div
+  *ngIf="item && item.messages.length > 0"
+>
+  <app-receiver-message
+    *ngFor="let message of item.messages; let i = index"
+    [message]="message"
+    [isGroup]="isGroup"
+    [sender]="item.sender"
+    [isFirst]="i === 0"
+    [isLast]="item.messages.length - 1 === i"
+    [chatId]="chatId"
+  >
+  </app-receiver-message>
+</div>

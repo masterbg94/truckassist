@@ -1,0 +1,32 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal class="small" *ngIf="!loaded"></app-loading-modal>
+    <form [formGroup]="inspectionForm" class="form-container" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-label-group">
+            <kendo-floatinglabel text="Issue date" class="required datepicker-label">
+              <kendo-datepicker placeholder="" [format]="format" [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }" formControlName="startDate" required appAutoFocus
+                [popupSettings]="{ popupClass: 'custom-datepick' }" [modalType]="inputData.data.type">
+              </kendo-datepicker>
+            </kendo-floatinglabel>
+            <app-required-label [control]="inspectionForm.controls.startDate"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <app-attachments page='trailer' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveInspection(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

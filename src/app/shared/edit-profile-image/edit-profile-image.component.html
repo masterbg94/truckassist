@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-between">
+  <div class="avatar-container d-flex justify-content-center align-items-center" >
+    <span class="profile-icon" aria-hidden="true">
+      <div class="user-avatar-container" *ngIf="!avatarError">
+        <img
+          class="cursor-pointer user-avatar"
+          [ngClass]="{ 'd-none': avatarError }"
+          [src]="src"
+          (error)="avatarError = true"
+        />
+      </div>
+      <svg-icon
+        *ngIf="avatarError"
+        class="cursor-pointer"
+        [src]="'assets/img/svgs/profile/user-avatar.svg'"
+        [svgStyle]="{ 'width.px': '77', 'height.px': '77' }"
+      ></svg-icon>
+
+      <!-- <button
+        class="avatar-edit-btn"
+        aria-label="Edit Avatar"
+        appTaTooltip="Edit Profile Picture"
+        (click)="editProfileImage()"
+      >
+        <svg-icon
+          class="cursor-pointer"
+          [src]="'assets/img/svgs/edit-avatar-icon.svg'"
+          [svgStyle]="{ 'width.px': '26', 'height.px': '26' }"
+        ></svg-icon>
+      </button> -->
+    </span>
+  </div>
+
+  <div class="edit-image-container" *ngIf="showUploadZone">
+    <div class="d-fex" [hidden]="showDropzone">
+      <div class="d-flex mb-3">
+        <img #croppie="croppie" [croppieOptions]="croppieOptions" (update)="handleUpdate($event)" />
+      </div>
+
+      <div class="d-flex justify-content-between mb-2">
+        <ng5-slider
+          class="slider"
+          [(value)]="slideInit"
+          [options]="options"
+          (valueChange)="zooming($event)"
+        ></ng5-slider>
+        <div class="tool-panel">
+          <span (click)="saveImage()" class="check-btn">
+            <svg-icon
+              class="cursor-pointer"
+              [src]="'assets/img/svgs/profile/check.svg'"
+              [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+            ></svg-icon>
+          </span>
+          <span (click)="onRemove()" class="close-btn">
+            <svg-icon
+              class="cursor-pointer"
+              [src]="'assets/img/svgs/profile/close.svg'"
+              [svgStyle]="{ 'width.px': '18', 'height.px': '18' }"
+            ></svg-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showUploadZone && showDropzone">
+      <div
+        class="image-upload-area"
+        ngx-dropzone
+        [accept]="'image/gif, image/jpeg, image/png'"
+        [multiple]="false"
+        (change)="onSelect($event)"
+      >
+        <div class="d-flex flex-column image-upload-holder">
+          <span class="image-attach-icon small-gear"></span>
+          <span class="image-attach-icon large-gear"></span>
+          <span class="image-attach-icon jpg-icon"></span>
+          <span class="image-attach-icon png-icon"></span>
+          <span class="image-attach-icon large-cloude"></span>
+          <span class="image-attach-icon small-cloude"></span>
+          <span class="image-attach-icon drag-image-text">Drag image here or click to add</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

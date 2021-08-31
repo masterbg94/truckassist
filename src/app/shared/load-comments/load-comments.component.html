@@ -1,0 +1,40 @@
+<div class="load_comment_hold d-flex" [class.active]="isOpened">
+  <button
+    class="custom-rounded-btn"
+    [ngbPopover]="comentPopover"
+    #t2="ngbPopover"
+    triggers="manual"
+    [autoClose]="'outside'"
+    [placement]="['bottom', 'top']"
+    (click)="toggleComment(t2)"
+    (hidden)="closeComment()"
+    [popoverClass]="'load_popover'"
+  >
+    <svg-icon
+      *ngIf="commentcount === 0"
+      class="empty-icon"
+      src="../../../assets/img/svgs/table/load_comments/comm_{{ commentcount }}.svg"
+      [svgStyle]="{ 'width.px': '18', 'height.px': '16' }"
+    ></svg-icon>
+    <svg-icon
+      *ngIf="commentcount > 0 && commentcount < 10"
+      class="normal-icon"
+      src="../../../assets/img/svgs/table/load_comments/comm_{{ commentcount }}.svg"
+      [svgStyle]="{ 'width.px': '18', 'height.px': '16' }"
+    ></svg-icon>
+    <svg-icon
+      class="normal-icon"
+      *ngIf="commentcount > 10"
+      src="../../../assets/img/svgs/table/load_comments/comm_all.svg"
+      [svgStyle]="{ 'width.px': '18', 'height.px': '16' }"
+    ></svg-icon>
+  </button>
+</div>
+
+<ng-template #comentPopover let-data="data">
+  <app-app-comments
+    [isExpanded]="true"
+    [truckLoadId]="data"
+    [showNewMessageOnStart]="true"
+  ></app-app-comments>
+</ng-template>

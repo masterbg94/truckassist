@@ -1,0 +1,125 @@
+<div class="main-container" *ngIf="message" #receiverPosition>
+  <div class="user-image-time-container">
+    <!-- sender.image ? sender.image :  -->
+    <img
+      class="user-image"
+      src="{{ sender.image || 'assets/img/svgs/communicator/ic_user_placeholder.svg' }}"
+      *ngIf="isGroup && isFirst"
+    />
+  </div>
+  <div class="message-container">
+    <div class="info-container" *ngIf="isFirst && isGroup">
+      <p class="name-info">{{ sender.name }}</p>
+      <p class="time-info">{{ message.time }}</p>
+    </div>
+    <p *ngIf="message.deleted" class="message-text">
+      <span class="edited-text">
+        <svg-icon
+          src="../../../../../assets/img/svgs/communicator/ic_deleted-message.svg"
+        ></svg-icon>
+        (removed a message)
+      </span>
+    </p>
+    <p class="time-text-group" *ngIf="!isFirst && !message.deleted && isGroup">
+      {{ message.time }}
+    </p>
+    <span
+      *ngIf="!message.deleted && !isLinkMessage()"
+      [ngClass]="isFirst ? 'message-text' : isGroup ? 'message-text-group' : 'message-text'"
+    >
+      {{ message.text }}
+      <span class="edited-text" *ngIf="message.edited">(edited)</span>
+    </span>
+    <span
+      *ngIf="!message.deleted && isLinkMessage()"
+      [ngClass]="isFirst ? 'message-text' : isGroup ? 'message-text-group' : 'message-text'"
+    >
+      <a
+        *ngFor="let item of isContainUrl(message.text).array"
+        [ngClass]="item.includes('http') ? 'link-message' : 'native-message'"
+        (click)="openPageLink(item)"
+      >
+        {{ item }}
+      </a>
+
+      <span class="edited-text" *ngIf="message.edited">(edited)</span>
+    </span>
+    <div
+      *ngIf="!message.deleted && message.attachments.length > 0"
+      [ngClass]="{ 'attachment-group': isGroup && !isFirst }"
+    >
+      <div *ngFor="let attachment of message.attachments">
+        <app-message-attachment
+          [attachment]="attachment"
+          [isReceived]="true"
+          [chatId]="chatId"
+        ></app-message-attachment>
+      </div>
+    </div>
+    <div class="mini-chat-receiver" *ngIf="!message.deleted && message.links.length > 0">
+      <div *ngFor="let link of message.links">
+        <app-link [link]="link"> </app-link>
+      </div>
+    </div>
+    <div
+      class="reactions-conatiner"
+      [ngClass]="
+        isGroup ? (isFirst ? 'reactions-group-container-first' : 'reactions-group-container') : ''
+      "
+      *ngIf="!message.deleted && message.reactionGroups"
+    >
+      <app-reaction
+        *ngFor="let reactionGroup of message.reactionGroups"
+        [reaction]="reactionGroup"
+        (onClick)="onClickReaction($event)"
+      >
+      </app-reaction>
+    </div>
+  </div>
+  <div class="options-container" *ngIf="!message.deleted">
+    <div
+      [ngClass]="
+        isGroup
+          ? isFirst
+            ? positionOfReceiverMessage
+              ? 'emoji-group-first'
+              : 'emoji-group-first-up'
+            : positionOfReceiverMessage
+            ? 'emoji-group'
+            : 'emoji-group-up'
+          : positionOfReceiverMessage
+          ? 'emoji'
+          : 'emoji-up'
+      "
+    >
+      <app-chat-emoji
+        [visibilityEmoji]="emojiVisible"
+        [typeOfTriangle]="positionOfReceiverMessage ? 'down' : 'up'"
+        (selectedEmoji)="toggleEmoji($event)"
+        (mouseenter)="stayOnEmoji()"
+        (mouseleave)="leaveEmoji()"
+      >
+      </app-chat-emoji>
+    </div>
+    <svg-icon
+      [ngClass]="
+        emojiVisible
+          ? isGroup
+            ? 'add-reaction-icon-group-visible'
+            : 'add-reaction-icon-visible'
+          : isGroup
+          ? 'add-reaction-icon-group'
+          : 'add-reaction-icon'
+      "
+      src="assets/img/svgs/communicator/ic_reaction.svg"
+      appTaTooltip="Add reaction"
+      position="bottom-right"
+      tooltipBackground="#919191"
+      (click)="emojiVisible = !emojiVisible"
+    >
+    </svg-icon>
+    <p class="time-text" *ngIf="!message.deleted && !isGroup">
+      {{ message.time }}
+    </p>
+  </div>
+</div>

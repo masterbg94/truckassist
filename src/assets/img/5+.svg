@@ -1,0 +1,13 @@
+<svg id="Component_663_52" data-name="Component 663 – 52" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="62" viewBox="0 0 46 62">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_1921" data-name="Path 1921" d="M642.189,452.915a23.579,23.579,0,0,0-6.72-14.407,22.856,22.856,0,0,0-15.531-6.593H618.61a22.878,22.878,0,0,0-15.872,7.237,24.52,24.52,0,0,0-6.414,14.488v2.491a23.939,23.939,0,0,0,4.817,13.807q8.351,10.982,16.725,21.933a9.756,9.756,0,0,1,1.363,2.044h.085c6.071-8.138,12.314-16.154,18.428-24.266A24.285,24.285,0,0,0,642.189,452.915ZM618.994,464a10.5,10.5,0,1,1,10.734-10.5A10.619,10.619,0,0,1,618.994,464Z" transform="translate(-39.324 -351.915)" fill="#606060"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_6" data-name="Mask Group 6" transform="translate(-557 -80)" clip-path="url(#clip-path)">
+    <rect id="Rectangle_1914" data-name="Rectangle 1914" width="22.49" height="22" rx="11" transform="translate(568.245 91)" fill="#fff"/>
+    <rect id="Rectangle_1911" data-name="Rectangle 1911" width="67.471" height="62" transform="translate(545.755 80)" fill="#28529f"/>
+  </g>
+  <circle id="Ellipse_667" data-name="Ellipse 667" cx="15" cy="15" r="15" transform="translate(8 8)" fill="#fff"/>
+  <text id="_5_" data-name="5+" transform="translate(11 30)" fill="#28529f" font-size="20" font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="0" y="0">5+</tspan></text>
+</svg>

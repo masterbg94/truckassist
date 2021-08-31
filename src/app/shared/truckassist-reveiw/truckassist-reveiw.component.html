@@ -1,0 +1,224 @@
+<!-- Like, Result, Dislike -->
+<div
+  class="reveiw-container"
+  [ngClass]="{ 'shop-map-padding': shopMapPadding, 'table-style-reveiw-container': tabelStyle }"
+>
+  <svg-icon
+    [ngClass]="{
+      addLikeColor: reveiwData.thumbUp,
+      'shop-map-style-svg': shopMapSpecialStyle,
+      addInstaAnimation: liked
+    }"
+    (click)="onLikeDislike(reveiwData, true)"
+    style="user-select: none;"
+    src="../../../assets/img/svgs/table/like-v2.svg"
+    class="like"
+  ></svg-icon>
+  <div
+    class="result"
+    [ngClass]="{
+      'result-style-tabel-selected': tableRowSelected,
+      'result-style-shop-map': shopMapResultStyle,
+      'add-result-style-if-user-has-comment': hasUserComment && !shopMapSpecialStyle,
+      'result-style-shop-map-expend': shopMapSpecialStyle,
+      'tabel-style-result': tabelStyle,
+      'result-details-style': repairDetails
+    }"
+    style="user-select: none;"
+    #unassignPopover="ngbPopover"
+    [ngbPopover]="commentsDialog"
+    (click)="toggleCommentsDialog(unassignPopover, reveiwData)"
+    triggers="manual"
+    [autoClose]="false"
+    [placement]="'bottom'"
+    [container]="'body'"
+    [popoverClass]="'popover-comments-shop'"
+  >
+    <p class="upcount">{{ reveiwData.upCount }}</p>
+    <p class="downcount">{{ reveiwData.downCount }}</p>
+  </div>
+  <svg-icon
+    [ngClass]="{
+      addDislikeColor: reveiwData.thumbDown,
+      'shop-map-style-svg': shopMapSpecialStyle,
+      addInstaAnimation: disliked
+    }"
+    (click)="onLikeDislike(reveiwData, false)"
+    style="user-select: none;"
+    src="../../../assets/img/svgs/table/dislike-v2.svg"
+    class="disLike"
+  ></svg-icon>
+</div>
+
+
+<!-- Comments -->
+<ng-template #commentsDialog let-data="data">
+  <div
+    class="comments-container"
+    *ngIf="(showComments && clickOnResult) || (!hasUserComment && clickOnResult)"
+    (clickOutside)="hideDialog($event)"
+    [ngClass]="{
+      'tabel-comments-container': tabelStyle
+    }"
+    (click)="popUpClick = true;"
+  >
+    <!-- If User Has Like Or Dislike But No Comment -->
+    <div
+      class="write-reveiw-question"
+      (click)="onShowCreateComment()"
+      [ngClass]="{ 'show-Write-Reveiw-Question': showWriteReveiwQuestion }"
+      (mouseover)="hoverOverWriteReveiwQuestion = true"
+      (mouseout)="hoverOverWriteReveiwQuestion = false"
+    >
+      <p>{{ !reveiwComments.length ? 'Be the first one to review' : 'Write a review' }}</p>
+    </div>
+
+    <!-- For Create Comment -->
+    <div
+      class="create-comment"
+      *ngIf="showCreateComment"
+      (mouseover)="hoverOverCreateComment = true"
+      (mouseout)="hoverOverCreateComment = false"
+    >
+      <div class="user-info">
+        <img *ngIf="currentUser.doc?.avatar?.src" src="{{ currentUser.doc.avatar.src }}" alt="" />
+        <img
+          *ngIf="!currentUser.doc?.avatar?.src"
+          src="../../../assets/img/svgs/reveiw/no-avatar.svg"
+          alt=""
+        />
+        <p class="user-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
+        <div class="comment-date-time">
+          <p class="comment-date">{{ timeOnCommentsClick | date: 'shortDate' }}</p>
+          <p class="comment-time">{{ timeOnCommentsClick | date: 'shortTime' }}</p>
+        </div>
+      </div>
+
+      <div class="create-comment-area">
+        <textarea
+          maxlength="80"
+          id="createComment"
+          (keydown)="onEnterCreate($event, reveiwData, comment)"
+          [(ngModel)]="comment"
+          cols="1"
+          rows="1"
+        ></textarea>
+        <div class="edit-area-btns">
+          <svg-icon
+            appTaTooltip="Save"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#5673AA"
+            position="bottom-right"
+            src="../../../assets/img/svgs/reveiw/Save.svg"
+            class="save-svg"
+            (click)="createComment(reveiwData, comment)"
+          ></svg-icon>
+          <svg-icon
+            appTaTooltip="Cancel"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#6C6C6C"
+            position="bottom-right"
+            class="cancel-svg"
+            src="../../../assets/img/svgs/reveiw/Cancel.svg"
+            (click)="onCancelCreateComment()"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Comments -->
+    <div
+      class="comment"
+      *ngFor="let comment of reveiwComments; let i = index; let last = last"
+      [ngClass]="{
+        'first-commet-style': i === 0 && reveiwComments.length > 1,
+        'last-commet-style': i === reveiwComments.length - 1 && reveiwComments.length > 1,
+        'only-one-comment-style': reveiwComments.length === 1
+      }"
+      (mouseover)="onHoverActionOnComment(i)" 
+    >
+      <div class="user-info" [ngClass]="{ 'user-comment-style-on-dialog': showDeleteDialog === i }">
+        <img *ngIf="comment.userAvatar" src="{{ comment.userAvatar.src ? comment.userAvatar.src : comment.userAvatar }}" alt="" />
+        <img
+          *ngIf="!comment.userAvatar"
+          src="../../../assets/img/svgs/reveiw/no-avatar.svg"
+          alt=""
+        />
+        <p class="user-name">{{ comment.userFullName }}</p>
+        <div class="comment-date-time">
+          <p class="comment-date">{{ comment.createdAt | date: 'shortDate' }}</p>
+          <p class="comment-time">{{ comment.createdAt | date: 'shortTime' }}</p>
+
+          <!-- Only For Curent User Comment -->
+          <svg-icon
+            class="edit-svg"
+            appTaTooltip="Edit"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#5673AA"
+            position="bottom-right"
+            src="../../../assets/img/svgs/reveiw/Edit - Circle.svg"
+            (click)="showEditCommentArea(comment, i)"
+            *ngIf="currentUser.id === comment.userId"
+          ></svg-icon>
+
+          <!-- Delete Curent Users Comment -->
+          <div class="delete-comment-svg" *ngIf="currentUser.id === comment.userId">
+            <svg-icon
+              class="delete-svg"
+              appTaTooltip="Delete"
+              tooltipColor="#FFFFFF"
+              tooltipBackground="#FF5D5D"
+              position="bottom-right"
+              src="../../../assets/img/svgs/reveiw/Delete - Circle.svg"
+              (click)="showDeleteDialog = i"
+            ></svg-icon>
+            <div
+              class="delete-dialog"
+              *ngIf="showDeleteDialog === i"
+              [ngClass]="{ 'tabel-delete-dialog-style': tabelStyle }"
+            >
+              <app-delete-dropdown-dialog
+                [dialog]="'Are you sure you want to delete?'"
+                (actionEvent)="onDeleteUserComment($event, comment)"
+              ></app-delete-dropdown-dialog>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p *ngIf="showEditArea !== i" class="comment-text">{{ comment.comment }}</p>
+
+      <!-- For Edit Curent User Comment -->
+      <div class="edit-comment-area" *ngIf="showEditArea === i">   
+        <textarea
+          maxlength="80"
+          id="editComment"
+          (keydown)="onEditComment($event, comment, editedComment)"
+          [(ngModel)]="editedComment"
+          cols="1"
+          rows="1"
+        ></textarea>
+        <div class="edit-area-btns">
+          <svg-icon
+            appTaTooltip="Save"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#5673AA"
+            position="bottom-right"
+            src="../../../assets/img/svgs/reveiw/Save.svg"
+            class="save-svg"
+            (click)="updateComment(comment, editedComment)"
+          ></svg-icon>
+          <svg-icon
+            appTaTooltip="Cancel"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#6C6C6C"
+            position="bottom-right"
+            class="cancel-svg"
+            src="../../../assets/img/svgs/reveiw/Cancel.svg"
+            (click)="showEditArea = -1"
+          ></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

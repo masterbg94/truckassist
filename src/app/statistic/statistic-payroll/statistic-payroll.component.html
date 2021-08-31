@@ -1,0 +1,256 @@
+<div class="statistic_payroll_main_screen">
+  <div [ngStyle]="{ display: 'flex' }">
+    <div class="statistic_payroll_main_screen-new-screen">
+      <div>
+        <div class="statistic_payroll_main_screen_widgets">
+          <div
+            (click)="onClickShowHideDataset(item.indexId, item.active)"
+            *ngFor="let item of widgetsData; let i = index"
+            class="statistic_payroll_main_screen_widgets_w"
+            [ngClass]="{ statistic_payroll_main_screen_widgets_hidden: !item.active }"
+          >
+            <svg-icon
+              [ngStyle]="{ opacity: item.active ? '0' : '1' }"
+              class="active"
+              src="assets/fontawesome/svgs/solid/eye.svg"
+            ></svg-icon>
+            <svg-icon
+              *ngIf="item.active && item.indexId !== 11"
+              class="hover"
+              src="assets/fontawesome/svgs/solid/eye-slash.svg"
+            ></svg-icon>
+            <p>{{ item.num }}</p>
+            <div class="statistic_payroll_main_screen_widgets_w_desc">
+              <span>{{ item.per }}</span>
+              <span>{{ item.title }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="statistic_payroll_main_screen_min-max">
+          <div *ngFor="let item of minMaxData" class="statistic_payroll_main_screen_min-max_w">
+            <p>{{ item.title }}</p>
+            <span>H</span>
+            <span>{{ item.countHigh }}</span>
+            <span>{{ item.dateHigh }}</span>
+            <br />
+            <span>L</span>
+            <span>{{ item.countLow }}</span>
+            <span>{{ item.dateLow }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="chart-group-payroll-statistics" class="position-relative">
+      <div class="chart_main_holder chart_bar d-flex">
+        <div class="statistic_payroll_main_screen_filters">
+          <app-truckassist-buttongroup
+            [items]="tableData"
+            [loading]="loadingItems"
+            [selectedTab]="selectedTab"
+          ></app-truckassist-buttongroup>
+          <button (click)="clearAllFilters()" class="clear-btn">
+            Clear All
+          </button>
+        </div>
+        <chart
+          [ngStyle]="{
+            height: '100%',
+            position: 'relative',
+            top: '30px',
+            'z-index': '1'
+          }"
+          [ngClass]="{
+            'chart_bar-crop': cropChart && chartTypeData[1].checked,
+            'chart_bar-crop-two': cropChart && chartTypeData[2].checked
+          }"
+          #chartBar
+          [type]="'bar'"
+          [data]="dataBar"
+          [options]="optionsBar"
+        ></chart>
+      </div>
+      <div
+        class="chart_main_holder chart_line"
+        [ngClass]="{ 'chart_line-crop': cropChart && chartTypeData[2].checked }"
+      >
+        <chart
+          [ngStyle]="{ height: '50px', display: chartTypeData[2].checked ? 'block' : 'none' }"
+          #chartLine2
+          [type]="'line'"
+          [data]="dataLine2"
+          [options]="optionsLine2"
+        ></chart>
+        <chart
+          [ngStyle]="{ height: '50px', opacity: !chartTypeData[0].checked ? '1' : '0' }"
+          #chartLine
+          [type]="'bar'"
+          [data]="dataLine"
+          [options]="optionsLine"
+        ></chart>
+        <div class="chart_line_min-max">
+          <p>JAN 2019</p>
+          <p>SEP 2020</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mx-0 statistic_payroll_main_screen_bottom">
+    <div class="statistic_payroll_main_screen_bottom_half">
+      <div class="statistic_payroll_main_screen_bottom_half_one">
+        <div class="chart_select_holder">
+          <ng-select
+            [items]="doughnutChartDataTypes"
+            bindLabel="name"
+            [searchable]="false"
+            [(ngModel)]="selectedDoughnutChartType"
+            bindValue="value"
+            (ngModelChange)="changeDoughChartData($event)"
+          ></ng-select>
+        </div>
+        <div class="data">
+          <div
+            (mouseleave)="removeFilters(chartDoug, chartDoug2)"
+            [ngStyle]="{ position: 'relative' }"
+            *ngFor="let item of driverList; let i = index"
+          >
+            <div
+              [ngClass]="{ 'data_row-active': item.active }"
+              class="data_row"
+              (mouseenter)="showDriverTooltip(item.driverId, i, chartDoug, chartDoug2)"
+            >
+              <p class="data_row_number">{{ i + 1 }}</p>
+              <p class="data_row_name">{{ item.name }}</p>
+              <p class="data_row_total_payroll">{{ item.total_payroll }}</p>
+              <p class="data_row_salary">{{ item.salary }}</p>
+              <p class="data_row_bonus">{{ item.bonus }}</p>
+              <p class="data_row_credit">{{ item.credit }}</p>
+              <p class="data_row_deduction">{{ item.deduction }}</p>
+              <p class="data_row_miles">{{ item.miles }}</p>
+              <p class="data_row_loaded">{{ item.loaded }}</p>
+              <p class="data_row_empty">{{ item.empty }}</p>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="statistic_payroll_main_screen_bottom_half_two">
+        <app-custom-range-datepicker (dateParameters)="filterDoughnutChart($event)">
+        </app-custom-range-datepicker>
+        <div class="chart_main_holder d-flex doug-chart">
+          <div class="hovered"></div>
+          <div id="chart-doughnut-one-payroll-statistics" class="chart_top_hold">
+            <chart #chartDoug [type]="type" [data]="data" [options]="options"></chart>
+            <div class="inside_chart" [ngStyle]="{ left: tooltipFinishedDriver ? '53%' : '61%' }">
+              <div class="titles">
+                <div appSelectionColor class="inside_title">
+                  Total
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Salary
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Bonus
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Credit
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Deduc.
+                </div>
+              </div>
+              <div class="values" [ngStyle]="{ opacity: tooltipFinishedDriver ? '1' : '0' }">
+                <div class="inside_value">
+                  <span>
+                    $32.4K
+                  </span>
+                  <span>
+                    9.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $23.7K
+                  </span>
+                  <span>
+                    12.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $13.2K
+                  </span>
+                  <span>
+                    25.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $3.2K
+                  </span>
+                  <span>
+                    25.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    $1.322
+                  </span>
+                  <span>
+                    96.31%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="chart-doughnut-two-payroll-statistics" class="chart_top_hold-two">
+            <chart #chartDoug2 [type]="type2" [data]="data2" [options]="options2"></chart>
+            <div
+              class="inside_chart_two"
+              [ngStyle]="{ left: tooltipFinishedMiles ? '62%' : '69%' }"
+            >
+              <div class="titles">
+                <div appSelectionColor class="inside_title">
+                  Miles
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Loaded
+                </div>
+                <div appSelectionColor class="inside_title">
+                  Empty
+                </div>
+              </div>
+              <div class="values" [ngStyle]="{ opacity: tooltipFinishedMiles ? '1' : '0' }">
+                <div class="inside_value">
+                  <span>
+                    7.24K
+                  </span>
+                  <span>
+                    9.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    3.57K
+                  </span>
+                  <span>
+                    12.31%
+                  </span>
+                </div>
+                <div class="inside_value">
+                  <span>
+                    2.52K
+                  </span>
+                  <span>
+                    25.31%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

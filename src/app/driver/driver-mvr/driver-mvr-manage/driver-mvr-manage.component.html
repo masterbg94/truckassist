@@ -1,0 +1,49 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-loading-modal class='small' *ngIf="!loaded"></app-loading-modal>
+    <form class="form-container" [formGroup]="mvrForm" (keydown)="keyDownFunction($event)" *ngIf="loaded">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-label-group">
+            <kendo-floatinglabel
+              text="Issue date"
+              class="required datepicker-label{{
+                mvrForm.controls.startDate.value !== null &&
+                mvrForm.controls.startDate.value !== ''
+                  ? ' valid-label'
+                  : ''
+              }}"
+            >
+              <kendo-datepicker
+                placeholder=""
+                formControlName="startDate"
+                required
+                [format]="format"
+                [formatPlaceholder]="{
+                  year: 'yy',
+                  month: 'mm',
+                  day: 'dd'
+                }"
+                appAutoFocus
+                [popupSettings]="{ popupClass: 'custom-datepick' }"
+                [modalType]="inputData.data.type"
+              ></kendo-datepicker>
+              <app-required-label [control]="mvrForm.controls.startDate"></app-required-label>
+            </kendo-floatinglabel>
+          </div>
+        </div>
+      </div>
+      <app-attachments page='mvr' (filesChanged)="setFiles($event)" [attachments]="attachments"></app-attachments>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">
+      Cancel
+    </button>
+    <button type="button" class="save-btn" (click)="saveMedical(false)" ngbAutofocus>Save</button>
+  </div>
+</div>

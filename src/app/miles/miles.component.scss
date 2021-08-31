@@ -1,0 +1,782 @@
+@import '../../assets/scss/components/variables.scss';
+/* GLOBAL COMPONENT STYLES */
+p {
+  margin: 0;
+}
+svg-icon {
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+.date-arrow {
+  svg {
+    path {
+      stroke: #ffffff;
+    }
+  }
+}
+
+/* COMPONENT STYLES */
+
+/* Tool Bar Syles */
+.miles-tool-bar-wrapper {
+  .miles-tool-bar-container {
+    width: 100%;
+    height: 32px;
+    display: grid;
+    /*  grid-template-columns: 84px 187px 91px 97px auto auto 1fr; */
+    grid-template-columns: 84px auto auto 1fr;
+    grid-column-gap: 6px;
+    .miles-count-container {
+      padding: 4px;
+      display: flex;
+      position: relative;
+      height: 100%;
+      background: white;
+      border-radius: 3px;
+      .count {
+        height: 24px;
+        width: auto;
+        min-width: 24px;
+        background: rgba(183, 183, 183, 0.3);
+        border-radius: 2px;
+        font-weight: bold;
+      }
+
+      .title,
+      .count {
+        color: #b7b7b7;
+        font-size: 14px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 24px;
+      }
+
+      .title {
+        font-size: 600;
+        margin-left: 6px;
+      }
+    }
+
+    /* .miles-count-container,
+    .period-switch,
+    .year-select-dropdown,
+    .custom-select-period,
+    .map-tools {
+      position: relative;
+      height: 100%;
+      background: white;
+      border-radius: 3px;
+      p {
+        color: #b7b7b7;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+
+    .remuve-radius{
+      border-radius: 3px 3px 0px 0px !important;
+    }
+
+    .month-select-dropdown{
+      position: relative;
+      .dropdown-title{
+        width: 100%;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+        padding: 0px 12px;
+        border-radius: 3px 3px 3px 3px;
+        cursor: pointer;
+        user-select: none;
+        p {
+          color: #b7b7b7;
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .year-select-dropdown,
+    .month-select-dropdown,
+    .custom-select-period,
+    .map-tools {
+      margin-left: 6px;
+    }
+
+    .year-select-dropdown,
+    .month-select-dropdown {
+      cursor: pointer;
+      padding: 0px 12px;
+      p {
+        position: relative;
+        top: 6px;
+      }
+      svg-icon {
+        position: relative;
+        top: -9px;
+        svg {
+          path {
+            stroke: #b7b7b7;
+          }
+        }
+      }
+    }
+    .year-select-dropdown {
+      svg-icon {
+        left: 46px;
+      }
+    }
+    .month-select-dropdown {
+      svg-icon {
+        left: 52px;
+      }
+      
+      .month-dropdown {
+        width: 100%;
+        height: auto;
+        max-height: 0px;
+        background: white;
+        position: absolute;
+        z-index: 1000;
+        left: 0;
+        top: 31px;
+        border-radius: 3px;
+        overflow: hidden;
+        transition: max-height 0.25s;
+        .month{
+          width: 100%;
+          height: 32px;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 33px;
+          font-size: 14px;
+          color: #b7b7b7;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .custom-select-period {
+      cursor: pointer;
+      position: relative;
+      width: auto;
+      margin-right: 6px;
+      .kendo-date-range-container {
+        position: relative;
+        z-index: 1000;
+        width: auto;
+        .title {
+          width: 100px;
+          height: 100%;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 33px;
+          font-size: 14px;
+          color: #b7b7b7;
+          font-weight: bold;
+        }
+
+        .date-range-selected-container {
+          width: 136px;
+          height: 32px;
+          background: white;
+          border-radius: 3px;
+          font-size: 14px;
+          font-weight: bold;
+          text-align: center;
+          line-height: 33px;
+          vertical-align: middle;
+          color: #b7b7b7;
+          position: relative;
+          svg-icon {
+            position: absolute;
+            right: -3px;
+            top: -4px;
+            width: 14px;
+            height: 14px;
+            z-index: 1000;
+          }
+        }
+
+        kendo-daterange {
+          width: 100%;
+          height: 32px;
+          top: -32px;
+          left: 0;
+          z-index: 1000;
+          cursor: pointer !important;
+          position: absolute;
+
+          ::ng-deep.range-container {
+            opacity: 0 !important;
+
+            input {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    } */
+
+    .map-tools {
+      background: white;
+      padding-left: 6px;
+      padding-right: 6px;
+      position: relative;
+      border-radius: 3px;
+      .legend-dropdown-container {
+        position: absolute;
+        top: 8px;
+        right: 6px;
+        width: 16px;
+        height: 16px;
+        .legend-svg {
+          cursor: pointer;
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          height: 16px;
+          width: 16px;
+          svg {
+            path {
+              fill: #dadada;
+            }
+          }
+          &:hover {
+            svg {
+              path {
+                fill: #5673aa;
+                transition: 0.25s;
+              }
+            }
+          }
+        }
+        .legend-dropdown {
+          &:after {
+            @include triangletop;
+            border-bottom: 5px solid white;
+            top: -5px;
+            left: 72px;
+            content: '';
+          }
+          padding: 6px;
+          position: absolute;
+          left: -74px;
+          top: 15px;
+          visibility: hidden;
+          opacity: 0;
+          z-index: -100;
+          width: 99px;
+          height: 238px;
+          background: white;
+          border-radius: 3px;
+          box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+          .legend-items {
+            position: relative;
+            width: 100%;
+            height: 22px;
+            display: grid;
+            grid-template-columns: 18px 1fr;
+            p {
+              color: #919191;
+              font-size: 12px;
+              font-weight: 400;
+              padding-left: 6px;
+              line-height: 21px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* On Map Styles */
+.miles-map-container {
+  position: relative;
+  width: 100%;
+  margin-top: 12px;
+  height: calc(100vh - 234px);
+  overflow: hidden;
+  border-radius: 3px;
+  .truck-route-data-container,
+  .truck-stop-data-container {
+    position: absolute;
+    z-index: 100;
+    height: auto;
+    top: 6px;
+  }
+  .truck-route-data-container {
+    width: 514px;
+    left: 6px;
+    .route-data-title-container {
+      user-select: none;
+      cursor: pointer;
+      padding: 7.1px 6px 12px 0px;
+      width: 100%;
+      height: 30px;
+      background: #ffffff;
+      border-radius: 3px;
+      display: grid;
+      grid-template-columns: 1fr 68px 56px 55px 54px 48px 59px 60px 70px;
+      &:hover {
+        background: #b7b7b7;
+        transition: 0.25s;
+        p {
+          color: white;
+          transition: 0.25s;
+        }
+        svg-icon {
+          svg {
+            path {
+              stroke: white;
+              transition: 0.25s;
+            }
+          }
+        }
+      }
+      svg-icon {
+        position: relative;
+        left: 13px;
+        top: 5px;
+        svg {
+          transform: rotateZ(0deg);
+          transition: transform 0.25s;
+          width: 12px;
+          height: 7px;
+          path {
+            stroke: #919191;
+          }
+        }
+      }
+      p {
+        color: #919191;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .set-right {
+        text-align: right;
+      }
+    }
+    .route-data-items-container {
+      opacity: 0.7;
+      position: relative;
+      margin-top: 6px;
+      width: 100%;
+      height: auto;
+      max-height: 0;
+      transition: all 0.25s !important;
+      visibility: hidden;
+      z-index: -100;
+      border-radius: 3px;
+      /*  overflow: hidden; */
+      overflow-x: hidden;
+      overflow-y: scroll;
+      background: white;
+      &:hover {
+        opacity: 0.9;
+      }
+      .route-data-items-focus {
+        background: #b7b7b7 !important;
+        transition: 0.25s;
+        p {
+          color: white !important;
+        }
+        .miles {
+          background: #919191 !important;
+          transform: 0.25s;
+        }
+      }
+      .route-data-items {
+        width: 100%;
+        height: 21px;
+        display: grid;
+        grid-template-columns: 1fr 68px 56px 55px 54px 51px 59px 60px 70px;
+        cursor: pointer;
+        &:hover {
+          background: #f3f3f3;
+          transition: 0.25s;
+          p {
+            color: #6c6c6c;
+            transform: 0.25s;
+          }
+          .set-right {
+            color: white;
+          }
+          .miles {
+            background: #919191;
+
+            transform: 0.25s;
+          }
+        }
+        .set-right {
+          text-align: right;
+          font-weight: bold;
+          padding-right: 6px;
+        }
+        p {
+          font-size: 12px;
+          color: #919191;
+          padding-top: 3px;
+          /*  vertical-align: middle; */
+          line-height: 18px;
+        }
+        .number-of-item {
+          text-align: center;
+          font-weight: bold;
+        }
+        .loaded {
+          background: rgba(218, 218, 218, 0.7);
+        }
+        .empty {
+          background: rgba(183, 183, 183, 0.7);
+          color: white;
+        }
+        .miles {
+          background: rgba(183, 183, 183, 1);
+          color: white;
+        }
+      }
+    }
+  }
+  .truck-stop-data-container {
+    right: 6px;
+    width: 297px;
+    .truck-stop-title-container {
+      user-select: none;
+      width: 100%;
+      height: 30px;
+      border-radius: 3px;
+      background: white;
+      padding-top: 7px;
+      display: grid;
+      grid-template-columns: 1fr 127px 53px 80px;
+      cursor: pointer;
+      &:hover {
+        background: #b7b7b7;
+        transition: 0.25s;
+        p {
+          color: white;
+          transition: 0.25s;
+        }
+        svg-icon {
+          svg {
+            path {
+              stroke: white;
+              transition: 0.25s;
+            }
+          }
+        }
+      }
+      svg-icon {
+        position: relative;
+        left: 13px;
+        top: 5px;
+        svg {
+          transform: rotateZ(0deg);
+          transition: transform 0.25s;
+          width: 12px;
+          height: 7px;
+          path {
+            stroke: #919191;
+          }
+        }
+      }
+      p {
+        color: #919191;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .set-right {
+        text-align: right;
+      }
+      .add-padding {
+        padding-right: 6px;
+      }
+    }
+    .truck-stop-dropdown-container {
+      opacity: 0.7;
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-height: 0;
+      visibility: hidden;
+      z-index: -100;
+      transition: all 0.25s;
+      background: white;
+      border-radius: 3px;
+      margin-top: 6px;
+      /* overflow: hidden; */
+      overflow-y: scroll;
+      overflow-x: hidden;
+      &:hover {
+        opacity: 0.9;
+      }
+      .truck-stop-item {
+        display: grid;
+        grid-template-columns: 1fr 127px 53px 80px;
+        width: 100%;
+        height: 21px;
+        padding-top: 2px;
+        cursor: pointer;
+        &:hover {
+          background: #f3f3f3;
+          transition: 0.25s;
+          p {
+            color: #6c6c6c;
+            transition: 0.25s;
+          }
+        }
+        p {
+          color: #919191;
+          font-size: 12px;
+        }
+        .number-of-item,
+        .set-right {
+          font-weight: bold;
+        }
+        .number-of-item {
+          text-align: center;
+        }
+        .set-right {
+          text-align: right;
+        }
+        .add-padding {
+          padding-right: 6px;
+        }
+        .stop-place-name {
+          display: block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      /* .next-stop-slider {
+        width: 100%;
+        height: 32px;
+        background: white;
+        position: absolute;
+        bottom: 0;
+        padding: 0px 90px;
+        .next-stop-slider-container {
+          position: relative;
+          height: 100%;
+          width: 100%;
+          p {
+            user-select: none;
+            color: #b7b7b7;
+            font-size: 10px;
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            line-height: 35px;
+          }
+          svg-icon {
+            z-index: 100;
+            cursor: pointer;
+            position: absolute;
+            top: 13px;
+            width: 7px;
+            height: 12px;
+            svg {
+              width: 12px;
+              height: 7px;
+            }
+          }
+          .previous-svg {
+            left: -4px;
+            svg {
+              transform: rotateZ(-270deg);
+            }
+          }
+          .next-svg {
+            right: 1px;
+            svg {
+              transform: rotateZ(-90deg);
+            }
+          }
+        }
+      } */
+    }
+  }
+
+  .map-control {
+    width: 60px;
+    height: 32px;
+    position: absolute;
+    bottom: 6px;
+  }
+}
+
+/* NG CLASS */
+
+.show-tool-tip-on-marker {
+  left: 29px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  top: -39px !important;
+  transition: all 0.3s;
+}
+
+.active-month-dropdown {
+  max-height: 384px !important;
+  transition: max-height 0.25s;
+}
+
+.route-data-first-item {
+  border-top-right-radius: 3px;
+}
+
+.route-data-last-item {
+  border-bottom-right-radius: 3px;
+}
+
+.truck-stop-data-fullscreen {
+  top: 56px !important;
+  right: 12px !important;
+  transition: all 0.25s;
+}
+
+.truck-route-data-fullscreen {
+  top: 56px !important;
+  left: 12px !important;
+  transition: all 0.25s;
+}
+
+.miles-tool-bar-wrapper-fullscreen {
+  width: 100%;
+  height: 32px;
+  position: fixed;
+  left: 0px;
+  z-index: 100;
+  top: 12px;
+  padding: 0 12px 0 12px;
+}
+
+.miles-map-fullscreen {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  margin-top: 0px !important;
+  transition: all 0.25s;
+}
+
+.map-control-stop-data-active {
+  right: 309px;
+  transition: all 0.25s;
+}
+
+.map-control-stop-data-active-fullscreen {
+  right: 315px;
+  bottom: 12px !important;
+  transition: all 0.25s;
+}
+
+.map-control-stop-data-inactive {
+  right: 6px;
+  transition: all 0.25s;
+}
+
+.map-control-stop-data-inactive-fullscreen {
+  right: 12px !important;
+  bottom: 12px !important;
+  transition: all 0.25s;
+}
+
+.truck-stop-dropdown-active-fullscreen {
+  max-height: calc(100vh - 150px) !important;
+  visibility: visible !important;
+  z-index: unset !important;
+  transition: height 0.25s;
+}
+
+.truck-stop-dropdown-active {
+  max-height: calc(100vh - 320px) !important;
+  visibility: visible !important;
+  z-index: unset !important;
+  transition: height 0.25s;
+}
+
+.active-stop-item {
+  p {
+    color: white !important;
+    transition: 0.25s;
+  }
+}
+
+.route-data-items-fullscreen {
+  max-height: calc(100vh - 103px) !important;
+  visibility: visible !important;
+  z-index: unset !important;
+  transition: height 0.25s;
+}
+
+.route-data-items-active {
+  max-height: calc(100vh - 282px) !important;
+  visibility: visible !important;
+  z-index: unset !important;
+  transition: max-height 0.25s;
+}
+
+.rotate-svg {
+  svg {
+    transform: rotateZ(-180deg) !important;
+    transition: all 0.25s;
+  }
+}
+
+.legend-dropdown-avtive {
+  .legend-svg {
+    svg {
+      path {
+        fill: #5673aa !important;
+      }
+    }
+  }
+  .legend-dropdown {
+    top: 25px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 101 !important;
+    transition: opacity 0.25s, top 0.25s;
+  }
+}
+
+.loaded-legend-svg {
+  svg {
+    left: 6px;
+    .a {
+      fill: #6c6c6c;
+      stroke: #6c6c6c;
+    }
+    .b {
+      fill: #919191;
+      stroke: #919191;
+    }
+  }
+}
+
+.empty-legend-svg {
+  svg {
+    left: 7px;
+    .a {
+      fill: #b7b7b7;
+      stroke: #b7b7b7;
+    }
+    .b {
+      fill: #dadada;
+      stroke: #dadada;
+    }
+  }
+}
+
+.legend-items-margin {
+  margin-top: 12px;
+}

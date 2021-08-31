@@ -1,0 +1,19 @@
+<div
+  *ngIf="item && item.messages.length > 0"
+>
+  <app-sender-message
+    *ngFor="let message of item.messages; let i = index"
+    [message]="message"
+    [isFirst]="i === 0"
+    [isLast]="item.messages.length - 1 === i"
+    (onDelete)="deleteMessage($event)"
+    (onEdit)="editMessage($event)"
+    (onEditModeChange)="changeEditMode($event)"
+    [type]="type"
+    [userType]="userType"
+    [chatName]="chatName"
+    [chatId]="chatId"
+    [isChannelStatus]="isChannel"
+  >
+  </app-sender-message>
+</div>

@@ -1,0 +1,21 @@
+<div class="gps_info_hold" *ngIf="!expend" [ngClass]="{'info_hold_gps_hover': isGps}" (click)="onExpend()">
+    <div class="gps_info_header d-flex">
+        <div class="gps_full_mileage">842 mi.</div>
+        <div class="gps_temp_mileage">490 mi.</div>
+    </div>
+    <div class="gps_info_body">
+        <div class="gps_info_percentage">
+            <div class="gps_info_perc_size"></div>
+            <div class="gps_main_stops" 
+                [class.delivery]="stops.PointType == 'delivery'" 
+                *ngFor="let stops of mapPoints; let indx = index"
+            ></div>
+        </div>
+        <div class="gps_info_city d-flex" [ngClass]="{'hide-city-info': hideCityInfo}">
+            <div class="gps_end_location">Indianapolis, IN</div>
+            <div class="gps_end_perc">14%</div>
+        </div>
+    </div>
+</div>
+
+<app-gps-statistic-stops (clickOutside)="expend = false" [isGps]="isGps" *ngIf="expend"></app-gps-statistic-stops>

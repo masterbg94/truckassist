@@ -1,0 +1,54 @@
+<div class="dashboard_history_holder ml-0">
+    <div class="dashboar_hist_header leader_board_holder">
+        <div class="dashb_white_part with_stats">
+            <span
+                class="d-flex"
+            > 
+                <span class="load_counts_dash">310</span>
+                <span  
+                style="color: #919191b3;"
+                appSelectionColor>Dispatch status</span>
+            </span>
+        </div>
+        <div class="chart_select_holder">
+            <ng-select
+             [items]="boardList"
+             bindLabel="name"
+             [searchable]="false"
+             [(ngModel)]="selectedBoard"
+             bindValue="board"
+            ></ng-select>
+        </div>
+    </div>
+    <div class="d-flex dash_state_tracking_holder">
+        <div class="leaderboard_main full_width statuses_height">
+            <div class="leaderboard_items_holder">
+                <div class="leaderboard_item" *ngFor="let item of leadboardData; let ind = index">
+                    <div class="lead_board">
+                        <div
+                            appSelectionColor 
+                            class="leader_name status_name" 
+                            *ngIf="item.name"
+                            [style.color]="item.color"
+                        >{{item.name}}</div>
+                    </div>
+                    <div class="lead_board">
+                        <div class="leader_amount">
+                            <span 
+                                style="color: #919191;"
+                                appSelectionColor
+                            >{{item.status}}</span>
+                        </div>
+                        <div class="leader_percentage">
+                            <span 
+                                style="color: #919191;"
+                                appSelectionColor    
+                            >{{item.statusPercentage}}%</span>
+                        </div>
+                    </div>
+                    <div class="percentage_item" [ngStyle]="{width: (item.percentage <= 100 ? item.percentage : 100) + '%'}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

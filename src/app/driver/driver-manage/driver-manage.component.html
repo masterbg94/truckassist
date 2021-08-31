@@ -1,0 +1,517 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">{{ modalTitle }}</h5>
+    <div class="multiple-choises-wrapper">
+      <div class="wrap choise-wrapper">
+        <div class="btn-group btn-group-toggle">
+          <label class="btn-primary" ngbButtonLabel>
+            <input
+              type="checkbox"
+              ngbButton
+              [(ngModel)]="isUserOwner"
+              (change)="checkIsOwner()"
+            >
+            Is Owner
+          </label>
+        </div>
+      </div>
+    </div>
+    <app-modal-close></app-modal-close>
+  </div>
+  <div class="modal-body">
+    <app-ta-tab-switch
+      (switchClicked)="tabChange($event)"
+      [tabs]="tabs"
+    >
+    </app-ta-tab-switch>
+    <app-loading-modal class='large' *ngIf="!loaded"></app-loading-modal>
+    <form
+      *ngIf="loaded"
+      [formGroup]="driverForm"
+      class="form-container has-tabs tabs-2{{ ' tab-' + selectedTab }}"
+      (keydown)="keyDownFunction($event)"
+    >
+      <div
+        class="form-group d-flex align-items-center mt-0 mt-lg-3 absolute-status"
+        *ngIf="inputData.data.type == 'edit'"
+      >
+        <kendo-switch
+          class="switch-grey"
+          [checked]="driver?.status"
+          formControlName="status"
+        ></kendo-switch>
+      </div>
+
+        <div class="single-tab-container">
+          <div class="row">
+            <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="firstName"
+                  class="form-control input-control required"
+                  (paste)="onPaste($event, 'firstName')"
+                  onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                  placeholder="First name"
+                  formControlName="firstName"
+                  appInputrestriction="[A-Za-z]"
+                  appInputFocus
+                  appAutoFocus
+                  [modalType]="inputData.data.type"
+                />
+                <label class="required-label" for="firstName">First name</label>
+                <app-required-label [control]="driverForm.controls.firstName"></app-required-label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="lastName"
+                  class="form-control input-control required"
+                  (paste)="onPaste($event, 'lastName')"
+                  onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+                  placeholder="Last name"
+                  formControlName="lastName"
+                  appInputrestriction="[A-Za-z]"
+                  appInputFocus
+                />
+                <label class="required-label" for="lastName">Last name</label>
+                <app-required-label [control]="driverForm.controls.lastName"></app-required-label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="DOB"
+                  class="required datepicker-label{{
+                    driverForm.controls.dateOfBirth.value !== null &&
+                    driverForm.controls.dateOfBirth.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    placeholder=""
+                    [format]="format"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    formControlName="dateOfBirth"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="driverForm.controls.dateOfBirth"
+                ></app-required-label>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <div
+                class="form-label-group input-icon phone-field-wrapper"
+              >
+                <input
+                  id="phone"
+                  class="form-control input-control"
+                  placeholder="Phone"
+                  appInputFocus
+                  formControlName="phone"
+                  mask="(000) 000-0000"
+                />
+                <label for="phone">Phone</label>
+              </div>
+            </div>
+            <div class="col-8">
+              <div
+                class="form-label-group input-icon email-field-wrapper {{
+                  manageInputValidation(driverForm.controls.email)
+                }}"
+              >
+                <input
+                  id="email"
+                  appInputFocus
+                  class="form-control input-control required"
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                  (keypress)="onEmailTyping($event)"
+                  (paste)="onPaste($event, 'email')"
+                  placeholder="Email"
+                  formControlName="email"
+                />
+                <label class="required-label" for="email">Email</label>
+                <app-required-label [control]="driverForm.controls.email"></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <div
+                class="form-label-group input-icon address-field-wrapper {{
+                  manageInputValidation(driverForm.controls.address)
+                }}"
+              >
+                <input
+                  id="address"
+                  class="form-control input-control required"
+                  placeholder="Address, City, State Zip"
+                  formControlName="address"
+                  appInputFocus
+                  ngx-google-places-autocomplete
+                  [options]="options"
+                  #placesRef="ngx-places"
+                  (onAddressChange)="handleAddressChange($event)"
+                />
+                <label class="required-label" for="address">Address, City, State Zip</label>
+                <app-required-label [control]="driverForm.controls.address"></app-required-label>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="addressUnit"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="addressUnit"
+                  maxlength="6"
+                  appInputrestriction="[A-Za-z0-9-]"
+                  appInputFocus
+                />
+                <label for="addressUnit">Unit #</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="form-label-group">
+                <input
+                  id="ssn"
+                  class="form-control input-control required"
+                  (paste)="onPaste($event, 'ssn')"
+                  placeholder="SSN"
+                  formControlName="ssn"
+                  mask="000-00-0000"
+                  appInputFocus
+                />
+                <label class="required-label" for="ssn">SSN</label>
+                <app-required-label [control]="driverForm.controls.ssn"></app-required-label>
+              </div>
+            </div>
+            <div class="col-7" *ngIf="driverForm.controls.isOwner.value">
+              <app-ta-switch
+                [data]="ownerSwitchData"
+                (switchClicked)="switchOwner($event)"
+              ></app-ta-switch>
+            </div>
+          </div>
+          <div class="row"
+               *ngIf="driverForm.controls.isBusinessOwner.value && driverForm.controls.isOwner.value">
+              <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="taxId"
+                  class="form-control input-control required"
+                  placeholder="EIN"
+                  formControlName="taxId"
+                  (paste)="onPaste($event, 'taxId'); getBusinessName();"
+                  mask="00-0000000"
+                  [required]="ownerFieldsRequired"
+                  (input)="getBusinessName()"
+                  appInputFocus
+                />
+                <div class="icon-container">
+                  <i class="input-loader"></i>
+                </div>
+                <label class="{{ ownerFieldsRequired ? 'required-label' : '' }}" for="taxId">EIN</label>
+                <app-required-label [control]="driverForm.controls.taxId"></app-required-label>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="form-label-group">
+                <input
+                  id="businessName"
+                  class="form-control input-control required"
+                  oninput="this.value = this.value.replace(/[^A-Za-z0-9-,.;'&/.() ]|^ /g,'')"
+                  (paste)="onPaste($event, 'businessName')"
+                  (keypress)="onNameTyping($event)"
+                  (keydown)="onCheckBackSpace($event)"
+                  placeholder="Bussines name"
+                  formControlName="businessName"
+                  appInputrestriction="[0-9A-Za-z\.\,\s]"
+                  appInputFocus
+                />
+                <label class="required-label" for="businessName">Bussines name</label>
+                <app-required-label
+                  [control]="driverForm.controls.businessName"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 note-wrapper{{ showNote ? ' visible-note' : ' hidden-note' }}">
+              <div class="note-label-wrapper" (click)="openNote()">
+                <span class="note-label">Note</span>
+                <svg-icon src="assets/img/svgs/down-arrow.svg" class="down-icon"></svg-icon>
+              </div>
+              <div
+                class="example-full-width note-input{{
+                  showNote ? ' note-visible' : ' note-hidden'
+                }}"
+              >
+                <textarea
+                  cdkTextareaAutosize
+                  #note
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5"
+                  formControlName="note"
+                  class="input-custom-textarea form-textarea"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="single-tab-container">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-label-group" *ngIf="!newBankVisible">
+                <ng-select
+                  placeholder="Bank name"
+                  [items]="bankData"
+                  formControlName="bankData"
+                  bindLabel="bankName"
+                  class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+                  (search)="onSearch($event)"
+                  (close)="onClose($event)"
+                  (clear)="onClose($event)"
+                  (change)="onBankChange($event)"
+                  [searchFn]="customSearch"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                      <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                    </span>
+                    <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                    <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+                  </ng-template>
+
+                  <ng-template ng-label-tmp let-item="item">
+                    <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                      <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                    </span>
+                    <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                      {{ item.bankName }}
+                    </span>
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+                <div class="form-label-group">
+                  <input
+                    id="newBank"
+                    class="form-control input-control"
+                    placeholder="New bank"
+                    [(ngModel)]="newBank"
+                    [ngModelOptions]="{standalone: true}"
+                    (keypress)="onBankKeyPress($event)"
+                    appInputFocus
+                  >
+                  <label for="newBank">New bank</label>
+                  <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                    <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+                  </span>
+                  <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                    <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+              <div class="form-label-group">
+                <input
+                  id="accountNumber"
+                  class="form-control input-control{{ bankInfoRequired ? ' required' : '' }}"
+                  placeholder="Account number"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                  formControlName="accountNumber"
+                  minlength="4"
+                  maxlength="17"
+                  (paste)="onPaste($event, 'accountNumber')"
+                />
+                <label class="{{ bankInfoRequired ? 'required-label' : '' }}" for="accountNumber"
+                  >Account number</label
+                >
+                <app-required-label
+                  [control]="driverForm.controls.accountNumber"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group">
+                <input
+                  id="routingNumber"
+                  class="form-control input-control{{ bankInfoRequired ? ' required' : '' }}"
+                  placeholder="Routing number"
+                  formControlName="routingNumber"
+                  [required]="bankInfoRequired"
+                  minlength="9"
+                  maxlength="9"
+                  onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                  appInputFocus
+                  (paste)="onPaste($event, 'routingNumber')"
+                />
+                <label class="{{ bankInfoRequired ? 'required-label' : '' }}" for="routingNumber"
+                  >Routing number</label
+                >
+                <app-required-label
+                  [control]="driverForm.controls.routingNumber"
+                ></app-required-label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="{{
+                driverForm.controls.paymentType.value !== null
+                  ? 'payment-type col-6'
+                  : 'payment-type col-12'
+              }}"
+            >
+              <div class="form-label-group">
+                <ng-select placeholder="Pay Type" [items]="paymentTypes" formControlName="paymentType"
+                           bindLabel="name" appendTo="body">
+                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+            <div class="col-3" *ngIf="driverForm.controls.paymentType.value !== null && driverForm.controls.paymentType.value.id == 'mile'">
+              <div class="form-label-group">
+                <input
+                  id="loadedMiles"
+                  class="form-control input-control"
+                  placeholder="Loaded"
+                  formControlName="loadedMiles"
+                />
+                <label for="loadedMiles">Loaded</label>
+              </div>
+            </div>
+            <div
+              class="col-3"
+              *ngIf="
+                driverForm.controls.paymentType.value !== null &&
+                driverForm.controls.paymentType.value.id == 'mile'
+              "
+            >
+              <div class="form-label-group">
+                <input
+                  id="emptyMiles"
+                  class="form-control input-control"
+                  placeholder="Empty"
+                  formControlName="emptyMiles"
+                />
+                <label for="emptyMiles">Empty Miles</label>
+              </div>
+            </div>
+            <div class="col-6 slider-wrapper" *ngIf="driverForm.controls.paymentType.value !== null && driverForm.controls.paymentType.value.id == 'commission'">
+              <ngx-slider
+                formControlName="commission"
+                [options]="sliderOptions"
+              ></ngx-slider>
+            </div>
+          </div>
+          <div class="row mb-28" *ngIf="notifications.length > 0">
+            <div class="col-12">
+              <div class="fw500">Notifications</div>
+              <div class="multiple-choises-wrapper driver-notifications">
+              <div
+                class="btn-group btn-group-toggle"
+                *ngFor="let notification of notifications; let i = index"
+              >
+                <label class="btn-primary" ngbButtonLabel>
+                <input
+                  type="checkbox"
+                  ngbButton
+                  [(ngModel)]="notification.checked"
+                  [ngModelOptions]="{ standalone: true }"
+                  appInputFocus
+                />
+                {{ notification.name }}
+                </label>
+              </div>
+              </div>
+            </div>
+            </div>
+          <div class="row">
+            <div class="col-2">
+              <div class="wrap choise-wrapper twic-choise">
+                <div class="btn-group btn-group-toggle">
+                  <label class="btn-primary" ngbButtonLabel>
+                    <input
+                      type="checkbox"
+                      ngbButton
+                      [(ngModel)]="isTwicChecked"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="checkTwic()"
+                    >
+                    TWIC
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="Exp. Date"
+                  class="{{ isRequiredField(driverForm.controls.expirationDate) ? 'required ' : '' }}datepicker-label{{
+                    driverForm.controls.expirationDate.value !== null &&
+                    driverForm.controls.expirationDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                >
+                  <kendo-datepicker
+                    placeholder=""
+                    [format]="format"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    formControlName="expirationDate"
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="driverForm.controls.expirationDate"
+                ></app-required-label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-label-group">
+                <input
+                  id="fuelCard"
+                  class="form-control input-control"
+                  placeholder="Fuel Card #"
+                  formControlName="fuelCard"
+                />
+                <label for="fuelCard">Fuel Card #</label>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeDriverEdit()">Cancel</button>
+    <button type="button" class="save-btn" (click)="saveDriver()">Save</button>
+  </div>
+</div>

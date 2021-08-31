@@ -1,0 +1,60 @@
+// import { Injectable, NgZone, OnDestroy } from '@angular/core';
+// import { Observable, interval, Subject } from 'rxjs';
+// import { map, takeWhile } from 'rxjs/operators';
+// import { environment } from 'src/environments/environment';
+// //import * as signalR from '@aspnet/signalr';
+// import * as signalR from "@microsoft/signalr";
+// @Injectable({ providedIn: 'root' })
+// export class AppSignalRService implements OnDestroy{
+//     public hubConnection: signalR.HubConnection;
+//     public signalReceived = new Subject<object>();
+
+//     constructor() {}
+//     public startConnection(userId?: number){
+//         Object.defineProperty(WebSocket, 'OPEN', { value: 1 }); //workaround za da se otvori socket jbg
+//         this.hubConnection = new signalR.HubConnectionBuilder()
+//         .withUrl(`https://api-test.truckassist.io/tahub`)
+//         .build();
+    
+//         this.hubConnection.on("messageReceived", (json: string) => {
+//           console.log("RCVD MSG");
+//           console.log(json);
+//           const messageData = JSON.parse(json);
+//           this.signalReceived.next(messageData);
+//         });
+
+//         this.hubConnection.on("SendMessage", (json: string) => {
+//           console.log("RECEIVED MESSAGE");
+//           console.log(json);
+//           //const messageData = JSON.parse(json);
+//          // this.signalReceived.next(messageData);
+//         });
+//         this.hubConnection
+//         .start()
+//         .then(() => {
+//             this.sendMessage({type: "checkLock"});
+//         })
+//         .catch(err => console.log('Error while starting connection: ' + err))
+//     }
+
+//     public sendMessage(data){
+//         if( this.hubConnection && this.hubConnection.connectionId ){
+//             //this.hubConnection.invoke('NewMessage', JSON.stringify(data))
+//             this.hubConnection.invoke('NewMessage', { message: "test"})
+//             .then(() => console.log("send"));
+//         }
+//     }
+
+//     public stopConnection(){
+//         if( this.hubConnection && this.hubConnection.connectionId ){
+//             this.hubConnection.stop().then((res) =>{
+//                 console.log("SIGNAL STOP CONNECTION");
+//             });
+//         }
+//     }
+
+//     ngOnDestroy(): void {
+//         if( this.hubConnection ) this.hubConnection.stop();
+//     }
+
+// }

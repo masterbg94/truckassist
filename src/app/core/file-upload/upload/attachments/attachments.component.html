@@ -1,0 +1,19 @@
+<div class="attachments-wrapper {{ page }}">
+  <div class="toggle-attachments{{ showUpload ? ' attachments-visible' : '' }}" (click)="toggleUpload()" *ngIf="page !== 'load' && page !== 'document'">
+    <span>Attachment</span>
+    <svg-icon
+      src="assets/img/svgs/down-arrow.svg"
+      class="down-icon"
+    ></svg-icon>
+  </div>
+  <app-app-upload
+    [@slideInOut]
+    *ngIf="showUpload"
+    [attachments]="sanitizedAttachments"
+    [commentsVisible]="commentsVisible"
+    (filesEvent)="receiveMessage($event)"
+    [clearFiles]="clearFiles"
+    [component]="page"
+    [multiple]="(page == 'cdl') ? false : true"
+  ></app-app-upload>
+</div>

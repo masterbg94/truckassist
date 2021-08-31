@@ -1,0 +1,346 @@
+.icons-item {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    li {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        line-height: 3;
+        margin: 1px;
+        list-style: none;
+        text-align: center;
+        border-radius: 3px;
+        position: relative;
+        border: 1px solid #e9f1f1;
+        cursor: pointer;
+    }
+}
+
+.icons {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    li {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        line-height: 3;
+        list-style: none;
+        text-align: center;
+        border-radius: 3px;
+        position: relative;
+        border: 1px solid #e9f1f1;
+        cursor: pointer;
+
+        &:hover {
+            opacity: .8;
+        }
+
+        .icon-name {
+            display: none;
+        }
+    }
+}
+
+.flag-icons {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    li {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        line-height: 3.2rem;
+        margin: 1px;
+        list-style: none;
+        text-align: center;
+        border-radius: 3px;
+        position: relative;
+        border: 1px solid #e9f1f1;
+        cursor: pointer;
+    }
+}
+
+.weather-shade {
+    i {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 125px;
+        height: auto;
+        font-size: 90px;
+    }
+}
+
+.weather-radius {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 3px;
+
+    .bg-transparent {
+        h3 {
+            z-index: 10;
+            position: relative;
+        }
+    }
+}
+
+.widgetb {
+    h6 {
+        font-weight: 400;
+        font-size: 12px;
+    }
+
+    i {
+        font-size: 27px;
+        margin-bottom: 5px;
+    }
+}
+
+.icon-wrap {
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 25px;
+    width: calc(100% / 4);
+
+    .icon {
+        float: left;
+        width: 40px;
+        font-family: 'weathericons';
+        font-size: 20px;
+    }
+}
+
+.icon-wrap {
+    .icon_unicode {
+        width: 100%;
+        padding-left: 45px;
+        color: #7a7d7d;
+    }
+}
+
+.new-icons {
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        li {
+            padding: 10px;
+        }
+    }
+}
+
+.icon-wrap .icon, .new-icons ul li .wi {
+    font-size: 24px;
+    margin-right: 15px;
+    width: 30px;
+    text-align: center;
+}
+
+.list-icons {
+    i {
+        font-size: 50px;
+    }
+}
+
+.op1 {
+    opacity: 0.1;
+}
+
+.op2 {
+    opacity: 0.2;
+}
+
+.op3 {
+    opacity: 0.3;
+}
+
+.op4 {
+    opacity: 0.4;
+}
+
+.op5 {
+    opacity: 0.5;
+}
+
+.icon-service {
+    display: inline-flex;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: 2rem;
+    }
+}
+
+.icon-service1 {
+    display: inline-flex;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 7px;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: 1.5rem;
+    }
+}
+
+.jqvmap-circle {
+    background-color: $primary;
+}
+
+.weather {
+    ul {
+        li {
+            border: 2px solid $primary;
+            color: $primary;
+        }
+    }
+}
+
+.custom-icons {
+    color: $gray-600;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+        background-color: $gray-300;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        color: $black;
+    }
+}
+
+.table-icons {
+    color: $gray-600;
+
+    &:hover {
+        color: $black;
+    }
+}
+
+.custom-icon-delete {
+    color: #ffb3b3;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+        background-color: #ffe6e6;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        color: $danger;
+    }
+}
+
+.truck-logo {
+    width: 90px;
+    height: 90px;
+    vertical-align: top;
+}
+
+.dot {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: -4px;
+    border: 1px solid $gray-300;
+}
+
+.home-icon {
+    font-size: 24px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+
+    i:hover {
+        color: $primary;
+    }
+}
+
+.icon-hover-primary:hover {
+    color: $primary;
+}
+
+.list-border {
+    &:hover {
+        i {
+            color: $primary;
+        }
+    }
+}
+
+.header-icons-width {
+    width: 45px !important;
+}
+
+.state-hover {
+    position: relative;
+    z-index: 101;
+    width: 20px;
+    height: 20px;
+    transition: all .15s;
+
+    &:hover {
+        transform: scale(2.4);
+    }
+}
+
+.type-hover {
+    width: 40px;
+    height: 20px;
+    transition: all .15s;
+
+    &:hover {
+        transform: scale(2.4);
+    }
+}
+
+.nav-icon-hover {
+  transition: all .15s;
+
+  &:hover {
+      transform: scale(1.5);
+  }
+}
+
+.custom-nav-icon-hover {
+    transition: all .15s;
+
+    &:hover {
+        transform: scale(1.7);
+    }
+}

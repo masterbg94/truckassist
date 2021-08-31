@@ -1,0 +1,28 @@
+<div class="container_no_results" [ngClass]="{ 'add-scale': noResultsLoaded }">
+  <div class="table_empty_column_top">
+    <svg-icon src="../../../assets/img/no-results/top_new.svg"></svg-icon>
+  </div>
+
+  <div class="center_svg">
+    <svg-icon
+      src="{{
+        noResultsSvgs[svgToShow - 1]
+          ? noResultsSvgs[svgToShow - 1].path
+          : '../../../assets/img/no-results/no_result_svg_one.svg'
+      }}"
+    ></svg-icon>
+  </div>
+
+  <div class="text_container">
+    <div class="text_info">No results found</div>
+  </div>
+
+  <div class="text_parahraph">
+    <div class="text_no_results">We couldn't find what you searched for.</div>
+    <div class="text_no_result_search">Try searching again.</div>
+  </div>
+
+  <div class="table_empty_column_bottom">
+    <svg-icon src="../../../assets/img/no-results/bottom_new.svg"></svg-icon>
+  </div>
+</div>

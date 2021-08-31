@@ -1,0 +1,212 @@
+<div class="modal-container assing_load_table" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+    <h5 class="modal-title">Assign Load to #{{inputData.data.truckNumber}}</h5>
+    <i
+      class="fal fa-times cursor-pointer fs-24 icon-hover-primary"
+      (click)="closeModal()"
+    ></i>
+  </div>
+  <div class="modal-body p-0">
+    <div class="card no-border-radius mb-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <app-no-empty-status [isAssignLoads]="true"></app-no-empty-status>
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr class="text-nowrap no-hover">
+                <th class="text-center">#</th>
+                <th>Broker name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th class="text-right refNmbr">Ref#</th>
+                <th>Pickup</th>
+                <th>Delivery</th>
+                <th>Miles</th>
+                <th class="text-center" style="width: auto !important;">Total rate</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let load of dispatchLoadsData; let indx = index" class="cursor-pointer" (click)="showMaps(load)" [class.active]="selectedLoad == load.id">
+                  <td class="text-center">
+                    <div class="">{{indx+1}}</div>
+                  </td>
+                  <td>{{load.customerName}}</td>
+                  <td>{{load.pickupDateTime | date : 'MM/LL/yy'}}</td>
+                  <td>{{load.pickupDateTime | date : 'hh:mm aa'}}</td>
+                  <td class="text-right">
+                    <div class="refNmbr">{{load.customerLoadNumber}}</div>
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <div class="load-count count_item" *ngIf="load.pickupCount">
+                        <svg-icon *ngIf="load.pickupCount < 10" src="assets/img/svg_numbers/svg_num_box_{{load.pickupCount}}.svg"></svg-icon>
+                        <svg-icon *ngIf="load.pickupCount > 9" src="assets/img/svg_numbers/svg_num_over.svg"></svg-icon>
+                      </div>
+                      {{ load.pickupLocation.city}}, {{ load.pickupLocation.stateShortName}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex count_item delivery_items">
+                      <div class="load-count" *ngIf="load.deliveryCount">
+                        <svg-icon *ngIf="load.deliveryCount < 10" src="assets/img/svg_numbers/svg_num_box_{{load.deliveryCount}}.svg"></svg-icon>
+                        <svg-icon *ngIf="load.deliveryCount > 9" src="assets/img/svg_numbers/svg_num_over.svg"></svg-icon>
+                      </div>
+                      {{ load.deliveryLocation.city}}, {{ load.deliveryLocation.stateShortName}}
+                    </div>
+                  </td>
+                  <td>{{ load.mileage }}</td>
+                  <td class="text-center" style="width: auto !important;">{{ load.total | currency }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div 
+      [@pickupAnimation]  
+      class="assign_load_map_holder" 
+      *ngIf="selectedLoad">
+      <agm-map
+      [streetViewControl]="false"
+      [controlSize]="20"
+      [restriction]="mapRestrictions"
+      [styles]="styles"
+      [clickableIcons]="false"
+      [zoom]="1"
+      (mapReady)="getMapInstance($event)"
+      >
+      <agm-direction
+      *ngFor="let dir of directionRoutes"
+      [origin]="dir.origin"
+      [destination]="dir.destination"
+      [waypoints]="dir.waypoints"
+      [optimizeWaypoints]="false"
+      [renderOptions]="dir.renderOptions"
+      ></agm-direction>
+        <div *ngFor="let mark of waypointMarkers; let i = index">
+          <agm-marker
+            [latitude]="mark.lat"
+            [longitude]="mark.lng"
+            [agmFitBounds]="true"
+            [visible]="false"
+            >
+            <agm-snazzy-info-window
+                [latitude]="mark.lat"
+                [longitude]="mark.lng"
+                [openOnMarkerClick]="false"
+                [closeOnMapClick]="false"
+                [maxWidth]="26"
+                [maxHeight]="32"
+                [isOpen]="true"
+                [closeWhenOthersOpen]="false"
+                placement="bottom"
+            >
+                <ng-template class="marker-tool-tip">
+                    <svg
+                    class="routing_marker"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="32"
+                    viewBox="0 0 32.999 48.234"
+                  >
+                    <g
+                      id="Group_11810"
+                      data-name="Group 11810"
+                      transform="translate(-509.694 -364.016)"
+                    >
+                      <g id="Group_11809" data-name="Group 11809">
+                        <path
+                          id="Path_10542"
+                          [ngStyle]="{ fill: mapCollors[mark.type].bottom }"
+                          data-name="Path 10542"
+                          d="M526.194,399.25a6.5,6.5,0,1,0,6.5,6.5A6.5,6.5,0,0,0,526.194,399.25Zm0,10a3.5,3.5,0,1,1,3.5-3.5A3.5,3.5,0,0,1,526.194,409.25Z"
+                        />
+                        <circle
+                          id="Ellipse_1439"
+                          data-name="Ellipse 1439"
+                          cx="3.5"
+                          cy="3.5"
+                          r="3.5"
+                          transform="translate(522.694 402.25)"
+                          fill="#fff"
+                        />
+                      </g>
+                      <g id="Locator">
+                        <path
+                          id="Path_10543"
+                          [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                          data-name="Path 10543"
+                          d="M526.2,364.016a16.637,16.637,0,0,0-16.5,16.769,16.879,16.879,0,0,0,3.229,9.966c3,4.127,13.3,15.265,13.3,15.265s10.231-11.138,13.237-15.265a16.865,16.865,0,0,0,3.229-9.966A16.636,16.636,0,0,0,526.2,364.016Zm0,28.246a11.631,11.631,0,0,1,0-23.262h0a11.631,11.631,0,1,1,0,23.262Z"
+                        />
+                        <path
+                          id="Path_2808"
+                          data-name="Path 2808"
+                          d="M526.2,369a11.631,11.631,0,1,1-11.631,11.631h0A11.631,11.631,0,0,1,526.194,369Z"
+                          fill="#fff"
+                        />
+                      </g>
+                      <text
+                        id="_1"
+                        data-name="1"
+                        transform="translate(520.195 366.25)"
+                        [ngStyle]="{ fill: mapCollors[mark.type].marker }"
+                        font-size="14"
+                        font-family="Montserrat"
+                        font-weight="Bold"
+                        startOffset="50%"
+                        text-anchor="middle"
+                        alignement-baseline="middle"
+                      >
+                        <tspan x="5.8" y="19">{{ mark.index }}</tspan>
+                      </text>
+                    </g>
+                  </svg>
+                </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker> 
+        </div>
+      </agm-map>
+      <div class="mileage-container">
+        <div class="mileage_table" *ngIf="legMilage.length > 0">
+            <div class="total_item">Total: {{distance}} mi</div>
+            <div class="mileage_table_head pr-2">
+                <div class="milage_table_col"><span>#</span>Stops</div>
+                <div class="milage_table_col">Leg</div>
+                <div class="milage_table_col">Total</div>
+            </div>
+            <div class="mileage_table_body">
+                <div [ngClass]="{'milage_table_row pr-2': true, 'active': activatedLoadMap == rowIndex, pickupRow: dataItem.type == 'pickup', deliveryRow: dataItem.type == 'delivery' }" *ngFor="let dataItem of legMilage; let rowIndex = index">
+                    <!-- Stops -->
+                    <div class="milage_table_col">
+                        <span class="pl-2 address_titles" *ngIf="dataItem.startAddress !== null">
+                            <span >{{rowIndex + 1}}</span>{{ dataItem.startAddress }}
+                        </span>
+                        <span class="pl-2 address_titles" *ngIf="dataItem.endAddress !== null">
+                            <span>{{rowIndex + 1}}</span>{{ dataItem.endAddress }}
+                        </span>
+                    </div>
+                    <!-- Leg Miles -->
+                    <div class="milage_table_col">
+                        <span *ngIf="dataItem.distance !== null">{{ dataItem.distance }}</span>
+                    </div>
+                    <!-- Total Miles -->
+                    <div class="milage_table_col mileage_total_col">
+                        <span *ngIf="dataItem.mileageSumString !== null">{{ dataItem.mileageSumString }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button *ngIf="addButton" type="button" class="save-btn" [disabled]="selectedLoad.length === 0" (click)="addLoad()">
+      Assign Load
+    </button>
+    <button *ngIf="!addButton" type="button" class="save-btn" [disabled]="selectedLoad.length === 0">
+      Save Changes
+    </button>
+  </div>
+</div>
+

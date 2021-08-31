@@ -1,0 +1,347 @@
+<span class="cursor-pointer" [ngbPopover]="loadPopup" #t1="ngbPopover" triggers="manual" autoClose="outside"
+  [placement]="['bottom', 'top']" (click)="toggleLoadPopup(t1)">
+  <ng-content></ng-content>
+</span>
+
+<!-- Popup for load -->
+<ng-template #loadPopup>
+  <div class="dispatch-destination-wrapper">
+    <div class="load_holder" *ngIf="!dispatch_data_loaded">
+      <app-loading-modal></app-loading-modal>
+    </div>
+    <div class="d-flex flex-column" *ngIf="dispatch_data_loaded">
+      <app-ta-tab-switch (switchClicked)="onTabChanged($event)" [tabs]="tabs"></app-ta-tab-switch>
+
+      <div class="has-tabs tabs-3{{ ' tab-' + selectedtab }} load-routes-wrapper">
+        <div class="single-tab-container">
+          <ng-template ngFor let-item [ngForOf]="dispatch_pickup_data.closedLoads" let-i="index">
+            <div class="dips_holder nop_bottom" [class.expended_item]="showMap == i"
+              (click)="((item['deliveryCount'] > 1 || item['pickupCount'] > 1)) && showMaps(item, i, true)">
+              <div class="d-flex justify-content-between pb-1">
+                <span class="head_span">{{item['customerName']}}</span>
+
+                <span class="head_span">{{item['mileage']}} miles</span>
+
+                <span class="head_span">${{item['total']}}</span>
+              </div>
+              <div [@pickupAnimation] class="d-flex justify-content-between" *ngIf="showMap != i">
+                <div class="pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['pickupCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['pickupCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['pickupCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg"></svg-icon>
+                  </span>
+                  <div class="vert_top">
+                    <div class="dispatcher_status_address">{{item['pickupLocation']['city']}}
+                      {{item['pickupLocation']['stateShortName']}} {{item['pickupLocation']['zipCode']}}</div>
+                    <div class="d-flex justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.pickupDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.pickupDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="destination-data pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['deliveryCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['deliveryCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['deliveryCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg">
+                    </svg-icon>
+                  </span>
+                  <div class="flex-grow-1">
+                    <div class="dispatcher_status_address">{{item['deliveryLocation']['city']}}
+                      {{item['deliveryLocation']['stateShortName']}} {{item['deliveryLocation']['zipCode']}}</div>
+                    <div class="d-flex align-items-start justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.deliveryDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.deliveryDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="map_main_holder" [@pickupAnimation] *ngIf="showMap == i">
+                <div class="dips_holder active">
+                  <!-- <div class="d-flex justify-content-between">
+                    <span class="head_span">{{item['customerName']}}</span>
+
+                    <span class="head_span">{{item['mileage']}} miles</span>
+
+                    <span class="head_span">${{item['total']}}</span>
+                    </div> -->
+                  <div class="d-flex justify-content-between">
+                    <div class="pickup_items">
+                      <div *ngFor="let pickIt of item['route']; let indx = index">
+                        <div class="pickup_title d-flex flex-grow-1" [class.has_connect]="indx < item['pickupCount']-1"
+                          *ngIf="pickIt.PointType == 'pickup' || indx < item['route'].length -1">
+                          <div class="d-flex flex-grow-1" *ngIf="pickIt.PointType == 'pickup'">
+                            <span class="load-count load_dots"></span>
+                            <div class="vert_top lineHeightone">
+                              <div class="dispatcher_status_address">
+                                <span>{{pickIt['PointCity']}} {{pickIt['PointCountry']}} {{pickIt['PointZip']}}</span>
+                              </div>
+                              <div
+                                class="d-flex align-items-start justify-content-between dispatch_date add_padding_top">
+                                <span class="time_pad">{{ pickIt.PointDateTime | date: 'HH:mm aa' }}</span>
+                                <span>{{ pickIt.PointDateTime | date: 'MM.dd.yy' }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="pickup_items delivery_items">
+                      <div *ngFor="let pickIt of item['route']; let indx = index">
+                        <div class="destination-data pickup_title d-flex flex-grow-1 del_connect"
+                          [class.has_connect]="(indx > item['pickupCount']-1) && indx < item['route'].length -1"
+                          *ngIf="pickIt.PointType == 'delivery'">
+                          <div class="d-flex flex-grow-1">
+                            <span class="load-count load_dots"></span>
+                            <div class="vert_top lineHeightone">
+                              <div class="dispatcher_status_address">
+                                <span>{{pickIt['PointCity']}} {{pickIt['PointCountry']}} {{pickIt['PointZip']}}</span>
+                              </div>
+                              <div
+                                class="d-flex align-items-start justify-content-between dispatch_date add_padding_top">
+                                <span class="time_pad">{{ pickIt.PointDateTime | date: 'HH:mm aa' }}</span>
+                                <span>{{ pickIt.PointDateTime | date: 'MM.dd.yy' }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="single-tab-container">
+          <ng-template ngFor let-item [ngForOf]="dispatch_pickup_data.activeLoad" let-i="index">
+            <div class="dips_holder" [class.expended_item]="showMap == i" (click)="showMaps(item, i)">
+              <div class="d-flex justify-content-between pb-1">
+                <span class="head_span">{{item['customerName']}}</span>
+
+                <span class="head_span">{{item['mileage']}} miles</span>
+
+                <span class="head_span">${{item['total']}}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['pickupCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['pickupCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['pickupCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg"></svg-icon>
+                  </span>
+                  <div class="vert_top">
+                    <div class="dispatcher_status_address">{{item['pickupLocation']['city']}}
+                      {{item['pickupLocation']['stateShortName']}} {{item['pickupLocation']['zipCode']}}</div>
+                    <div class="d-flex justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.pickupDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.pickupDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="destination-data pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['deliveryCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['deliveryCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['deliveryCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg">
+                    </svg-icon>
+                  </span>
+                  <div class="flex-grow-1">
+                    <div class="dispatcher_status_address">{{item['deliveryLocation']['city']}}
+                      {{item['deliveryLocation']['stateShortName']}} {{item['deliveryLocation']['zipCode']}}</div>
+                    <div class="d-flex align-items-start justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.deliveryDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.deliveryDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="map_main_holder" [@pickupAnimation] *ngIf="showMap == i">
+              <div class="load-map-wrapper">
+                <agm-map [streetViewControl]="false" [controlSize]="20" [styles]="styles" [clickableIcons]="false"
+                  [restriction]="mapRestrictions" (mapClick)="mapClicked($event)" (mapReady)="getMapInstance($event)"
+                  [zoom]="1">
+                  <agm-direction *ngIf="origin !== undefined && destination !== undefined" [origin]="origin"
+                    [destination]="destination" [waypoints]="waypoints" [optimizeWaypoints]="false"
+                    [renderOptions]="renderOptions"></agm-direction>
+                  <div *ngFor="let marker of waypointMarkers; let i = index">
+                    <agm-marker *ngIf="marker.lat !== null && marker.lng !== null" [latitude]="marker.lat"
+                      [longitude]="marker.lng" [agmFitBounds]="true" [zIndex]="activatedLoadMap == i ? 100 : 1"
+                      [opacity]="activatedLoadMap == i ? 1 : 0.7" (markerClick)="markerClicked(marker, i)"
+                      [iconUrl]="{url:marker.type === 'delivery' ? '../../../../assets/img/svgs/pickup-map-markers/delivery_'+marker.index+'.svg' : '../../../../assets/img/svgs/pickup-map-markers/pickup_'+marker.index+'.svg', scaledSize: {width: 22, height: 27.5}}">
+                      <agm-snazzy-info-window [isOpen]="activatedLoadMapSnazzy && activatedLoadMap == i"
+                        [closeWhenOthersOpen]="true" (isOpenChange)="snazzyInfoWindowIsToggled($event)"
+                        placement="bottom">
+                        <ng-template>
+                          <div *ngIf="marker.markerInfo"
+                            [ngClass]="{'snazzy-info-window': true, 'pickup_window': marker.type === 'pickup', 'delivery_window': marker.type === 'delivery'}">
+                            <div class="snazzy_header">{{marker.markerInfo.name}}</div>
+                            <div class="snazyy_body" [innerHTML]="marker.markerInfo.address"></div>
+                            <div class="snazzy_footer" *ngIf="marker.markerInfo.phone">{{marker.markerInfo.phone}}</div>
+                          </div>
+                        </ng-template>
+                      </agm-snazzy-info-window>
+                    </agm-marker>
+                  </div>
+                </agm-map>
+              </div>
+              <div class="mileage-container">
+                <div class="mileage_table">
+                  <div class="mileage_table_head pr-2">
+                    <div class="milage_table_col">Stops</div>
+                    <div class="milage_table_col">Leg</div>
+                    <div class="milage_table_col">Total</div>
+                  </div>
+                  <div class="mileage_table_body" *ngIf="legMilage.length > 0">
+                    <div
+                      [ngClass]="{'milage_table_row pr-2': true, 'active': activatedLoadMap == rowIndex, pickupRow: dataItem.type == 'pickup', deliveryRow: dataItem.type == 'delivery' }"
+                      (click)="handleMapSelection(dataItem, rowIndex, 'active')"
+                      *ngFor="let dataItem of legMilage; let rowIndex = index">
+                      <!-- Stops -->
+                      <div class="milage_table_col">
+                        <span class="pl-2 address_titles" *ngIf="dataItem.startAddress !== null">
+                          <span>{{rowIndex + 1}}</span>{{ dataItem.startAddress }}
+                        </span>
+                        <span class="pl-2 address_titles" *ngIf="dataItem.endAddress !== null">
+                          <span>{{rowIndex + 1}}</span>{{ dataItem.endAddress }}
+                        </span>
+                      </div>
+                      <!-- Leg Miles -->
+                      <div class="milage_table_col">
+                        <span *ngIf="dataItem.distance !== null">{{ dataItem.distance }}</span>
+                      </div>
+                      <!-- Total Miles -->
+                      <div class="milage_table_col mileage_total_col">
+                        <span *ngIf="dataItem.mileageSumString !== null">{{ dataItem.mileageSumString }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </ng-template>
+        </div>
+        <div class="single-tab-container">
+          <ng-template ngFor let-item [ngForOf]="dispatch_pickup_data.pendingLoads" let-i="index">
+            <div class="dips_holder" [class.expended_item]="showMap == i" (click)="showMaps(item, i)">
+              <div class="d-flex justify-content-between pb-1">
+                <span class="head_span">{{item['customerName']}}</span>
+
+                <span class="head_span">{{item['mileage']}} miles</span>
+
+                <span class="head_span">${{item['total']}}</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['pickupCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['pickupCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['pickupCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg"></svg-icon>
+                  </span>
+                  <div class="vert_top">
+                    <div class="dispatcher_status_address">{{item['pickupLocation']['city']}}
+                      {{item['pickupLocation']['stateShortName']}} {{item['pickupLocation']['zipCode']}}</div>
+                    <div class="d-flex justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.pickupDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.pickupDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="destination-data pickup_title">
+                  <span class="load-count">
+                    <svg-icon *ngIf="item['deliveryCount'] < 10"
+                      src="assets/img/svg_numbers/svg_num_box_{{item['deliveryCount']}}.svg"></svg-icon>
+                    <svg-icon *ngIf="item['deliveryCount'] > 9" src="assets/img/svg_numbers/svg_num_over.svg">
+                    </svg-icon>
+                  </span>
+                  <div class="flex-grow-1">
+                    <div class="dispatcher_status_address">{{item['deliveryLocation']['city']}}
+                      {{item['deliveryLocation']['stateShortName']}} {{item['deliveryLocation']['zipCode']}}</div>
+                    <div class="d-flex align-items-start justify-content-between dispatch_date">
+                      <span class="time_pad">{{ item.deliveryDateTime | date: 'HH:mm aa' }}</span>
+                      <span>{{ item.deliveryDateTime | date: 'MM.dd.yy' }}</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="map_main_holder" [@pickupAnimation] *ngIf="showMap == i">
+              <div class="load-map-wrapper" *ngIf="selectedtab == 'Pending'">
+                <agm-map [streetViewControl]="false" [controlSize]="20" [styles]="styles" [clickableIcons]="false"
+                  [restriction]="mapRestrictions" (mapClick)="mapClicked($event)" (mapReady)="getMapInstance($event)"
+                  [zoom]="1">
+                  <agm-direction *ngIf="origin !== undefined && destination !== undefined" [origin]="origin"
+                    [destination]="destination" [waypoints]="waypoints" [optimizeWaypoints]="false"
+                    [renderOptions]="renderOptions"></agm-direction>
+                  <div *ngFor="let marker of waypointMarkers; let i = index">
+                    <agm-marker *ngIf="marker.lat !== null && marker.lng !== null" [latitude]="marker.lat"
+                      [longitude]="marker.lng" [agmFitBounds]="true" [zIndex]="activatedLoadMap == i ? 100 : 1"
+                      [opacity]="activatedLoadMap == i ? 1 : 0.7" (markerClick)="markerClicked(marker, i)"
+                      [iconUrl]="{url:marker.type === 'delivery' ? '../../../../assets/img/svgs/pickup-map-markers/delivery_'+marker.index+'.svg' : '../../../../assets/img/svgs/pickup-map-markers/pickup_'+marker.index+'.svg', scaledSize: {width: 22, height: 27.5}}">
+                      <agm-snazzy-info-window [isOpen]="activatedLoadMapSnazzy && activatedLoadMap == i"
+                        [closeWhenOthersOpen]="true" (isOpenChange)="snazzyInfoWindowIsToggled($event)"
+                        placement="bottom">
+                        <ng-template>
+                          <div *ngIf="marker.markerInfo"
+                            [ngClass]="{'snazzy-info-window': true, 'pickup_window': marker.type === 'pickup', 'delivery_window': marker.type === 'delivery'}">
+                            <div class="snazzy_header">{{marker.markerInfo.name}}</div>
+                            <div class="snazyy_body" [innerHTML]="marker.markerInfo.address"></div>
+                            <div class="snazzy_footer" *ngIf="marker.markerInfo.phone">{{marker.markerInfo.phone}}</div>
+                          </div>
+                        </ng-template>
+                      </agm-snazzy-info-window>
+                    </agm-marker>
+                  </div>
+                </agm-map>
+              </div>
+              <div class="mileage-container">
+                <div class="mileage_table">
+                  <div class="mileage_table_head pr-2">
+                    <div class="milage_table_col">Stops</div>
+                    <div class="milage_table_col">Leg</div>
+                    <div class="milage_table_col">Total</div>
+                  </div>
+                  <div class="mileage_table_body" *ngIf="legMilage.length > 0">
+                    <div
+                      [ngClass]="{'milage_table_row pr-2': true, 'active': activatedLoadMap == rowIndex, pickupRow: dataItem.type == 'pickup', deliveryRow: dataItem.type == 'delivery' }"
+                      (click)="handleMapSelection(dataItem, rowIndex, 'active')"
+                      *ngFor="let dataItem of legMilage; let rowIndex = index">
+                      <!-- Stops -->
+                      <div class="milage_table_col">
+                        <span class="pl-2 address_titles" *ngIf="dataItem.startAddress !== null">
+                          <span>{{rowIndex + 1}}</span>{{ dataItem.startAddress }}
+                        </span>
+                        <span class="pl-2 address_titles" *ngIf="dataItem.endAddress !== null">
+                          <span>{{rowIndex + 1}}</span>{{ dataItem.endAddress }}
+                        </span>
+                      </div>
+                      <!-- Leg Miles -->
+                      <div class="milage_table_col">
+                        <span *ngIf="dataItem.distance !== null">{{ dataItem.distance }}</span>
+                      </div>
+                      <!-- Total Miles -->
+                      <div class="milage_table_col mileage_total_col">
+                        <span *ngIf="dataItem.mileageSumString !== null">{{ dataItem.mileageSumString }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </ng-template>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-template>

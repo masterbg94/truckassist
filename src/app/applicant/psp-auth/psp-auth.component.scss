@@ -1,0 +1,150 @@
+@import '../applicant.component.scss';
+
+.slideShow {
+  margin-bottom: 0px !important;
+  @media only screen and (max-width: 414px) {
+    margin-left: 15px !important;
+    .row {
+      .col-12 {
+        max-width: 100% !important;
+      }
+    }
+  }
+  @media only screen and (max-width: 376px) {
+    margin-left: 12px !important;
+  }
+  @media only screen and (max-width: 361px) {
+    margin-left: 5px !important;
+  }
+}
+
+.step10paragraf {
+  margin-top: -2px !important;
+}
+
+.checkHeader_1 {
+  padding-top: 2px !important;
+}
+
+.secondParagraf {
+  &:hover {
+    color: #6c6c6c !important;
+
+    a {
+      color: #5673aa !important;
+      text-decoration: none;
+    }
+  }
+
+  a {
+    color: rgba(108, 108, 108, 0.4);
+    text-decoration: none;
+  }
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: -2px !important;
+  padding: 0px;
+  &_block {
+    margin: 24px auto -16px 118px !important;
+
+    @media only screen and (max-width: 376px) {
+      margin-left: 0px !important;
+    }
+  }
+  &_input {
+    background-color: #919191 !important;
+    text-align: center;
+    text-transform: uppercase;
+    padding-left: 0px !important;
+  }
+
+  &_input::placeholder {
+    color: $color-white-light !important;
+    opacity: 1 !important;
+  }
+
+  &_label {
+    position: relative;
+    top: -47px;
+    color: $color-gray-normal !important;
+    opacity: 1 !important;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    &_applicantName {
+      left: 69px;
+    }
+
+    &_applicantSSN {
+      left: 43px;
+    }
+
+    &_applicantBirthday {
+      left: 42px;
+    }
+    @media only screen and (max-width: 414px) {
+      &_applicantName {
+        left: 126px;
+      }
+
+      &_applicantSSN {
+        left: 74px;
+      }
+
+      &_applicantBirthday {
+        left: 71px;
+      }
+    }
+    @media only screen and (max-width: 376px) {
+      &_applicantName {
+        left: 126px;
+      }
+
+      &_applicantSSN {
+        left: 74px;
+      }
+
+      &_applicantBirthday {
+        left: 71px;
+      }
+    }
+  }
+  @media only screen and (max-width: 414px) {
+    margin-left: -100px;
+    width: 366px;
+  }
+  @media only screen and (max-width: 376px) {
+    margin-left: -1px;
+    width: 366px;
+  }
+}
+
+// Mobile screen
+@media only screen and (max-width: 414px) {
+  .secondParagraf {
+    color: #6c6c6c !important;
+
+    a {
+      color: #5673aa !important;
+    }
+  }
+  .btns {
+    margin-left: -278px !important;
+  }
+  .pad {
+    margin-left: 19px;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .btns {
+    margin-left: -324px !important;
+  }
+  .pad {
+    margin-left: 0px;
+  }
+}

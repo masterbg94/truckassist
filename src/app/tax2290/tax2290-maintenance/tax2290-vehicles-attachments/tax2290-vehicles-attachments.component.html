@@ -1,0 +1,43 @@
+<div class="attachment">
+  <div style="height: 130px; width: 624px; background-color: #f9f9f9;">Content</div>
+  <div class="attachment-action">
+    <p class="download-action">Download Template</p>
+    <div class="buttons">
+      <svg-icon
+        class="button-true"
+        src="assets/img/svgs/table/table-modal-button-true.svg"
+        [appTaTooltip]="'Confirm'"
+        position="bottom-right"
+        zIndex="99999999999"
+        tooltipBackground="#5673aa"
+        tooltipColor="#FFFFFF"
+        #questionPopover="ngbPopover"
+        [ngbPopover]="questionDialog"
+        (click)="toggleQuestionDialog(questionPopover)"
+        triggers="manual"
+        [autoClose]="true"
+        [placement]="'bottom'"
+        [container]="'body'"
+        [popoverClass]="'popover-question'"
+      ></svg-icon>
+      <svg-icon
+        class="button-false"
+        src="assets/img/svgs/table/table-modal-button-false.svg"
+        [appTaTooltip]="'Cancel'"
+        position="bottom-right"
+        zIndex="99999999999"
+        tooltipBackground="#ff5c5c"
+        tooltipColor="#FFFFFF"
+      ></svg-icon>
+    </div>
+  </div>
+</div>
+<ng-template #questionDialog let-data="data">
+  <div class="question-container">
+    <div class="question-container-data"><p>There is already data here</p></div>
+    <div class="question-container-actions">
+      <div class="add-action" (click)="addAttachments()"><p>Add</p></div>
+      <div class="replace-action" (click)="replaceAttachments()"><p>Replace</p></div>
+    </div>
+  </div>
+</ng-template>

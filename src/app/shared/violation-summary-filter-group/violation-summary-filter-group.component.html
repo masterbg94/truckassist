@@ -1,0 +1,28 @@
+<div class="violation_summary_filters">
+  <div
+    class="violation_summary_filters_box"
+    *ngFor="let box of violationSummaryFilters; let i = index"
+    (click)="switchFilter(i)"
+    [ngStyle]="{ background: box.active ? '#5673AA' : '#FFFFFF' }"
+  >
+    <div
+      [ngStyle]="{
+        background: box.active ? '#FFFFFF4a' : '#B7B7B74a',
+        color: box.active ? '#fff' : box.value > 0 ? '#B7B7B7' : '#b7b7b77a'
+      }"
+      class="violation_summary_filters_box_value"
+    >
+      {{ box.value }}
+    </div>
+    <div class="violation_summary_filters_box_icon">
+      <svg-icon
+        [ngClass]="{
+          violation_summary_filters_box_icon_active: box.active,
+          violation_summary_filters_box_icon_not_active: box.value === 0
+        }"
+        src="assets/img/svgs/table/violation-{{ box.icon }}.svg"
+        [svgStyle]="{ 'width.px': '19', 'height.px': '19' }"
+      ></svg-icon>
+    </div>
+  </div>
+</div>

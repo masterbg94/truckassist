@@ -1,0 +1,47 @@
+.no-padd{
+    padding: 0 !important;
+} 
+
+.card{
+    margin-bottom: 5px;
+}
+
+.flexOne{
+    flex: 1;
+}
+
+.button_holder{
+    margin-bottom: 10px;
+}
+
+// .accounting_main_screen{
+//     ::ng-deep{
+//         app-truckassist-buttongroup{
+//             .ta-buttongroup-container{
+//                 display: flex;
+
+//                 .switch-btn{
+//                     background-color: #DADADA !important;
+//                     font-weight: 600;
+//                     // &.active-btn{
+//                     //     flex: 1;
+//                     // }
+
+//                     &:hover{
+//                         background-color: #B7B7B7 !important;
+//                     }
+
+//                     &:last-child{
+//                         // TODO: ovo utice globalno, poremete se margine na table toolbaru, napravi posebno klasu gde ti treba
+//                         // margin-right: 0 !important;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+
+.with_width{
+    max-width: 1470px;
+}

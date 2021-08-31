@@ -1,0 +1,482 @@
+<div class="main-container" *ngIf="company">
+  <!-- Company Info - Division Company Info And Office -->
+  <div class="main-content-container">
+    <!-- Company Info - Division Company Info -->
+    <div class="header-container">
+      <div class="header-title-container">
+        <p class="unselectable header-title">
+          {{ company.category === 'company' ? 'Company Info' : 'Division Company Info' }}
+        </p>
+      </div>
+      <div
+        class="plus-svg-container"
+        *ngIf="company.category !== 'company'"
+        [appTaTooltip]="'Delete Division Company Info'"
+        tooltipBackground="#f35252"
+        (click)="toggleDeleteDivisionCompany()"
+        position="bottom-right"
+      >
+        <svg-icon
+          class="delete-icon-option"
+          src="../../../../assets/img/svgs/company-info/trash.svg"
+        ></svg-icon>
+      </div>
+      <div
+        class="plus-svg-container"
+        [appTaTooltip]="
+          company.category === 'company' ? 'Edit Company Info' : 'Edit Division Company Info'
+        "
+        (click)="openCompanyInfoModal()"
+        position="bottom-right"
+      >
+        <svg-icon src="../../../../assets/img/edit-pan.svg"></svg-icon>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="first-row">
+        <div class="numbers" *ngIf="company.doc?.additional">
+          <div class="number-content" *ngIf="company.doc.additional.usDotNumber">
+            <p class="unselectable number-title">USDOT #</p>
+            <p class="number-value">{{ company.doc.additional.usDotNumber }}</p>
+          </div>
+          <div class="number-content" *ngIf="company.doc.additional.mcNumber">
+            <p class="unselectable number-title">MC #</p>
+            <p class="number-value">{{ company.doc.additional.mcNumber }}</p>
+          </div>
+          <div class="number-content" *ngIf="company.taxNumber">
+            <p class="unselectable number-title">EIN</p>
+            <p class="number-value">{{ company.taxNumber | mask: ' 00-0000000' }}</p>
+          </div>
+          <div class="number-content" *ngIf="company.doc.additional.irpNumber">
+            <p class="unselectable number-title">IRP #</p>
+            <p class="number-value">{{ company.doc.additional.irpNumber }}</p>
+          </div>
+          <div class="number-content" *ngIf="company.doc.additional.iftaNumber">
+            <p class="unselectable number-title">IFTA #</p>
+            <p class="number-value">{{ company.doc.additional.iftaNumber }}</p>
+          </div>
+          <div class="number-content" *ngIf="company.doc.additional.scacNumber">
+            <p class="unselectable number-title">SCAC #</p>
+            <p class="number-value">{{ company.doc.additional.scacNumber }}</p>
+          </div>
+        </div>
+        <div class="note-container dispatch_note" *ngIf="company.doc?.additional?.note">
+          <app-ta-note
+            [note]="company.doc.additional.note"
+            (saveNoteValue)="saveCompanyNote($event)"
+          >
+          </app-ta-note>
+        </div>
+      </div>
+      <div
+        class="second-row"
+        *ngIf="
+          company.doc?.additional &&
+          (company.doc.additional.timeZone || company.doc.additional.currency)
+        "
+      >
+        <div class="second-row-content" *ngIf="company.doc.additional.timeZone">
+          <p class="unselectable second-row-title">Time Zone</p>
+          <p class="second-row-value">{{ company.doc.additional.timeZone.name }}</p>
+        </div>
+        <div class="second-row-content" *ngIf="company.doc.additional.currency">
+          <p class="unselectable second-row-title">Currency</p>
+          <p class="second-row-value">{{ company.doc.additional.currency.name }}</p>
+        </div>
+      </div>
+      <div
+        class="third-row"
+        *ngIf="
+          company.doc?.additional &&
+          (company.doc.additional.phone ||
+            company.doc.additional.fax ||
+            company.doc.additional.email)
+        "
+      >
+        <div class="contacts-container">
+          <div class="contact" *ngIf="company.doc.additional.phone">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-phone.svg"
+            ></svg-icon>
+            <app-copied value="{{ company.doc.additional.phone | mask: ' (000) 000-0000' }}">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.phone | mask: ' (000) 000-0000' }}
+              </p>
+            </app-copied>
+          </div>
+          <div class="contact" *ngIf="company.doc.additional.fax">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/fax.svg"
+            ></svg-icon>
+            <div [ngStyle]="{ hight: '100px' }">
+              <app-copied value="{{ company.doc.additional.fax | mask: ' (000) 000-0000' }}">
+                <p class="unselectable contact-value">
+                  {{ company.doc.additional.fax | mask: ' (000) 000-0000' }}
+                </p>
+              </app-copied>
+            </div>
+          </div>
+          <div class="contact long-text" *ngIf="company.doc.additional.email">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-mail.svg"
+            ></svg-icon>
+            <app-copied [value]="company.doc.additional.email">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.email | shorten: 13 }}
+              </p>
+            </app-copied>
+          </div>
+        </div>
+        <div class="contact" *ngIf="company.doc.additional.address">
+          <svg-icon
+            class="contact-icon"
+            src="../../../../assets/img/svgs/company-info/new-address.svg"
+          ></svg-icon>
+          <app-copied [value]="company.doc.additional.address.address">
+            <p class="unselectable contact-value">{{ company.doc.additional.address.address }}</p>
+          </app-copied>
+        </div>
+        <div class="contact" *ngIf="company.doc.additional.webUrl">
+          <svg-icon
+            class="contact-icon"
+            src="../../../../assets/img/svgs/company-info/url.svg"
+          ></svg-icon>
+          <app-copied [value]="company.doc.additional.webUrl">
+            <p class="unselectable contact-value">{{ company.doc.additional.webUrl }}</p>
+          </app-copied>
+        </div>
+      </div>
+      <div
+        class="fourth-row"
+        *ngIf="
+          company.doc?.additional &&
+          (company.doc.additional.emailDispatch ||
+            company.doc.additional.phoneDispatch ||
+            company.doc.additional.emailAccounting ||
+            company.doc.additional.phoneAccounting ||
+            company.doc.additional.emailSafety ||
+            company.doc.additional.phoneSafety)
+        "
+      >
+        <div
+          class="contact-container"
+          *ngIf="company.doc.additional.emailDispatch || company.doc.additional.phoneDispatch"
+        >
+          <p class="unselectable contact-title">Dispatch</p>
+          <div class="contact" *ngIf="company.doc.additional.phoneDispatch">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-phone.svg"
+            ></svg-icon>
+            <app-copied
+              value="{{ company.doc.additional.phoneDispatch | mask: ' (000) 000-0000' }}"
+            >
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.phoneDispatch | mask: ' (000) 000-0000' }}
+              </p>
+            </app-copied>
+          </div>
+          <div class="contact" *ngIf="company.doc.additional.emailDispatch">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-mail.svg"
+            ></svg-icon>
+            <app-copied [value]="company.doc.additional.emailDispatch">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.emailDispatch | shorten: 25 }}
+              </p>
+            </app-copied>
+          </div>
+        </div>
+        <div
+          class="contact-container"
+          *ngIf="company.doc.additional.emailAccounting || company.doc.additional.phoneAccounting"
+        >
+          <p class="unselectable contact-title">Accounting</p>
+          <div class="contact" *ngIf="company.doc.additional.phoneAccounting">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-phone.svg"
+            ></svg-icon>
+            <app-copied
+              value="{{ company.doc.additional.phoneAccounting | mask: ' (000) 000-0000' }}"
+            >
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.phoneAccounting | mask: ' (000) 000-0000' }}
+              </p>
+            </app-copied>
+          </div>
+          <div class="contact" *ngIf="company.doc.additional.emailAccounting">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-mail.svg"
+            ></svg-icon>
+            <app-copied [value]="company.doc.additional.emailAccounting">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.emailAccounting | shorten: 25 }}
+              </p>
+            </app-copied>
+          </div>
+        </div>
+        <div
+          class="contact-container"
+          *ngIf="company.doc.additional.emailSafety || company.doc.additional.phoneSafety"
+        >
+          <p class="unselectable contact-title">Safety</p>
+          <div class="contact" *ngIf="company.doc.additional.phoneSafety">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-phone.svg"
+            ></svg-icon>
+            <app-copied value="{{ company.doc.additional.phoneSafety | mask: ' (000) 000-0000' }}">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.phoneSafety | mask: ' (000) 000-0000' }}
+              </p>
+            </app-copied>
+          </div>
+          <div class="contact" *ngIf="company.doc.additional.emailSafety">
+            <svg-icon
+              class="contact-icon"
+              src="../../../../assets/img/svgs/company-info/new-mail.svg"
+            ></svg-icon>
+            <app-copied [value]="company.doc.additional.emailSafety">
+              <p class="unselectable contact-value">
+                {{ company.doc.additional.emailSafety | shorten: 25 }}
+              </p>
+            </app-copied>
+          </div>
+        </div>
+      </div>
+      <div
+        class="fiveth-row"
+        *ngIf="
+          company.doc?.additional &&
+          (company.doc.additional.accountNumber ||
+            company.doc.additional.routingNumber ||
+            company.doc.additional.bankData)
+        "
+      >
+        <p class="unselectable bank-info-text">Bank Info:</p>
+        <p class="bank-info-title" *ngIf="company.doc.additional.accountNumber">
+          Acc. <span class="bank-info-value">{{ company.doc.additional.accountNumber }}</span>
+        </p>
+        <p class="bank-info-title" *ngIf="company.doc.additional.routingNumber">
+          Routing <span class="bank-info-value">{{ company.doc.additional.routingNumber }}</span>
+        </p>
+        <svg-icon
+          *ngIf="
+            company.doc.additional.bankData && company.doc.additional.bankData.bankLogoWide !== null
+          "
+          class="unselectable company-logo"
+          [src]="
+            '../../../../assets//img/svgs/bank-logos/' +
+            company.doc.additional.bankData.bankLogoWide +
+            '.svg'
+          "
+        ></svg-icon>
+        <span
+          *ngIf="
+            company.doc.additional.bankData && company.doc.additional.bankData.bankLogoWide == null
+          "
+          >{{ company.doc.additional.bankData.bankName }}</span
+        >
+      </div>
+    </div>
+
+    <!-- Office -->
+    <div class="header-container office-margin">
+      <div class="header-title-container">
+        <p class="unselectable header-title">
+          Office
+        </p>
+      </div>
+      <div
+        class="plus-svg-container"
+        appTaTooltip="Add Office"
+        (click)="openOfficeModal(-1)"
+        position="bottom-right"
+      >
+        <svg-icon src="../../../../assets/img/svgs/table/add.svg"></svg-icon>
+      </div>
+    </div>
+    <div class="content-container office-container" *ngFor="let office of company.doc?.offices">
+      <div class="office-box-container">
+        <div class="office-phone-email-container">
+          <div class="phone">
+            <svg-icon  src="../../../../assets/img/svgs/company-info/new-phone.svg"></svg-icon>
+            <app-copied value="{{ office.phone | mask: ' (000) 000-0000' }}">
+              <p class="office-info-phone">{{ office.phone | mask: ' (000) 000-0000' }}</p>
+            </app-copied>
+          </div>
+          <div class="mail">
+            <svg-icon class="mail-svg" src="../../../../assets/img/svgs/company-info/new-mail.svg"></svg-icon>
+            <app-copied [value]="office.email">
+              <p class="office-info-mail">{{ office.email }}</p>
+            </app-copied>
+          </div>
+        </div>
+        <div class="office-address-container">
+          <div class="address">
+            <svg-icon class="mail-address" src="../../../../assets/img/svgs/company-info/new-address.svg"></svg-icon>
+            <app-copied [value]="office.address.address">
+              <p class="office-info-address">{{ office.address.address }}</p>
+            </app-copied>
+          </div>
+        </div>
+        <div class="office-dropdown-container">
+          <app-truckassist-dropdown
+            [mainActions]="officeMainActions"
+            [deleteAction]="officeDeleteAction"
+            [identificator]="0"
+            (actionEvent)="handleActionEvent($event, office.id)"
+            [category]="'office'"
+          >
+          </app-truckassist-dropdown>
+          <!-- TODO: check if it needs to be deleted, it is not on the design -->
+
+          <!-- <div class="dispatch_note" *ngIf="office.note">
+            <app-ta-note [note]="office.note" (saveNoteValue)="saveOfficeNote($event)">
+            </app-ta-note>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  Insurance Policy -->
+  <div class="main-content-container">
+    <div class="header-container">
+      <div class="header-title-container">
+        <p class="unselectable header-title">
+          Insurance Policy
+        </p>
+      </div>
+      <div
+        class="plus-svg-container"
+        appTaTooltip="Insurance Policy"
+        (click)="openInsurancePolicyModal()"
+        position="bottom-right"
+      >
+        <svg-icon src="../../../../assets/img/svgs/table/add.svg"></svg-icon>
+      </div>
+    </div>
+
+    <div
+      class="content-container insurance-policy"
+      [ngStyle]="{'opacity': insurance.days <= 0 ? '0.7' : '1'}"
+      *ngFor="let insurance of insurancePolicyDummyData"
+    >
+       <!-- Insurance Policy Actions -->
+       <div class="actions-container">
+        <app-truckassist-dropdown
+          [mainActions]="insurancePolicyMainActions"
+          [deleteAction]="insurancePolicyDeleteAction"
+          [identificator]="0"
+          (actionEvent)="handleActionEvent($event)"
+          [category]="'office'"
+        >
+        </app-truckassist-dropdown>
+      </div>
+      <!-- Policy -->
+      <div class="policy" *ngFor="let policy of insurance.item">
+        <div class="policy-name">{{ policy.name }}</div>
+        <div class="policy-code">{{ policy.code }}</div>
+      </div>
+
+      <div class="expires-date">
+        <app-progress-expiration
+          [expireDate]="getExpireData(insurance.days) | date: 'shortDate'"
+          [isInsurancePolicy]="true"
+        ></app-progress-expiration>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Factoring Company -->
+  <div class="main-content-container">
+    <div class="header-container">
+      <div class="header-title-container">
+        <p class="unselectable header-title">
+          Factoring Company
+        </p>
+      </div>
+      <div
+        class="plus-svg-container"
+        appTaTooltip="Add Factoring Company"
+        *ngIf="!company.doc?.factoringCompany || company.doc?.factoringCompany.length === 0"
+        (click)="openFactoringCompanyModal(true)"
+        position="bottom-right"
+      >
+        <svg-icon src="../../../../assets/img/svgs/table/add.svg"></svg-icon>
+      </div>
+      <div
+        class="plus-svg-container"
+        *ngIf="company.doc?.factoringCompany && company.doc?.factoringCompany.length > 0"
+        [appTaTooltip]="'Delete Factoring Company'"
+        tooltipBackground="#f35252"
+        (click)="toggleDeleteFactoringCompany()"
+        position="bottom-right"
+      >
+        <svg-icon
+          class="delete-icon-option"
+          src="../../../../assets/img/svgs/company-info/trash.svg"
+        ></svg-icon>
+      </div>
+      <div
+        class="plus-svg-container"
+        *ngIf="company.doc?.factoringCompany && company.doc?.factoringCompany.length > 0"
+        [appTaTooltip]="'Edit Factoring Company'"
+        (click)="openFactoringCompanyModal(false)"
+        position="bottom-right"
+      >
+        <svg-icon src="../../../../assets/img/edit-pan.svg"></svg-icon>
+      </div>
+    </div>
+    <div class="content-container" *ngFor="let factoringCompany of company.doc?.factoringCompany">
+      <div class="factoring-company-container">
+        <div class="factoring-company-info-container">
+          <div class="unselectable factoring-company-info-content" *ngIf="factoringCompany.name">
+            <p class="factoring-company-title">Name</p>
+            <app-copied [value]="factoringCompany.name">
+              <p class="factoring-company-value">{{ factoringCompany.name }}</p>
+            </app-copied>
+          </div>
+          <div class="unselectable factoring-company-info-content" *ngIf="factoringCompany.phone">
+            <p class="factoring-company-title">Phone</p>
+            <app-copied value="{{ factoringCompany.phone | mask: ' (000) 000-0000' }}">
+              <p class="factoring-company-value">
+                {{ factoringCompany.phone | mask: ' (000) 000-0000' }}
+              </p>
+            </app-copied>
+          </div>
+          <div class="unselectable factoring-company-info-content" *ngIf="factoringCompany.email">
+            <p class="factoring-company-title">Email</p>
+            <app-copied [value]="factoringCompany.email">
+              <p class="factoring-company-value">{{ factoringCompany.email }}</p>
+            </app-copied>
+          </div>
+          <div class="unselectable factoring-company-info-content" *ngIf="factoringCompany.address">
+            <p class="factoring-company-title">Address, City, State Zip</p>
+            <app-copied [value]="factoringCompany.address.address">
+              <p class="factoring-company-value">{{ factoringCompany.address.address }}</p>
+            </app-copied>
+          </div>
+        </div>
+        <div class="note-container dispatch_note" *ngIf="factoringCompany.note">
+          <app-ta-note [note]="factoringCompany.note" (saveNoteValue)="saveFactoringNote($event)">
+          </app-ta-note>
+        </div>
+      </div>
+      <div class="notice-of-assignment-container" *ngIf="factoringCompany.notice">
+        <p class="notice-of-assignment-title">Notice of Assignment</p>
+        <div
+          class="notice-of-assignment-value"
+          [innerHTML]="factoringCompany.notice | sanitizeHtml"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

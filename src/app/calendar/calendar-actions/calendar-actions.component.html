@@ -1,0 +1,43 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <div class="d-flex align-items-center">
+    <i class="fal fa-times cursor-pointer fs-24 icon-hover-primary" (click)="closeEventModal()"></i>
+  </div>
+</div>
+<div class="modal-body">
+  <div *ngIf="inputData.data.isDeleteSeriesEvent">
+    <p>Do you want to delete only this event occurrence or the whole series?</p>
+  </div>
+  <div *ngIf="inputData.data.isEditEvent">
+    <p>Do you want to edit only this event occurrence or the whole series?</p>
+  </div>
+  <div *ngIf="inputData.data.isDeleteEvent">
+    <p>Are you sure you want to delete this event?</p>
+  </div>
+</div>
+<div class="modal-footer" *ngIf="inputData.data.isDeleteSeriesEvent">
+  <button type="button" class="cancel-btn" (click)="deleteCurrent(inputData.data.id)">
+    Delete current occurence
+  </button>
+  <button type="button" class="save-btn" (click)="deleteEvent(inputData.data.groupId)">
+    Delete the series
+  </button>
+</div>
+<div class="modal-footer" *ngIf="inputData.data.isDeleteEvent">
+  <button type="button" class="cancel-btn" (click)="deleteCurrent(inputData.data.id)">
+    Delete current occurance
+  </button>
+  <button type="button" class="save-btn" (click)="deleteEvent(inputData.data.id)">
+    Delete all occurancies
+  </button>
+</div>
+<div class="modal-footer" *ngIf="inputData.data.isEditEvent">
+  <button type="button" class="cancel-btn" (click)="editCurrentEvent(inputData.data.id, true)">
+    Edit current occurance
+  </button>
+  <button type="button" class="save-btn" (click)="editEvent(inputData.data.id, false)">
+    Edit all occurancies
+  </button>
+</div>
+</div>

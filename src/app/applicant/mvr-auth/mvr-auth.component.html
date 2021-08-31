@@ -1,0 +1,166 @@
+<form [formGroup]="mvrAuth" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow my-5">
+    <h1 class="headerMVR">Authorization to Obtain Motor Vehicle Record</h1>
+    <p class="firstParagraf">
+      THE UNDERSIGNED DOES HEREBY ACKNOWLEDGE AND CERTIFY AS FOLLOWS
+    </p>
+    <!-- first -->
+    <app-truckassist-checkbox
+      id="isReview"
+      class="mobileViewCheck"
+      formControlName="isMvrReview"
+      [checked]="isReview"
+      (change)="(isReview != isReview)"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkHeader checkHeader_1">
+      <span class="checkBold">1.</span> Certifies that the undersigned is an employee, or has
+      applied to become an employee of
+    </span>
+    <p class="step10paragraf" style="margin-top: -2px !important;">
+      the below named employer in a position which involves the operation of a motor vehicle and the
+      undersigned gives his or her consent to the release of their driving record (MVR) for review.
+    </p>
+    <!--  second -->
+    <app-truckassist-checkbox
+      id="isDrivingRecord"
+      formControlName="isAuthDrivingRecord"
+      [checked]="isDrivingRecord"
+      (change)="(isDrivingRecord != isDrivingRecord)"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkHeader">
+      <span class="checkBold">2.</span>
+      That the undersigned authorizes his or her driving record to be periodically obtained and
+    </span>
+    <p class="step10paragraf">
+      reviewed for the purpose of initial and continued employment.
+    </p>
+    <!-- third -->
+    <app-truckassist-checkbox
+      id="isInfoTrue"
+      formControlName="isAllInfoTrue"
+      [checked]="isInfoTrue"
+      (change)="(isInfoTrue != isInfoTrue)"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkHeader">
+      <span class="checkBold">3.</span> That all information presented in this form is true and
+      correct. The undersigned makes this
+    </span>
+    <p class="step10Paragraf" style="margin-top: -2px !important;">
+      certification and affirmation under penalty of perjury and understands that knowingly making a
+      false statement or representation on this form is a criminal violation.
+    </p>
+
+    <div class="centerContent licence_block">
+      <div *ngIf="user != null" class="row licence">
+        <div class="col-12">
+          <input
+            id="applicantName"
+            placeholder="{{ user.firstName + ' ' + user.lastName }}"
+            disabled
+            class="form-control input-control licence_input licence_input_applicantName"
+          />
+          <label class="licence_label licence_label_applicantName" for="applicantName"
+            >DRIVER NAME</label
+          >
+        </div>
+      </div>
+      <div class="row licence" *ngFor="let item of licences; let i = index">
+        <div class="col-6 col-md-4">
+          <input
+            id="licence"
+            placeholder="{{ item.name }}"
+            disabled
+            class="form-control input-control licence_input"
+          />
+          <label class="licence_label licence_label_licence" for="licence">LICENCE #</label>
+        </div>
+        <div class="col-6 col-md-2">
+          <input
+            id="state"
+            placeholder="{{ item.state.key }}"
+            disabled
+            class="form-control input-control licence_input"
+          />
+          <label class="licence_label licence_label_state" for="state">STATE</label>
+        </div>
+        <div class="col-6 col-md-2">
+          <input
+            id="class"
+            placeholder="{{ item.class.value }}"
+            disabled
+            class="form-control input-control licence_input"
+          />
+          <label class="licence_label licence_label_class" for="class">CLASS</label>
+        </div>
+        <div class="col-6 col-md-4">
+          <input
+            id="date"
+            placeholder="{{ modificatedData(item.expDate) }}"
+            disabled
+            class="form-control input-control licence_input licence_input_4"
+          />
+          <label class="licence_label licence_label_date" for="date">EXP. DATE</label>
+        </div>
+      </div>
+    </div>
+    <app-truckassist-checkbox
+      id="isLicence"
+      formControlName="certifyLicence"
+      [checked]="isLicence"
+      (change)="(isLicence != isLicence)"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkHeader checkHeader_1" style="font-weight: bold; font-size: 12px;">
+      I further certify that the above license is the only one I hold.
+    </span>
+    <div class="pad">
+      <div *ngIf="!showSignature">
+        <canvas></canvas>
+        <signature-pad
+          #signaturePad
+          [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()"
+          (onEndEvent)="drawComplete()"
+        ></signature-pad>
+      </div>
+      <div *ngIf="showSignature" class="pad_signature">
+        <img
+          [attr.src]="photoUrl()"
+          alt="slika"
+          class="sizeReloadImage"
+          style="background-color: #6c6c6c;"
+        />
+        <a
+          appTaTooltip="Edit"
+          tooltipColor="#FFFFFF"
+          tooltipBackground="#5673aa"
+          position="bottom-right"
+          class="pad_signature_edit"
+          (click)="editSignature()"
+        >
+          <svg-icon src="../../assets/img/applicants/Pen.svg"></svg-icon>
+        </a>
+      </div>
+      <div class="signature">
+        <div class="signature_blok">
+          <a class="signature_link signature_link_clear" (click)="clear()">&#10006; Clear</a>
+          <a class="signature_link signature_link_undo" (click)="undo()">&#8634; Undo</a>
+        </div>
+        <p class="signature_text">PLEASE USE YOUR MOUSE TO SIGN ABOVE</p>
+      </div>
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button *ngIf="!isCompanyReview" type="submit" class="btns btns_next mx-2">Next</button>
+    <button *ngIf="isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

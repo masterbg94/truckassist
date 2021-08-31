@@ -1,0 +1,39 @@
+<div class="chart_holder" (mouseout)="updateChart()">
+    <div class="chart_header">
+        <div class="chart_white_part">
+            <span
+                style="color: #919191b3;"
+                appSelectionColor
+            >Performance</span>
+            <div 
+                class="chart_btns {{ item.name.toLowerCase() }}" 
+                *ngFor="let item of categoryList; let indx = index"
+                (click)="chooseCategory(chart, indx)"
+                (mouseover)="hoveredCategory = indx"
+                (mouseleave)="hoveredCategory = -1"
+                [ngStyle]="{'background-color': (item.active ? (item.color + (hoveredCategory == indx ? '' : 'b3')) : '' ) }"
+            >{{item.name}}</div>
+        </div>
+        <div class="chart_select_holder">
+            <ng-select
+             [items]="timeList"
+             bindLabel="name"
+             [searchable]="false"
+             [(ngModel)]="selectedTime"
+             bindValue="value"
+            ></ng-select>
+        </div>
+        <div class="chart_select_holder">
+            <ng-select
+            [items]="perdioList"
+            bindLabel="name"
+            [searchable]="false"
+            [(ngModel)]="selectedPeriod"
+            bindValue="value"
+           ></ng-select>
+        </div>
+    </div>
+    <div class="chart_main_holder d-flex">
+        <chart #chart [type]="type" [data]="data" [options]="options"></chart>
+    </div>
+</div>

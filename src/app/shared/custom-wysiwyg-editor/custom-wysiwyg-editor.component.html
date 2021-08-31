@@ -1,0 +1,110 @@
+<div class="custom_editor_holder d-flex">
+    <div class="custom_select_holder font-family" *ngIf="settings.fontFamily">
+        <ng-select
+         [items]="fontFamilyList"
+         bindLabel="name"
+         [searchable]="false"
+         [clearable]="false"
+         bindValue="id"
+         (change)="selectFontFamily($event)"
+         [(ngModel)]="selectedFontFamily"
+        >
+            <ng-template ng-label-tmp let-item="item">
+                <div [ngStyle]="{ 'font-family': item.name }">{{item.showName}}</div>
+            </ng-template>
+            <ng-template  ng-option-tmp let-item="item" let-search="searchTerm">
+                <div [ngStyle]="{ 'font-family': item.name }">{{item.showName}}</div>
+            </ng-template>
+        </ng-select>
+    </div>
+    <div class="custom_select_holder" *ngIf="settings.fontSize">
+        <ng-select
+         [items]="[8, 10, 12, 14, 18, 22, 28, 36]"
+         [searchable]="false"
+         [clearable]="false"
+         [(ngModel)]="selectedFontSize"
+         (change)="changeFontSize($event)"
+        >
+        </ng-select>
+    </div>
+    <div class="wysiwyg_color_picker" *ngIf="settings.colorPicker">
+        <div class="wysiwyg_choosen_color" [ngStyle]="{'background-color': selectedPaternColor}" [class.active]="showDropdown" (click)="toggleDropdown()"></div>
+        <div class="wysiwyg_color_dropdown" *ngIf="showDropdown">
+            <div class="text-color">Text color</div>
+            <div class="color_holder">
+                <div *ngFor="let item of [].constructor(24); let i = index" [class.active]="customSelectColor[i] === selectedPaternColor" (click)="changeTextColor(i)"></div>
+            </div>
+        </div>
+    </div>
+    <div class="wysiwyg_button_group d-flex" *ngIf="settings.textTransform">
+        <div class="sysiwyg_button_item" [class.active]="activeOptions.bold" (click)="executeEditor('bold')">
+            <svg-icon src="assets/img/svgs/note_b.svg"></svg-icon>
+        </div>
+        <div class="sysiwyg_button_item" [class.active]="activeOptions.italic" (click)="executeEditor('italic')">
+            <svg-icon src="assets/img/svgs/italic.svg"></svg-icon>
+        </div>
+        <div class="sysiwyg_button_item" [class.active]="activeOptions.underline" (click)="executeEditor('underline')">
+            <svg-icon src="assets/img/svgs/underline.svg"></svg-icon>
+        </div>
+        <div class="sysiwyg_button_item" [class.active]="activeOptions.strikeThrough" (click)="executeEditor('strikeThrough')">
+            <svg-icon src="assets/img/svgs/throught-line.svg"></svg-icon>
+        </div>
+    </div>
+    <div 
+        class="wysiwyg-text-transform-buttons d-flex" 
+        [class.small_width]="sidebarWidth < 528" >
+        <div 
+            class="custom_select_holder text-align-holder" 
+            *ngIf="sidebarWidth >= 528 && settings.textAligment">
+            <ng-select
+             [items]="textAlignImages"
+             [searchable]="false"
+             [clearable]="false"
+             [bindvalue]="img"
+             (change)="selectAligment($event)"
+             [(ngModel)]="selectedAlign"
+            >
+                <ng-template ng-label-tmp let-item="item">
+                    <div class="selected_img">
+                        <svg-icon [src]="'assets/img/svgs/' + item.img"></svg-icon>
+                    </div>
+                </ng-template>
+                <ng-template  ng-option-tmp let-item="item" let-search="searchTerm">
+                    <div class="options_img">
+                        <svg-icon [src]="'assets/img/svgs/' + item.img"></svg-icon>
+                    </div>
+                </ng-template>
+            </ng-select>
+        </div>
+        <div class="text-align-buttons d-flex" *ngIf="sidebarWidth < 528 && settings.textAligment">
+            <div class="align-buttons" [class.active]="activeOptions.justifyLeft" (click)="executeEditor('justifyLeft')">
+                <svg-icon src="assets/img/svgs/align-left.svg"></svg-icon>
+            </div>
+            <div class="align-buttons" [class.active]="activeOptions.justifyRight" (click)="executeEditor('justifyRight')">
+                <svg-icon src="assets/img/svgs/align-right.svg"></svg-icon>
+            </div>
+            <div class="align-buttons" [class.active]="activeOptions.justifyCenter" (click)="executeEditor('justifyCenter')">
+                <svg-icon src="assets/img/svgs/align-middle.svg"></svg-icon>
+            </div>
+            <!-- <div class="align-buttons active" (click)="executeEditor('bold')">
+                <svg-icon src="assets/img/svgs/align-all.svg"></svg-icon>
+            </div> -->
+        </div>
+        <div class="paragraph-buttons d-flex" *ngIf="settings.textIndent">
+            <div class="align-buttons" [class.active]="activeOptions.indent" (click)="executeEditor('indent')">
+                <svg-icon src="assets/img/svgs/paragraph-inside.svg"></svg-icon>
+            </div>
+            <div class="align-buttons" [class.active]="activeOptions.outdent" (click)="executeEditor('outdent')">
+                <svg-icon src="assets/img/svgs/paragraph-outside.svg"></svg-icon>
+            </div>
+        </div>
+        <div class="paragraph-buttons d-flex" *ngIf="settings.textLists">
+            <div class="align-buttons" [class.active]="activeOptions.insertUnorderedList" (click)="executeEditor('insertUnorderedList')">
+                <svg-icon src="assets/img/svgs/unordered-list.svg"></svg-icon>
+            </div>
+            <div class="align-buttons" [class.active]="activeOptions.insertOrderedList" (click)="executeEditor('insertOrderedList')">
+                <svg-icon src="assets/img/svgs/ordered-list.svg"></svg-icon>
+            </div>
+        </div>
+    </div>
+</div>

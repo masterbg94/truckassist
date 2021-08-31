@@ -1,0 +1,165 @@
+<div class="item-card mt-3" *ngFor="let lease of trailer.doc.trailerLeaseData; let i = index">
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Lessor/Lessee:</span
+        >
+      </div>
+    </div>
+    <div class="action-container d-flex justify-content-around align-items-center">
+      <app-truckassist-dropdown
+        *ngIf="trailer.status"
+        (actionEvent)="openAction($event)"
+        [identificator]="lease.id"
+        [mainActions]="dropdownOptions.mainActions"
+        [otherActions]="dropdownOptions.otherActions"
+        [deleteAction]="dropdownOptions.deleteAction"
+        [category]="'trailer lease purchase'"
+      ></app-truckassist-dropdown>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.lessor?.name
+        }}</span>
+      </div>
+    </div>
+    <div
+      class="action-container second-icon-wrapper d-flex justify-content-around align-items-center p-0"
+    >
+      <button
+        class="custom-rounded-btn"
+        [ngClass]="{
+          'active-btn': attachmentsVisible[i],
+          'empty-icon': !attachmentsVisible[i]
+        }"
+        *ngIf="trailer.status && lease.attachments?.length"
+        (click)="attachmentsVisible[i] = !attachmentsVisible[i]"
+      >
+        <svg-icon
+          class="empty-icon"
+          src="assets/img/svgs/table/attach.svg"
+          [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+        ></svg-icon>
+      </button>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Seller/Buyer:</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.seller.name
+        }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Lease purchase date:</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.date | date: 'shortDate'
+        }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Payment amount:</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.paymentAmount
+        }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Number of payments:</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.numberOfPayments
+        }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Down payment:</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          lease.downPayment
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="action-container second-icon-wrapper d-flex justify-content-around align-items-center p-0"
+  >
+    <button
+      class="custom-rounded-btn"
+      [ngClass]="{
+        'active-btn': attachmentsVisible[i],
+        'empty-icon': !attachmentsVisible[i]
+      }"
+      *ngIf="trailer.status && lease.attachments?.length"
+      (click)="attachmentsVisible[i] = !attachmentsVisible[i]"
+    >
+      <svg-icon
+        class="empty-icon"
+        src="assets/img/svgs/table/attach.svg"
+        [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+      ></svg-icon>
+    </button>
+  </div>
+
+  <app-card-preview
+    [attachments]="lease.attachments"
+    [visible]="attachmentsVisible[i]"
+  ></app-card-preview>
+</div>

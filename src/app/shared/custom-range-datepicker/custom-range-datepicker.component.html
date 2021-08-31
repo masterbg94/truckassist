@@ -1,0 +1,80 @@
+<div class="dashboard_calendar_buttons">
+  <div #dateChangePrev class="dashboard_cal_button" (click)="handleCalendarArrowsClick(true)">
+    <svg-icon src="../../assets/img/svgs/left.svg"></svg-icon>
+  </div>
+  <div class="dashboard_cal_picker d-flex">
+    <button
+      class="calendarDatePicker"
+      #dateRangeAnchor
+      type="button"
+      (click)="dateRangePopup.toggle()"
+    >
+      <span appSelectionColor *ngIf="allTimeView; else toggleDateFormats">All Time</span>
+      <ng-template #toggleDateFormats>
+        <span
+          class="range"
+          *ngIf="datepickerOptions[1].active || datepickerOptions[3].active; else singleDate"
+        >
+          {{ range.start | date: 'mediumDate' }} - {{ range.end | date: 'mediumDate' }}
+        </span>
+        <ng-template #singleDate>
+          <span class="daily" *ngIf="datepickerOptions[0].active; else singleMonthlyDate">
+            {{ selectedDate | date: 'MMM d, y' }}
+          </span>
+          <ng-template #singleMonthlyDate>
+            <span class="monthly">
+              {{ selectedDate | date: 'MMM, y' }}
+            </span>
+          </ng-template>
+        </ng-template>
+      </ng-template>
+    </button>
+    <kendo-daterange-popup
+      calendarType="infinite"
+      #dateRangePopup
+      [anchor]="dateRangeAnchor"
+      [anchorAlign]="{ horizontal: 'center', vertical: 'bottom' }"
+      [popupAlign]="{ horizontal: 'center', vertical: 'top' }"
+    >
+      <ng-template calendarType="infinite" kendoDateRangePopupTemplate>
+        <div class="custom-datepicker-filter">
+          <div
+            appSelectionColor
+            (click)="filterDates(item.type, i)"
+            class="custom-datepicker-filter_box"
+            [ngClass]="{ 'custom-datepicker-filter_box-active': item.active }"
+            *ngFor="let item of datepickerOptions; let i = index"
+          >
+            <span appSelectionColor>{{ item.name }}</span>
+          </div>
+        </div>
+        <div
+          appSelectionColor
+          [ngStyle]="{
+            background: allTimeView ? '#5673AA' : '#fff',
+            color: allTimeView ? '#fff' : '#5673AA'
+          }"
+          (click)="filterDates('all', 0)"
+          class="custom-datepicker-filter-alltime"
+        >
+          All Time
+        </div>
+        <kendo-multiviewcalendar
+          [navigation]="true"
+          kendoDateRangeSelection
+          [activeView]="activeView"
+          [bottomView]="bottomView"
+          [views]="1"
+          [activeRangeEnd]="selectedDate"
+          [focusedDate]="selectedDate"
+          [selectionRange]="range"
+          (valueChange)="onChange($event)"
+        >
+        </kendo-multiviewcalendar>
+      </ng-template>
+    </kendo-daterange-popup>
+  </div>
+  <div #dateChangeNext class="dashboard_cal_button" (click)="handleCalendarArrowsClick(false)">
+    <svg-icon src="../../assets/img/svgs/right.svg"></svg-icon>
+  </div>
+</div>

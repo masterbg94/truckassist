@@ -1,0 +1,70 @@
+<div class="item-card mt-3" *ngFor="let test of driver.doc.testData; let i = index">
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor>Type</span>
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          test.type.value
+        }}</span>
+      </div>
+    </div>
+    <div class="action-container d-flex justify-content-around align-items-center">
+      <app-truckassist-dropdown
+        (actionEvent)="openAction($event)"
+        [identificator]="test.id"
+        [mainActions]="dropdownOptions.mainActions"
+        [otherActions]="dropdownOptions.otherActions"
+        [deleteAction]="dropdownOptions.deleteAction"
+        [category]="'driver drug'"
+      ></app-truckassist-dropdown>
+    </div>
+  </div>
+
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center mr-3">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor>Reason</span>
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          test.reason.value
+        }}</span>
+      </div>
+    </div>
+    <div
+      class="action-container second-icon-wrapper d-flex justify-content-around align-items-center p-0"
+    >
+      <button
+        class="custom-rounded-btn"
+        [ngClass]="{
+          'active-btn': attachmentsVisible[i],
+          'empty-icon': !attachmentsVisible[i]
+        }"
+        *ngIf="driver.status && test.attachments?.length"
+        (click)="attachmentsVisible[i] = !attachmentsVisible[i]"
+      >
+        <svg-icon
+          class="empty-icon"
+          src="assets/img/svgs/table/attach.svg"
+          [svgStyle]="{ 'width.px': '19', 'height.px': '20' }"
+        ></svg-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="item-card-header radius-none top-header p-0 d-flex justify-content-between">
+    <div class="data-panel d-flex justify-content-around align-items-left">
+      <div class="label-container d-flex align-items-center">
+        <span class="details-card-label" style="color: #919191;" appSelectionColor
+          >Testing date</span
+        >
+        <span class="details-card-value" style="color: #919191;" appSelectionColor>{{
+          test.testingDate | date: 'shortDate'
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <app-card-preview
+    [attachments]="test.attachments"
+    [visible]="attachmentsVisible[i]"
+  ></app-card-preview>
+</div>

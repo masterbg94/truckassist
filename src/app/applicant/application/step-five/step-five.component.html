@@ -1,0 +1,387 @@
+<form [formGroup]="traffic" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow traffic reviewer-slideShow">
+    <h1>Traffic violations</h1>
+    <p class="firstParagraf traffic_paragraf">
+      If no violating during this 3 year period
+    </p>
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+    <app-truckassist-checkbox
+      id="noTrafficViolations"
+      formControlName="noTrafficViolations"
+      [checked]="noTrafficViolations"
+      (change)="(noTrafficViolations != noTrafficViolations)"
+      [(ngModel)]="noTrafficViolations"
+      (click)="isTrafficViolations()"
+    >
+    </app-truckassist-checkbox>
+  </span>
+    <span class="checkBox traffic_color traffic_color-1">
+      No traffic violations for past 12 months
+    </span>
+    <br />
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+    <app-truckassist-checkbox
+      id="isCollateral"
+      formControlName="isCollateral"
+      [checked]="isCollateral"
+      (change)="(isCollateral != isCollateral)"
+    >
+    </app-truckassist-checkbox>
+    </span>
+    <span class="checkBox traffic_color">
+      I certify I have not been convicted or forfeited bond
+    </span>
+    <p class="step10paragraf traffic_color traffic_color-2">
+      or collateral on account of any violation required to be listed during the past 3 years.
+    </p>
+
+    <div *ngIf="licences.length > 0" class="centerContent licence_block">
+      <div class="row licence" *ngFor="let item of licences; let i = index">
+        <div class="col-11 col-md-4">
+          <input
+            id="{{ 'licence' + i }}"
+            placeholder="{{ item.name }}"
+            disabled
+            class="form-control input-control licence_input licence_input_lic"
+          />
+          <label class="licence_label licence_label_lic" for="{{ 'licence' + i }}">LICENCE #</label>
+        </div>
+        <div class="col-3">
+          <input
+            id="{{ 'state' + i }}"
+            placeholder="{{ item.state.key }}"
+            disabled
+            class="form-control input-control licence_input licence_input_state"
+          />
+          <label class="licence_label licence_label_state" for="{{ 'state' + i }}">STATE</label>
+        </div>
+        <div class="col-3">
+          <input
+            id="{{ 'class' + i }}"
+            placeholder="{{ item.class.value }}"
+            disabled
+            class="form-control input-control licence_input licence_input_cls"
+          />
+          <label class="licence_label licence_label_cls" for="{{ 'class' + i }}">ClASS</label>
+        </div>
+        <div class="col-3 col-md-2">
+          <input
+            id="{{ 'date' + i }}"
+            placeholder="{{ item.modifiedDate }}"
+            disabled
+            class="form-control input-control licence_input licence_input_date"
+          />
+          <label class="licence_label licence_label_date" for="{{ 'date' + i }}">EXP. DATE</label>
+        </div>
+        <a (click)="editLicenceOnStep3(item)" class="editLicence">
+          <svg-icon
+            class="editLicence_desktop"
+            src="../../../../assets/img/applicants/grayPen.svg"
+          ></svg-icon>
+          <svg-icon
+            class="editLicence_mobile"
+            src="../../../..//assets/img/applicants/traffic_edit_mobile.svg"
+          ></svg-icon>
+        </a>
+      </div>
+    </div>
+    <span [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+    <app-truckassist-checkbox
+      id="isOnlyOneLicence"
+      formControlName="isOnlyOneLicence"
+      [checked]="isOnlyOneLicence"
+      (change)="(isOnlyOneLicence != isOnlyOneLicence)"
+    >
+    </app-truckassist-checkbox>
+  </span>
+    <span class="checkBox traffic_color">
+      I further certify that the above license is the only one I hold.
+    </span>
+    <div *ngIf="!noTrafficViolations">
+      <div class="row violation_array">
+        <div class="col-12" *ngFor="let viol of violations; let indk = index">
+          <div class="row cards cards_item">
+            <span class="cards_item-date">{{ viol.dateModified }}</span>
+            <span class="cards_item-truck">
+              <svg-icon [src]="'assets/img/svgs/truck/' + viol.vehicleType.file"></svg-icon>
+              {{ viol.vehicleType.name }}
+            </span>
+            <span class="cards_item-address">
+              <svg-icon src="../../../../assets/img/applicants/address.svg"></svg-icon>
+              {{ viol.location }}
+            </span>
+            <span class="cards_item-desc"
+              ><span style="font-weight: bold;">Desc:</span> {{ viol.description }}</span
+            >
+            <a class="cards_edit" (click)="editViolation(indk)">
+              <svg-icon
+                class="cards_edit_desktop"
+                src="../../../../assets/img/applicants/Pen.svg"
+              ></svg-icon>
+              <svg-icon
+                class="cards_edit_mobile"
+                src="../../../../assets/img/applicants/traffic_edit_mobile.svg"
+              ></svg-icon>
+            </a>
+            <a class="cards_delete" (click)="isDeleteActiveViolation(indk)">
+              <svg-icon
+                class="cards_delete_desktop"
+                src="../../../../assets/img/applicants/deleteEmployer.svg"
+              ></svg-icon>
+              <svg-icon
+                class="cards_delete_mobile"
+                src="../../../../assets/img/applicants/traffic_delete_mobile.svg"
+              ></svg-icon>
+            </a>
+            <div
+              class="dropdown-dialog"
+              [ngClass]="{
+                'show-dropdown-dialog': openDropDeleteDialogViolation[indk].value,
+                'hide-dropdown-dialog': !openDropDeleteDialogViolation[indk].value
+              }"
+            >
+              <div class="delete-dialog-container">
+                <div class="drop-down-delete-dialog">
+                  <p>Are you sure you want to delete?</p>
+                  <div class="yes-no">
+                    <div class="no" (click)="onDeleteOptionViolation(false, indk)">
+                      <p>No</p>
+                    </div>
+                    <div class="yes" (click)="onDeleteOptionViolation(true, indk)">
+                      <p>Yes</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="displayForm5 === true || violations.length < 1" class="row violation_array">
+        <div class="col-12">
+          <div class="row" style="position: relative;">
+            <div class="col-2">
+              <div class="form-label-group violation_array_date">
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    traffic.controls.dateViolation.value !== null &&
+                    traffic.controls.dateViolation.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    [max]="maxDate"
+                    formControlName="dateViolation"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label [control]="traffic.controls.dateViolation"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__date"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].date"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-8 col-md-3">
+              <div
+                class="form-label-group violation_vehicle"
+                [ngClass]="{ 'violation_vehicle-mobile': violations.length > 0 }"
+              >
+                <ng-select
+                  [items]="truckList"
+                  formControlName="vehicleType"
+                  placeholder="Vehicle type"
+                  bindLabel="name"
+                  class="no-padding-dropdown required-field"
+                  appendTo="body"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <ng-template ng-option-tmp let-item="item">
+                    <div [ngClass]="item.class" class="svgTruck">
+                      <svg-icon
+                        class="svgIconTruck"
+                        [src]="'../../assets/img/svgs/truck/gray-icons/' + item.file"
+                      >
+                      </svg-icon>
+                      <span> {{ item.name }} </span>
+                    </div>
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="traffic.controls.vehicleType"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__truck"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].vehicle"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-12 col-md-3">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                      {{
+                  manageInputValidation(traffic.controls.location)
+                }} violation_array_location"
+              >
+                <input
+                  id="location"
+                  class="form-control input-control required"
+                  placeholder="Location"
+                  formControlName="location"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  name="location"
+                  [options]="options"
+                  (onAddressChange)="handleAddressChange($event)"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="location">Location</label>
+                <app-required-label [control]="traffic.controls.location"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__location"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].location"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-9 col-md-4">
+              <div class="form-label-group violation_array_desc">
+                <input
+                  id="description"
+                  placeholder="Description of violation"
+                  class="form-control input-control required"
+                  formControlName="description"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'description')"
+                  appInputFocus
+                  name="description"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="description">Description of violation</label>
+                <app-required-label [control]="traffic.controls.description"></app-required-label>
+              </div>
+              <!-- Review Company -->
+              <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+                <app-reviewCheckButton
+                  [reviewItem]="companyReview[0]"
+                  (feedbackReviewItem)="feedbackReview($event)"
+                ></app-reviewCheckButton>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__description"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].description"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <a
+              *ngIf="violations.length > 0 && !isCompanyReview"
+              appTaTooltip="Delete"
+              tooltipColor="#FFFFFF"
+              tooltipBackground="#FF5D5D"
+              position="bottom-right"
+              class="hideForm"
+              (click)="hideForm()"
+            >
+              <svg-icon
+                class="hideForm_desktop"
+                src="../../assets/img/applicants/delete.svg"
+              ></svg-icon>
+              <svg-icon
+                class="hideForm_mobile"
+                src="../../../../assets/img/applicants/traffic_delete_mobile.svg"
+              ></svg-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div style="margin: 5px 0px;">
+        <a
+          *ngIf="displayForm5 === true && violations.length >= 0"
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+          class="violation"
+          (click)="addViolation()"
+          >Add another violation</a
+        >
+        <a
+          *ngIf="displayForm5 === false && violations.length > 0"
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+          class="violation"
+          (click)="showForm()"
+          style="top: 0px !important;"
+          >Add another violation</a
+        >
+      </div>
+      <div class="lastCheck" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+        <app-truckassist-checkbox
+          id="isCompleteList"
+          formControlName="isCompleteList"
+          [checked]="isCompleteList"
+          (change)="(isCompleteList != isCompleteList)"
+        >
+        </app-truckassist-checkbox>
+        <span class="checkBox" style="font-size: 12px !important;">
+          I certify that the following is a true and complete list of traffic violations (other than
+          parking
+        </span>
+        <p class="step10paragraf" style="font-weight: bold; font-size: 12px !important;">
+          tickets) for which I have been convicted or forfeited bond or collateral during the past 3
+          years.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview" type="submit" class="btns btns_next mx-2">Next</button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

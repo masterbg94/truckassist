@@ -1,0 +1,141 @@
+<div class="lists" [ngClass]="{ addExpendList: !rotateSVG }">
+  <div
+    class="title"
+    [ngClass]="{
+      'dropdowna-active': !rotateSVG,
+      styleOfList: !changeStyleList,
+      chnageStyleOfList: changeStyleList
+    }"
+  >
+    <span (click)="onShowShopList()">{{ titleOfList }}</span>
+    <svg-icon
+      (click)="onShowShopList()"
+      src="../../../../assets/img/svgs/shop-map/arrow.svg"
+      class="arrow-down"
+      [ngClass]="{ addRotation: rotateSVG }"
+    ></svg-icon>
+  </div>
+  <div
+    class="list-shops"
+    [ngClass]="{
+      addList: rotateSVG,
+      remuveOverflow: expendShop !== -1 || reveiwFListActive
+    }"
+  >
+    <virtual-scroller
+      *ngIf="!emptyList"
+      #shopScroll
+      [items]="shopList"
+      [ngStyle]="{
+        'max-height': countOfShops < 20 ? countOfShops * 32 + 2 + 'px' : 20 * 32 + 2 + 'px',
+        width: expendShop === -1 && !reveiwFListActive ? '360px' : '360px',
+        height: rotateSVG ? '0px' : 'calc(100vh - 335px)',
+        overflow: 'visible'
+      }"
+      [ngClass]="{ shopListsScrollStylingOnExpend: expendShop !== -1 || reveiwFListActive }"
+    >
+      <div
+        [ngStyle]="{
+          height: !rotateSVG ? '32px' : '0px',
+          width: expendShop === i ? '1433px' : '100%'
+        }"
+        *ngFor="let shop of shopScroll.viewPortItems; let i = index"
+      >
+        <div
+          (click)="onShopExpend(i, shop)"
+          class="list"
+          [ngClass]="{
+            expendShopList: expendShop === i,
+            addVisibleList: rotateSVG
+          }"
+        >
+          <div
+            appSelectionColor
+            class="shop-name"
+            [ngStyle]="{ opacity: expendShop === i ? 1 : '0.7', 'font-weight': 'bold' }"
+            [innerHtml]="shop.report | taHighlight: highlightingWords"
+          >
+            {{ shop.report }}
+          </div>
+          <div
+            appSelectionColor
+            class="shop-name"
+            [ngStyle]="{ opacity: expendShop === i ? 1 : '0.7' }"
+            [innerHtml]="shop.eventDate | taHighlight: highlightingWords"
+          >
+            {{ shop.eventDate }}
+          </div>
+          <div
+            appSelectionColor
+            class="shop-name"
+            [ngStyle]="{ opacity: expendShop === i ? 1 : '0.7' }"
+            [innerHtml]="shop.time || '14:25 PM' | taHighlight: highlightingWords"
+          >
+            {{ shop.time || '14:25 PM' }}
+          </div>
+          <div
+            *ngIf="expendShop === i"
+            class="hidenInfo"
+            [ngClass]="{ addShowHInfo: expendShop === i }"
+            [ngStyle]="{
+              width: true ? '987px' : '556px'
+            }"
+          >
+            <div class="number">
+              <img [src]="shop.avatar || 'assets/img/svgs/table/profile.svg'" alt="" />
+              <span> {{ shop.driverFullName }} </span>
+            </div>
+            <div class="meil">
+              <svg-icon src="assets/img/png/accident-map-truck.svg"> </svg-icon>
+              <span appSelectionColor>{{ shop.truckNumber || '#453534' }}</span>
+            </div>
+            <div class="address">
+              <svg-icon src="assets/img/png/accident-map-trailer.svg"> </svg-icon>
+              <span appSelectionColor>{{ shop.trailerNumber || '#98743' }}</span>
+            </div>
+            <div class="body">
+              <svg-icon src="assets/img/svgs/form-icons/address/address-default.svg"> </svg-icon>
+              <span class="w-100" appSelectionColor>{{ shop.address }}</span>
+            </div>
+          </div>
+
+          <div class="delete-edit" [ngClass]="{ addVisibleDelEdit: expendShop === i }">
+            <button
+              tooltipBackground="#FFFFFF"
+              tooltipColor="#28529F"
+              appTaTooltip="Edit Accident"
+              position="bottom-right"
+            >
+              <svg-icon
+                class="edit-shop"
+                (click)="onEditShop(shop.id)"
+                [ngClass]="{ addIcons: expendShop === i }"
+                src="../../../../assets/img/edit-new.svg"
+              ></svg-icon>
+            </button>
+            <button
+              class="delete-shop"
+              tooltipBackground="#FF5D5D"
+              position="bottom-right"
+              appTaTooltip="Delete Accident"
+            >
+              <svg-icon
+                class="delete"
+                (click)="onDeleteShop(shop.id)"
+                [ngClass]="{ addIcons: expendShop === i }"
+                src="../../../../assets/img/delete-new.svg"
+              ></svg-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </virtual-scroller>
+    <div
+      class="listFEmpty"
+      *ngIf="shopList.length === 0"
+      [ngClass]="{ showListFEmpty: !rotateSVG }"
+    >
+      <p>Your list is empty</p>
+    </div>
+  </div>
+</div>

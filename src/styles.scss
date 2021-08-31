@@ -1,0 +1,85 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'assets/scss/components/variables';
+@import 'assets/scss/fonts';
+@import 'assets/scss/components/general';
+@import 'assets/scss/components/accounting';
+@import 'assets/scss/components/back-to-top';
+@import 'assets/scss/components/background-colors';
+@import 'assets/scss/components/breadcrumb';
+@import 'assets/scss/components/buttons';
+@import 'assets/scss/components/cards';
+@import 'assets/scss/components/count-down';
+@import 'assets/scss/components/counters';
+@import 'assets/scss/components/direct-chat';
+@import 'assets/scss/components/dropdown';
+@import 'assets/scss/components/files';
+@import 'assets/scss/components/footer';
+@import 'assets/scss/components/form';
+@import 'assets/scss/components/gallery';
+@import 'assets/scss/components/grids';
+@import 'assets/scss/components/headers';
+@import 'assets/scss/components/helpers';
+@import 'assets/scss/components/icons';
+@import 'assets/scss/components/input-colors';
+@import 'assets/scss/components/labels';
+@import 'assets/scss/components/landing-page';
+@import 'assets/scss/components/layouts';
+@import 'assets/scss/components/loaders';
+@import 'assets/scss/components/media';
+@import 'assets/scss/components/messages';
+@import 'assets/scss/components/modal';
+@import 'assets/scss/components/navbar';
+@import 'assets/scss/components/page-errors';
+@import 'assets/scss/components/page-header';
+@import 'assets/scss/components/page-loader';
+@import 'assets/scss/components/panel';
+@import 'assets/scss/components/popover';
+@import 'assets/scss/components/profile';
+@import 'assets/scss/components/responsive';
+@import 'assets/scss/components/right-side-bar';
+@import 'assets/scss/components/scrollbar';
+@import 'assets/scss/components/sections';
+@import 'assets/scss/components/select';
+@import 'assets/scss/components/single-page';
+@import 'assets/scss/components/slider';
+@import 'assets/scss/components/sorted-nested';
+@import 'assets/scss/components/switches';
+@import 'assets/scss/components/tables';
+@import 'assets/scss/components/tabs';
+@import 'assets/scss/components/tags';
+@import 'assets/scss/components/toast';
+@import 'assets/scss/components/tooltip';
+@import 'assets/scss/components/dashboard';
+@import 'assets/scss/components/statistic';
+@import 'assets/scss/components/tree';
+@import 'assets/scss/components/user-profile';
+@import 'assets/scss/components/variables';
+@import 'assets/scss/components/menu';
+@import 'assets/scss/components/empty-page';
+@import 'assets/scss/components/cropper';
+@import 'assets/scss/kendo-ui/kendo-ui-table';
+@import 'assets/fontawesome/css/fontawesome.css';
+@import 'assets/fontawesome/css/all.css';
+@import 'assets/scss/kendo-ui/kendo-switch';
+@import 'assets/scss/kendo-ui/kendo-datepicker';
+@import 'assets/scss/kendo-ui/kendo-datetimepicker';
+@import 'assets/scss/components/repair-shop';
+@import 'assets/scss/kendo-ui/kendo-timepicker';
+@import 'assets/scss/kendo-ui/kendo-daterange';
+@import 'assets/scss/components/safety';
+
+@import '~@ng-select/ng-select/themes/material.theme.css';
+// @import './node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+// @import './node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+//ta-select
+@import 'assets/scss/components/ta-select';
+//ta-status-select
+@import 'assets/scss/components/ta-status-select';
+
+@import 'assets/scss/components/floating-label.scss';
+@import 'assets/scss/svg-style.scss';
+
+// Firefox override
+@import 'assets/scss/firefox';
+@import 'assets/scss/truck-assist/upload-files.scss';

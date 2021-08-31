@@ -1,0 +1,14 @@
+<emoji-mart
+  *ngIf="visibilityEmoji"
+  [showPreview]="false"
+  [color]="'#5673AA'"
+  [emojiSize]="19"
+  [sheetSize]="20"
+  [perLine]="9"
+  [set]="'twitter'"
+  [darkMode]="false"
+  class="emoji"
+  (emojiSelect)="selectEmoji($event)"
+>
+</emoji-mart>
+<div *ngIf="visibilityEmoji" [ngClass]="typeOfTriangle === 'down' ?  'emoji-triangle-down' : 'emoji-triangle-up'"></div>

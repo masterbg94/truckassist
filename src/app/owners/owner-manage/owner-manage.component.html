@@ -1,0 +1,417 @@
+<div class="modal-container" cdkDrag>
+  <div class="modal-header" cdkDragHandle>
+  <h5 class="modal-title">{{ modalTitle }}</h5>
+  <i class="fal fa-times cursor-pointer fs-24 icon-hover-primary" (click)="closeOwnerAddModal()"></i>
+</div>
+<div class="modal-body" >
+  <app-ta-tab-switch
+    (switchClicked)="tabChange($event)"
+    [tabs]="tabs"
+    *ngIf="inputData.data.type !== 'edit'"
+  >
+  </app-ta-tab-switch>
+  <app-loading-modal *ngIf="!loaded"></app-loading-modal>
+  <form
+    class="form-container has-tabs tabs-2{{ ' tab-' + tab.id }}{{ inputData.data.type == 'edit' ? ' tabs-hidden' : '' }}"
+    [formGroup]="ownerForm"
+    (keydown)="keyDownFunction($event)"
+    *ngIf="loaded"
+  >
+    <div class="single-tab-container">
+      <div class="row">
+        <div class="col-9">
+          <div class="form-label-group">
+            <input
+              id="businessName"
+              class="form-control input-control"
+              placeholder="Bussines name"
+              formControlName="businessName"
+              (paste)="onPaste($event, 'businessName')"
+              (keydown)="onCheckBackSpace($event)"
+              (keypress)="onBusinessTyping($event)"
+              appInputFocus
+              appAutoFocus
+              [modalType]="inputData.data.type"
+            >
+            <label for="businessName">Bussines name</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-label-group">
+            <input
+              id="taxId"
+              class="form-control input-control"
+              mask="00-0000000"
+              placeholder="EIN"
+              formControlName="taxId"
+              appInputFocus
+              (ngModelChange)="typeSsn($event)"
+            >
+            <label for="taxId">EIN</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(ownerForm.controls.phone) }}">
+            <input
+              id="phone"
+              class="form-control input-control required"
+              placeholder="Phone"
+              formControlName="phone"
+              appInputFocus
+              mask="(000) 000-0000"
+            >
+            <label class="required-label" for="phone">Phone</label>
+            <app-required-label [control]="ownerForm.controls.phone"></app-required-label>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(ownerForm.controls.email) }}">
+            <input
+              id="email"
+              appInputFocus
+              class="form-control input-control required"
+              placeholder="Email"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+              (keypress)="onEmailTyping($event)"
+              (paste)="onPaste($event, 'email')"
+              formControlName="email"
+            >
+            <label class="required-label" for="email">Email</label>
+            <app-required-label [control]="ownerForm.controls.email"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(ownerForm.controls.address) }}">
+            <input
+              id="address"
+              class="form-control input-control required"
+              placeholder="Address, City, State Zip"
+              formControlName="address"
+              appInputFocus
+              ngx-google-places-autocomplete
+              [options]="options"
+              #placesRef="ngx-places"
+              (onAddressChange)="handleAddressChange($event)"
+            >
+            <label class="required-label" for="address">Address, City, State Zip</label>
+            <app-required-label [control]="ownerForm.controls.address"></app-required-label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <!-- appInputrestriction="[A-Za-z0-9-]" -->
+            <input
+              id="addressUnit"
+              class="form-control input-control required"
+              placeholder="Unit #"
+              formControlName="addressUnit"
+              maxlength="6"
+              (keypress)="onUnitTyping($event)"
+              (paste)="onPaste($event, 'addressUnit', 6)"
+              appInputFocus
+            >
+            <label for="addressUnit">Unit #</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-label-group" *ngIf="!newBankVisible">
+            <ng-select
+              placeholder="Bank name"
+              [items]="bankData"
+              formControlName="bank"
+              bindLabel="bankName"
+              class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+              (search)="onSearch($event)"
+              (close)="onClose($event)"
+              (clear)="onClose($event)"
+              (change)="onBankChange($event)"
+              [searchFn]="customSearch"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                  <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                </span>
+                <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+              </ng-template>
+
+              <ng-template ng-label-tmp let-item="item">
+                <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                  <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                </span>
+                <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                  {{ item.bankName }}
+                </span>
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+            <div class="form-label-group">
+              <input
+                id="newBank"
+                class="form-control input-control"
+                placeholder="New bank"
+                [(ngModel)]="newBank"
+                [ngModelOptions]="{standalone: true}"
+                (keypress)="onBankKeyPress($event)"
+                appInputFocus
+              >
+              <label for="newBank">New bank</label>
+              <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+              </span>
+              <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <div class="form-label-group">
+            <input id="accountNumber" class="form-control input-control required" placeholder="Account number"
+                  formControlName="accountNumber" [required]="bankInfoRequired" minlength="4"
+                  maxlength="17"
+                  (paste)="onPaste($event, 'accountNumber', 17)"
+                  (keydown)="onCheckBackSpace($event)"
+                  (keypress)="onAccountAndRoutingTyping($event)"
+            >
+            <label class="{{ bankInfoRequired ? 'required-label': '' }}" for="accountNumber">Account
+              number</label>
+            <app-required-label *ngIf="bankInfoRequired" [control]="ownerForm.controls.accountNumber"></app-required-label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <input id="routingNumber" class="form-control input-control required" placeholder="Routing number"
+                  formControlName="routingNumber" [required]="bankInfoRequired" minlength="9" maxlength="9"
+                  (paste)="onPaste($event, 'routingNumber', 9)"
+                  (keydown)="onCheckBackSpace($event)"
+                  (keypress)="onAccountAndRoutingTyping($event)"
+            >
+            <label class="{{ bankInfoRequired ? 'required-label': '' }}" for="routingNumber">Routing
+              number</label>
+            <app-required-label *ngIf="bankInfoRequired" [control]="ownerForm.controls.routingNumber"></app-required-label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="single-tab-container">
+      <div class="row">
+        <div class="col-4">
+          <div class="form-label-group">
+            <input
+              id="firstName"
+              class="form-control input-control"
+              placeholder="First name"
+              formControlName="firstName"
+              appInputrestriction="[A-Za-z]"
+              (paste)="onPaste($event, 'firstName')"
+              appInputFocus
+            >
+            <label for="firstName">First name</label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <input
+              id="lastName"
+              class="form-control input-control"
+              placeholder="Last name"
+              formControlName="lastName"
+              appInputrestriction="[A-Za-z]"
+              (paste)="onPaste($event, 'lastName')"
+              appInputFocus
+            >
+            <label for="lastName">Last name</label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <input
+              id="taxId"
+              class="form-control input-control"
+              mask="000-00-0000"
+              placeholder="SSN"
+              formControlName="ssn"
+              appInputFocus
+              (paste)="onPaste($event, 'taxId', 11)"
+              (ngModelChange)="typeSsn($event)"
+            >
+            <label for="taxId">SSN</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-label-group input-icon phone-field-wrapper {{ manageInputValidation(ownerForm.controls.phone) }}">
+            <input
+              id="phone"
+              class="form-control input-control required"
+              placeholder="Phone"
+              formControlName="phone"
+              appInputFocus
+              mask="(000) 000-0000"
+            >
+            <label class="required-label" for="phone">Phone</label>
+            <app-required-label [control]="ownerForm.controls.phone"></app-required-label>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="form-label-group input-icon email-field-wrapper {{ manageInputValidation(ownerForm.controls.email) }}">
+            <input
+              id="email"
+              appInputFocus
+              class="form-control input-control required"
+              placeholder="Email"
+              oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+              (keypress)="onEmailTyping($event)"
+              (paste)="onPaste($event, 'email')"
+              formControlName="email"
+            >
+            <label class="required-label" for="email">Email</label>
+            <app-required-label [control]="ownerForm.controls.email"></app-required-label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <div class="form-label-group input-icon address-field-wrapper {{ manageInputValidation(ownerForm.controls.address) }}">
+            <input
+              id="address"
+              class="form-control input-control required"
+              placeholder="Address, City, State Zip"
+              formControlName="address"
+              appInputFocus
+              ngx-google-places-autocomplete
+              [options]="options"
+              #placesRef="ngx-places"
+              (onAddressChange)="handleAddressChange($event)"
+            >
+            <label class="required-label" for="address">Address, City, State Zip</label>
+            <app-required-label [control]="ownerForm.controls.address"></app-required-label>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-label-group">
+            <input
+              id="addressUnit"
+              class="form-control input-control required"
+              placeholder="Unit #"
+              formControlName="addressUnit"
+              maxlength="6"
+              appInputrestriction="[0-9-]"
+              (paste)="onPaste($event, 'addressUnit')"
+              appInputFocus
+            >
+            <label for="addressUnit">Unit #</label>
+          </div>
+        </div>
+      </div>
+      <div class="row top-revert">
+        <div class="col-12">
+
+          <div class="form-label-group" *ngIf="!newBankVisible">
+            <ng-select
+              placeholder="Bank name"
+              [items]="bankData"
+              formControlName="bank"
+              bindLabel="bankName"
+              class="bank-name-select has-add-new{{ (bankSearchItems == 1) ? ' has-one-result' : '' }}"
+              (search)="onSearch($event)"
+              (close)="onClose($event)"
+              (clear)="onClose($event)"
+              (change)="onBankChange($event)"
+              [searchFn]="customSearch"
+              appendTo="body"
+            >
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <span class="bank-image dropdown-image" *ngIf="item.bankLogo !== null">
+                  <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                </span>
+                <span *ngIf="item.bankLogo == null" [ngOptionHighlight]="search">{{ item.bankName }}</span>
+                <svg-icon class="delete-record-icon" *ngIf="item.id !== 0 && item.protected !== null && item.protected !== 1" src="assets/img/trash.svg" (click)="deleteBank(item.id)" appTaTooltip="Delete" position="bottom-left"></svg-icon>
+              </ng-template>
+
+              <ng-template ng-label-tmp let-item="item">
+                <span class="value-label-container bank-image" *ngIf="item.bankLogo !== null">
+                  <svg-icon src="assets/img/svgs/bank-logos/{{ item.bankLogoWide }}.svg"></svg-icon>
+                </span>
+                <span class="value-label-container bank-image" *ngIf="item.bankLogo == null">
+                  {{ item.bankName }}
+                </span>
+              </ng-template>
+            </ng-select>
+          </div>
+
+          <div class="add-new-form add-new-bank" *ngIf="newBankVisible">
+            <div class="form-label-group">
+              <input
+                id="newBank"
+                class="form-control input-control"
+                placeholder="New bank"
+                [(ngModel)]="newBank"
+                [ngModelOptions]="{standalone: true}"
+                (keypress)="onBankKeyPress($event)"
+                appInputFocus
+              >
+              <label for="newBank">New bank</label>
+              <span class="save-new-record" (click)="saveNewBank()" *ngIf="newBank !== '' && newBank !== null" appTaTooltip="Save" position="bottom-right">
+                <svg-icon src="assets/img/svgs/add-save.svg"></svg-icon>
+              </span>
+              <span class="close-new-record" (click)="closeNewBank()" appTaTooltip="Cancel" position="bottom-right">
+                <svg-icon src="assets/img/svgs/add-cancel.svg"></svg-icon>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-8">
+          <div class="form-label-group">
+            <input id="accountNumber" class="form-control input-control required" placeholder="Account number"
+                  formControlName="accountNumber" [required]="bankInfoRequired" minlength="4"
+                  maxlength="17"
+                  (paste)="onPaste($event, 'accountNumber', 17)"
+                  (keydown)="onCheckBackSpace($event)"
+                  (keypress)="onAccountAndRoutingTyping($event)"
+            >
+            <label class="{{ bankInfoRequired ? 'required-label': '' }}" for="accountNumber">Account
+              number</label>
+            <app-required-label *ngIf="bankInfoRequired" [control]="ownerForm.controls.accountNumber"></app-required-label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-label-group">
+            <input id="routingNumber" class="form-control input-control required" placeholder="Routing number"
+                  formControlName="routingNumber" [required]="bankInfoRequired" minlength="9" maxlength="9"
+                  (paste)="onPaste($event, 'routingNumber', 9)"
+                  (keydown)="onCheckBackSpace($event)"
+                  (keypress)="onAccountAndRoutingTyping($event)"
+            >
+            <label class="{{ bankInfoRequired ? 'required-label': '' }}" for="routingNumber">Routing
+              number</label>
+            <app-required-label *ngIf="bankInfoRequired" [control]="ownerForm.controls.routingNumber"></app-required-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="cancel-btn" (click)="closeOwnerAddModal()">Cancel</button>
+  <button type="button" class="save-btn" (click)="manageOwner()" ngbAutofocus>Save</button>
+</div>
+</div>

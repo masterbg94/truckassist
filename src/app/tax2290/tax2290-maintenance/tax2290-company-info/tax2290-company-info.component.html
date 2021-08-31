@@ -1,0 +1,61 @@
+<form class="custom-form" [formGroup]="form">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-label-group">
+        <input
+          id="companyName"
+          class="form-control input-control required"
+          placeholder="Company Name"
+          formControlName="companyName"
+          (paste)="onPaste($event, 'firstName')"
+          onkeypress="return (event.charCode >= 64 && event.charCode <= 91) || (event.charCode >= 96 && event.charCode <= 123)"
+          appInputrestriction="[A-Za-z]"
+          appInputFocus
+          appAutoFocus
+        />
+        <label class="required-label" for="companyName">Company Name</label>
+        <app-required-label [control]="form.controls.companyName"></app-required-label>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-label-group">
+        <input
+          id="ein"
+          class="form-control input-control required"
+          placeholder="EIN"
+          formControlName="ein"
+        />
+        <label class="required-label" for="ein">EIN</label>
+        <app-required-label [control]="form.controls.ein"></app-required-label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-label-group input-icon address-field-wrapper">
+        <input
+          id="address"
+          formControlName="address"
+          class="form-control input-control required"
+          placeholder="Address, City, State Zip"
+          ngx-google-places-autocomplete
+          #placesRef="ngx-places"
+          appInputFocus
+          [options]="options"
+          (onAddressChange)="handleAddressChange($event)"
+        />
+        <label class="required-label" for="address">Address, City, State Zip</label>
+        <app-required-label [control]="form.controls.address"></app-required-label>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="form-label-group">
+        <input
+          id="unit"
+          class="form-control input-control"
+          placeholder="Unit #"
+          formControlName="unit"
+        />
+        <label for="unit">Unit #</label>
+      </div>
+    </div>
+  </div>
+</form>

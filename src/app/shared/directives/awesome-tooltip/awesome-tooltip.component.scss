@@ -1,0 +1,13 @@
+@import '../../../../assets/scss/components/variables.scss';
+
+:host {
+  display: block;
+}
+
+div {
+  background-color: $white;
+  color: $black;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: $box-shadow;
+}

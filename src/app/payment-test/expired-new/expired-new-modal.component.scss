@@ -1,0 +1,245 @@
+@import "src/assets/scss/components/variables";
+
+.modal-container {
+  border-radius: 3px;
+  overflow: hidden;
+
+  .modal-body {
+
+    .tab1 {
+      //max-width: 456px;
+      width: 456px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      svg-icon {
+        width: 96px;
+        margin-top: 72px;
+      }
+
+      p {
+        max-width: 250px;
+        font-size: 32px;
+        text-align: center;
+        line-height: 39px;
+        font-weight: 400;
+        color: #606060;
+        margin-bottom: 24px;
+        margin-top: 58px;
+      }
+    }
+
+    .tab2 {
+      .switch-plan {
+        max-width: 300px;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+
+        p {
+          margin: 0;
+          text-align: center;
+        }
+
+        p:first-of-type {
+          font-size: 30px;
+          line-height: 37px;
+          color: $light-blue;
+          margin-top: 16px;
+        }
+
+        p:nth-of-type(2) {
+          color: $bw6-2;
+          font-size: 16px;
+          line-height: 19px;
+          margin-bottom: 16px;
+        }
+
+        p.plan-price {
+          font-size: 32px;
+          line-height: 39px;
+          color: $bw6-2;
+        }
+      }
+
+      .basic-service {
+        margin-top: 28px;
+
+        .single-service-item {
+          width: 220px;
+          height: 32px;
+          background: $bw1;
+          padding: 0 12px;
+          margin-bottom: 6px;
+
+          &:nth-child(-n+3) {
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+          }
+
+          &:nth-last-of-type(-n+3) {
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+          }
+
+          p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 18px;
+            color: $bw6-2;
+          }
+
+          svg-icon {
+            cursor: pointer;
+
+            svg path {
+              transition: 0.3s;
+            }
+
+            &:hover {
+              svg path {
+                fill: $light-blue;
+                transition: 0.3s;
+              }
+            }
+          }
+        }
+      }
+
+      .additional-service {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+
+        &-heading {
+          margin: auto;
+          font-size: 32px;
+          line-height: 39px;
+          color: $light-blue;
+        }
+
+        table {
+          width: 100%;
+
+          thead {
+            tr {
+              height: 42px;
+
+              th {
+                svg-icon {
+                  cursor: pointer;
+                  margin-left: 10px;
+
+                  &:hover {
+                    svg path {
+                      fill: $light-blue;
+                    }
+                  }
+                }
+
+                &:first-of-type {
+                  padding-left: 14px;
+                }
+
+                &:nth-last-of-type(-n+3) {
+                  color: $light-blue-07;
+                }
+              }
+            }
+          }
+
+          tbody {
+            background: #F9F9F9;
+            border-radius: 5px;
+
+            tr {
+              height: 32px;
+
+              td {
+                font-size: 14px;
+                color: $bw6-2;
+                line-height: 18px;
+
+                &:first-of-type {
+                  padding-left: 14px;
+                }
+
+                &:nth-last-of-type(-n+3) {
+                  color: $light-blue-07;
+                }
+              }
+            }
+
+            tr:first-of-type {
+
+              td:first-of-type {
+                border-top-left-radius: 3px;
+              }
+
+              td:last-of-type {
+                border-top-right-radius: 3px;
+              }
+            }
+
+            tr:last-of-type {
+              td:first-of-type {
+                border-bottom-left-radius: 3px;
+              }
+
+              td:last-of-type {
+                border-bottom-right-radius: 3px;
+              }
+            }
+          }
+        }
+      }
+
+      .savings {
+        margin-top: 22px;
+        text-align: center;
+
+        p {
+          margin: 0;
+          font-size: 12px;
+          line-height: 15px;
+          color: $bw6-2;
+
+          span {
+            font-weight: bold;
+            color: $light-blue;
+
+            &#vehicle {
+              font-weight: bold;
+              color: $bw6-2;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*  .modal-footer {
+      height: 40px;
+
+      button {
+        color: $light-blue-07;
+        background: $bw1;
+        transition: 0.3s;
+        font-size: 16px;
+        font-weight: bolder;
+        line-height: 19px;
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+          color: white;
+          background: $light-blue;
+          transition: 0.3s;
+          cursor: pointer;
+        }
+      }
+    }*/
+}

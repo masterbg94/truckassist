@@ -1,0 +1,41 @@
+<div class="container" class="{{reviewItem.id}}">
+  <div class="yesno">
+    <input
+      (change)="reviewerAnswer($event.target.value)"
+      type="radio"
+      id="{{ reviewItem.id }}"
+      value="true"
+      name="{{ reviewItem.id }}"
+      ng-required="true"
+      [checked]="reviewItem.isTrue && reviewItem.isTrue !== null"
+    />
+    <label for="{{ reviewItem.id }}" class="yesno_label1">
+      <span class="yesno_options"
+        ><svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon
+      ></span>
+    </label>
+    <input
+      (change)="reviewerAnswer($event.target.value)"
+      type="radio"
+      id="{{ reviewItem.id + '2' }}"
+      value="false"
+      name="{{ reviewItem.id }}"
+      ng-required="true"
+      [checked]="!reviewItem.isTrue && reviewItem.isTrue !== null "
+    />
+    <label for="{{ reviewItem.id + '2' }}" class="yesno_label2">
+      <span class="yesno_options"
+        ><svg-icon src="../../../../assets/img/applicants/review_check_false.svg"></svg-icon
+      ></span>
+    </label>
+  </div>
+  <input
+    *ngIf="!reviewItem.isTrue && reviewItem.isTrue !== null"
+    appAppTitleCase
+    appAutoFocus
+    type="text"
+    class="reviewerExplanation"
+    (change)="onReviewChangeExplanation()"
+    [(ngModel)]="reviewerExplanation"
+  />
+</div>

@@ -1,0 +1,762 @@
+<form [formGroup]="workExperience" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>Work Experience</h1>
+    <p class="firstParagraf">
+      In accordance with 391.21 & .23 of the Federal Motor Carrier Safety Regulations (FMCSR), an
+      applicant must list all previous work experience for the three (3) years prior to the date of
+      application shown on page one, as well as all commercial driving experience for seven (7)
+      years prior to those three years, for a total of 10 years.
+    </p>
+    <div *ngIf="!haveExperience">
+      <p class="firstParagraf" style="font-weight: bold;">
+        Please list starting with most recent employer, use add employer link if needed
+      </p>
+      <div class="centerContent">
+        <div class="row" *ngIf="employers.length > 0">
+          <div class="col-12" *ngFor="let item of employers; let indk = index">
+            <div class="employers" (click)="viewEmployer(indk)">
+              <span class="employers_name">{{ item.concatPrint }}</span>
+              <a (click)="viewEmployer(indk)" class="employers_pen">
+                <svg-icon src="../../assets/img/applicants/Pen.svg"></svg-icon>
+              </a>
+              <a (click)="isDeleteActiveEmployer(indk)" class="employers_delete">
+                <svg-icon src="../../../../assets/img/applicants/deleteEmployer.svg"></svg-icon>
+              </a>
+              <div
+                class="dropdown-dialog"
+                [ngClass]="{
+                  'show-dropdown-dialog show-dropdown-dialog_employe':
+                    openDropDeleteDialogEmployer[indk].value,
+                  'hide-dropdown-dialog': !openDropDeleteDialogEmployer[indk].value
+                }"
+              >
+                <div class="delete-dialog-container">
+                  <div class="drop-down-delete-dialog">
+                    <p class="drop-dialog_paragraf">
+                      Are you sure you want to delete?
+                    </p>
+                    <div class="yes-no">
+                      <div class="no" (click)="onSelectOptionEmployer(false, indk)">
+                        <p>No</p>
+                      </div>
+                      <div class="yes" (click)="onSelectOptionEmployer(true, indk)">
+                        <p>Yes</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <svg-icon
+                (click)="isDeleteActiveEmployer(indk)"
+                class="e_delete-mobile"
+                src="../../../../assets/img/applicants/delete_mobile.svg"
+              ></svg-icon>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="displayForm2">
+          <a
+            *ngIf="employers.length > 0 && displayForm2 === true && !isCompanyReview"
+            appTaTooltip="Delete"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#FF5D5D"
+            position="bottom-right"
+            (click)="hideForm()"
+            class="hideForm"
+          >
+            <svg-icon
+              class="deleteTruckType_desktop"
+              src="../../assets/img/applicants/delete.svg"
+            ></svg-icon>
+            <svg-icon
+              class="e_delete-mobile-2"
+              src="../../../../assets/img/applicants/delete_mobile.svg"
+            ></svg-icon>
+          </a>
+          <div class="row employerName" style="position: relative;">
+            <div
+              class="col-12"
+              [ngClass]="{ employerName_mobile: employers.length > 0 && displayForm2 === true }"
+              style="padding-right: 0px !important;"
+            >
+              <div class="form-label-group">
+                <input
+                  id="employerName"
+                  class="form-control input-control required"
+                  placeholder="{{ capitalizeLetter(stateOfEmployer[countEmploye]) }} last employer"
+                  formControlName="employerName"
+                  (paste)="onPaste($event, 'employerName')"
+                  (keypress)="onNameTyping($event)"
+                  (keydown)="onCheckBackSpace($event)"
+                  appInputFocus
+                  appAutoFocus
+                  [dontDoFocus]="
+                    workExperience.get('employerName').value === null && !isCompanyReview ? 'false' : 'true'
+                  "
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="employerName">
+                  {{ capitalizeLetter(stateOfEmployer[countEmploye]) }} last employer
+                </label>
+                <app-required-label
+                  [control]="workExperience.controls.employerName"
+                ></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[0]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row row_mobile" style="position: relative;">
+            <div class="col-12 col-md-6">
+              <div class="form-label-group">
+                <input
+                  id="jobDescription"
+                  placeholder="Job description"
+                  class="form-control input-control required"
+                  formControlName="jobDescription"
+                  appInputFocus
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'jobDescription')"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="desc">Job description</label>
+                <app-required-label
+                  [control]="workExperience.controls.jobDescription"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__description"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].jobDescription"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-4 col-md-3">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="From"
+                  class="required datepicker-label{{
+                    workExperience.controls.fromDate.value !== null &&
+                    workExperience.controls.fromDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    formControlName="fromDate"
+                    [(ngModel)]="currentDate"
+                    [max]="maxDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label
+                  [control]="workExperience.controls.fromDate"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__kendo1"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].fromDate"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-4 col-md-3">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="To"
+                  class="required datepicker-label{{
+                    workExperience.controls.toDate.value !== null &&
+                    workExperience.controls.toDate.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    [min]="currentDate"
+                    [(ngModel)]="maxValue"
+                    [max]="maxDate"
+                    formControlName="toDate"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label [control]="workExperience.controls.toDate"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[1].isTrue && companyReview[1].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__kendo2"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[1].toDate"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[1]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row row_mobile" style="position: relative;">
+            <div class="col-12 col-md-4">
+              <div
+                class="form-label-group input-icon phone-field-wrapper {{
+                  manageInputValidation(workExperience.controls.empPhone)
+                }}"
+              >
+                <input
+                  id="empPhone"
+                  class="form-control input-control required"
+                  placeholder="Employer Phone"
+                  formControlName="empPhone"
+                  mask="(000) 000-0000"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="empPhone">Employer Phone</label>
+                <app-required-label
+                  [control]="workExperience.controls.empPhone"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__phone"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[2].phone"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-12 col-md-8">
+              <div
+                class="form-label-group input-icon email-field-wrapper {{
+                  manageInputEmail(workExperience.controls.empEmail)
+                }}"
+              >
+                <input
+                  id="empEmail"
+                  class="form-control input-control"
+                  placeholder="Employer Email"
+                  formControlName="empEmail"
+                  oninput="this.value = this.value.replace(/[ ]|^ /g,'')"
+                  (keypress)="onEmailTyping($event)"
+                  (paste)="onPaste($event, 'empEmail')"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="empEmail">Employer Email</label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[2].isTrue && companyReview[2].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__email"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[2].email"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__thirdrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[2]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row employerAddress" style="position: relative;">
+            <div class="col-10">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                      {{ manageInputValidation(workExperience.controls.empAddress) }}"
+              >
+                <input
+                  id="empIDAddress"
+                  class="form-control input-control required"
+                  placeholder="Employer Address, City, State Zip"
+                  formControlName="empAddress"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  [options]="options"
+                  (onAddressChange)="handleAddressChange($event)"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="empIDAddress"
+                  >Employer Address, City, State Zip</label
+                >
+                <app-required-label
+                  [control]="workExperience.controls.empAddress"
+                ></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__address"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[3].address"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form-label-group">
+                <input
+                  id="address_unit4"
+                  class="form-control input-control"
+                  placeholder="Unit #"
+                  formControlName="empUnit"
+                  maxlength="6"
+                  appInputrestriction="[A-Za-z0-9-]"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="address_unit4">Unit #</label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[3].isTrue && companyReview[3].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__unit"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[3].unit"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__fourthrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[3]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="drivingPosition">
+            <app-truckassist-checkbox
+              id="driverPosition"
+              [checked]="getChecked()"
+              (click)="driverPosition($event)"
+              [disabled]="isCompanyReview"
+            >
+            </app-truckassist-checkbox>
+            <span class="checkBox checkbox-step2"> Was this a driving position?</span>
+          </div>
+          <div *ngIf="hasDrivingPosition" class="hasDrivingPosition">
+            <div class="row" style="margin-top: -3px;" formArrayName="type">
+              <div
+                class="col-12"
+                *ngFor="let truck of truckType.controls; let indk = index"
+                [formGroupName]="indk"
+              >
+                <div class="row showDeleteTruck">
+                  <div class="col-12 col-md-5">
+                    <div class="form-label-group truckMobile">
+                      <ng-select
+                        [items]="truckListModificated"
+                        formControlName="truckType"
+                        placeholder="Vehicle type"
+                        bindLabel="name"
+                        class="no-padding-dropdown required-field"
+                        appendTo="body"
+                        [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                      >
+                        <ng-template ng-option-tmp let-item="item">
+                          <div [ngClass]="item.class" class="svgTruck">
+                            <svg-icon
+                              class="svgIconTruck"
+                              [src]="'../../assets/img/svgs/truck/gray-icons/' + item.file"
+                            >
+                            </svg-icon>
+                            <span> {{ item.name }} </span>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                      <app-required-label [control]="truck.get('truckType')"></app-required-label>
+                    </div>
+                    <div
+                      *ngIf="
+                        isCompanyReview
+                          ? !companyReview[4].isTrue && companyReview[4].isTrue !== null
+                          : false
+                      "
+                      class="reviewer-slideShow__vehicle"
+                    >
+                      <app-reviewSingleCheckButton
+                        [reviewItem]="companyReview[4].truck"
+                      ></app-reviewSingleCheckButton>
+                    </div>
+                  </div>
+
+                  <div class="col-8 col-md-4">
+                    <div class="form-label-group">
+                      <ng-select
+                        [ngClass]="blockTrailer[indk].value ? 'add_disabled' : ''"
+                        [items]="trailerList"
+                        formControlName="trailerType"
+                        placeholder="Trailer type"
+                        bindLabel="name"
+                        class="no-padding-dropdown required-field"
+                        appendTo="body"
+                        [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                      >
+                        <ng-template ng-option-tmp let-item="item">
+                          <div [ngClass]="item.class" class="svgTriler">
+                            <svg-icon
+                              class="svgIconTriler"
+                              [src]="'../../assets/img/svgs/trailer/gray-icons/' + item.file"
+                            >
+                            </svg-icon>
+                            <span> {{ item.name }} </span>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                      <app-required-label [control]="truck.get('trailerType')"></app-required-label>
+                    </div>
+                    <div
+                      *ngIf="
+                        isCompanyReview
+                          ? !companyReview[4].isTrue && companyReview[4].isTrue !== null
+                          : false
+                      "
+                      class="reviewer-slideShow__trailer"
+                    >
+                      <app-reviewSingleCheckButton
+                        [reviewItem]="companyReview[4].trailer"
+                      ></app-reviewSingleCheckButton>
+                    </div>
+                  </div>
+                  <div class="col-4 col-md-3">
+                    <div class="form-label-group">
+                      <ng-select
+                        [ngClass]="blockLength[indk].value ? 'add_disabled' : ''"
+                        [items]="trailerLength"
+                        formControlName="truckLength"
+                        bindLabel="value"
+                        placeholder="Length"
+                        class="required-field"
+                        appendTo="body"
+                        [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                      >
+                      </ng-select>
+                      <app-required-label [control]="truck.get('truckLength')"></app-required-label>
+                    </div>
+                    <div
+                      *ngIf="
+                        isCompanyReview
+                          ? !companyReview[4].isTrue && companyReview[4].isTrue !== null
+                          : false
+                      "
+                      class="reviewer-slideShow__length"
+                    >
+                      <app-reviewSingleCheckButton
+                        [reviewItem]="companyReview[4].length"
+                      ></app-reviewSingleCheckButton>
+                    </div>
+                  </div>
+                  <!-- Review Company -->
+                  <div class="reviewer-slideShow__fifthrow" *ngIf="isCompanyReview">
+                    <app-reviewCheckButton
+                      [reviewItem]="companyReview[4]"
+                      (feedbackReviewItem)="feedbackReview($event)"
+                    ></app-reviewCheckButton>
+                  </div>
+                  <a
+                    *ngIf="!isCompanyReview"
+                    appTaTooltip="Delete"
+                    tooltipColor="#FFFFFF"
+                    tooltipBackground="#FF5D5D"
+                    position="bottom-right"
+                    class="deleteTruckType"
+                    (click)="isDeleteActiveTruck(indk)"
+                  >
+                    <svg-icon
+                      class="deleteTruckType_desktop"
+                      src="../../assets/img/applicants/delete.svg"
+                    ></svg-icon>
+                    <svg-icon
+                      class="deleteTruckType_mobile"
+                      src="../../../../assets/img/applicants/delete_mobile.svg"
+                    ></svg-icon>
+                  </a>
+                  <div
+                    class="dropdown-dialog"
+                    [ngClass]="{
+                      'show-dropdown-dialog': openDropDeleteDialogTruck[indk].value,
+                      'hide-dropdown-dialog': !openDropDeleteDialogTruck[indk].value
+                    }"
+                  >
+                    <div class="delete-dialog-container">
+                      <div class="drop-down-delete-dialog">
+                        <p>Are you sure you want to delete?</p>
+                        <div class="yes-no">
+                          <div class="no" (click)="onDeleteOptionTruck(false, indk)">
+                            <p>No</p>
+                          </div>
+                          <div class="yes" (click)="onDeleteOptionTruck(true, indk)">
+                            <p>Yes</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a
+              [ngClass]="disableTruck || isCompanyReview ? 'add_disabled' : ''"
+              class="truckEquipment mb-2"
+              (click)="addTruck()"
+            >
+              Add another class of equipment</a
+            >
+            <div class="row cfrFMCSA" style="position: relative;">
+              <div class="centerContent3">
+                <div class="row">
+                  <div class="col-3">
+                    <p class="yesno_paragraf cfr">
+                      CFR Part 40?
+                      <span class="requiredStar" style="right: 1px !important;">*</span>
+                    </p>
+                    <div class="cfr_requiredMobile">
+                      <app-required-yes-no
+                        [control]="workExperience.controls.cfrPart"
+                      ></app-required-yes-no>
+                    </div>
+                  </div>
+                  <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+                    <div class="yesno yesno_mobile1">
+                      <input formControlName="cfrPart" type="radio" id="u1" value="yes" />
+                      <label for="u1" class="yesno_label1 cfr_Yes">
+                        <span class="yesno_options">Yes</span>
+                      </label>
+                      <input formControlName="cfrPart" type="radio" id="u222" value="no" />
+                      <label for="u222" class="yesno_label2 cfr_No">
+                        <span class="yesno_options">No</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="empty"></div>
+                  <div class="col-4">
+                    <p class="yesno_paragraf fmcsa">
+                      FMCSA Regulated <span class="requiredStar2">*</span>
+                    </p>
+                    <div class="fmcsa_requiredMobile">
+                      <app-required-yes-no
+                        [control]="workExperience.controls.fmCSA"
+                      ></app-required-yes-no>
+                    </div>
+                  </div>
+                  <div class="col-1" [ngClass]="{ 'disable-review-fields': isCompanyReview }">
+                    <div class="yesno yesno_mobile2">
+                      <input formControlName="fmCSA" type="radio" id="u4" value="yes" />
+                      <label for="u4" class="yesno_label1 fmcsa_Yes">
+                        <span class="yesno_options">Yes</span>
+                      </label>
+                      <input formControlName="fmCSA" type="radio" id="u5" value="no" />
+                      <label for="u5" class="yesno_label2 fmcsa_No">
+                        <span class="yesno_options">No</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Review Company -->
+              <div class="reviewer-slideShow__sixthrow" *ngIf="isCompanyReview">
+                <app-reviewCheckButton
+                  [reviewItem]="companyReview[5]"
+                  (feedbackReviewItem)="feedbackReview($event)"
+                ></app-reviewCheckButton>
+              </div>
+            </div>
+          </div>
+          <div class="row row_mobile" style="position: relative;">
+            <div class="col-12">
+              <div class="form-label-group">
+                <ng-select
+                  [items]="stateReason"
+                  formControlName="reason"
+                  placeholder="Reason for leaving"
+                  bindLabel="name"
+                  class="input-control required-field"
+                  (change)="reasonSelect($event)"
+                  appendTo="body"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <ng-template ng-option-tmp let-item="item">
+                    {{ item.name }}
+                  </ng-template>
+                </ng-select>
+                <app-required-label [control]="workExperience.controls.reason"></app-required-label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__seventhrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[6]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div class="row accountInput row_mobile" style="position: relative;">
+            <div class="col-12">
+              <div class="form-label-group">
+                <input
+                  id="accountPeriod"
+                  placeholder="Account for period between jobs (incl. reason)"
+                  class="form-control input-control"
+                  formControlName="accountForPeriod"
+                  (keypress)="onDescriptionTyping($event)"
+                  (paste)="onPaste($event, 'accountPeriod')"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label for="accountPeriod">Account for period between jobs (incl. reason)</label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__eightrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[7]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+          </div>
+          <div
+            class="row"
+            *ngIf="counterNewEmployer > 0"
+            [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+          >
+            <div class="col-12">
+              <div class="employers employers_new" (click)="viewNewEmployer()">
+                <span class="employers_name"
+                  >{{ stateOfEmployer[stateOfNewEmploye] }} last employer</span
+                >
+                <a (click)="viewNewEmployer()" class="employers_pen">
+                  <svg-icon src="../../assets/img/applicants/Pen.svg"></svg-icon>
+                </a>
+                <a (click)="deleteNewEmployer()" class="employers_delete">
+                  <svg-icon
+                    class="deleteTruckType_desktop"
+                    src="../../assets/img/applicants/deleteEmployer.svg"
+                  ></svg-icon>
+                </a>
+                <svg-icon
+                  (click)="deleteNewEmployer()"
+                  class="e_delete-mobile"
+                  src="../../../../assets/img/applicants/delete_mobile.svg"
+                ></svg-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+          *ngIf="modeEmployer[indexOfOldEmployer].value == 'normal' && displayForm2 == true"
+          [attr.disabled]="disableAdd"
+          [ngClass]="disableAdd ? 'add_disabled' : ''"
+          class="addEmployer"
+          (click)="addEmployer()"
+        >
+          Add {{ stateOfEmployer[countEmploye + 1] }} last employer
+        </a>
+        <a
+          *ngIf="displayForm2 === false && employers.length > 0"
+          class="addEmployer"
+          (click)="showForm()"
+          style="top: -5px !important;"
+        >
+          Add {{ stateOfEmployer[employers.length] }} last employer
+        </a>
+      </div>
+    </div>
+    <div *ngIf="employers.length < 1 && !isCompanyReview" class="experience">
+      <app-truckassist-checkbox
+        id="haveExperience"
+        formControlName="haveExperience"
+        [checked]="haveExperience"
+        (change)="(haveExperience != haveExperience)"
+        [(ngModel)]="haveExperience"
+        (click)="haventExperience()"
+      >
+      </app-truckassist-checkbox>
+      <span class="checkBox experience_notExperience"> I don’t have work experience</span>
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2"
+    >
+      Next
+    </button>
+
+    <button
+      *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview"
+      type="submit"
+      class="btns btns_next mx-2 btns_reviewConfirm"
+    >
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

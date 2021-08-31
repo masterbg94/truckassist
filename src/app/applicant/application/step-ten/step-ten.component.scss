@@ -1,0 +1,42 @@
+@import '../../applicant.component.scss';
+
+.checkHeader {
+  position: relative;
+  top: 0.5px !important;
+  &_1 {
+    top: 0.5px !important;
+  }
+}
+.checkBold {
+  font-weight: bold;
+  margin-left: 7px;
+}
+
+// Screen mobile
+@media only screen and (max-width: 414px) {
+  .btn_mobile {
+    margin-left: -300px;
+  }
+  .btns {
+    margin-left: 0px !important;
+    &_back {
+      margin-left: 0px !important;
+    }
+  }
+  .slideShow {
+    margin-left: 1px;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .btn_mobile {
+    margin-left: -328px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .btn_mobile {
+    margin-left: -337px;
+  }
+  .slideShow {
+    margin-left: -6px !important;
+  }
+}

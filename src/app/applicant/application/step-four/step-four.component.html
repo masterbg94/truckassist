@@ -1,0 +1,368 @@
+<form [formGroup]="accident" (ngSubmit)="onSubmit()" class="my-2">
+  <div class="slideShow reviewer-slideShow">
+    <h1>Accident record</h1>
+    <p class="firstParagraf" style="font-weight: bold;">
+      Please list all motor vehicle collisions in which you were involved (both commercial and
+      private vehicle) during the past 3 years prior to the application date.
+    </p>
+    <app-truckassist-checkbox
+      id="noAccident"
+      formControlName="noAccident"
+      [checked]="noAccident"
+      (change)="(noAccident != noAccident)"
+      [(ngModel)]="noAccident"
+      (click)="HasAccident()"
+      [disabled]="isCompanyReview"
+    >
+    </app-truckassist-checkbox>
+    <span class="checkBox traffic_color">
+      No accidents for past 3 years
+    </span>
+    <div *ngIf="!noAccident" class="centerContent">
+      <div class="row showEditDelete">
+        <div class="col-12 accidentCol" *ngFor="let item of listOfAccident; let i = index">
+          <div class="row accident" (click)="editAccident(i)">
+            <div class="col-4">
+              <input
+                id="{{'location' + i}}"
+                placeholder="{{ item.location }}"
+                disabled
+                class="form-control input-control accident_input accident_input_location"
+              />
+              <label class="accident_label accident_label_location" for="{{'location' + i}}">LOCATION</label>
+            </div>
+            <div class="col-1">
+              <input
+                id="{{'date' + i}}"
+                placeholder="{{ item.modifiedDate }}"
+                disabled
+                class="form-control input-control accident_input accident_input_date"
+              />
+              <label class="accident_label accident_label_date" for="{{'date' + i}}">DATE</label>
+            </div>
+            <div class="col-1">
+              <input
+                id="{{'fatalities' + i}}"
+                placeholder="{{ item.fatalities }}"
+                disabled
+                class="form-control input-control accident_input accident_input_fat"
+              />
+              <label class="accident_label accident_label_fat" for="{{'fatalities' + i}}">FAT. #</label>
+            </div>
+            <div class="col-1">
+              <input
+                id="{{'injuries' + i}}"
+                placeholder="{{ item.injuries }}"
+                disabled
+                class="form-control input-control accident_input accident_input_inj"
+              />
+              <label class="accident_label accident_label_inj" for="{{'injuries' + i}}">INJ. #</label>
+            </div>
+            <div class="col-1">
+              <input
+                id="{{'hazmatSpill' + i}}"
+                placeholder="{{ item.hazmatSpill }}"
+                disabled
+                class="form-control input-control accident_input accident_input_hazmat"
+              />
+              <label class="accident_label accident_label_hazmat" for="{{'hazmatSpill' + i}}">H. SPILL</label>
+            </div>
+            <div class="col-3">
+              <input
+                id="{{'description' + i}}"
+                placeholder="{{ item.description }}"
+                disabled
+                class="form-control input-control accident_input accident_input_desc"
+                (keypress)="onDescriptionTyping($event)"
+              />
+              <label class="accident_label accident_label_desc" for="{{'description' + i}}"
+                >DESCRIPTION</label
+              >
+            </div>
+          </div>
+          <a class="editInjuresFatality" (click)="editAccident(i)">
+            <svg-icon src="../../../../assets/img/applicants/grayPen.svg"></svg-icon>
+          </a>
+          <a
+            appTaTooltip="Delete"
+            tooltipColor="#FFFFFF"
+            tooltipBackground="#FF5D5D"
+            position="bottom-right"
+            class="deleteInjuresFatality"
+            (click)="isDeleteActiveAccident(i)"
+          >
+            <svg-icon
+              class="deleteInjuresFatality_desktop"
+              src="../../assets/img/applicants/delete.svg"
+            ></svg-icon>
+            <svg-icon
+              class="deleteInjuresFatality_mobile"
+              src="../..//../../assets/img/applicants/delete_mobile.svg"
+            ></svg-icon>
+          </a>
+          <div
+            class="dropdown-dialog"
+            [ngClass]="{
+              'show-dropdown-dialog': openDropDeleteDialogAccident[i].value,
+              'hide-dropdown-dialog': !openDropDeleteDialogAccident[i].value
+            }"
+          >
+            <div class="delete-dialog-container">
+              <div class="drop-down-delete-dialog">
+                <p>Are you sure you want to delete?</p>
+                <div class="yes-no">
+                  <div class="no" (click)="onSelectDeleteAccident(false, i)">
+                    <p>No</p>
+                  </div>
+                  <div class="yes" (click)="onSelectDeleteAccident(true, i)">
+                    <p>Yes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="displayForm4" class="row" style="position: relative;">
+        <div class="col-12">
+          <div class="row showDeleteAccident" style="position: relative;">
+            <div class="col-9">
+              <div
+                class="form-label-group input-icon address-field-wrapper
+                      {{ manageInputValidation(accident.controls.location) }}"
+              >
+                <input
+                  id="location2"
+                  class="form-control input-control required"
+                  placeholder="Location"
+                  formControlName="location"
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  appInputFocus
+                  [options]="options"
+                  (onAddressChange)="handleAddressChange($event)"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="location2">Location</label>
+                <app-required-label [control]="accident.controls.location"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__location"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].location"
+                ></app-reviewSingleCheckButton>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-label-group">
+                <kendo-floatinglabel
+                  text="Date"
+                  class="required datepicker-label{{
+                    accident.controls.dateAccident.value !== null &&
+                    accident.controls.dateAccident.value !== ''
+                      ? ' valid-label'
+                      : ''
+                  }}"
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                >
+                  <kendo-datepicker
+                    [format]="format"
+                    placeholder=""
+                    [max]="maxDate"
+                    formControlName="dateAccident"
+                    [formatPlaceholder]="{
+                      year: 'yy',
+                      month: 'mm',
+                      day: 'dd'
+                    }"
+                    required
+                    [popupSettings]="{ popupClass: 'custom-datepick' }"
+                  ></kendo-datepicker>
+                </kendo-floatinglabel>
+                <app-required-label [control]="accident.controls.dateAccident"></app-required-label>
+              </div>
+              <div
+                *ngIf="
+                  isCompanyReview
+                    ? !companyReview[0].isTrue && companyReview[0].isTrue !== null
+                    : false
+                "
+                class="reviewer-slideShow__date"
+              >
+                <app-reviewSingleCheckButton
+                  [reviewItem]="companyReview[0].date"
+                ></app-reviewSingleCheckButton>
+              </div>
+              <!-- Review Company -->
+              <div class="reviewer-slideShow__firstrow" *ngIf="isCompanyReview">
+                <app-reviewCheckButton
+                  [reviewItem]="companyReview[0]"
+                  (feedbackReviewItem)="feedbackReview($event)"
+                ></app-reviewCheckButton>
+              </div>
+            </div>
+            <div class="col-3" style="margin-top: -6px; margin-bottom: 9px;">
+              <div
+                class="input-type-number"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+                <div class="fatality-injuries-conatiner fatalityMobile">
+                  <p>Fatalities</p>
+                  <input
+                    id="fatalitiesAccident"
+                    type="number"
+                    [(ngModel)]="accidents.fatalityCount"
+                    class="form-control input-control"
+                    formControlName="fatalitiesAccident"
+                  />
+                  <svg-icon
+                    (click)="onCountFatality(true)"
+                    class="up-svg"
+                    src="/assets/img/svgs/safety/Up.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    (click)="onCountFatality(false)"
+                    class="down-svg down-svg_FD"
+                    src="/assets/img/svgs/safety/Down.svg"
+                  ></svg-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-3" style="margin-top: -6px;">
+              <div
+                class="input-type-number"
+                [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+              >
+                <div class="fatality-injuries-conatiner">
+                  <p>Injuries</p>
+                  <input
+                    id="injuriesAccident"
+                    type="number"
+                    [(ngModel)]="accidents.injuriesCount"
+                    class="form-control input-control"
+                    formControlName="injuriesAccident"
+                  />
+                  <svg-icon
+                    (click)="onCountInjuries(true)"
+                    class="up-svg"
+                    src="/assets/img/svgs/safety/Up.svg"
+                  ></svg-icon>
+                  <svg-icon
+                    (click)="onCountInjuries(false)"
+                    class="down-svg down-svg_FD"
+                    src="/assets/img/svgs/safety/Down.svg"
+                  ></svg-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 hazmatMobile">
+              <p class="yesno_paragraf hazmat_paragraf">
+                Hazmat spill<span class="requiredStar">*</span>
+              </p>
+              <app-required-yes-no [control]="accident.controls.hazmatSpill"></app-required-yes-no>
+            </div>
+            <div
+              class="col-1 hazmatMobile_YesNo"
+              [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+            >
+              <div class="yesno">
+                <input formControlName="hazmatSpill" type="radio" id="o101" value="yes" />
+                <label for="o101" class="yesno_label1 hazmat_Yes">
+                  <span class="yesno_options">Yes</span>
+                </label>
+                <input formControlName="hazmatSpill" type="radio" id="o102" value="no" />
+                <label for="o102" class="yesno_label2 hazmat_No">
+                  <span class="yesno_options">No</span>
+                </label>
+              </div>
+            </div>
+            <!-- Review Company -->
+            <div class="reviewer-slideShow__secondrow" *ngIf="isCompanyReview">
+              <app-reviewCheckButton
+                [reviewItem]="companyReview[1]"
+                (feedbackReviewItem)="feedbackReview($event)"
+              ></app-reviewCheckButton>
+            </div>
+            <div class="col-12 descript_Mobile">
+              <div class="form-label-group descript">
+                <input
+                  id="descriptionAccident"
+                  placeholder="Description"
+                  class="form-control input-control required"
+                  formControlName="descriptionAccident"
+                  (paste)="onPaste($event, 'descriptionAccident')"
+                  (keypress)="onDescriptionTyping($event)"
+                  appInputFocus
+                  [ngClass]="{ 'disable-review-fields': isCompanyReview }"
+                />
+                <label class="required-label" for="descriptionAccident">Description</label>
+                <app-required-label
+                  [control]="accident.controls.descriptionAccident"
+                ></app-required-label>
+              </div>
+
+              <!-- Review Company -->
+              <div class="reviewer-slideShow__thirdrow" *ngIf="isCompanyReview">
+                <app-reviewCheckButton
+                  [reviewItem]="companyReview[2]"
+                  (feedbackReviewItem)="feedbackReview($event)"
+                ></app-reviewCheckButton>
+              </div>
+            </div>
+            <a
+              *ngIf="listOfAccident.length > 0 && !isCompanyReview"
+              appTaTooltip="Delete"
+              tooltipColor="#FFFFFF"
+              tooltipBackground="#FF5D5D"
+              position="bottom-right"
+              class="hideForm"
+              (click)="hideForm()"
+            >
+              <svg-icon
+                class="hideForm_desktop"
+                src="../../assets/img/applicants/delete.svg"
+              ></svg-icon>
+              <svg-icon
+                class="hideForm_mobile"
+                src="../../../../assets/img/applicants/delete_mobile.svg"
+              ></svg-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a
+        *ngIf="displayForm4"
+        [ngClass]="disableAddNextAccident || isCompanyReview ? 'add_disabled' : ''"
+        class="addAccident"
+        (click)="addAccident()"
+        >Add another accident</a
+      >
+      <a
+        *ngIf="!displayForm4"
+        [ngClass]="disableAddNextAccident ? 'add_disabled' : ''"
+        class="addAccident addAccident-show"
+        (click)="showForm()"
+        >Add another accident</a
+      >
+    </div>
+  </div>
+  <div class="btn_mobile">
+    <button type="button" class="btns btns_back mx-2" (click)="stepBack()">
+      Back
+    </button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? true : !isCompanyReview" class="btns btns_next mx-2">Next</button>
+    <button *ngIf="isSomeFalseReview.length > 0 ? false : isCompanyReview" type="submit" class="btns btns_next mx-2 btns_reviewConfirm">
+      <svg-icon src="../../../../assets/img/applicants/review_check_true.svg"></svg-icon>
+      <span class="btns_reviewConfirm-text">Confirm All</span>
+    </button>
+  </div>
+  <div class="reviewConfirmAll" *ngIf="isCompanyReview">
+    <app-reviewConfirmAll (allCorrectly)="isAllCorrectly($event)"></app-reviewConfirmAll>
+  </div>
+</form>

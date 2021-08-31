@@ -1,0 +1,88 @@
+.form {
+  margin: 10px 12px;
+}
+
+.payment {
+  padding: 6px 12px;
+  display: flex;
+  overflow: hidden;
+  overflow-x: scroll;
+
+  .inner-container {
+    display: flex;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    color: #919191;
+    width: 200px;
+    height: 58px;
+    padding: 8px;
+    padding-left: 12px;
+    margin-right: 6px;
+    cursor: pointer;
+
+    &-svg {
+      margin-right: 12px;
+      width: 32px;
+      height: 32px;
+      position: relative;
+      top: 3px;
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: left;
+
+      &-name {
+        font-weight: bold;
+        font-size: 12px;
+        margin: 0px;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &-number {
+        margin: 0px;
+        letter-spacing: 1px;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+      }
+    }
+  }
+
+  .inner-container-pressed {
+    background-color: #5673aa;
+    color: #ffffff;
+    cursor: pointer;
+    .inner-container-svg {
+      svg {
+        path {
+          fill: #ffffff;
+        }
+        #Rectangle_1963 {
+          fill: #ffffff;
+        }
+        #Rectangle_1964 {
+          fill: #ffffff;
+        }
+        #Rectangle_1965 {
+          fill: #ffffff;
+        }
+        #Rectangle_1966 {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+

@@ -1,0 +1,39 @@
+:host {
+  &:last-child .ta-bar {
+    display: none;
+  }
+}
+
+.ta-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.ta-content {
+  flex: 1;
+  width: 100%;
+}
+
+.ta-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin: 0 -10px 0 -10px;
+  justify-self: flex-end;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  background: blueviolet;
+  background-clip: content-box;
+  box-sizing: content-box;
+  cursor: ew-resize;
+  opacity: 1;
+  transition: opacity 0.3s;
+  z-index: 999999999999999999999;
+
+  &:hover,
+  &:active {
+    opacity: 1;
+  }
+}

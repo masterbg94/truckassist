@@ -1,0 +1,339 @@
+.mini-chat {
+  width: 1440px;
+  height: 380px;
+  position: fixed;
+  z-index: 9999;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  background-color: #f9f9f9;
+  padding-top: 8px;
+  transform: translateY(calc(100%));
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+
+  p {
+    margin: 0px !important;
+  }
+
+  &.active {
+    visibility: visible;
+  }
+  &.opened {
+    transform: translateY(0);
+  }
+
+  .unselectable {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  // toggle button
+  .mini-chat-toggle {
+    position: absolute;
+    left: 48%;
+    bottom: 100%;
+    z-index: 200;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    height: 13.5px;
+    width: 55px;
+    box-shadow: 0 -4px 3px rgb(0, 0, 0, 0.15);
+
+    .toggle-mini-chat {
+      position: absolute;
+      bottom: -2px;
+      right: -1px;
+
+      svg {
+        #Rectangle_8343 {
+          fill: #f9f9f9;
+        }
+        #bottom {
+          fill: #b7b7b7 !important;
+        }
+      }
+    }
+
+    &:hover {
+      .toggle-mini-chat {
+        svg {
+          #bottom {
+            fill: #919191 !important;
+          }
+        }
+      }
+    }
+
+    &-unread-message {
+      .toggle-mini-chat {
+        svg {
+          #bottom {
+            fill: #5673aa !important;
+          }
+        }
+      }
+      &:hover {
+        .toggle-mini-chat {
+          svg {
+            #bottom {
+              fill: #344566 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .side-of-chat {
+    width: 720px;
+    min-height: 362px;
+    display: flex;
+
+    .chat-column-container {
+      display: flex;
+      flex-direction: column;
+      width: 165px;
+      height: 100%;
+      margin: 0 6px;
+      overflow: hidden;
+      padding: 1px;
+
+      // Chat-group container closed
+      .chat-group-section-container {
+        display: flex;
+        height: 32px;
+        width: 99.5%;
+        border-radius: 3px;
+        transition: 0.2s !important;
+
+        .chat-group-section-title-container-leftSide {
+          padding: 0 4px 0 3px !important;
+        }
+
+        .chat-group-section-title-container {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0 4px 0 3px;
+          border-radius: 3px;
+          cursor: pointer;
+          background: rgb(238, 238, 238, 0.7);
+          transition: all .2s ease-in;
+          &:hover {
+            background: rgb(238, 238, 238,1);
+          }
+
+          .chat-group-section-title {
+            flex: 1;
+            color: rgb(145, 145, 145, 0.7);
+            font-weight: 600;
+
+            .chat-group-section-title-number {
+              background-color: rgb(145, 145, 145, 0.3);
+              color: #f9f9f9;
+              border-radius: 3px;
+              padding: 3px 8px;
+              transition: all .2s ease-in;
+            }
+
+            .chat-group-section-title-number-unread {
+              background-color: rgb(255, 255, 255, 0.3);
+              color: #f9f9f9;
+              border-radius: 3px;
+              padding: 3px 8px;
+              transition: all .2s ease-in;
+            }
+          }
+
+          .icon-arrow {
+            visibility: visible;
+            transform: rotate(-95deg);
+            transition: all 0.2s ease;
+
+            svg {
+              path {
+                fill: rgb(145, 145, 145, 0.7);
+              }
+            }
+          }
+          .top-icon-arrow {
+            transform: rotate(0deg);
+            transition: all 0.2s ease;
+          }
+
+          .bottom-icon-arrow {
+            transform: rotate(-180deg);
+            transition: all 0.2s ease;
+          }
+        }
+
+        // Unread state message chat
+        .unread-chat-group-section-title {
+          background: rgb(85, 115, 170, 0.7);
+          transition: all 0.2s ease-in;
+          &:hover {
+            background: rgb(85, 115, 170, 1) !important;
+          }
+
+          .chat-group-section-title {
+            color: #ffffff;
+          }
+
+          .icon-arrow {
+            svg {
+              path {
+                fill: rgb(255, 255, 255, 0.7);
+              }
+            }
+          }
+
+          .top-icon-arrow {
+            svg {
+              path {
+                fill: rgb(255, 255, 255, 0.7);
+              }
+            }
+          }
+
+          .bottom-icon-arrow {
+            svg {
+              path {
+                fill: rgb(255, 255, 255, 0.7);
+              }
+            }
+          }
+        }
+
+        // Closed state chat
+        ::ng-deep .not-expanded-main-container {
+          background-color: rgb(238, 238, 238, 0.7);
+          transition: all .2s ease-in;
+          &:hover {
+            background-color: rgb(238, 238, 238, 1);
+          }
+        }
+      }
+
+      // Chat-group container opened
+      .chat-group-section-container-opened {
+        .chat-group-section-title-container {
+          background-color: rgb(255, 255, 255,.7) !important;
+          transition: all .2s ease-in;
+          &:hover {
+            background-color: rgb(255, 255, 255,1) !important;
+          }
+        }
+        ::ng-deep .not-expanded-main-container {
+          background-color: rgb(255, 255, 255, 1) !important;
+          transition: all 0.2s ease;
+          &:hover {
+            background-color: rgb(238, 238, 238, 1) !important;
+          }
+        }
+      }
+
+      // Chat-group container unread
+      .chat-group-section-container-unread {
+        ::ng-deep .not-expanded-main-container {
+          background-color: rgb(86, 115, 170, 0.7) !important;
+          transition: all 0.2s ease-in;
+          &:hover {
+            background-color: rgb(86, 115, 170, 1) !important;
+          }
+        }
+      }
+
+      .chat-items-section-container {
+        flex: 1;
+        margin: 6px 0;
+        border-radius: 3px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+    }
+
+    .selected-chat-container {
+      flex: 1;
+      height: 100%;
+      width: 75%;
+    }
+
+    .left-selected-chat-container {
+      margin-right: 3px;
+    }
+
+    .right-selected-chat-container {
+      margin-left: 3px;
+    }
+  }
+
+  // Override .chat-container
+  ::ng-deep.input-message {
+    max-height: 140px !important;
+    width: 530px !important;
+  }
+  ::ng-deep.input-options-container-resize {
+    position: relative !important;
+    bottom: 0px !important;
+    align-self: flex-end !important;
+  }
+
+  // Override chat-search style
+  ::ng-deep.search-input {
+    width: 132px !important;
+  }
+  ::ng-deep.messages-container {
+    width: calc(561px - 12px) !important;
+  }
+  ::ng-deep.group-item-container {
+    margin-right: 6px !important;
+  }
+  ::ng-deep.user-count-container {
+    margin-right: -3px !important;
+    margin-top: 0.5px !important;
+  }
+  ::ng-deep.user-images-container {
+    display: none !important;
+  }
+
+  // Override links
+  ::ng-deep.main-container-link {
+    max-width: 250px !important;
+  }
+  ::ng-deep.main-container-yt {
+    position: relative !important;
+    right: 58px !important;
+  }
+
+  ::ng-deep.mini-chat-receiver {
+    ::ng-deep.yt-player-title {
+      left: -20px !important;
+    }
+    ::ng-deep.yt-player {
+      left: 108px !important;
+    }
+  }
+
+  // Button for latest message
+  ::ng-deep .latest-message {
+    left: 33% !important;
+    top: 76% !important;
+  }
+
+  // Override direct & chanel items
+  ::ng-deep .user-image-selected {
+    border: 1px solid #ffffff !important;
+  }
+
+  ::ng-deep .tappingMessage {
+    svg {
+      background-color: transparent !important;
+    }
+  }
+}

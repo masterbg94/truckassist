@@ -1,0 +1,7 @@
+<app-truckassist-table
+  *ngIf="trailerTabData && { trailersLoading: trailersLoading$ | async } as observables"
+  (deleteEvent)="callDelete($event)"
+  (actionEvent)="callAction($event)"
+  [options]="tableOptions"
+  [loadingItems]="loadingItems"
+></app-truckassist-table>

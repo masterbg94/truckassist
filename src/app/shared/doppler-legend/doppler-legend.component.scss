@@ -1,0 +1,67 @@
+.doppler-legend {
+  width: 191px;
+  height: 100%;
+  
+  /* padding: 6px; */
+
+  .doppler_header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    height: 21px;
+    align-items: center;
+    margin-bottom: 2px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+
+    span{
+      font-size: 10px;
+      font-weight: bold;
+      color: #B7B7B7;
+    }
+  }
+
+  .doplay_body{
+    border-radius: 2px;
+    padding: 3px 8px 3px 8px;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    .light{
+      font-size: 10px;
+      color: #B7B7B7;
+      font-weight: 600;
+    }
+
+    .quantity-text{
+      margin-bottom: 4px;
+      p{
+        margin: 0;
+      }
+    }
+
+    .quantity-rain,
+      .quantity-rain-snow,
+      .quantity-snow {
+        height: 4px;
+        width: 100%;
+        border-radius: 1px;
+      }
+      .quantity-rain {
+        background-image: linear-gradient(to right, #ff5d5d, #ded840, #24c1a1);
+      }
+      .quantity-rain-snow {
+        background-image: linear-gradient(to right, #E2B9DB, #D8007B);
+      }
+      .quantity-snow {
+        background-image: linear-gradient(to right, #B5F1FF, #5673AA);
+      }
+  }
+
+  &:hover {
+    .doppler_header, .doplay_body{
+      background: rgba(255, 255, 255, 1);
+    }
+    transition: 0.25s;
+  }
+}

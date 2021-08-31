@@ -1,0 +1,17 @@
+.tooltip {
+  font-size: 12px;
+}
+.tooltip-inner {
+  padding: 7px 13px;
+  white-space: nowrap;
+  max-width: none;
+}
+.tooltip.show {
+  opacity: 0.83;
+}
+.placeholder-delete .tooltip-inner {
+  background-color: #ff6666;
+}
+.placeholder-delete .arrow::before {
+  border-top-color: #ff6666;
+}

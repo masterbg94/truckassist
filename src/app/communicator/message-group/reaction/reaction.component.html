@@ -1,0 +1,15 @@
+<div
+  class="main-container"
+  *ngIf="reaction"
+  [ngClass]="{
+    'selected-container': isSelected(),
+    'reverse-container': reverse
+  }"
+  (click)="onClickReaction()"
+>
+  <span class="reaction-type">{{ reaction.type }}</span>
+  <span
+    class="number-of-reactions"
+    [ngClass]="{'selected-text': isSelected()}"
+  >{{ reaction.users.length }}</span>
+</div>

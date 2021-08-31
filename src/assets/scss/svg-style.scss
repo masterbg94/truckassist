@@ -1,0 +1,256 @@
+.truckassist-icon {
+  .a {
+    fill: #b7b7b7;
+    stroke: unset !important;
+  }
+
+  // CHEVROLET
+  .chevrolet-element-1 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // FORD
+  .ford-element-1 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // FREIGHTLINER
+  .freightliner-element-7 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // HINO
+  .hino-element-1,
+  .hino-element-2 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // GMC
+  .gmc-element-1 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // INTERNATIONAL
+  .international-element-1,
+  .international-element-3 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  .international-element-4 {
+    fill: #b7b7b7;
+    stroke: unset !important;
+  }
+
+  // PETERBILT
+  .peterbilt-element-1,
+  .peterbilt-element-3 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // MACK
+  .mack-element-1,
+  .mack-element-2,
+  .mack-element-3,
+  .mack-element-4 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // VOLVO
+  .volvo-element-1 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // KENWORTH
+  .kenworth-element-1,
+  .kenworth-element-3 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // WESTERNSTART
+  .westernstar-element-5 {
+    stroke: unset !important;
+    fill: #b7b7b7;
+  }
+
+  .westernstar-element-1,
+  .westernstar-element-3 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+
+  // ISUZU
+  .isuzu-element-1,
+  .isuzu-element-2,
+  .isuzu-element-3,
+  .isuzu-element-4,
+  .isuzu-element-5 {
+    stroke: unset !important;
+    fill: #606060 !important;
+  }
+}
+
+.truckassist-tbody {
+  tr {
+    &:hover {
+      .truckassist-icon {
+        .a {
+          fill: #606060;
+          stroke: unset !important;
+        }
+      }
+    }
+  }
+}
+
+// .selected-row {
+//   .truckassist-icon {
+//     .a {
+//       fill: #ffffff !important;
+//       stroke: unset !important;
+//     }
+
+//     // CHEVROLET
+//     .chevrolet-element-1 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // FORD
+//     .ford-element-1 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .ford-element-2,
+//     .ford-element-3,
+//     .ford-element-4 {
+//       stroke: unset !important;
+//       fill: #606060 !important;
+//     }
+
+//     // FREIGHTLINER
+//     .freightliner-element-5,
+//     .freightliner-element-7 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .freightliner-element-8,
+//     .freightliner-element-6 {
+//       stroke: unset !important;
+//       fill: #606060 !important;
+//     }
+
+//     // HINO
+//     .hino-element-1,
+//     .hino-element-2 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // GMC
+//     .gmc-element-1 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // INTERNATIONAL
+//     .international-element-1,
+//     .international-element-3,
+//     .international-element-5 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .international-element-2 {
+//       fill: #606060 !important;
+//     }
+
+//     .international-element-4 {
+//       fill: #b7b7b7;
+//       stroke: unset !important;
+//     }
+
+//     // PETERBILT
+//     .peterbilt-element-1 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .peterbilt-element-2 {
+//       stroke: unset !important;
+//       fill: #606060 !important;
+//     }
+
+//     .peterbilt-element-3 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .peterbilt-element-4,
+//     .peterbilt-element-5 {
+//       stroke: unset !important;
+//       fill: #606060 !important;
+//     }
+
+//     // MACK
+//     .mack-element-1,
+//     .mack-element-2,
+//     .mack-element-3,
+//     .mack-element-4 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // VOLVO
+//     .volvo-element-1 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // KENWORTH
+//     .kenworth-element-1,
+//     .kenworth-element-3 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     .kenworth-element-2,
+//     .kenworth-element-4 {
+//       stroke: unset !important;
+//       fill: #606060 !important;
+//     }
+
+//     // WESTERNSTART
+//     .westernstar-element-5 {
+//       stroke: unset !important;
+//       fill: #b7b7b7;
+//     }
+
+//     .westernstar-element-1,
+//     .westernstar-element-3 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+
+//     // ISUZU
+//     .isuzu-element-1,
+//     .isuzu-element-2,
+//     .isuzu-element-3,
+//     .isuzu-element-4,
+//     .isuzu-element-5 {
+//       stroke: unset !important;
+//       fill: #ffffff !important;
+//     }
+//   }
+// }
